@@ -1,4 +1,5 @@
-<h1>Go to Our Website</h1>
+<h1>FunUi For React And Next Apps</h1>
+<center><img src="https://funui.netlify.app/favicon.png" width="50"></center>
 <h3>Learn how to use the framework at our official website 👎</h3>
 https://funui.netlify.app
 
@@ -21,14 +22,14 @@ import 'funuicss/css/fun.css'
 You can use the CDN for your HTML file, you can only use our css defined classes
 
 <pre>
-https://github.com/FunUi-io/cdn.git'
+https://cdn.jsdelivr.net/gh/FunUi-io/cdn@main/css/fun.css
 </pre>
 
 <h3>Import CDN</h3>
 You can also import the CDN in your CSS file
 
 <pre>
-@import url('https://github.com/FunUi-io/cdn.git');'
+@import url('https://cdn.jsdelivr.net/gh/FunUi-io/cdn@main/css/fun.css');
 </pre>
 
 <h3>Download</h3>

@@ -51,45 +51,32 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Button)
+  "default": () => (/* binding */ Blob)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Button.js
+;// CONCATENATED MODULE: ../Funcss/Components/Blob.js
 
-function Button(_ref) {
-  var color = _ref.color,
-    bg = _ref.bg,
-    funcss = _ref.funcss,
-    onChange = _ref.onChange,
-    onClick = _ref.onClick,
-    startIcon = _ref.startIcon,
-    endIcon = _ref.endIcon,
-    children = _ref.children,
-    text = _ref.text,
-    rounded = _ref.rounded,
-    raised = _ref.raised,
-    height = _ref.height,
+function Blob(_ref) {
+  var height = _ref.height,
     width = _ref.width,
-    _float = _ref["float"],
-    hoverUp = _ref.hoverUp,
-    fullWidth = _ref.fullWidth,
-    outlined = _ref.outlined,
-    small = _ref.small,
-    big = _ref.big,
-    flat = _ref.flat,
-    hoverNone = _ref.hoverNone;
-  return /*#__PURE__*/external_react_default().createElement("button", {
-    className: "button\ntext-".concat(color, "\n").concat(funcss, "\n").concat(rounded ? "roundBtn" : "", "\n").concat(_float ? "floatBtn" : "", "\n").concat(raised ? "card" : "", "\n").concat(hoverUp ? "hover-up" : "", "\n").concat(flat ? "flat" : "", "\n").concat(hoverNone ? "hoverNone" : "", "\n").concat(small ? "smallBtn" : "", "\n").concat(big ? "bigBtn" : "", "\n").concat(outlined ? "".concat(bg, "-outline outlined text-").concat(bg) : bg, "\n\n"),
-    onClick: onClick,
-    onChange: onChange,
+    background = _ref.background,
+    funcss = _ref.funcss,
+    shape = _ref.shape;
+  return /*#__PURE__*/external_react_default().createElement("div", {
+    className: "".concat(funcss),
     style: {
       height: height ? height : "",
-      width: fullWidth ? "100%" : width ? width : ""
+      width: width ? width : "",
+      background: background ? "url(".concat(background, ")") : "",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      borderRadius: shape,
+      transition: "0.3s linear"
     }
-  }, startIcon, " \xA0", text, children, " \xA0", endIcon);
+  });
 }
 module.exports = __webpack_exports__;
 /******/ })()

@@ -4,18 +4,6 @@
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -46,33 +34,16 @@
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Avatar)
-});
-
-;// CONCATENATED MODULE: external "react"
-const external_react_namespaceObject = require("react");
-var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Avatar.js
-
-function Avatar(_ref) {
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SideBarFooter)
+/* harmony export */ });
+function SideBarFooter(_ref) {
   var funcss = _ref.funcss,
-    children = _ref.children,
-    width = _ref.width,
-    height = _ref.height,
-    bg = _ref.bg,
-    content = _ref.content;
-  return /*#__PURE__*/external_react_default().createElement("div", {
-    className: "avatar ".concat(funcss, "  ").concat(bg),
-    style: {
-      width: "".concat(width ? width : "2.3rem"),
-      height: "".concat(height ? height : "2.3rem")
-    }
-  }, /*#__PURE__*/external_react_default().createElement((external_react_default()).Fragment, null, content ? content : children));
+    children = _ref.children;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "sideBarFooter ".concat(funcss)
+  }, children);
 }
 module.exports = __webpack_exports__;
 /******/ })()

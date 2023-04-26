@@ -51,45 +51,58 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Button)
+  "default": () => (/* binding */ BreadCrumb)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Button.js
+;// CONCATENATED MODULE: ../Funcss/Components/Icon.js
 
-function Button(_ref) {
-  var color = _ref.color,
-    bg = _ref.bg,
-    funcss = _ref.funcss,
-    onChange = _ref.onChange,
+function Icon(_ref) {
+  var funcss = _ref.funcss,
+    color = _ref.color,
+    size = _ref.size,
     onClick = _ref.onClick,
-    startIcon = _ref.startIcon,
-    endIcon = _ref.endIcon,
-    children = _ref.children,
-    text = _ref.text,
-    rounded = _ref.rounded,
-    raised = _ref.raised,
-    height = _ref.height,
-    width = _ref.width,
-    _float = _ref["float"],
-    hoverUp = _ref.hoverUp,
-    fullWidth = _ref.fullWidth,
-    outlined = _ref.outlined,
-    small = _ref.small,
-    big = _ref.big,
-    flat = _ref.flat,
-    hoverNone = _ref.hoverNone;
-  return /*#__PURE__*/external_react_default().createElement("button", {
-    className: "button\ntext-".concat(color, "\n").concat(funcss, "\n").concat(rounded ? "roundBtn" : "", "\n").concat(_float ? "floatBtn" : "", "\n").concat(raised ? "card" : "", "\n").concat(hoverUp ? "hover-up" : "", "\n").concat(flat ? "flat" : "", "\n").concat(hoverNone ? "hoverNone" : "", "\n").concat(small ? "smallBtn" : "", "\n").concat(big ? "bigBtn" : "", "\n").concat(outlined ? "".concat(bg, "-outline outlined text-").concat(bg) : bg, "\n\n"),
+    onChange = _ref.onChange,
+    icon = _ref.icon;
+  return /*#__PURE__*/external_react_default().createElement("i", {
+    className: "icon ".concat(icon, " ").concat(funcss, " text-").concat(color, " size-").concat(size, " "),
     onClick: onClick,
-    onChange: onChange,
+    onChange: onChange
+  });
+}
+;// CONCATENATED MODULE: ../Funcss/Components/BreadCrumb.js
+
+
+function BreadCrumb(_ref) {
+  var type = _ref.type,
+    funcss = _ref.funcss;
+  return /*#__PURE__*/external_react_default().createElement("span", null, type === "slash" && /*#__PURE__*/external_react_default().createElement("span", {
     style: {
-      height: height ? height : "",
-      width: fullWidth ? "100%" : width ? width : ""
-    }
-  }, startIcon, " \xA0", text, children, " \xA0", endIcon);
+      margin: "0 0.2rem"
+    },
+    className: " ".concat(funcss)
+  }, " / "), type === "greater" && /*#__PURE__*/external_react_default().createElement("span", {
+    style: {
+      margin: "0 0.2rem"
+    },
+    className: " ".concat(funcss)
+  }, " ", /*#__PURE__*/external_react_default().createElement(Icon, {
+    icon: "fas fa-angle-right"
+  }), " "), type === "less" && /*#__PURE__*/external_react_default().createElement("span", {
+    style: {
+      margin: "0 0.2rem"
+    },
+    className: " ".concat(funcss)
+  }, " ", /*#__PURE__*/external_react_default().createElement(Icon, {
+    icon: "fas fa-angle-left"
+  }), " "), type === "straight" && /*#__PURE__*/external_react_default().createElement("span", {
+    style: {
+      margin: "0 0.2rem"
+    },
+    className: " ".concat(funcss)
+  }, " ", "|", " "));
 }
 module.exports = __webpack_exports__;
 /******/ })()

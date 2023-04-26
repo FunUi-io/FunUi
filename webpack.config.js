@@ -1,5 +1,5 @@
 const path = require("path");
-    const fileName = "Input"
+    const fileName = "SideBarFooter"
     const extendFolder = ""
     module.exports = {
         mode:"production",

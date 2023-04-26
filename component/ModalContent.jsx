@@ -61,15 +61,9 @@ var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_n
 
 function ModalContent(_ref) {
   var funcss = _ref.funcss,
-    children = _ref.children,
-    maxHeight = _ref.maxHeight,
-    height = _ref.height;
+    children = _ref.children;
   return /*#__PURE__*/external_react_default().createElement("div", {
-    className: "modal-body ".concat(funcss, " "),
-    style: {
-      maxHeight: maxHeight ? maxHeight : "",
-      height: height ? height : ""
-    }
+    className: "modal-body ".concat(funcss, " ")
   }, children);
 }
 module.exports = __webpack_exports__;
