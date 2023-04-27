@@ -1,5 +1,5 @@
 const path = require("path");
-    const fileName = "SideBarFooter"
+    const fileName = "BreadCrumb"
     const extendFolder = ""
     module.exports = {
         mode:"production",

@@ -51,32 +51,29 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Components_Table)
+  "default": () => (/* binding */ FunLoader)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Table.js
+;// CONCATENATED MODULE: ../Funcss/Components/FunLoader.js
 
-var Table = function Table(_ref) {
-  var children = _ref.children,
-    funcss = _ref.funcss,
-    bordered = _ref.bordered,
-    stripped = _ref.stripped,
-    hoverable = _ref.hoverable,
-    showTotal = _ref.showTotal,
-    light = _ref.light,
-    dark = _ref.dark;
-  return /*#__PURE__*/external_react_default().createElement("table", {
-    className: "table ".concat(funcss, "  ").concat(bordered ? "border" : "", " \n ").concat(stripped ? "stripped" : "", "  ").concat(hoverable ? "hoverableTr" : "", "\n ").concat(light ? "light" : "", "\n ").concat(dark ? "dark" : "", "\n \n ")
-  }, children, showTotal && /*#__PURE__*/external_react_default().createElement("tr", {
-    className: "borderless"
-  }, /*#__PURE__*/external_react_default().createElement("td", {
-    className: "padding borderless text-bold"
-  }, "  Total  ", children.length - 1, " ")));
-};
-/* harmony default export */ const Components_Table = (Table);
+function FunLoader(_ref) {
+  var funcss = _ref.funcss,
+    size = _ref.size,
+    fixed = _ref.fixed,
+    backdrop = _ref.backdrop;
+  return /*#__PURE__*/external_react_default().createElement("div", {
+    className: "".concat(fixed ? "fixedLoader" : "", " ").concat(backdrop && fixed ? "backdropLoader" : "", " ")
+  }, /*#__PURE__*/external_react_default().createElement("div", {
+    className: "".concat(funcss ? funcss : "", " funLoading "),
+    style: {
+      height: size ? size : "",
+      width: size ? size : ""
+    }
+  }));
+}
 module.exports = __webpack_exports__;
 /******/ })()
 ;

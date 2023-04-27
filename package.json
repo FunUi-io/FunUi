@@ -1,6 +1,6 @@
 {
   "name": "funuicss",
-  "version": "1.9.0",
+  "version": "1.9.2",
   "description": "React/Next.js component UI Library for creating Easy and good looking websites with fewer lines of code.",
   "main": "index.js",
   "scripts": {

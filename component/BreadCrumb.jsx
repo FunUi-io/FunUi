@@ -77,31 +77,32 @@ function Icon(_ref) {
 
 function BreadCrumb(_ref) {
   var type = _ref.type,
-    funcss = _ref.funcss;
+    funcss = _ref.funcss,
+    color = _ref.color;
   return /*#__PURE__*/external_react_default().createElement("span", null, type === "slash" && /*#__PURE__*/external_react_default().createElement("span", {
     style: {
       margin: "0 0.2rem"
     },
-    className: " ".concat(funcss)
+    className: " ".concat(funcss ? funcss : "", " ").concat(color ? "text-" + color : "")
   }, " / "), type === "greater" && /*#__PURE__*/external_react_default().createElement("span", {
     style: {
       margin: "0 0.2rem"
     },
-    className: " ".concat(funcss)
+    className: " ".concat(funcss ? funcss : "", " ").concat(color ? "text-" + color : "")
   }, " ", /*#__PURE__*/external_react_default().createElement(Icon, {
     icon: "fas fa-angle-right"
   }), " "), type === "less" && /*#__PURE__*/external_react_default().createElement("span", {
     style: {
       margin: "0 0.2rem"
     },
-    className: " ".concat(funcss)
+    className: " ".concat(funcss ? funcss : "", " ").concat(color ? "text-" + color : "")
   }, " ", /*#__PURE__*/external_react_default().createElement(Icon, {
     icon: "fas fa-angle-left"
   }), " "), type === "straight" && /*#__PURE__*/external_react_default().createElement("span", {
     style: {
       margin: "0 0.2rem"
     },
-    className: " ".concat(funcss)
+    className: " ".concat(funcss ? funcss : "", " ").concat(color ? "text-" + color : "")
   }, " ", "|", " "));
 }
 module.exports = __webpack_exports__;

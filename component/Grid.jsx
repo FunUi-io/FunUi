@@ -63,11 +63,13 @@ function Grid(_ref) {
   var children = _ref.children,
     funcss = _ref.funcss,
     gap = _ref.gap,
-    justify = _ref.justify;
+    justify = _ref.justify,
+    align = _ref.align;
   return /*#__PURE__*/external_react_default().createElement("div", {
     className: "row ".concat(funcss, "  ").concat(gap ? "gap" : "", " "),
     style: {
-      justifyContent: justify ? justify : ""
+      justifyContent: justify ? justify : "",
+      alignItems: align ? align : ""
     }
   }, children);
 }

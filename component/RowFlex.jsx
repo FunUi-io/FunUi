@@ -65,14 +65,12 @@ var RowFlex = function RowFlex(_ref) {
     content = _ref.content,
     justify = _ref.justify,
     gap = _ref.gap,
-    flexDirection = _ref.flexDirection,
     alignItems = _ref.alignItems;
   return /*#__PURE__*/external_react_default().createElement("div", {
-    className: "row-flex ".concat(funcss, " ").concat(justify, " ").concat(gap ? "gap" : ""),
+    className: "row-flex ".concat(funcss, " ").concat(gap ? "gap" : ""),
     style: {
       justifyContent: justify ? justify : "",
       gap: gap ? gap : "",
-      flexDirection: flexDirection ? flexDirection : "",
       alignItems: alignItems ? alignItems : ""
     }
   }, children, " ", content);

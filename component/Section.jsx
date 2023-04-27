@@ -65,8 +65,8 @@ var Section = function Section(_ref) {
   return /*#__PURE__*/external_react_default().createElement("div", {
     className: funcss,
     style: {
-      paddingTop: "5px",
-      paddingBottom: "5px"
+      marginTop: "0.8rem",
+      marginBottom: "0.5rem"
     }
   }, children);
 };

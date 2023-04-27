@@ -4,6 +4,18 @@
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -34,14 +46,23 @@
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ SideBarFooter)
-/* harmony export */ });
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": () => (/* binding */ SideBarFooter)
+});
+
+;// CONCATENATED MODULE: external "react"
+const external_react_namespaceObject = require("react");
+var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
+;// CONCATENATED MODULE: ../Funcss/Components/SideBarFooter.js
+
 function SideBarFooter(_ref) {
   var funcss = _ref.funcss,
     children = _ref.children;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/external_react_default().createElement("div", {
     className: "sideBarFooter ".concat(funcss)
   }, children);
 }

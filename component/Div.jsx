@@ -51,7 +51,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Div)
+  "default": () => (/* binding */ Components_Div)
 });
 
 ;// CONCATENATED MODULE: external "react"
@@ -59,7 +59,7 @@ const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
 ;// CONCATENATED MODULE: ../Funcss/Components/Div.js
 
-var Container = function Container(_ref) {
+var Div = function Div(_ref) {
   var children = _ref.children,
     funcss = _ref.funcss,
     content = _ref.content,
@@ -71,8 +71,12 @@ var Container = function Container(_ref) {
     width = _ref.width,
     padding = _ref.padding,
     margin = _ref.margin,
-    fit = _ref.fit;
-  return /*#__PURE__*/external_react_default().createElement("div", {
+    fit = _ref.fit,
+    customStyle = _ref.customStyle;
+  return /*#__PURE__*/external_react_default().createElement("div", null, customStyle ? /*#__PURE__*/external_react_default().createElement("div", {
+    className: "".concat(fit ? "width-100-p height-100-p" : "", " ").concat(funcss),
+    style: customStyle
+  }, content ? content : children) : /*#__PURE__*/external_react_default().createElement("div", {
     className: "".concat(fit ? "width-100-p height-100-p" : "", " ").concat(funcss),
     style: {
       height: height ? height : "",
@@ -84,9 +88,9 @@ var Container = function Container(_ref) {
       padding: padding ? padding : "",
       margin: margin ? margin : ""
     }
-  }, children, " ", content);
+  }, content ? content : children));
 };
-/* harmony default export */ const Div = (Container);
+/* harmony default export */ const Components_Div = (Div);
 module.exports = __webpack_exports__;
 /******/ })()
 ;

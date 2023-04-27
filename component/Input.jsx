@@ -86,7 +86,7 @@ var Input = /*#__PURE__*/function (_Component) {
       if (this.props.select) {
         if (this.props.bordered) {
           return /*#__PURE__*/external_react_default().createElement("select", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        bordered\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        bordered\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -104,7 +104,7 @@ var Input = /*#__PURE__*/function (_Component) {
           }) : "");
         } else if (this.props.bordereless) {
           return /*#__PURE__*/external_react_default().createElement("select", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        borderless\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        borderless\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -123,7 +123,7 @@ var Input = /*#__PURE__*/function (_Component) {
           }) : "");
         } else {
           return /*#__PURE__*/external_react_default().createElement("select", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -144,7 +144,7 @@ var Input = /*#__PURE__*/function (_Component) {
       } else if (this.props.multiline) {
         if (this.props.bordered) {
           return /*#__PURE__*/external_react_default().createElement("textarea", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        bordered\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        bordered\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -159,7 +159,7 @@ var Input = /*#__PURE__*/function (_Component) {
           }));
         } else if (this.props.bordereless) {
           return /*#__PURE__*/external_react_default().createElement("textarea", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        borderless\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        borderless\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -174,7 +174,7 @@ var Input = /*#__PURE__*/function (_Component) {
           }));
         } else {
           return /*#__PURE__*/external_react_default().createElement("textarea", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -191,7 +191,7 @@ var Input = /*#__PURE__*/function (_Component) {
       } else {
         if (this.props.bordered) {
           return /*#__PURE__*/external_react_default().createElement("input", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        bordered\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        bordered\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -205,7 +205,7 @@ var Input = /*#__PURE__*/function (_Component) {
           }));
         } else if (this.props.bordereless) {
           return /*#__PURE__*/external_react_default().createElement("input", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        borderless\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        borderless\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
@@ -219,7 +219,7 @@ var Input = /*#__PURE__*/function (_Component) {
           }));
         } else {
           return /*#__PURE__*/external_react_default().createElement("input", _extends({}, this.props.disabled ? "disabled" : "", {
-            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        "),
+            className: "\n        input\n        ".concat(this.props.funcss, " ").concat(this.props.flat ? "flat" : "", "\n        ").concat(this.props.leftRounded ? "leftRounded" : this.props.rightRounded ? "rightRounded" : "", "\n        "),
             onChange: this.props.onChange,
             defaultValue: this.props.defaultValue,
             type: this.props.type,
