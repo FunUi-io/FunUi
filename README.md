@@ -1,5 +1,5 @@
 <center>
-<img src="https://funui.netlify.app/logo.png" height="200">
+<img src="https://funui.netlify.app/logo.png" height="200px">
 <h1>FunUi For React & Next js Apps </h1>
 </center>
 
@@ -25,7 +25,7 @@ import 'funuicss/css/fun.css'
 
 <h3>Simple App NavBar with FunUi </h3>
 <p> This is a simple Navbar you just import and use for your project </p>
-````
+````jsx
 import React from 'react'
 import Navbar from 'funuicss/component/Navbar'
 import Typography from 'funuicss/component/Typography'
@@ -44,7 +44,7 @@ return (
 
  <LinkWrapper visibleLinks>
  <Button text="Sign In" color="primary"/>
- <Button text="Sign Up" bg="primary"  rounded/>
+ <Button text="Sign Up" bg="primary"  rounded />
  </LinkWrapper>
 
 </Navbar>
