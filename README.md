@@ -1,7 +1,7 @@
 <p align="center">
 <img src="https://funui.netlify.app/logo.png" width="200px">
 </p>
-<h1 align="center">The Rect & Next Js Ui Library</h1>
+<h1 align="center">The React & Next Js Ui Library</h1>
 
 <p>
 The framework is easy to integrate, just install the package and import the CSS file
@@ -35,7 +35,7 @@ import 'funuicss/css/fun.css'
 
 <h3>Simple App NavBar with FunUi </h3>
 <p> This is a simple Navbar you just import and use for your project </p>
-<pre>
+"""
 import React from 'react'
 import Navbar from 'funuicss/component/Navbar'
 import Typography from 'funuicss/component/Typography'
@@ -62,4 +62,4 @@ return (
 
 )
 }
-<pre>
+"""
