@@ -71,9 +71,15 @@ function Typography(_ref) {
     funcss = _ref.funcss,
     emp = _ref.emp,
     bold = _ref.bold,
-    block = _ref.block;
+    block = _ref.block,
+    body = _ref.body,
+    article = _ref.article,
+    light = _ref.light,
+    lighter = _ref.lighter,
+    italic = _ref.italic,
+    underline = _ref.underline;
   return /*#__PURE__*/external_react_default().createElement("span", {
-    className: "\ntext-".concat(size, " \ntext-").concat(color, "\n").concat(bg, "\nhover-text-").concat(hoverText, "\nhover-").concat(hoverBg, "\n").concat(heading, "\n").concat(funcss, "\n").concat(emp ? "emp" : "", "\n").concat(bold ? "bold" : "", "\n"),
+    className: "\ntext-".concat(size, " \ntext-").concat(color, "\n").concat(bg, "\nhover-text-").concat(hoverText, "\nhover-").concat(hoverBg, "\n").concat(light ? "lightText" : lighter ? "lighterText" : "", "\n").concat(heading ? heading : "", "\n").concat(italic ? "italicText" : "", "\n").concat(underline ? "underlineText" : "", "\n").concat(body ? "body" : "", "\n").concat(article ? "article" : "", "\n").concat(funcss, "\n").concat(emp ? "emp" : "", "\n").concat(bold ? "bold" : "", "\n"),
     style: {
       display: block ? "block" : "",
       transition: "0.2s linear",

@@ -62,9 +62,10 @@ var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_n
 
 function LinkWrapper(_ref) {
   var funcss = _ref.funcss,
-    children = _ref.children;
+    children = _ref.children,
+    visibleLinks = _ref.visibleLinks;
   return /*#__PURE__*/external_react_default().createElement((external_react_default()).Fragment, null, /*#__PURE__*/external_react_default().createElement("div", {
-    className: "".concat(funcss, " linkWrapper")
+    className: "".concat(funcss, " linkWrapper ").concat(visibleLinks ? "visibleLinks" : "")
   }, children));
 }
 module.exports = __webpack_exports__;

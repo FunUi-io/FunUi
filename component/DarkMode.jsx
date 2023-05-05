@@ -4,18 +4,6 @@
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -51,29 +39,44 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Grid)
+  "default": () => (/* binding */ DarkMode)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
-var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Grid.js
+;// CONCATENATED MODULE: ../Funcss/Components/DarkMode.js
 
-function Grid(_ref) {
-  var children = _ref.children,
-    funcss = _ref.funcss,
-    gap = _ref.gap,
-    justify = _ref.justify,
-    align = _ref.align,
-    id = _ref.id;
-  return /*#__PURE__*/external_react_default().createElement("div", {
-    id: id ? id : "",
-    className: "row ".concat(funcss, "  ").concat(gap ? "gap" : "", " "),
-    style: {
-      justifyContent: justify ? justify : "",
-      alignItems: align ? align : ""
-    }
-  }, children);
+function DarkMode(state) {
+  if (state) {
+    var root = document.querySelector(':root');
+    var bdColor = "#FFFFFFD9";
+    var borderColor, raiseColor;
+    borderColor = "#444654";
+    raiseColor = "#1e1e1e";
+    root.style.setProperty('--bd-theme', "#141414");
+    root.style.setProperty('--bd-color', bdColor);
+    root.style.setProperty('--borderColor', borderColor);
+    root.style.setProperty('--raiseThemes', raiseColor);
+    root.style.setProperty('--lighter', "#33333349");
+    root.style.setProperty('--inputOutline', "#1e1e1e");
+    root.style.setProperty('--lightThemeDark', bdColor);
+
+    // dark theme for all the colors
+    root.style.setProperty('--success', "#1d6640");
+    root.style.setProperty('--successLight', " #c7e6c8");
+    root.style.setProperty('--info', "#2471a3");
+    root.style.setProperty('--infoLight', "#b3d9ed");
+    root.style.setProperty('--warning', "#8c3d00");
+    root.style.setProperty('--warningLight', "#d8b69c");
+    root.style.setProperty('--danger', "#6b0600");
+    root.style.setProperty('--dangerLight', "#bfbfbf");
+
+    // root.style.setProperty('--info', "#2471a3"); 
+    // root.style.setProperty('--infoLight', "#b3d9ed"); 
+
+    root.style.setProperty('--light', "#c5d8e0");
+    root.style.setProperty('--deepLight', "#154556");
+  }
 }
 module.exports = __webpack_exports__;
 /******/ })()

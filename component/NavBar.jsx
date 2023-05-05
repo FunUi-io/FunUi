@@ -64,11 +64,13 @@ function Navbar(_ref) {
     fixedTop = _ref.fixedTop,
     funcss = _ref.funcss,
     padding = _ref.padding,
-    fixedBottom = _ref.fixedBottom;
+    fixedBottom = _ref.fixedBottom,
+    justify = _ref.justify;
   return /*#__PURE__*/external_react_default().createElement("div", null, /*#__PURE__*/external_react_default().createElement("nav", {
     className: "\nnavigation-bar ".concat(funcss, " \n").concat(fixedTop ? "fixedTop" : "", "\n").concat(fixedBottom ? "fixedBottom" : ""),
     style: {
-      padding: "".concat(padding ? padding : "")
+      padding: "".concat(padding ? padding : ""),
+      justifyContent: "".concat(justify ? justify : "")
     }
   }, children));
 }

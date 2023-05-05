@@ -63,12 +63,18 @@ function Alert(_ref) {
   var message = _ref.message,
     funcss = _ref.funcss,
     type = _ref.type,
-    outlined = _ref.outlined;
+    outlined = _ref.outlined,
+    fixed = _ref.fixed,
+    fullWidth = _ref.fullWidth,
+    isLoading = _ref.isLoading;
   return /*#__PURE__*/external_react_default().createElement("div", null, outlined ? /*#__PURE__*/external_react_default().createElement("div", {
-    className: "alert ".concat(type, "-outline")
+    style: {
+      animation: " ".concat(0.3, "s ", "ScaleUp")
+    },
+    className: "alert ".concat(type, "-outline\n ").concat(fixed == "top-left" ? "top-left" : "", "\n ").concat(fixed == "top-right" ? "top-right" : "", "\n ").concat(fixed == "bottom-left" ? "bottom-left" : "", "\n ").concat(fixed == "bottom-right" ? "bottom-right" : "", " \n ").concat(fixed == "top-middle" ? "top-middle" : "", " \n ").concat(fixed == "bottom-middle" ? "bottom-middle" : "", " \n ").concat(fullWidth ? "width-100-p" : "", "\n ")
   }, /*#__PURE__*/external_react_default().createElement("div", {
     className: "alert-icon"
-  }, type === "success" && /*#__PURE__*/external_react_default().createElement("i", {
+  }, !isLoading ? /*#__PURE__*/external_react_default().createElement("div", null, type === "success" && /*#__PURE__*/external_react_default().createElement("i", {
     className: "fa fa-check"
   }), type === "info" && /*#__PURE__*/external_react_default().createElement("i", {
     className: "fa fa-info-circle"
@@ -76,13 +82,18 @@ function Alert(_ref) {
     className: "fa fa-exclamation-triangle"
   }), type === "danger" && /*#__PURE__*/external_react_default().createElement("i", {
     className: "far fa-times-circle"
+  })) : /*#__PURE__*/external_react_default().createElement("i", {
+    className: "fas fa-spinner fa-spin"
   })), /*#__PURE__*/external_react_default().createElement("div", {
     className: "alert-text"
   }, message)) : "", !outlined ? /*#__PURE__*/external_react_default().createElement("div", {
-    className: "alert ".concat(funcss, " ").concat(type, " ")
+    style: {
+      animation: " ".concat(0.3, "s ", "ScaleUp")
+    },
+    className: "alert ".concat(funcss, " ").concat(type, "  \n").concat(fixed == "top-left" ? "top-left" : "", "\n ").concat(fixed == "top-right" ? "top-right" : "", "\n ").concat(fixed == "bottom-left" ? "bottom-left" : "", "\n ").concat(fixed == "bottom-right" ? "bottom-right" : "", " \n ").concat(fixed == "top-middle" ? "top-middle" : "", " \n ").concat(fixed == "bottom-middle" ? "bottom-middle" : "", " \n ").concat(fullWidth ? "width-100-p" : "", "\n \n ")
   }, /*#__PURE__*/external_react_default().createElement("div", {
     className: "alert-icon"
-  }, type === "success" && /*#__PURE__*/external_react_default().createElement("i", {
+  }, !isLoading ? /*#__PURE__*/external_react_default().createElement("div", null, type === "success" && /*#__PURE__*/external_react_default().createElement("i", {
     className: "fa fa-check"
   }), type === "info" && /*#__PURE__*/external_react_default().createElement("i", {
     className: "fa fa-info-circle"
@@ -90,6 +101,8 @@ function Alert(_ref) {
     className: "fa fa-exclamation-triangle"
   }), type === "danger" && /*#__PURE__*/external_react_default().createElement("i", {
     className: "far fa-times-circle"
+  })) : /*#__PURE__*/external_react_default().createElement("i", {
+    className: "fas fa-spinner fa-spin"
   })), /*#__PURE__*/external_react_default().createElement("div", {
     className: "alert-text"
   }, message)) : "");

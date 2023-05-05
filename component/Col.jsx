@@ -64,8 +64,10 @@ function Col(_ref) {
     md = _ref.md,
     lg = _ref.lg,
     children = _ref.children,
-    funcss = _ref.funcss;
+    funcss = _ref.funcss,
+    id = _ref.id;
   return /*#__PURE__*/external_react_default().createElement("div", {
+    id: id ? id : "",
     className: "col sm-".concat(sm, " md-").concat(md, " lg-").concat(lg, " ").concat(funcss)
   }, children);
 }

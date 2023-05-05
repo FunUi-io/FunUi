@@ -65,9 +65,13 @@ var RowFlex = function RowFlex(_ref) {
     content = _ref.content,
     justify = _ref.justify,
     gap = _ref.gap,
-    alignItems = _ref.alignItems;
+    alignItems = _ref.alignItems,
+    responsiveSmall = _ref.responsiveSmall,
+    responsiveMedium = _ref.responsiveMedium,
+    id = _ref.id;
   return /*#__PURE__*/external_react_default().createElement("div", {
-    className: "row-flex ".concat(funcss, " ").concat(gap ? "gap" : ""),
+    id: id ? id : "",
+    className: "row-flex ".concat(funcss, " ").concat(gap ? "gap" : "", " \n").concat(responsiveSmall ? "responsiveSmall" : responsiveMedium ? "responsiveMedium" : ""),
     style: {
       justifyContent: justify ? justify : "",
       gap: gap ? gap : "",

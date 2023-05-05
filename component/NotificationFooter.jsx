@@ -51,28 +51,19 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Grid)
+  "default": () => (/* binding */ NotificationFooter)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Grid.js
+;// CONCATENATED MODULE: ../Funcss/Components/NotificationFooter.js
 
-function Grid(_ref) {
-  var children = _ref.children,
-    funcss = _ref.funcss,
-    gap = _ref.gap,
-    justify = _ref.justify,
-    align = _ref.align,
-    id = _ref.id;
+function NotificationFooter(_ref) {
+  var funcss = _ref.funcss,
+    children = _ref.children;
   return /*#__PURE__*/external_react_default().createElement("div", {
-    id: id ? id : "",
-    className: "row ".concat(funcss, "  ").concat(gap ? "gap" : "", " "),
-    style: {
-      justifyContent: justify ? justify : "",
-      alignItems: align ? align : ""
-    }
+    className: "notificationFooter ".concat(funcss ? funcss : "")
   }, children);
 }
 module.exports = __webpack_exports__;

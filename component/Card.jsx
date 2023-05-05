@@ -51,30 +51,46 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Grid)
+  "default": () => (/* binding */ Components_Card)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Grid.js
+;// CONCATENATED MODULE: ../Funcss/Components/Card.js
 
-function Grid(_ref) {
-  var children = _ref.children,
+var Card = function Card(_ref) {
+  var color = _ref.color,
+    bg = _ref.bg,
+    width = _ref.width,
+    height = _ref.height,
+    minHeight = _ref.minHeight,
+    minWidth = _ref.minWidth,
+    margin = _ref.margin,
+    padding = _ref.padding,
     funcss = _ref.funcss,
-    gap = _ref.gap,
-    justify = _ref.justify,
-    align = _ref.align,
+    children = _ref.children,
+    roundEdge = _ref.roundEdge,
+    maxHeight = _ref.maxHeight,
+    maxWidth = _ref.maxWidth,
+    horizontal = _ref.horizontal,
     id = _ref.id;
   return /*#__PURE__*/external_react_default().createElement("div", {
     id: id ? id : "",
-    className: "row ".concat(funcss, "  ").concat(gap ? "gap" : "", " "),
+    className: "card text-".concat(color, " ").concat(bg, " ").concat(funcss, " \n").concat(roundEdge ? "round-edge" : "", "  \n").concat(horizontal ? "horizontalCard" : ""),
     style: {
-      justifyContent: justify ? justify : "",
-      alignItems: align ? align : ""
+      width: "".concat(width ? width : ""),
+      height: "".concat(height ? height : ""),
+      minHeight: "".concat(minHeight ? minHeight : ""),
+      minWidth: "".concat(minWidth ? minWidth : ""),
+      maxHeight: maxHeight ? maxHeight : "",
+      maxWidth: maxWidth ? maxWidth : "",
+      margin: "".concat(margin ? margin : ""),
+      padding: "".concat(padding ? padding : "")
     }
   }, children);
-}
+};
+/* harmony default export */ const Components_Card = (Card);
 module.exports = __webpack_exports__;
 /******/ })()
 ;

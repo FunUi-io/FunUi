@@ -1,9 +1,13 @@
+<center>
+<img src="https://funui.netlify.app/logo.png" height="200">
+<h1>FunUi For React & Next js Apps </h1>
+</center>
+
 <h1>Create Beutiful UI/UX Components</h1>
 <h3>Learn how to use the framework at our official website 👎</h3>
 https://funui.netlify.app
 
-<h3> FunUi Starter template </h3>
-<img src="https://raw.githubusercontent.com/FunUi-io/starterImage/main/starter.png" width="80%" style="border-radius:2rem"/>
+<h3>Installation</h3>
 
 <h3>Using Npm</h3>
 Install the package via NPM
@@ -19,32 +23,33 @@ import 'funuicss/css/fun.css'
 </pre>
 
 
-<h3>Clone The Reposotory</h3>
-You can use the CDN for your HTML file, you can only use our css defined classes
+<h3>Simple App NavBar with FunUi </h3>
+<p> This is a simple Navbar you just import and use for your project </p>
+````
+import React from 'react'
+import Navbar from 'funuicss/component/Navbar'
+import Typography from 'funuicss/component/Typography'
+import SidebarTrigger from 'funuicss/component/SidebarTrigger'
+import LinkWrapper from 'funuicss/component/LinkWrapper'
+import Button from 'funuicss/component/Button'
+import NavLogo from 'funuicss/component/NavLogo'
+export default function App() {
+return (
 
-<pre>
-git clone git@github.com:FunUi-io/starter.git
-</pre>
+<div>
+<Navbar>
+ <NavLogo>
+ <Typography heading="h4" text="Fun Ui" />
+ </NavLogo>
 
-<h3>CDN</h3>
-You can use the CDN for your HTML file, you can only use our css defined classes
+ <LinkWrapper visibleLinks>
+ <Button text="Sign In" color="primary"/>
+ <Button text="Sign Up" bg="primary"  rounded/>
+ </LinkWrapper>
 
-<pre>
-https://unpkg.com/funuicss@latest/css/fun.css
-</pre>
+</Navbar>
+</div>
 
-<h3>Import CDN</h3>
-You can also import the CDN in your CSS file
-
-<pre>
-@import url('https://unpkg.com/funuicss@latest/css/fun.css');
-</pre>
-
-<h3>Download</h3>
-Download the CSS File and link it to your HTML Document
-
-https://github.com/FunUi-io/starter
-
-<pre>
-<link rel="stylesheet" href="./css/fun.css">
-</pre>
+)
+}
+```

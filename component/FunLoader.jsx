@@ -63,14 +63,14 @@ function FunLoader(_ref) {
   var funcss = _ref.funcss,
     size = _ref.size,
     fixed = _ref.fixed,
-    backdrop = _ref.backdrop;
+    backdrop = _ref.backdrop,
+    color = _ref.color;
   return /*#__PURE__*/external_react_default().createElement("div", {
     className: "".concat(fixed ? "fixedLoader" : "", " ").concat(backdrop && fixed ? "backdropLoader" : "", " ")
-  }, /*#__PURE__*/external_react_default().createElement("div", {
-    className: "".concat(funcss ? funcss : "", " funLoading "),
+  }, /*#__PURE__*/external_react_default().createElement("i", {
+    className: "".concat(funcss ? funcss : "", " fas fa-spinner fa-spin text-").concat(color ? color : ""),
     style: {
-      height: size ? size : "",
-      width: size ? size : ""
+      fontSize: size ? size : ""
     }
   }));
 }

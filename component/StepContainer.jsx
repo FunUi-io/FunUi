@@ -51,30 +51,25 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Grid)
+  "default": () => (/* binding */ Components_StepContainer)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Grid.js
+;// CONCATENATED MODULE: ../Funcss/Components/StepContainer.js
 
-function Grid(_ref) {
+var StepContainer = function StepContainer(_ref) {
   var children = _ref.children,
     funcss = _ref.funcss,
-    gap = _ref.gap,
-    justify = _ref.justify,
-    align = _ref.align,
-    id = _ref.id;
+    responsiveMedium = _ref.responsiveMedium,
+    responsiveSmall = _ref.responsiveSmall,
+    lined = _ref.lined;
   return /*#__PURE__*/external_react_default().createElement("div", {
-    id: id ? id : "",
-    className: "row ".concat(funcss, "  ").concat(gap ? "gap" : "", " "),
-    style: {
-      justifyContent: justify ? justify : "",
-      alignItems: align ? align : ""
-    }
+    className: "".concat(funcss ? funcss : "", " stepContainer\n ").concat(responsiveMedium ? "stepResponsiveMedium" : responsiveSmall ? "stepResponsiveSmall" : "")
   }, children);
-}
+};
+/* harmony default export */ const Components_StepContainer = (StepContainer);
 module.exports = __webpack_exports__;
 /******/ })()
 ;

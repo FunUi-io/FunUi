@@ -72,11 +72,14 @@ var Div = function Div(_ref) {
     padding = _ref.padding,
     margin = _ref.margin,
     fit = _ref.fit,
-    customStyle = _ref.customStyle;
+    customStyle = _ref.customStyle,
+    onClick = _ref.onClick;
   return /*#__PURE__*/external_react_default().createElement("div", null, customStyle ? /*#__PURE__*/external_react_default().createElement("div", {
+    onClick: onClick,
     className: "".concat(fit ? "width-100-p height-100-p" : "", " ").concat(funcss),
     style: customStyle
   }, content ? content : children) : /*#__PURE__*/external_react_default().createElement("div", {
+    onClick: onClick,
     className: "".concat(fit ? "width-100-p height-100-p" : "", " ").concat(funcss),
     style: {
       height: height ? height : "",

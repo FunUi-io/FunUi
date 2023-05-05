@@ -51,29 +51,28 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Grid)
+  "default": () => (/* binding */ Circle)
 });
 
 ;// CONCATENATED MODULE: external "react"
 const external_react_namespaceObject = require("react");
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_namespaceObject);
-;// CONCATENATED MODULE: ../Funcss/Components/Grid.js
+;// CONCATENATED MODULE: ../Funcss/Components/Circle.js
 
-function Grid(_ref) {
-  var children = _ref.children,
+function Circle(_ref) {
+  var size = _ref.size,
     funcss = _ref.funcss,
-    gap = _ref.gap,
-    justify = _ref.justify,
-    align = _ref.align,
-    id = _ref.id;
-  return /*#__PURE__*/external_react_default().createElement("div", {
-    id: id ? id : "",
-    className: "row ".concat(funcss, "  ").concat(gap ? "gap" : "", " "),
+    bg = _ref.bg,
+    content = _ref.content,
+    children = _ref.children,
+    hoverable = _ref.hoverable;
+  return /*#__PURE__*/external_react_default().createElement("div", null, /*#__PURE__*/external_react_default().createElement("div", {
+    className: "pointer avatar ".concat(funcss, "  ").concat(bg, " ").concat(hoverable ? "hoverable" : ""),
     style: {
-      justifyContent: justify ? justify : "",
-      alignItems: align ? align : ""
+      width: "".concat(size ? size : "2.3rem"),
+      height: "".concat(size ? size : "2.3rem")
     }
-  }, children);
+  }, /*#__PURE__*/external_react_default().createElement((external_react_default()).Fragment, null, content ? content : children)));
 }
 module.exports = __webpack_exports__;
 /******/ })()
