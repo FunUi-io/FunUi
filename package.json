@@ -1,8 +1,9 @@
 {
   "name": "funuicss",
-  "version": "1.9.10",
+  "version": "1.9.12",
   "description": "React/Next.js component UI Library for creating Easy and good looking websites with fewer lines of code.",
   "main": "index.js",
+  "keywords": ["funui" , "React Component", "Next Component", "react" , "react and next component Library"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"

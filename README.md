@@ -96,3 +96,22 @@ return (
 )
 }
 ```
+<p>
+<h2>Documentaion</h2>
+<div>Check our <a href="https://funui.netlify.app"> Documentation </a> for more exmaples and explanation</div>
+<p>
+<ul>
+<li><a href="https://funui.netlify.app"> Documentation </a></li>
+<li><a href="https://funui.netlify.app/gettingstarted"> Installing </a></li>
+<li><a href="https://funui.netlify.app/components"> Components </a></li>
+<li><a href="https://funui.netlify.app/darkmode"> Dark Mode </a></li>
+<li><a href="https://funui.netlify.app/icons"> Icons </a></li>
+<li><a href="https://funui.netlify.app/notifications"> Notifications </a></li>
+</ul>
+</p>
+</p>
+
+<p>
+<h2>License</h2>
+<div> The project is licensed under the terms of  <a href="https://github.com/FunUi-io/FunUi/blob/main/LICENSE.txt"> MIT </a> 
+</p>
