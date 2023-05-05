@@ -1,7 +1,7 @@
-<center>
-<img src="https://funui.netlify.app/logo.png" height="200px">
-<h1>FunUi For React & Next js Apps </h1>
-</center>
+<p align="center">
+<img src="https://funui.netlify.app/logo.png" width="200px">
+<h1>FunUi</h1>
+</p>
 
 <h1>Create Beutiful UI/UX Components</h1>
 <h3>Learn how to use the framework at our official website 👎</h3>
@@ -43,8 +43,8 @@ return (
  </NavLogo>
 
  <LinkWrapper visibleLinks>
- <Button text="Sign In" color="primary"/>
- <Button text="Sign Up" bg="primary"  rounded />
+ <Button text="Sign In" color="primary"> </Button>
+ <Button text="Sign Up" bg="primary"  rounded > </Button>
  </LinkWrapper>
 
 </Navbar>
