@@ -32,6 +32,39 @@ Import the css file at your entry point to apply our classes,for example: _app.j
 import 'funuicss/css/fun.css'
 </pre>
 
+<h3>Simple Progress Bars </h3>
+<p> These progress bars are good for showind the state of an action, for example, a user downloading an asset </p>
+
+```jsx
+import React from 'react'
+import ProgressBar from 'funuicss/component/ProgressBar'
+import Typography from 'funuicss/component/Typography'
+export default function App() {
+
+return (
+
+<div>
+<ProgressBar 
+progress={99} 
+content={"Success! 99%"} 
+bg="light-success" 
+/>
+<ProgressBar 
+progress={85} 
+content={<Typography text="85%" color="primary" bold/>} 
+bg="primary" 
+lined
+/>
+<ProgressBar 
+progress={90} 
+content={<Typography text="90%" color="secondary" bold/>} 
+bg="secondary" 
+lined/>
+</div>
+
+)
+}
+```
 
 <h3>Simple App NavBar with FunUi </h3>
 <p> This is a simple Navbar you just import and use for your project </p>
@@ -40,7 +73,6 @@ import 'funuicss/css/fun.css'
 import React from 'react'
 import Navbar from 'funuicss/component/Navbar'
 import Typography from 'funuicss/component/Typography'
-import SidebarTrigger from 'funuicss/component/SidebarTrigger'
 import LinkWrapper from 'funuicss/component/LinkWrapper'
 import Button from 'funuicss/component/Button'
 import NavLogo from 'funuicss/component/NavLogo'
@@ -62,4 +94,5 @@ return (
 </div>
 
 )
-}```
+}
+```
