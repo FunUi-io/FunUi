@@ -1,9 +1,19 @@
 <p align="center">
 <img src="https://funui.netlify.app/logo.png" width="200px">
-<h1>FunUi</h1>
 </p>
 
-<h1>Create Beutiful UI/UX Components</h1>
+<h1>The Rect & Next Js Ui Library</h1>
+<p>
+The framework is easy to integrate, just install the package and import the CSS file
+</p>
+
+<h3>Why Choose FunUi </h3>
+<ul>
+<li>The framework is build in modules, you just need to import the module you want to use</li>
+<li>The framework is build with flexbox, which makes it easy to fit all screen sizes</li>
+<li>The framework is easy to integrate, just install the package and import the CSS file</li>
+</ul>
+
 <h3>Learn how to use the framework at our official website 👎</h3>
 https://funui.netlify.app
 
@@ -25,7 +35,7 @@ import 'funuicss/css/fun.css'
 
 <h3>Simple App NavBar with FunUi </h3>
 <p> This is a simple Navbar you just import and use for your project </p>
-````jsx
+```jsx
 import React from 'react'
 import Navbar from 'funuicss/component/Navbar'
 import Typography from 'funuicss/component/Typography'
