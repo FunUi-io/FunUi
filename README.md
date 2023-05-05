@@ -98,7 +98,7 @@ return (
 ```
 <p>
 <h2>Documentaion</h2>
-<div>Check our <a href="https://funui.netlify.app"> Documentation </a> for more exmaples and explanation</div>
+<div>Check our <a href="https://funui.netlify.app"> Documentation </a> for more examples and explanation</div>
 <p>
 <ul>
 <li><a href="https://funui.netlify.app"> Documentation </a></li>
