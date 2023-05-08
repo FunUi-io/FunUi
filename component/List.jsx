@@ -70,7 +70,7 @@ var List = function List(_ref) {
     hoverable = _ref.hoverable,
     roundItems = _ref.roundItems;
   return /*#__PURE__*/external_react_default().createElement("ul", {
-    className: "list \n".concat(funcss, "\n").concat(dark ? "dark" : "", "\n").concat(light ? "light" : "", "\n").concat(hoverable ? "hoverable" : "", "\n").concat(stripped ? "stripped" : "", "\n").concat(bordered ? "bordered" : "", "\n").concat(roundItems ? "roundItems" : "", "\n")
+    className: "list \n".concat(funcss, "\n").concat(dark ? "dark" : "", "\n").concat(light ? "light" : "", "\n").concat(hoverable ? "hoverableList" : "", "\n").concat(stripped ? "stripped" : "", "\n").concat(bordered ? "bordered" : "", "\n").concat(roundItems ? "roundItems" : "", "\n")
   }, children, " ", content);
 };
 /* harmony default export */ const Components_List = (List);

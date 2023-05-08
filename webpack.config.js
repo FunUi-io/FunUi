@@ -1,5 +1,5 @@
 const path = require("path");
-    const fileName = "Alert"
+    const fileName = "List"
     const extendFolder = ""
     module.exports = {
         mode:"production",
