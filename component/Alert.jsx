@@ -90,7 +90,7 @@ function Alert(_ref) {
     style: {
       animation: " ".concat(0.3, "s ", "ScaleUp")
     },
-    className: "alert ".concat(funcss, " ").concat(type, "  \n").concat(fixed == "top-left" ? "top-left" : "", "\n ").concat(fixed == "top-right" ? "top-right" : "", "\n ").concat(fixed == "bottom-left" ? "bottom-left" : "", "\n ").concat(fixed == "bottom-right" ? "bottom-right" : "", " \n ").concat(fixed == "top-middle" ? "top-middle" : "", " \n ").concat(fixed == "bottom-middle" ? "bottom-middle" : "", " \n ").concat(fullWidth ? "width-100-p" : "", "\n \n ")
+    className: "alert ".concat(funcss, " ").concat(type, "  \n").concat(fixed == "top-left" ? "top-left" : "", "\n ").concat(fixed == "top-right" ? "top-right" : "", "\n ").concat(fixed == "bottom-left" ? "bottom-left" : "", "\n ").concat(fixed == "bottom-right" ? "bottom-right" : "", " \n ").concat(fixed == "top-middle" ? "top-middle" : "", " \n ").concat(fixed == "bottom-middle" ? "bottom-middle" : "", " \n ").concat(fixed == "middle" ? "middle" : "", " \n ").concat(fullWidth ? "width-100-p" : "", "\n \n ")
   }, /*#__PURE__*/external_react_default().createElement("div", {
     className: "alert-icon"
   }, !isLoading ? /*#__PURE__*/external_react_default().createElement("div", null, type === "success" && /*#__PURE__*/external_react_default().createElement("i", {

@@ -51,13 +51,16 @@
   --largeScreen: calc(var(var(--mediumScreen)) + 1px);
   --shadowMedium:0 0.8rem 2rem 0 rgba(0, 0, 0, 0.1);
 
-  /* Darktheme effects */
-  --raiseThemes:"#FFFFFF";
-  --inputOutline:var(--successLight);
-  --lightThemeDark: var(--dark)
-
 }
 
+
+
+/* DarkTheme */
+:root{
+  --raiseThemes:#FFFFFF;
+  --inputOutline:var(--successLight);
+  --lightThemeDark: var(--dark)
+}
 
 /* normalise css */
 * {
@@ -66,7 +69,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -380,6 +383,7 @@ h1,
   margin-top: 0;
   margin-bottom: 0.5rem;
   line-height: 1.2;
+  font-weight: 300;
 }
 
 h1,
@@ -798,7 +802,10 @@ h6,
   }
 }
 
-
+.page{
+  min-height: 80vh;
+  padding: 2rem 0;
+}
 
 
 /*buttons*/
@@ -1062,13 +1069,12 @@ h6,
 }
 .alert.top-right , .alert.bottom-right , 
 .alert.top-left , .alert.bottom-left, .alert.top-middle ,
-.alert.bottom-middle
+.alert.bottom-middle , .middle
 {
   position: fixed;
   z-index: var(--snackBarZindex);
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
   width: fit-content;
-  min-width: 250px;
   height: fit-content;
 }
 .alert.top-middle{
@@ -1096,6 +1102,11 @@ h6,
 .alert.bottom-left{
   bottom: 1rem;
   left: 1rem;
+}
+.alert.middle{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .alert-icon > i {
   cursor: pointer;
@@ -1270,6 +1281,7 @@ input , select{height: var(--inputHeight);}
 .input:focus {
   border-bottom: 0.1rem solid var(--primaryColor);
 }
+
 .input.borderedInput {
   border: var(--border);
   border-radius: 0.3rem;
@@ -2079,18 +2091,19 @@ th {
   background-color: var(--danger);
   cursor: pointer;
 }
+
 .modal-title {
   padding: 0.5rem;
-  border-bottom: 1.5px solid #ddd;
+  border-bottom: 1.5px solid var(--borderColor);
   max-height: 70px;
   height: fit-content;
 }
 .modal-content {
-  background-color: var(--white);
+  background-color: var(--raiseThemes);
   max-width: 700px;
   width: 100%;
   border-radius: 10px;
-  background-color: var(--raiseThemes);
+
 }
 .modal-body {
   padding: 0.7rem;
@@ -2115,7 +2128,7 @@ Button,
 .notification{
   position: fixed;
   max-width: 400px;
-  background-color: var(--bd-theme);
+  background-color: var(--raiseThemes);
   width: fit-content;
   padding: 1rem;
   border-radius: 0.3rem;
@@ -2231,7 +2244,7 @@ Button,
 }
 
 /*hide and show on screen */
-@media (max-width: 600px) {
+@media(max-width: 600px) {
   .hide-small {
     display: none;
   }
@@ -2260,7 +2273,7 @@ Button,
     display: none;
   }
 }
-@media (min-width: 601px) {
+ @media (min-width: 601px) {
   .hide-medium {
     display: none;
   }
@@ -2286,7 +2299,8 @@ Button,
     display: none;
   }
 }
-@media (min-width: 101px) {
+
+@media screen and (min-width: 1001px) {
   .show-large {
     display: block;
   }
@@ -2403,14 +2417,14 @@ Button,
 
 .tooltip .tip {
   display: none;
-  width: 100%;
   min-width: 100px;
   max-width: 400px;
-  background-color: #555;
+  width: fit-content;
+  background-color: #1E1E1E;
   color: #fff;
   text-align: center;
   border-radius: 3px;
-  padding: 5px 0;
+  padding: 0.2rem 0.3rem;
   position: absolute;
   z-index: 5;
   transition: opacity 0.3s;
@@ -2458,27 +2472,14 @@ Button,
 }
 
 
-/* animations */
-.animate-underline::after {
-  position: absolute;
-  top: 25px;
-  left: 0;
-  content: "";
-  width: 0%;
-  height: 3px;
-  /* background-color: rgba(255, 255, 255, 0.6); */
-  transition: all 0.5s;
-}
-
-.animate-underline:hover::after {
-  width: 100%;
-}
 .snackbar {
   position: fixed;
   background-color: #1E1E1E;
   border-radius: 3px;
   max-width: 90%;
   width: fit-content;
+  max-height: 2.5rem;
+  height: fit-content;
   color: var(--white);
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
   z-index: var(--snackBarZindex);
@@ -2581,19 +2582,8 @@ Button,
 
 
 /* Loader */
-.funLoading {
-  width:50px;
-  height:50px;
-  display:inline-block;
-  padding:0px;
-  border-radius:100%;
-  border:5px solid;
-  border-top-color:var(--primaryColor);
-  border-bottom-color:var(--light);
-  border-left-color:var(--primaryColor);
-  border-right-color:var(--light);
-  -webkit-animation: loader4 0.5s ease-in-out infinite;
-  animation: loader4 0.5s ease-in-out infinite;
+.funLoader{
+  color: var(--primaryColor);
 }
 .fixedLoader{
   position: fixed;

@@ -1,5 +1,5 @@
 const path = require("path");
-    const fileName = "StepContainer"
+    const fileName = "Alert"
     const extendFolder = ""
     module.exports = {
         mode:"production",

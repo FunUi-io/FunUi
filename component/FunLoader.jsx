@@ -68,7 +68,7 @@ function FunLoader(_ref) {
   return /*#__PURE__*/external_react_default().createElement("div", {
     className: "".concat(fixed ? "fixedLoader" : "", " ").concat(backdrop && fixed ? "backdropLoader" : "", " ")
   }, /*#__PURE__*/external_react_default().createElement("i", {
-    className: "".concat(funcss ? funcss : "", " fas fa-spinner fa-spin text-").concat(color ? color : ""),
+    className: "funLoader ".concat(funcss ? funcss : "", " fas fa-spinner fa-spin text-").concat(color ? color : ""),
     style: {
       fontSize: size ? size : ""
     }
