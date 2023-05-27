@@ -1,9 +1,9 @@
 const path = require("path");
 
-const type = "js"
+const type = "component"
 
 if(type == "component"){
-    const fileName = "Starter"
+    const fileName = "Button"
     const extendFolder = ""
     module.exports = {
         mode:"production",

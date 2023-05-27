@@ -41,6 +41,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FunEvent": () => (/* binding */ FunEvent),
 /* harmony export */   "FunGet": () => (/* binding */ FunGet),
 /* harmony export */   "FunHide": () => (/* binding */ FunHide),
+/* harmony export */   "FunQuery": () => (/* binding */ FunQuery),
 /* harmony export */   "FunRequest": () => (/* binding */ FunRequest),
 /* harmony export */   "FunStyle": () => (/* binding */ FunStyle)
 /* harmony export */ });
@@ -227,6 +228,38 @@ var FunRequest = {
         // Handle any errors that occur during the request
         reject(error);
       });
+    });
+  }
+};
+var FunQuery = {
+  query: function query(data, fields) {
+    return new Promise(function (resolve, reject) {
+      if (Array.isArray(data)) {
+        resolve(data.filter(function (item) {
+          return applyFilter(item, fields);
+        }));
+      } else if (_typeof(data) === 'object') {
+        var filteredData = {};
+        for (var key in data) {
+          if (applyFilter(data[key], fields)) {
+            filteredData[key] = data[key];
+          }
+        }
+        resolve(filteredData);
+      } else {
+        reject('Invalid data type. Expected an array or object.');
+      }
+      function applyFilter(item, fields) {
+        if (_typeof(fields) !== 'object') {
+          reject('Invalid filter criteria. Expected an object.');
+        }
+        for (var _key in fields) {
+          if (item[_key] !== fields[_key]) {
+            return false;
+          }
+        }
+        return true;
+      }
     });
   }
 };
