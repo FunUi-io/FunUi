@@ -3,11 +3,11 @@ const path = require("path");
 const type = "component"
 
 if(type == "component"){
-    const fileName = "Button"
+    const fileName = "CloseModal"
     const extendFolder = ""
     module.exports = {
         mode:"production",
-        entry: `./../Funcss/Components/${fileName}.js`,
+        entry: `./../Funcss/Components/${fileName}.jsx`,
         output: {
             path: path.resolve("component"),
             filename: `${extendFolder ? extendFolder : ''}${fileName}.jsx`,
