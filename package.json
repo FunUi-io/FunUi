@@ -1,28 +1,44 @@
 {
+  "version": "1.10.1",
   "name": "funuicss",
-  "version": "1.9.23",
   "description": "React/Next.js component UI Library for creating Easy and good looking websites with fewer lines of code.",
   "main": "index.js",
-  "keywords": ["funui" , "React Component", "Next Component", "react" , "react and next component Library"],
+  "keywords": [
+    "funui",
+    "React Component",
+    "Next Component",
+    "react",
+    "react and next component Library"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "tsc",
+    "prepublishOnly": "tsc"
   },
   "author": "FunInc",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@babel/preset-react": "^7.18.6",
-    "babel-loader": "^9.1.2",
-    "css-loader": "^6.7.3",
-    "style-loader": "^3.3.2",
-    "webpack": "^5.80.0",
-    "webpack-cli": "^5.0.2"
+    "@babel/core": "^7.22.11",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.11",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "boxicons": "^2.1.4",
     "next": "^13.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-icons": "^4.11.0"
+  },
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react"
   }
 }
