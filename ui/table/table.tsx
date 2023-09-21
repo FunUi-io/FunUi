@@ -1,4 +1,6 @@
 import * as React from 'react';
+import TableHead from './Head';
+import TableBody from './Body';
 
 type TableProps = {
   children: React.ReactNode;
@@ -9,6 +11,8 @@ type TableProps = {
   showTotal?: boolean;
   light?: boolean;
   dark?: boolean;
+  head?:React.ReactNode
+  body?:React.ReactNode
 };
 
 export default function Table({
@@ -20,6 +24,8 @@ export default function Table({
   showTotal,
   light,
   dark,
+  head,
+  body
 }: TableProps) {
   return (
     <table
@@ -27,7 +33,13 @@ export default function Table({
         stripped ? 'stripped' : ''
       } ${hoverable ? 'hoverableTr' : ''} ${light ? 'light' : ''} ${dark ? 'dark' : ''}`}
     >
-      {children}
+      {
+        head && <TableHead>{head}</TableHead>
+      }
+      {
+        body && <TableBody>{body}</TableBody>
+      }
+      {children ? children : ''}
 
       {showTotal && (
         <tr className="borderless">

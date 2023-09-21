@@ -22,12 +22,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
+var Head_1 = __importDefault(require("./Head"));
+var Body_1 = __importDefault(require("./Body"));
 function Table(_a) {
-    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, stripped = _a.stripped, hoverable = _a.hoverable, showTotal = _a.showTotal, light = _a.light, dark = _a.dark;
+    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, stripped = _a.stripped, hoverable = _a.hoverable, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body;
     return (React.createElement("table", { className: "table ".concat(funcss ? funcss : '', " ").concat(bordered ? 'border' : '', " ").concat(stripped ? 'stripped' : '', " ").concat(hoverable ? 'hoverableTr' : '', " ").concat(light ? 'light' : '', " ").concat(dark ? 'dark' : '') },
-        children,
+        head && React.createElement(Head_1.default, null, head),
+        body && React.createElement(Body_1.default, null, body),
+        children ? children : '',
         showTotal && (React.createElement("tr", { className: "borderless" },
             React.createElement("td", { className: "padding borderless text-bold" },
                 "Total ",

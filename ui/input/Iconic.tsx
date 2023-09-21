@@ -32,7 +32,7 @@ export default function IconicInput({
      : ''}
      <div className={
       `icon_input_wrapper  ${leftIcon ? 'lefticon' : ''} ${rightIcon ? 'righticon' : ''}`
-     }> {children} {input}</div>
+     }> {input}</div>
       {rightIcon ? 
         <div className="rightIcon" style={{ backgroundColor: iconicBg || '' }}>
           {rightIcon ? rightIcon : ''}

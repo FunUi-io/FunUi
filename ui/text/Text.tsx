@@ -54,7 +54,7 @@ export default function Text({
   letterSpacing,
   monospace,
   customStyles,
-  onClick, // Added onClick event
+  ...rest
 }: TypographyProps) {
   const mergedStyles: React.CSSProperties = {
     display: block ? 'block' : undefined,
@@ -68,7 +68,6 @@ export default function Text({
     size ? `text-${size}` : '',
     color ? `text-${color}` : '',
     align ? `text-${align}` : '',
-    block ? 'block' : '',
     monospace ? 'monospace' : '',
     bg ? bg : '',
     hoverText ? `hover-text-${hoverText}` : '',
@@ -84,15 +83,29 @@ export default function Text({
     bold ? 'bold' : '',
   ].filter(Boolean).join(' ');
 
+ if(block){
+  return (
+    <div
+      id={id} // Added id attribute
+      className={classNames}
+      style={mergedStyles}
+      {...rest}
+    >
+      {children}
+      {text}
+    </div>
+  );
+ }else{
   return (
     <span
       id={id} // Added id attribute
       className={classNames}
       style={mergedStyles}
-      onClick={onClick} // Added onClick event
+      {...rest}
     >
       {children}
       {text}
     </span>
   );
+ }
 }

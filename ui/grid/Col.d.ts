@@ -4,7 +4,7 @@ interface ColProps extends HTMLProps<HTMLDivElement> {
     sm?: number;
     md?: number;
     lg?: number;
-    children: ReactNode;
+    children?: ReactNode;
     funcss?: string;
     id?: string;
 }

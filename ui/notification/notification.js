@@ -22,12 +22,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
+var Header_1 = __importDefault(require("./Header"));
+var Content_1 = __importDefault(require("./Content"));
+var Footer_1 = __importDefault(require("./Footer"));
 function Notification(_a) {
-    var position = _a.position, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, children = _a.children, state = _a.state, width = _a.width;
+    var position = _a.position, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, children = _a.children, state = _a.state, width = _a.width, header = _a.header, content = _a.content, footer = _a.footer;
     if (state) {
-        return (React.createElement("div", { className: "notification ".concat(position, " ").concat(funcss), style: { animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation), width: width ? width : '450px' } }, children));
+        return (React.createElement("div", { className: "notification ".concat(position, " ").concat(funcss), style: { animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation), width: width ? width : '450px' } },
+            header &&
+                React.createElement(Header_1.default, null, header),
+            content &&
+                React.createElement(Content_1.default, null, content),
+            footer &&
+                React.createElement(Footer_1.default, null, footer),
+            children));
     }
     else {
         return null;

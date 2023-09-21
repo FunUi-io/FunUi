@@ -40,10 +40,10 @@ export default function AppBar({
         <div>
             {left}
         </div>
-        <div  className={`${funcss} linkWrapper ${visibleLinks ? "visibleLinks" : ""}`}>
+        <div  className={` linkWrapper ${visibleLinks ? "visibleLinks" : ""}`}>
             {center}
         </div>
-        <div  className={`${funcss} linkWrapper ${visibleLinks ? "visibleLinks" : ""}`}>
+        <div  className={`linkWrapper ${visibleLinks ? "visibleLinks" : ""}`}>
         {right} 
         </div>
         {sidebarTrigger ? <span className='sidebar-trigger'>{sidebarTrigger}</span> : ''}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 interface BreadCrumbProps {
-    type: 'slash' | 'greater' | 'less' | 'straight';
+    type?: 'slash' | 'greater' | 'less' | 'straight';
     funcss?: string;
     color?: string;
 }

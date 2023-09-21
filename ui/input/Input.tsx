@@ -1,6 +1,7 @@
 import * as React from 'react';
-
-type InputProps = {
+import { PiCheck , PiCloudArrowUp } from 'react-icons/pi';
+import Button from '../button/Button';
+interface InputProps{
   select?: boolean;
   bordered?: boolean;
   bordereless?: boolean;
@@ -25,7 +26,7 @@ type InputProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   options?: { value: string; text: string }[];
   rows?: number;
-  bg:string
+  bg?:string
 };
 
 export default class Input extends React.Component<InputProps> {
@@ -47,7 +48,6 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
             name={this.props.name}
             style={{
               borderRadius: `${this.props.rounded ? '400rem' : ''}`,
@@ -80,7 +80,6 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             value={this.props.value}
@@ -113,7 +112,6 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             value={this.props.value}
@@ -149,7 +147,6 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             style={{
@@ -176,7 +173,6 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             value={this.props.value}
@@ -202,7 +198,6 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             value={this.props.value}
@@ -216,23 +211,17 @@ export default class Input extends React.Component<InputProps> {
       }
     } else if (this.props.file) {
       return (
-        <div className={`fileInputContainer ${this.props.noBorder ? 'borderless' : ''}`}>
-          <div>
-            {this.props.icon ? (
-              this.props.icon
-            ) : (
-              <i className="fas icon size-big text-secondary fa-upload" />
-            )}
-            <br />
-            <div className="text-secondary" style={{ margin: '0.3rem 0' }}>
-              {this.props.label}
-            </div>
-          </div>
+        
           <div className="fileInput">
             {this.props.button ? (
               this.props.button
             ) : (
-              <button className={`primary button full-width`}> Upload File</button>
+              <Button 
+              funcss={` ${this.props.funcss} `}
+              startIcon={this.props.icon ? this.props.icon  : <PiCloudArrowUp />} 
+              bg='primary800' raised> 
+              {this.props.label ? this.props.label : 'Upload File'}
+              </Button>
             )}
             <input
               id={this.props.id}
@@ -248,7 +237,7 @@ export default class Input extends React.Component<InputProps> {
                 filedInput
               `}
               onChange={this.props.onChange}
-              typeof={'file'}
+              type={'file'}
               name={this.props.name}
               style={{
                 borderRadius: `${this.props.rounded ? '400rem' : ''}`,
@@ -257,7 +246,6 @@ export default class Input extends React.Component<InputProps> {
               value={this.props.value}
             />
           </div>
-        </div>
       );
     } else {
       if (this.props.bordered) {
@@ -276,7 +264,7 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
+            type={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             style={{
@@ -302,7 +290,7 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
+            type={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             value={this.props.value}
@@ -327,7 +315,7 @@ export default class Input extends React.Component<InputProps> {
             `}
             onChange={this.props.onChange}
             defaultValue={this.props.defaultValue}
-            typeof={this.props.type}
+            type={this.props.type}
             placeholder={this.props.label}
             name={this.props.name}
             value={this.props.value}

@@ -26,5 +26,5 @@ type TypographyProps = {
     customStyles?: React.CSSProperties;
     onClick?: () => void;
 };
-export default function Text({ id, size, bg, color, children, hoverBg, hoverText, text, heading, funcss, emp, bold, block, body, article, light, lighter, italic, underline, align, lineHeight, letterSpacing, monospace, customStyles, onClick, }: TypographyProps): React.JSX.Element;
+export default function Text({ id, size, bg, color, children, hoverBg, hoverText, text, heading, funcss, emp, bold, block, body, article, light, lighter, italic, underline, align, lineHeight, letterSpacing, monospace, customStyles, ...rest }: TypographyProps): React.JSX.Element;
 export {};

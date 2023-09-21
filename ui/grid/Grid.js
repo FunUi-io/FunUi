@@ -47,12 +47,11 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function Grid(_a) {
-    var children = _a.children, funcss = _a.funcss, gap = _a.gap, justify = _a.justify, align = _a.align, id = _a.id, direction = _a.direction, rest = __rest(_a, ["children", "funcss", "gap", "justify", "align", "id", "direction"]);
+    var children = _a.children, funcss = _a.funcss, justify = _a.justify, align = _a.align, id = _a.id, direction = _a.direction, rest = __rest(_a, ["children", "funcss", "justify", "align", "id", "direction"]);
     return (React.createElement("div", __assign({ id: id || '', className: "row ".concat(funcss || ''), style: {
             justifyContent: justify || '',
             alignItems: align || '',
-            flexDirection: direction || 'row',
-            gridGap: gap ? gap + 'rem' : 0
+            flexDirection: direction || 'row'
         } }, rest), children));
 }
 exports.default = Grid;

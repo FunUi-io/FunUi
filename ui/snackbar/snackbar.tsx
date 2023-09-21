@@ -2,7 +2,7 @@ import * as React from 'react';
 
 interface SnackbarProps {
   message: string;
-  close: string;
+  close: React.ReactNode;
   open: boolean;
   position: string;
   funcss?: string;
@@ -10,7 +10,7 @@ interface SnackbarProps {
   duration?: number;
 }
 
-const Snackbar: React.FC<SnackbarProps> = ({ message, close, open, position, funcss, animation, duration }) => {
+const SnackBar: React.FC<SnackbarProps> = ({ message, close, open, position, funcss, animation, duration }) => {
   if (open) {
     return (
       <div>
@@ -19,11 +19,14 @@ const Snackbar: React.FC<SnackbarProps> = ({ message, close, open, position, fun
             <div className="snackbar-body">
               {message}
             </div>
-            <div>
+            {
+              close && 
+              <div>
               <span className="close-snackbar">
                 <span>{close}</span>
               </span>
             </div>
+            }
           </div>
         </div>
       </div>
@@ -33,4 +36,4 @@ const Snackbar: React.FC<SnackbarProps> = ({ message, close, open, position, fun
   }
 };
 
-export default Snackbar;
+export default SnackBar;

@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 interface BreadCrumbProps {
-  type: 'slash' | 'greater' | 'less' | 'straight';
+  type?: 'slash' | 'greater' | 'less' | 'straight';
   funcss?: string;
   color?: string;
 }
@@ -25,7 +26,7 @@ export default function BreadCrumb({ type, funcss, color }: BreadCrumbProps) {
           }}
           className={` ${funcss ? funcss : ''} ${color ? 'text-' + color : ''}`}
         >
-          &gt;
+         <PiCaretRight className={`${color ?  `text-${color}` : ''}`} />
         </span>
       )}
       {type === 'less' && (
@@ -35,7 +36,7 @@ export default function BreadCrumb({ type, funcss, color }: BreadCrumbProps) {
           }}
           className={` ${funcss ? funcss : ''} ${color ? 'text-' + color : ''}`}
         >
-          &lt;
+          <PiCaretLeft className={`${color ?  `text-${color}` : ''}`} />
         </span>
       )}
       {type === 'straight' && (

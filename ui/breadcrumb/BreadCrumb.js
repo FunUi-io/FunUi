@@ -24,6 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
+var pi_1 = require("react-icons/pi");
 function BreadCrumb(_a) {
     var type = _a.type, funcss = _a.funcss, color = _a.color;
     return (React.createElement("span", null,
@@ -32,10 +33,12 @@ function BreadCrumb(_a) {
             }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') }, ' / ')),
         type === 'greater' && (React.createElement("span", { style: {
                 margin: '0 0.2rem',
-            }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') }, ">")),
+            }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') },
+            React.createElement(pi_1.PiCaretRight, { className: "".concat(color ? "text-".concat(color) : '') }))),
         type === 'less' && (React.createElement("span", { style: {
                 margin: '0 0.2rem',
-            }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') }, "<")),
+            }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') },
+            React.createElement(pi_1.PiCaretLeft, { className: "".concat(color ? "text-".concat(color) : '') }))),
         type === 'straight' && (React.createElement("span", { style: {
                 margin: '0 0.2rem',
             }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') }, ' | '))));

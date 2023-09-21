@@ -29,8 +29,8 @@ function AppBar(_a) {
     return (React.createElement("div", null,
         React.createElement("nav", { className: "\n          navigation-bar ".concat(funcss ? funcss : '', "\n          ").concat(fixedTop ? 'fixedTop' : '', "\n          ").concat(fixedBottom ? 'fixedBottom' : '', "\n        "), style: { padding: "".concat(padding ? padding : ''), justifyContent: "".concat(justify ? justify : '') } },
             React.createElement("div", null, left),
-            React.createElement("div", { className: "".concat(funcss, " linkWrapper ").concat(visibleLinks ? "visibleLinks" : "") }, center),
-            React.createElement("div", { className: "".concat(funcss, " linkWrapper ").concat(visibleLinks ? "visibleLinks" : "") }, right),
+            React.createElement("div", { className: " linkWrapper ".concat(visibleLinks ? "visibleLinks" : "") }, center),
+            React.createElement("div", { className: "linkWrapper ".concat(visibleLinks ? "visibleLinks" : "") }, right),
             sidebarTrigger ? React.createElement("span", { className: 'sidebar-trigger' }, sidebarTrigger) : '')));
 }
 exports.default = AppBar;

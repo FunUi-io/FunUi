@@ -1,6 +1,6 @@
 import  { ReactNode, HTMLProps, MouseEvent, ChangeEvent } from 'react';
 import * as React from 'react';
-import { colors } from './../../assets/colors';
+import { colors } from '../../assets/colors/colors';
 import { PiInfo , PiCheck , PiWarning , PiX , PiSpinner } from "react-icons/pi";
 
 interface ButtonProps extends HTMLProps<HTMLButtonElement> {
@@ -29,10 +29,10 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   fillDirection?:string;
   fillTextColor?:string;
   buttonFillStyle?:React.CSSProperties ,
-  outlineSize:number ,
-  disabled:boolean ,
-  isLoading:boolean ,
-  status: 'success' | 'warning' | 'info' | 'danger' 
+  outlineSize?:number ,
+  disabled?:boolean ,
+  isLoading?:boolean ,
+  status?: 'success' | 'warning' | 'info' | 'danger' 
 }
 
 export default function Button({
@@ -105,18 +105,14 @@ export default function Button({
      onChange={onChange}
     >
         {
-          isLoading ?
-          <span>
+          isLoading &&
                     <PiSpinner className='rotate'/>
-          </span>
-          :
-          <span>
+        }
+       
           {status === "success" && <PiCheck />}
     {status === "info" && <PiInfo />}
     {status === "warning" && <PiWarning />}
     {status === "danger" && <PiX />}
-</span>
-        }
 
       {fillAnimation ? <span className={`button_fill_span ${bg}`} ></span> : ''}
       {startIcon && <span>{startIcon}</span>}

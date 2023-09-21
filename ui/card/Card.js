@@ -8,8 +8,8 @@ var CardHeader_1 = __importDefault(require("./CardHeader"));
 var CardBody_1 = __importDefault(require("./CardBody"));
 var CardFooter_1 = __importDefault(require("./CardFooter"));
 function Card(_a) {
-    var color = _a.color, bg = _a.bg, width = _a.width, height = _a.height, minHeight = _a.minHeight, minWidth = _a.minWidth, margin = _a.margin, padding = _a.padding, funcss = _a.funcss, children = _a.children, roundEdge = _a.roundEdge, maxHeight = _a.maxHeight, maxWidth = _a.maxWidth, horizontal = _a.horizontal, id = _a.id, header = _a.header, body = _a.body, footer = _a.footer, noGap = _a.noGap, fab = _a.fab, image = _a.image;
-    return (react_1.default.createElement("div", { id: id || '', className: "card ".concat(noGap ? 'no-gap' : '', " text-").concat(color || '', " ").concat(bg || '', " ").concat(funcss || '', " ").concat(roundEdge ? 'round-edge' : '', " ").concat(horizontal ? 'horizontalCard' : ''), style: {
+    var color = _a.color, bg = _a.bg, width = _a.width, height = _a.height, minHeight = _a.minHeight, minWidth = _a.minWidth, margin = _a.margin, padding = _a.padding, funcss = _a.funcss, children = _a.children, roundEdge = _a.roundEdge, maxHeight = _a.maxHeight, maxWidth = _a.maxWidth, horizontal = _a.horizontal, id = _a.id, header = _a.header, body = _a.body, footer = _a.footer, noGap = _a.noGap, fab = _a.fab, image = _a.image, responsiveMedium = _a.responsiveMedium, responsiveSmall = _a.responsiveSmall;
+    return (react_1.default.createElement("div", { id: id || '', className: "\n      card \n      card_flex\n      ".concat(noGap ? 'no-gap' : '', " \n      text-").concat(color || '', " \n      ").concat(bg || '', " \n      ").concat(funcss || '', " \n      ").concat(roundEdge ? 'round-edge' : '', " \n      ").concat(horizontal ? 'horizontalCard' : '', "\n      ").concat(responsiveMedium ? 'responsiveMedium' : '', "\n      ").concat(responsiveSmall ? 'responsiveSmall' : '', "\n      \n      "), style: {
             width: "".concat(width || ''),
             height: "".concat(height || ''),
             minHeight: "".concat(minHeight || ''),

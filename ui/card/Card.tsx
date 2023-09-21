@@ -24,7 +24,9 @@ interface CardProps {
   footer?:ReactNode 
   image?:ReactNode,
   noGap?:boolean ,
-  fab?:ReactNode
+  fab?:ReactNode ,
+  responsiveSmall?:boolean;
+  responsiveMedium?:boolean
 }
 
 export default function Card({
@@ -48,14 +50,26 @@ export default function Card({
   footer ,
   noGap,
   fab,
-  image
+  image,
+  responsiveMedium ,
+  responsiveSmall
 }: CardProps) {
   return (
     <div
       id={id || ''}
-      className={`card ${noGap ? 'no-gap' : ''} text-${color || ''} ${bg || ''} ${funcss || ''} ${
-        roundEdge ? 'round-edge' : ''
-      } ${horizontal ? 'horizontalCard' : ''}`}
+      className={`
+      card 
+      card_flex
+      ${noGap ? 'no-gap' : ''} 
+      text-${color || ''} 
+      ${bg || ''} 
+      ${funcss || ''} 
+      ${roundEdge ? 'round-edge' : ''} 
+      ${horizontal ? 'horizontalCard' : ''}
+      ${responsiveMedium ? 'responsiveMedium' : ''}
+      ${responsiveSmall ? 'responsiveSmall' : ''}
+      
+      `}
       style={{
         width: `${width || ''}`,
         height: `${height || ''}`,

@@ -26,10 +26,10 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
     fillDirection?: string;
     fillTextColor?: string;
     buttonFillStyle?: React.CSSProperties;
-    outlineSize: number;
-    disabled: boolean;
-    isLoading: boolean;
-    status: 'success' | 'warning' | 'info' | 'danger';
+    outlineSize?: number;
+    disabled?: boolean;
+    isLoading?: boolean;
+    status?: 'success' | 'warning' | 'info' | 'danger';
 }
 export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, smaller, big, bigger, jumbo, flat, hoverNone, onChange, onClick, children, fillAnimation, fillDirection, fillTextColor, outlineSize, disabled, isLoading, status, ...rest }: ButtonProps): React.JSX.Element;
 export {};

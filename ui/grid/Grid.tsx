@@ -2,7 +2,7 @@ import { ReactNode, CSSProperties, HTMLProps } from 'react';
 import * as React from 'react';
 
 interface GridProps extends HTMLProps<HTMLDivElement> {
-  children: ReactNode;
+  children?: ReactNode;
   funcss?: string;
   gap?: number;
   justify?: CSSProperties['justifyContent'];
@@ -14,7 +14,6 @@ interface GridProps extends HTMLProps<HTMLDivElement> {
 export default  function Grid({
   children,
   funcss,
-  gap,
   justify,
   align,
   id,
@@ -28,8 +27,7 @@ export default  function Grid({
       style={{
         justifyContent: justify || '',
         alignItems: align || '',
-        flexDirection: direction || 'row',
-        gridGap:gap ? gap + 'rem' : 0
+        flexDirection: direction || 'row'
       }}
       {...rest}
     >
