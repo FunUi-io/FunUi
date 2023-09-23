@@ -47,10 +47,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function ListItem(_a) {
-    var children = _a.children, funcss = _a.funcss, content = _a.content, rest = __rest(_a, ["children", "funcss", "content"]);
-    return (React.createElement("li", __assign({ className: "list ".concat(funcss ? funcss : '') }, rest),
-        children,
-        " ",
-        content));
+    var children = _a.children, funcss = _a.funcss, rest = __rest(_a, ["children", "funcss"]);
+    return (React.createElement("li", __assign({ className: "list ".concat(funcss ? funcss : '') }, rest), children));
 }
 exports.default = ListItem;

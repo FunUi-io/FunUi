@@ -33,7 +33,8 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   disabled?:boolean ,
   isLoading?:boolean ,
   status?: 'success' | 'warning' | 'info' | 'danger' 
-  children?:React.ReactNode
+  children?:React.ReactNode,
+  onClick?: () => void
 }
 
 export default function Button({
@@ -66,6 +67,7 @@ export default function Button({
   isLoading,
   status,
   children,
+  onClick,
   ...rest
 }: ButtonProps) {
   const classNames = [
@@ -90,7 +92,7 @@ export default function Button({
 
 
   return (
-  <span {...rest}>
+  <span {...rest} onClick={onClick}>
         <button
         disabled={disabled ? disabled : false}
       className={`${classNames} ${startIcon || endIcon ? 'iconic' : ''}`}
@@ -101,22 +103,23 @@ export default function Button({
         border:`${outlined ? `${outlineSize ? `${outlineSize}rem solid ${colors[`${bg}`]}` : `0.12rem solid ${colors[bg]}`}` :'' } `
       }}  
     >
+      
         {
           isLoading &&
-          <span  className='rotate'>
+          <span  className='rotate btn_left_icon'>
                     <PiSpinner/>
           </span>
         }
-       
+          <span  className=' btn_left_icon'>
           {status === "success" && <PiCheck />}
     {status === "info" && <PiInfo />}
     {status === "warning" && <PiWarning />}
     {status === "danger" && <PiX />}
-
+    </span>
       {fillAnimation ? <span className={`button_fill_span ${bg}`} ></span> : ''}
-      {startIcon && <span>{startIcon}</span>}
+      {startIcon && <span className="btn_left_icon">{startIcon}</span>}
       {text ? text : children}
-      {endIcon && <span>{endIcon}</span>}
+      {endIcon && <span className="btn_right_icon">{endIcon}</span>}
 
     </button>
   </span>

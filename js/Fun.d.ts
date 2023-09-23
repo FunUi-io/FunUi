@@ -1,33 +1,33 @@
 export declare const FunHide: {
-    hide: (selector: any) => void;
-    show: (selector: any) => void;
-    toggle: (selector: any) => void;
+    hide: (selector?: string) => void;
+    show: (selector?: string) => void;
+    toggle: (selector?: string) => void;
 };
 export declare const FunGet: {
-    text: (selector: any, data: any) => any;
-    html: (selector: any, data: any) => any;
-    val: (selector: any, data: any) => any;
+    text: (selector?: string, data?: string) => string;
+    html: (selector?: string, data?: string) => string;
+    val: (selector?: string, data?: string) => string;
 };
 export declare const FunStyle: {
-    css: (selector: any, css: any) => void;
+    css: (selector?: string, css?: {}) => void;
 };
 export declare const FunEvent: {
-    event: (selector: any, eventType: any, callBack: any) => void;
+    event: (selector?: string, eventType?: string, callBack?: EventListenerOrEventListenerObject | null) => void;
 };
 export declare const FunClass: {
-    add: (selector: any, newClass: any) => void;
-    remove: (selector: any, newClass: any) => void;
+    add: (selector?: string, newClass?: string) => void;
+    remove: (selector?: string, newClass?: string) => void;
 };
 export declare const FunAdd: {
-    append: (selector: any, child: any) => void;
-    prepend: (selector: any, child: any) => void;
+    append: (selector?: string, child?: Node | null) => void;
+    prepend: (selector?: string, child?: Node | null) => void;
 };
 export declare const FunRequest: {
-    get: (url: any, headers: any) => Promise<unknown>;
-    post: (url: any, body: any, headers: any) => Promise<unknown>;
-    patch: (url: any, body: any, headers: any) => Promise<unknown>;
-    delete: (url: any, headers: any) => Promise<unknown>;
+    get: (url: string, headers?: HeadersInit) => Promise<unknown>;
+    post: (url: string, body?: any, headers?: HeadersInit) => Promise<unknown>;
+    patch: (url: string, body?: any, headers?: HeadersInit) => Promise<unknown>;
+    delete: (url: string, headers?: HeadersInit) => Promise<unknown>;
 };
 export declare const FunQuery: {
-    query: (data: any, fields: any) => Promise<unknown>;
+    query: (data: any, fields?: {}) => Promise<unknown>;
 };

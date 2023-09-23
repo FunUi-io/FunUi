@@ -47,10 +47,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function List(_a) {
-    var children = _a.children, funcss = _a.funcss, content = _a.content, dark = _a.dark, light = _a.light, stripped = _a.stripped, bordered = _a.bordered, hoverable = _a.hoverable, roundItems = _a.roundItems, rest = __rest(_a, ["children", "funcss", "content", "dark", "light", "stripped", "bordered", "hoverable", "roundItems"]);
-    return (React.createElement("ul", __assign({ className: "list\n        ".concat(funcss ? funcss : '', "\n        ").concat(dark ? 'dark' : '', "\n        ").concat(light ? 'light' : '', "\n        ").concat(hoverable ? 'hoverableList' : '', "\n        ").concat(stripped ? 'stripped' : '', "\n        ").concat(bordered ? 'bordered' : '', "\n        ").concat(roundItems ? 'roundItems' : '', "\n      ") }, rest),
-        children,
-        " ",
-        content));
+    var children = _a.children, funcss = _a.funcss, dark = _a.dark, light = _a.light, stripped = _a.stripped, bordered = _a.bordered, hoverable = _a.hoverable, roundItems = _a.roundItems, rest = __rest(_a, ["children", "funcss", "dark", "light", "stripped", "bordered", "hoverable", "roundItems"]);
+    return (React.createElement("ul", __assign({ className: "list\n        ".concat(funcss ? funcss : '', "\n        ").concat(dark ? 'dark' : '', "\n        ").concat(light ? 'light' : '', "\n        ").concat(hoverable ? 'hoverableList' : '', "\n        ").concat(stripped ? 'stripped' : '', "\n        ").concat(bordered ? 'bordered' : '', "\n        ").concat(roundItems ? 'roundItems' : '', "\n      ") }, rest), children));
 }
 exports.default = List;

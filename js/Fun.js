@@ -15,39 +15,40 @@ exports.FunQuery = exports.FunRequest = exports.FunAdd = exports.FunClass = expo
 exports.FunHide = {
     hide: function (selector) {
         var element = document.querySelector(selector);
-        element.style.display = "none";
+        if (element) {
+            element.style.display = "none";
+        }
     },
     show: function (selector) {
         var element = document.querySelector(selector);
-        element.style.display = "inline-block";
+        if (element) {
+            element.style.display = "inline-block";
+        }
     },
     toggle: function (selector) {
         var element = document.querySelector(selector);
-        var style = element.style.display;
-        if (style == "none") {
-            element.style.display = "inline-block";
-        }
-        else {
-            element.style.display = "none";
+        if (element) {
+            var style = element.style.display;
+            element.style.display = style === "none" ? "inline-block" : "none";
         }
     }
 };
 exports.FunGet = {
     text: function (selector, data) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null) {
+        if (element) {
             var text = element.textContent;
             if (data) {
                 element.textContent = data;
             }
             else {
-                return text ? text : '';
+                return text ? text : "";
             }
         }
     },
     html: function (selector, data) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null) {
+        if (element) {
             var text = element.innerHTML;
             if (data) {
                 element.innerHTML = data;
@@ -59,7 +60,7 @@ exports.FunGet = {
     },
     val: function (selector, data) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null) {
+        if (element) {
             var text = element.value;
             if (data) {
                 element.value = data;
@@ -68,55 +69,51 @@ exports.FunGet = {
                 return text;
             }
         }
-    }
+    },
 };
 exports.FunStyle = {
     css: function (selector, css) {
-        // Get the element you want to style
         var element = document.querySelector(selector);
-        // Define multiple styles using JavaScript objects
-        var styles = css;
-        // Apply the styles to the element
-        Object.assign(element.style, styles);
-    }
+        if (element) {
+            Object.assign(element.style, css);
+        }
+    },
 };
 exports.FunEvent = {
     event: function (selector, eventType, callBack) {
         var element = document.querySelector(selector);
-        if (selector && eventType && callBack) {
-            if (typeof (element) != 'undefined' && element != null) {
-                document.querySelector(selector).addEventListener(eventType, callBack);
-            }
+        if (element && eventType && callBack) {
+            element.addEventListener(eventType, callBack);
         }
-    }
+    },
 };
 exports.FunClass = {
     add: function (selector, newClass) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null && newClass) {
+        if (element && newClass) {
             element.classList.add(newClass);
         }
     },
     remove: function (selector, newClass) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null && newClass) {
+        if (element && newClass) {
             element.classList.remove(newClass);
         }
-    }
+    },
 };
 exports.FunAdd = {
     append: function (selector, child) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null && child) {
+        if (element && child) {
             element.append(child);
         }
     },
     prepend: function (selector, child) {
         var element = document.querySelector(selector);
-        if (typeof (element) != 'undefined' && element != null && child) {
+        if (element && child) {
             element.prepend(child);
         }
-    }
+    },
 };
 exports.FunRequest = {
     get: function (url, headers) {
@@ -124,11 +121,9 @@ exports.FunRequest = {
             fetch(url, headers ? { headers: headers } : {})
                 .then(function (response) { return response.json(); })
                 .then(function (data) {
-                // Handle the received data
                 resolve(data);
             })
                 .catch(function (error) {
-                // Handle any errors that occur during the request
                 reject(error);
             });
         });
@@ -138,15 +133,13 @@ exports.FunRequest = {
             fetch(url, {
                 method: 'POST',
                 headers: headers ? __assign(__assign({}, headers), { 'Content-Type': 'application/json' }) : { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
             })
                 .then(function (response) { return response.json(); })
                 .then(function (data) {
-                // Handle the received data
                 resolve(data);
             })
                 .catch(function (error) {
-                // Handle any errors that occur during the request
                 reject(error);
             });
         });
@@ -156,15 +149,13 @@ exports.FunRequest = {
             fetch(url, {
                 method: 'PATCH',
                 headers: headers ? __assign(__assign({}, headers), { 'Content-Type': 'application/json' }) : { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
             })
                 .then(function (response) { return response.json(); })
                 .then(function (data) {
-                // Handle the received data
                 resolve(data);
             })
                 .catch(function (error) {
-                // Handle any errors that occur during the request
                 reject(error);
             });
         });
@@ -173,22 +164,21 @@ exports.FunRequest = {
         return new Promise(function (resolve, reject) {
             fetch(url, {
                 method: 'DELETE',
-                headers: headers ? headers : {}
+                headers: headers ? headers : {},
             })
                 .then(function (response) {
                 if (response.ok) {
-                    resolve(""); // Resolve with no data for successful DELETE requests
+                    resolve("");
                 }
                 else {
                     reject("Error: ".concat(response.status, " ").concat(response.statusText));
                 }
             })
                 .catch(function (error) {
-                // Handle any errors that occur during the request
                 reject(error);
             });
         });
-    }
+    },
 };
 exports.FunQuery = {
     query: function (data, fields) {
@@ -220,5 +210,5 @@ exports.FunQuery = {
                 return true;
             }
         });
-    }
+    },
 };

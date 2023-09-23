@@ -3,7 +3,6 @@ import * as React from 'react';
 interface ListProps {
   children?: React.ReactNode;
   funcss?: string;
-  content?: React.ReactNode;
   dark?: boolean;
   light?: boolean;
   stripped?: boolean;
@@ -15,7 +14,6 @@ interface ListProps {
 export default function List({
   children,
   funcss,
-  content,
   dark,
   light,
   stripped,
@@ -37,7 +35,7 @@ export default function List({
       `}
       {...rest}
     >
-      {children} {content}
+      {children}
     </ul>
   );
 }

@@ -31,6 +31,7 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
     isLoading?: boolean;
     status?: 'success' | 'warning' | 'info' | 'danger';
     children?: React.ReactNode;
+    onClick?: () => void;
 }
-export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, disabled, isLoading, status, children, ...rest }: ButtonProps): any;
+export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, disabled, isLoading, status, children, onClick, ...rest }: ButtonProps): any;
 export {};
