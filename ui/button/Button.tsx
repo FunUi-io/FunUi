@@ -98,7 +98,7 @@ export default function Button({
         height: height || '',
         width: fullWidth ? '100%' : width || '',
         borderRadius: flat ? '0rem' : '',
-        border:`${outlined ? `${outlineSize ? `${outlineSize}rem solid ${colors[bg]}` : `0.12rem solid ${colors[bg]}`}` :'' } `
+        border:`${outlined ? `${outlineSize ? `${outlineSize}rem solid ${colors[`${bg}`]}` : `0.12rem solid ${colors[bg]}`}` :'' } `
       }}  
     >
         {

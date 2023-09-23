@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "prepublishOnly": "tsc"
   },
   "author": "FunInc",
@@ -36,9 +36,6 @@
     "boxicons": "^2.1.4",
     "next": "^13.3.1",
     "react-icons": "^4.11.0"
-  },
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "jsx": "react"
   }
+
 }

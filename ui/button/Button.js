@@ -73,7 +73,7 @@ function Button(_a) {
                 height: height || '',
                 width: fullWidth ? '100%' : width || '',
                 borderRadius: flat ? '0rem' : '',
-                border: "".concat(outlined ? "".concat(outlineSize ? "".concat(outlineSize, "rem solid ").concat(colors_1.colors[bg]) : "0.12rem solid ".concat(colors_1.colors[bg])) : '', " ")
+                border: "".concat(outlined ? "".concat(outlineSize ? "".concat(outlineSize, "rem solid ").concat(colors_1.colors["".concat(bg)]) : "0.12rem solid ".concat(colors_1.colors[bg])) : '', " ")
             } },
             isLoading &&
                 React.createElement("span", { className: 'rotate' },
