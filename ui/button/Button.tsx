@@ -33,6 +33,7 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   disabled?:boolean ,
   isLoading?:boolean ,
   status?: 'success' | 'warning' | 'info' | 'danger' 
+  children?:React.ReactNode
 }
 
 export default function Button({
@@ -57,9 +58,6 @@ export default function Button({
   jumbo,
   flat,
   hoverNone,
-  onChange,
-  onClick,
-  children,
   fillAnimation ,
   fillDirection,
   fillTextColor,
@@ -67,6 +65,7 @@ export default function Button({
   disabled,
   isLoading,
   status,
+  children,
   ...rest
 }: ButtonProps) {
   const classNames = [
@@ -101,12 +100,12 @@ export default function Button({
         borderRadius: flat ? '0rem' : '',
         border:`${outlined ? `${outlineSize ? `${outlineSize}rem solid ${colors[bg]}` : `0.12rem solid ${colors[bg]}`}` :'' } `
       }}  
-     onClick={onClick} 
-     onChange={onChange}
     >
         {
           isLoading &&
-                    <PiSpinner className='rotate'/>
+          <span  className='rotate'>
+                    <PiSpinner/>
+          </span>
         }
        
           {status === "success" && <PiCheck />}

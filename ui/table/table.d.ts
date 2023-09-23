@@ -11,5 +11,5 @@ type TableProps = {
     head?: React.ReactNode;
     body?: React.ReactNode;
 };
-export default function Table({ children, funcss, bordered, stripped, hoverable, showTotal, light, dark, head, body }: TableProps): React.JSX.Element;
+export default function Table({ children, funcss, bordered, stripped, hoverable, showTotal, light, dark, head, body }: TableProps): any;
 export {};

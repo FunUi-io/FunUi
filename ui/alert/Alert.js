@@ -35,7 +35,10 @@ function Alert(_a) {
                 type === "success" && React.createElement(pi_1.PiCheck, null),
                 type === "info" && React.createElement(pi_1.PiInfo, null),
                 type === "warning" && React.createElement(pi_1.PiWarning, null),
-                type === "danger" && React.createElement(pi_1.PiX, null))) : (React.createElement(pi_1.PiSpinner, { className: 'rotate' }))),
+                type === "danger" && React.createElement(pi_1.PiX, null))) : (React.createElement("span", { className: 'rotate' },
+                " ",
+                React.createElement(pi_1.PiSpinner, null),
+                " "))),
             React.createElement("div", { className: "alert-text" }, message ? message : children ? children : ""))) : (""),
         !outlined ? (React.createElement("div", { style: {
                 animation: "".concat(0.3, "s ").concat("ScaleUp"),
@@ -44,7 +47,10 @@ function Alert(_a) {
                 type === "success" && React.createElement(pi_1.PiCheck, null),
                 type === "info" && React.createElement(pi_1.PiInfo, null),
                 type === "warning" && React.createElement(pi_1.PiWarning, null),
-                type === "danger" && React.createElement(pi_1.PiX, null))) : (React.createElement(pi_1.PiSpinner, { className: 'rotate' }))),
+                type === "danger" && React.createElement(pi_1.PiX, null))) : (React.createElement("span", { className: 'rotate' },
+                " ",
+                React.createElement(pi_1.PiSpinner, null),
+                " "))),
             React.createElement("div", { className: "alert-text" }, message ? message : children ? children : ""))) : ("")));
 }
 exports.default = Alert;

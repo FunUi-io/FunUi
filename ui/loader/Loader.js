@@ -27,12 +27,13 @@ var React = __importStar(require("react"));
 var pi_1 = require("react-icons/pi");
 function FunLoader(_a) {
     var funcss = _a.funcss, size = _a.size, fixed = _a.fixed, backdrop = _a.backdrop, color = _a.color, variant = _a.variant;
-    return (React.createElement("div", { className: "".concat(fixed ? 'fixedLoader' : '', " ").concat(backdrop && fixed ? 'backdropLoader' : '') }, variant === 'simple' ?
-        React.createElement(pi_1.PiSpinnerDuotone, { className: "funLoader rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : ''), style: { fontSize: size ? size : '' } })
-        : variant === 'duotone' ?
-            React.createElement(pi_1.PiSpinnerDuotone, { className: "funLoader rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : ''), style: { fontSize: size ? size : '' } })
-            : variant === 'circle' ?
-                React.createElement(pi_1.PiCircleNotch, { className: "funLoader rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : ''), style: { fontSize: size ? size : '' } })
-                : React.createElement(pi_1.PiSpinner, { className: "funLoader rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : ''), style: { fontSize: size ? size : '' } })));
+    return (React.createElement("div", { className: "".concat(fixed ? 'fixedLoader' : '', " ").concat(backdrop && fixed ? 'backdropLoader' : '') },
+        React.createElement("span", { className: "funLoader rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') }, variant === 'simple' ?
+            React.createElement(pi_1.PiSpinnerDuotone, { size: size })
+            : variant === 'duotone' ?
+                React.createElement(pi_1.PiSpinnerDuotone, { size: size })
+                : variant === 'circle' ?
+                    React.createElement(pi_1.PiCircleNotch, { size: size })
+                    : React.createElement(pi_1.PiSpinner, null))));
 }
 exports.default = FunLoader;

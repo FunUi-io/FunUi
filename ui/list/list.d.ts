@@ -10,5 +10,5 @@ interface ListProps {
     hoverable?: boolean;
     roundItems?: boolean;
 }
-export default function List({ children, funcss, content, dark, light, stripped, bordered, hoverable, roundItems, ...rest }: ListProps): React.JSX.Element;
+export default function List({ children, funcss, content, dark, light, stripped, bordered, hoverable, roundItems, ...rest }: ListProps): any;
 export {};

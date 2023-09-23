@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import * as React from 'react';
 interface AlertProps {
     message?: string;
     funcss?: string;
@@ -11,5 +10,5 @@ interface AlertProps {
     children?: ReactNode;
     raised?: boolean;
 }
-export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, }: AlertProps): React.JSX.Element;
+export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, }: AlertProps): any;
 export {};

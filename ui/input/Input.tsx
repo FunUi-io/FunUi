@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { PiCheck , PiCloudArrowUp } from 'react-icons/pi';
+import React from 'react';
+import { PiCheck, PiCloudArrowUp } from 'react-icons/pi';
 import Button from '../button/Button';
-interface InputProps{
+
+interface InputProps {
   select?: boolean;
   bordered?: boolean;
   bordereless?: boolean;
@@ -23,309 +24,338 @@ interface InputProps{
   name?: string;
   value?: string;
   defaultValue?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => void;
   options?: { value: string; text: string }[];
   rows?: number;
-  bg?:string
-};
+  bg?: string;
+}
 
-export default class Input extends React.Component<InputProps> {
-  render() {
-    if (this.props.select) {
-      if (this.props.bordered) {
-        return (
-          <select
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-              borderedInput
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            name={this.props.name}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-            value={this.props.value}
-          >
-            {this.props.options
-              ? this.props.options.map((doc) => (
-                  <option value={doc.value} key={doc.value}>
-                    {doc.text}
-                  </option>
-                ))
-              : ''}
-          </select>
-        );
-      } else if (this.props.bordereless) {
-        return (
-          <select
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-              borderless
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            placeholder={this.props.label}
-            name={this.props.name}
-            value={this.props.value}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-          >
-            {this.props.options
-              ? this.props.options.map((doc) => (
-                  <option value={doc.value} key={doc.value}>
-                    {doc.text}
-                  </option>
-                ))
-              : ''}
-          </select>
-        );
-      } else {
-        return (
-          <select
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            placeholder={this.props.label}
-            name={this.props.name}
-            value={this.props.value}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-          >
-            {this.props.options
-              ? this.props.options.map((doc) => (
-                  <option value={doc.value} key={doc.value}>
-                    {doc.text}
-                  </option>
-                ))
-              : ''}
-          </select>
-        );
-      }
-    } else if (this.props.multiline) {
-      if (this.props.bordered) {
-        return (
-          <textarea
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-              borderedInput
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            placeholder={this.props.label}
-            name={this.props.name}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-            value={this.props.value}
-            rows={this.props.rows ? this.props.rows : 2}
-          />
-        );
-      } else if (this.props.bordereless) {
-        return (
-          <textarea
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-              borderless
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            placeholder={this.props.label}
-            name={this.props.name}
-            value={this.props.value}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-            rows={this.props.rows ? this.props.rows : 2}
-          />
-        );
-      } else {
-        return (
-          <textarea
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            placeholder={this.props.label}
-            name={this.props.name}
-            value={this.props.value}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-            rows={this.props.rows ? this.props.rows : 2}
-          />
-        );
-      }
-    } else if (this.props.file) {
+const Input: React.FC<InputProps> = ({
+  select,
+  bordered,
+  bordereless,
+  multiline,
+  file,
+  noBorder,
+  icon,
+  button,
+  id,
+  status,
+  funcss,
+  flat,
+  leftRounded,
+  rightRounded,
+  rounded,
+  fullWidth,
+  type,
+  label,
+  name,
+  value,
+  defaultValue,
+  onChange,
+  options,
+  rows,
+  bg,
+}) => {
+  if (select) {
+    if (bordered) {
       return (
-        
-          <div className="fileInput">
-            {this.props.button ? (
-              this.props.button
-            ) : (
-              <Button 
-              funcss={` ${this.props.funcss} `}
-              startIcon={this.props.icon ? this.props.icon  : <PiCloudArrowUp />} 
-              bg='primary800' raised> 
-              {this.props.label ? this.props.label : 'Upload File'}
-              </Button>
-            )}
-            <input
-              id={this.props.id}
-              className={`
-                ${this.props.status === 'success' ? 'success-input' : ''}
-                ${this.props.status === 'warning' ? 'warning-input' : ''}
-                ${this.props.status === 'danger' ? 'danger-input' : ''}
-                input
-                ${this.props.bg ? this.props.bg : ''}
-                ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-                ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-                borderedInput
-                filedInput
-              `}
-              onChange={this.props.onChange}
-              type={'file'}
-              name={this.props.name}
-              style={{
-                borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-                width: `${this.props.fullWidth ? '100%' : ''}`,
-              }}
-              value={this.props.value}
-            />
-          </div>
+        <select
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderedInput
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          name={name}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+          value={value}
+        >
+          {options
+            ? options.map((doc) => (
+                <option value={doc.value} key={doc.value}>
+                  {doc.text}
+                </option>
+              ))
+            : ''}
+        </select>
+      );
+    } else if (bordereless) {
+      return (
+        <select
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderless
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          placeholder={label}
+          name={name}
+          value={value}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+        >
+          {options
+            ? options.map((doc) => (
+                <option value={doc.value} key={doc.value}>
+                  {doc.text}
+                </option>
+              ))
+            : ''}
+        </select>
       );
     } else {
-      if (this.props.bordered) {
-        return (
-          <input
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-              borderedInput
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            type={this.props.type}
-            placeholder={this.props.label}
-            name={this.props.name}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-            value={this.props.value}
-          />
-        );
-      } else if (this.props.bordereless) {
-        return (
-          <input
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-              borderless
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            type={this.props.type}
-            placeholder={this.props.label}
-            name={this.props.name}
-            value={this.props.value}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-          />
-        );
-      } else {
-        return (
-          <input
-            id={this.props.id}
-            className={`
-              ${this.props.status === 'success' ? 'success-input' : ''}
-              ${this.props.status === 'warning' ? 'warning-input' : ''}
-              ${this.props.status === 'danger' ? 'danger-input' : ''}
-              input
-              ${this.props.bg ? this.props.bg : ''}
-              ${this.props.funcss} ${this.props.flat ? 'flat' : ''}
-              ${this.props.leftRounded ? 'leftRounded' : this.props.rightRounded ? 'rightRounded' : ''}
-            `}
-            onChange={this.props.onChange}
-            defaultValue={this.props.defaultValue}
-            type={this.props.type}
-            placeholder={this.props.label}
-            name={this.props.name}
-            value={this.props.value}
-            style={{
-              borderRadius: `${this.props.rounded ? '400rem' : ''}`,
-              width: `${this.props.fullWidth ? '100%' : ''}`,
-            }}
-          />
-        );
-      }
+      return (
+        <select
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          placeholder={label}
+          name={name}
+          value={value}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+        >
+          {options
+            ? options.map((doc) => (
+                <option value={doc.value} key={doc.value}>
+                  {doc.text}
+                </option>
+              ))
+            : ''}
+        </select>
+      );
+    }
+  } else if (multiline) {
+    if (bordered) {
+      return (
+        <textarea
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderedInput
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          placeholder={label}
+          name={name}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+          value={value}
+          rows={rows ? rows : 2}
+        />
+      );
+    } else if (bordereless) {
+      return (
+        <textarea
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderless
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          placeholder={label}
+          name={name}
+          value={value}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+          rows={rows ? rows : 2}
+        />
+      );
+    } else {
+      return (
+        <textarea
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          placeholder={label}
+          name={name}
+          value={value}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+          rows={rows ? rows : 2}
+        />
+      );
+    }
+  } else if (file) {
+    return (
+      <div className="fileInput">
+        {button ? (
+          button
+        ) : (
+          <Button
+            funcss={` ${funcss} `}
+            startIcon={icon ? icon : <PiCloudArrowUp />}
+            bg="primary800"
+            raised
+          >
+            {label ? label : 'Upload File'}
+          </Button>
+        )}
+        <input
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderedInput
+            filedInput
+          `}
+          onChange={onChange}
+          type={'file'}
+          name={name}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+          value={value}
+        />
+      </div>
+    );
+  } else {
+    if (bordered) {
+      return (
+        <input
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderedInput
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          type={type}
+          placeholder={label}
+          name={name}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+          value={value}
+        />
+      );
+    } else if (bordereless) {
+      return (
+        <input
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+            borderless
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          type={type}
+          placeholder={label}
+          name={name}
+          value={value}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+        />
+      );
+    } else {
+      return (
+        <input
+          id={id}
+          className={`
+            ${status === 'success' ? 'success-input' : ''}
+            ${status === 'warning' ? 'warning-input' : ''}
+            ${status === 'danger' ? 'danger-input' : ''}
+            input
+            ${bg ? bg : ''}
+            ${funcss} ${flat ? 'flat' : ''}
+            ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
+          `}
+          onChange={onChange}
+          defaultValue={defaultValue}
+          type={type}
+          placeholder={label}
+          name={name}
+          value={value}
+          style={{
+            borderRadius: `${rounded ? '400rem' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`,
+          }}
+        />
+      );
     }
   }
-}
+};
+
+export default Input;

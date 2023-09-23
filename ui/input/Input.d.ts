@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 interface InputProps {
     select?: boolean;
     bordered?: boolean;
@@ -29,7 +29,5 @@ interface InputProps {
     rows?: number;
     bg?: string;
 }
-export default class Input extends React.Component<InputProps> {
-    render(): React.JSX.Element;
-}
-export {};
+declare const Input: React.FC<InputProps>;
+export default Input;

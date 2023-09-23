@@ -6,5 +6,5 @@ type DropDownProps = {
     side?: string;
     drop?: string;
 };
-declare const DropDown: ({ funcss, children, id, side, drop }: DropDownProps) => React.JSX.Element;
+declare const DropDown: ({ funcss, children, id, side, drop }: DropDownProps) => any;
 export default DropDown;

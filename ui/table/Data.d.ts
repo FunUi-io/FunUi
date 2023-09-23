@@ -4,5 +4,5 @@ interface TableDataProps {
     funcss?: string;
     key?: string;
 }
-export default function TableData({ children, funcss, key }: TableDataProps): React.JSX.Element;
+export default function TableData({ children, funcss, key }: TableDataProps): any;
 export {};

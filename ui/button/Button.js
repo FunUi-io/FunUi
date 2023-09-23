@@ -49,7 +49,7 @@ var React = __importStar(require("react"));
 var colors_1 = require("../../assets/colors/colors");
 var pi_1 = require("react-icons/pi");
 function Button(_a) {
-    var color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, onChange = _a.onChange, onClick = _a.onClick, children = _a.children, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, disabled = _a.disabled, isLoading = _a.isLoading, status = _a.status, rest = __rest(_a, ["color", "bg", "funcss", "startIcon", "endIcon", "text", "rounded", "raised", "height", "width", "float", "hoverUp", "fullWidth", "outlined", "small", "smaller", "big", "bigger", "jumbo", "flat", "hoverNone", "onChange", "onClick", "children", "fillAnimation", "fillDirection", "fillTextColor", "outlineSize", "disabled", "isLoading", "status"]);
+    var color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, disabled = _a.disabled, isLoading = _a.isLoading, status = _a.status, children = _a.children, rest = __rest(_a, ["color", "bg", "funcss", "startIcon", "endIcon", "text", "rounded", "raised", "height", "width", "float", "hoverUp", "fullWidth", "outlined", "small", "smaller", "big", "bigger", "jumbo", "flat", "hoverNone", "fillAnimation", "fillDirection", "fillTextColor", "outlineSize", "disabled", "isLoading", "status", "children"]);
     var classNames = [
         'button',
         "text-".concat(color),
@@ -74,9 +74,10 @@ function Button(_a) {
                 width: fullWidth ? '100%' : width || '',
                 borderRadius: flat ? '0rem' : '',
                 border: "".concat(outlined ? "".concat(outlineSize ? "".concat(outlineSize, "rem solid ").concat(colors_1.colors[bg]) : "0.12rem solid ".concat(colors_1.colors[bg])) : '', " ")
-            }, onClick: onClick, onChange: onChange },
+            } },
             isLoading &&
-                React.createElement(pi_1.PiSpinner, { className: 'rotate' }),
+                React.createElement("span", { className: 'rotate' },
+                    React.createElement(pi_1.PiSpinner, null)),
             status === "success" && React.createElement(pi_1.PiCheck, null),
             status === "info" && React.createElement(pi_1.PiInfo, null),
             status === "warning" && React.createElement(pi_1.PiWarning, null),

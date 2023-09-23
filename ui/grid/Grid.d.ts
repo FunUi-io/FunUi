@@ -1,5 +1,4 @@
 import { ReactNode, CSSProperties, HTMLProps } from 'react';
-import * as React from 'react';
 interface GridProps extends HTMLProps<HTMLDivElement> {
     children?: ReactNode;
     funcss?: string;
@@ -9,5 +8,5 @@ interface GridProps extends HTMLProps<HTMLDivElement> {
     id?: string;
     direction?: CSSProperties['flexDirection'];
 }
-export default function Grid({ children, funcss, justify, align, id, direction, ...rest }: GridProps): React.JSX.Element;
+export default function Grid({ children, funcss, justify, align, id, direction, ...rest }: GridProps): any;
 export {};

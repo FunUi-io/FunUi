@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 type TableHeadProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   funcss?: string;
 };
 

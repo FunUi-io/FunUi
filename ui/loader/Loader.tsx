@@ -7,7 +7,7 @@ interface FunLoaderProps {
   fixed?: boolean;
   backdrop?: boolean;
   color?: string;
-  variant: 'simple' | 'duotone'  | "circle"
+  variant?: 'simple' | 'duotone'  | "circle"
 }
 
 export default function FunLoader({
@@ -20,23 +20,21 @@ export default function FunLoader({
 }: FunLoaderProps) {
   return (
     <div className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`}>
+      <span className={`funLoader rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
      {
         variant === 'simple'?
-        <PiSpinnerDuotone     className={`funLoader rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}
-        style={{ fontSize: size ? size : '' }}
+        <PiSpinnerDuotone size={size}    
         />
         : variant === 'duotone'?
-        <PiSpinnerDuotone     className={`funLoader rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}
-        style={{ fontSize: size ? size : '' }}
+        <PiSpinnerDuotone  size={size}   
         />
         : variant === 'circle'?
-        <PiCircleNotch     className={`funLoader rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}
-        style={{ fontSize: size ? size : '' }}
+        <PiCircleNotch size={size} 
         />
-        : <PiSpinner     className={`funLoader rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}
-        style={{ fontSize: size ? size : '' }}
+        : <PiSpinner 
         />
      }
+     </span>
     </div>
   );
 }

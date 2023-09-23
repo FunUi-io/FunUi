@@ -7,5 +7,5 @@ interface TipProps {
     animation?: string;
     duration?: number;
 }
-export default function Tip({ tip, funcss, children, content, animation, duration, ...rest }: TipProps): React.JSX.Element;
+export default function Tip({ tip, funcss, children, content, animation, duration, ...rest }: TipProps): any;
 export {};

@@ -6,5 +6,6 @@
       "composite": true  ,
       "esModuleInterop": true ,
       "declaration":true
-    } 
+    } ,
+    "exclude": ["node_modules"]
   }

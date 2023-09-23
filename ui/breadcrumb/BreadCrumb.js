@@ -34,11 +34,14 @@ function BreadCrumb(_a) {
         type === 'greater' && (React.createElement("span", { style: {
                 margin: '0 0.2rem',
             }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') },
-            React.createElement(pi_1.PiCaretRight, { className: "".concat(color ? "text-".concat(color) : '') }))),
+            React.createElement("span", { className: "".concat(color ? "text-".concat(color) : '') },
+                React.createElement(pi_1.PiCaretRight, null)))),
         type === 'less' && (React.createElement("span", { style: {
                 margin: '0 0.2rem',
             }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') },
-            React.createElement(pi_1.PiCaretLeft, { className: "".concat(color ? "text-".concat(color) : '') }))),
+            " ",
+            React.createElement("span", { className: "".concat(color ? "text-".concat(color) : '') },
+                React.createElement(pi_1.PiCaretLeft, null)))),
         type === 'straight' && (React.createElement("span", { style: {
                 margin: '0 0.2rem',
             }, className: " ".concat(funcss ? funcss : '', " ").concat(color ? 'text-' + color : '') }, ' | '))));

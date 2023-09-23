@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 interface CardProps {
     color?: string;
     bg?: string;
@@ -24,5 +24,5 @@ interface CardProps {
     responsiveSmall?: boolean;
     responsiveMedium?: boolean;
 }
-export default function Card({ color, bg, width, height, minHeight, minWidth, margin, padding, funcss, children, roundEdge, maxHeight, maxWidth, horizontal, id, header, body, footer, noGap, fab, image, responsiveMedium, responsiveSmall }: CardProps): React.JSX.Element;
+export default function Card({ color, bg, width, height, minHeight, minWidth, margin, padding, funcss, children, roundEdge, maxHeight, maxWidth, horizontal, id, header, body, footer, noGap, fab, image, responsiveMedium, responsiveSmall }: CardProps): any;
 export {};

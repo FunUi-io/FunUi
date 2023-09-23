@@ -1,7 +1,7 @@
 import * as React from 'react';
 type NotificationContentProps = {
     funcss?: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 };
-export default function NotificationContent({ funcss, children }: NotificationContentProps): React.JSX.Element;
+export default function NotificationContent({ funcss, children }: NotificationContentProps): any;
 export {};

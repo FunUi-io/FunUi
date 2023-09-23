@@ -26,7 +26,9 @@ export default function BreadCrumb({ type, funcss, color }: BreadCrumbProps) {
           }}
           className={` ${funcss ? funcss : ''} ${color ? 'text-' + color : ''}`}
         >
-         <PiCaretRight className={`${color ?  `text-${color}` : ''}`} />
+          <span className={`${color ?  `text-${color}` : ''}`}>
+         <PiCaretRight  />
+         </span>
         </span>
       )}
       {type === 'less' && (
@@ -35,8 +37,9 @@ export default function BreadCrumb({ type, funcss, color }: BreadCrumbProps) {
             margin: '0 0.2rem',
           }}
           className={` ${funcss ? funcss : ''} ${color ? 'text-' + color : ''}`}
-        >
-          <PiCaretLeft className={`${color ?  `text-${color}` : ''}`} />
+        > <span className={`${color ?  `text-${color}` : ''}`}>
+          <PiCaretLeft  />
+          </span>
         </span>
       )}
       {type === 'straight' && (

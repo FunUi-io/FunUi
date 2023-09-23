@@ -3,5 +3,5 @@ type DropupProps = {
     funcss?: string;
     children: React.ReactNode;
 };
-declare const Dropup: ({ funcss, children }: DropupProps) => React.JSX.Element;
+declare const Dropup: ({ funcss, children }: DropupProps) => any;
 export default Dropup;

@@ -55,7 +55,7 @@ export default function Alert({
                 {type === "danger" && <PiX />}
               </div>
             ) : (
-              <PiSpinner className='rotate'/>
+             <span className='rotate'> <PiSpinner /> </span> 
             )}
           </div>
           <div className="alert-text">
@@ -84,7 +84,7 @@ export default function Alert({
                 {type === "danger" && <PiX />}
               </div>
             ) : (
-              <PiSpinner className='rotate'/>
+             <span className='rotate'> <PiSpinner /> </span> 
             )}
           </div>
           <div className="alert-text">

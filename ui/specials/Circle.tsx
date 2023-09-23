@@ -16,7 +16,6 @@ export default function Circle({
   size,
   funcss,
   bg,
-  content,
   children,
   hoverable,
 }: Circle_Props) {

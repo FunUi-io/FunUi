@@ -26,7 +26,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function Circle(_a) {
-    var size = _a.size, funcss = _a.funcss, bg = _a.bg, content = _a.content, children = _a.children, hoverable = _a.hoverable;
+    var size = _a.size, funcss = _a.funcss, bg = _a.bg, children = _a.children, hoverable = _a.hoverable;
     return (React.createElement("div", null,
         React.createElement("div", { className: "pointer avatar ".concat(funcss || '', " ").concat(bg || '', " ").concat(hoverable ? 'hoverable' : ''), style: {
                 width: "".concat(size + "rem" || '2.3rem'),

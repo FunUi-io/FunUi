@@ -26,6 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function TableBody(_a) {
     var children = _a.children, funcss = _a.funcss;
-    return React.createElement("tbody", { className: "".concat(funcss ? funcss : '') }, children);
+    return React.createElement("tbody", { className: "".concat(funcss ? funcss : '') }, children ? children : '');
 }
 exports.default = TableBody;
