@@ -18,6 +18,7 @@ interface ModalProps {
     footercss?: string;
     close?: React.ReactNode;
     closecss?: string;
+    id?: string;
 }
-export default function Modal({ children, funcss, animation, duration, open, maxWidth, maxHeight, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, ...rest }: ModalProps): any;
+export default function Modal({ children, funcss, animation, duration, open, maxWidth, maxHeight, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, id, ...rest }: ModalProps): any;
 export {};

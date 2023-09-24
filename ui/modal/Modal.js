@@ -52,23 +52,22 @@ var React = __importStar(require("react"));
 var Header_1 = __importDefault(require("./Header"));
 var Content_1 = __importDefault(require("./Content"));
 var Action_1 = __importDefault(require("./Action"));
-var Close_1 = __importDefault(require("./Close"));
 function Modal(_a) {
-    var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, height = _a.height, width = _a.width, backdrop = _a.backdrop, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, rest = __rest(_a, ["children", "funcss", "animation", "duration", "open", "maxWidth", "maxHeight", "height", "width", "backdrop", "title", "titlecss", "body", "bodycss", "footer", "footercss", "close", "closecss"]);
+    var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, height = _a.height, width = _a.width, backdrop = _a.backdrop, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, id = _a.id, rest = __rest(_a, ["children", "funcss", "animation", "duration", "open", "maxWidth", "maxHeight", "height", "width", "backdrop", "title", "titlecss", "body", "bodycss", "footer", "footercss", "close", "closecss", "id"]);
     if (open) {
-        return (React.createElement("div", __assign({ className: "".concat(funcss, " modal ").concat(backdrop ? 'backdrop' : '') }, rest),
-            React.createElement("div", { className: "modal-content", style: {
+        return (React.createElement("div", { className: "".concat(funcss, " modal ").concat(backdrop ? 'backdrop' : ''), id: id ? id : '' },
+            React.createElement("div", __assign({ className: "modal-content", style: {
                     animation: " ".concat(duration, "s ").concat(animation),
                     maxWidth: maxWidth ? maxWidth : undefined,
                     maxHeight: maxHeight ? maxHeight : undefined,
                     width: width ? width : undefined,
                     height: height ? height : undefined,
-                } },
+                } }, rest),
                 title &&
                     React.createElement(Header_1.default, { funcss: titlecss ? titlecss : '' },
                         title,
                         close &&
-                            React.createElement(Close_1.default, { funcss: closecss ? closecss : '' })),
+                            close),
                 body &&
                     React.createElement(Content_1.default, { funcss: bodycss ? bodycss : '' }, body),
                 footer &&

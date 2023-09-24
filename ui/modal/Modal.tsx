@@ -22,7 +22,8 @@ interface ModalProps {
   footer?:React.ReactNode
   footercss?:string
   close?:React.ReactNode
-  closecss?:string
+  closecss?:string ,
+  id?:string
 }
 
 export default function Modal({
@@ -44,11 +45,12 @@ export default function Modal({
   footercss,
   close,
   closecss,
+  id,
   ...rest
 }: ModalProps) {
   if (open) {
     return (
-      <div className={`${funcss} modal ${backdrop ? 'backdrop' : ''}`} {...rest}>
+      <div className={`${funcss} modal ${backdrop ? 'backdrop' : ''}`}  id={id ? id : ''}>
         <div
           className="modal-content"
           style={{
@@ -58,6 +60,8 @@ export default function Modal({
             width: width ? width : undefined,
             height: height ? height : undefined,
           }}
+    
+          {...rest}
         >
           {
             title &&
@@ -65,7 +69,7 @@ export default function Modal({
               {title}
               {
                 close &&
-                <CloseModal funcss={closecss ? closecss : ''}/>
+                close
               }
             </ModalHeader>
           }

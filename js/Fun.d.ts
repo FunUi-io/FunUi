@@ -3,6 +3,11 @@ export declare const FunHide: {
     show: (selector?: string) => void;
     toggle: (selector?: string) => void;
 };
+export declare const FunVisible: {
+    hide: (selector?: string) => void;
+    show: (selector?: string) => void;
+    toggle: (selector?: string) => void;
+};
 export declare const FunGet: {
     text: (selector?: string, data?: string) => string;
     html: (selector?: string, data?: string) => string;

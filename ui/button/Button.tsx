@@ -3,7 +3,7 @@ import * as React from 'react';
 import { colors } from '../../assets/colors/colors';
 import { PiInfo , PiCheck , PiWarning , PiX , PiSpinner } from "react-icons/pi";
 
-interface ButtonProps extends HTMLProps<HTMLButtonElement> {
+interface ButtonProps {
   color?: string;
   bg?: string;
   funcss?: string;
@@ -34,7 +34,7 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   isLoading?:boolean ,
   status?: 'success' | 'warning' | 'info' | 'danger' 
   children?:React.ReactNode,
-  onClick?: () => void
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
@@ -67,8 +67,7 @@ export default function Button({
   isLoading,
   status,
   children,
-  onClick,
-  ...rest
+  onClick ,
 }: ButtonProps) {
   const classNames = [
     'button',
@@ -92,9 +91,9 @@ export default function Button({
 
 
   return (
-  <span {...rest} onClick={onClick}>
+  <span >
         <button
-        disabled={disabled ? disabled : false}
+         onClick={onClick}
       className={`${classNames} ${startIcon || endIcon ? 'iconic' : ''}`}
       style={{
         height: height || '',
@@ -116,7 +115,7 @@ export default function Button({
     {status === "warning" && <PiWarning />}
     {status === "danger" && <PiX />}
     </span>
-      {fillAnimation ? <span className={`button_fill_span ${bg}`} ></span> : ''}
+      {fillAnimation ? <span  className={`button_fill_span ${bg}`} ></span> : ''}
       {startIcon && <span className="btn_left_icon">{startIcon}</span>}
       {text ? text : children}
       {endIcon && <span className="btn_right_icon">{endIcon}</span>}

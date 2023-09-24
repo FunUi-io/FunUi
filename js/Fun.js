@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FunQuery = exports.FunRequest = exports.FunAdd = exports.FunClass = exports.FunEvent = exports.FunStyle = exports.FunGet = exports.FunHide = void 0;
+exports.FunQuery = exports.FunRequest = exports.FunAdd = exports.FunClass = exports.FunEvent = exports.FunStyle = exports.FunGet = exports.FunVisible = exports.FunHide = void 0;
 exports.FunHide = {
     hide: function (selector) {
         var element = document.querySelector(selector);
@@ -30,6 +30,27 @@ exports.FunHide = {
         if (element) {
             var style = element.style.display;
             element.style.display = style === "none" ? "inline-block" : "none";
+        }
+    }
+};
+exports.FunVisible = {
+    hide: function (selector) {
+        var element = document.querySelector(selector);
+        if (element) {
+            element.style.visibility = "hidden";
+        }
+    },
+    show: function (selector) {
+        var element = document.querySelector(selector);
+        if (element) {
+            element.style.visibility = "visible";
+        }
+    },
+    toggle: function (selector) {
+        var element = document.querySelector(selector);
+        if (element) {
+            var style = element.style.visibility;
+            element.style.visibility = style === "hidden" ? "visible" : "hidden";
         }
     }
 };

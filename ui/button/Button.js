@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -33,23 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var colors_1 = require("../../assets/colors/colors");
 var pi_1 = require("react-icons/pi");
 function Button(_a) {
-    var color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, disabled = _a.disabled, isLoading = _a.isLoading, status = _a.status, children = _a.children, onClick = _a.onClick, rest = __rest(_a, ["color", "bg", "funcss", "startIcon", "endIcon", "text", "rounded", "raised", "height", "width", "float", "hoverUp", "fullWidth", "outlined", "small", "smaller", "big", "bigger", "jumbo", "flat", "hoverNone", "fillAnimation", "fillDirection", "fillTextColor", "outlineSize", "disabled", "isLoading", "status", "children", "onClick"]);
+    var color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, disabled = _a.disabled, isLoading = _a.isLoading, status = _a.status, children = _a.children, onClick = _a.onClick;
     var classNames = [
         'button',
         "text-".concat(color),
@@ -68,8 +46,8 @@ function Button(_a) {
         outlined ? "outlined text-".concat(color ? color : bg) : bg || '',
         "".concat(fillAnimation ? "".concat(fillTextColor ? "hover-text-".concat(fillTextColor) : '', " button-fill fill-").concat(fillDirection ? fillDirection : 'left') : '')
     ].join(' ');
-    return (React.createElement("span", __assign({}, rest, { onClick: onClick }),
-        React.createElement("button", { disabled: disabled ? disabled : false, className: "".concat(classNames, " ").concat(startIcon || endIcon ? 'iconic' : ''), style: {
+    return (React.createElement("span", null,
+        React.createElement("button", { onClick: onClick, className: "".concat(classNames, " ").concat(startIcon || endIcon ? 'iconic' : ''), style: {
                 height: height || '',
                 width: fullWidth ? '100%' : width || '',
                 borderRadius: flat ? '0rem' : '',

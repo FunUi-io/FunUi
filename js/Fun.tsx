@@ -19,7 +19,27 @@ export const FunHide = {
       }
   }
 };
-
+export const FunVisible = {
+    hide: (selector?: string) => {
+        var element: HTMLElement | null = document.querySelector(selector);
+        if (element) {
+            element.style.visibility = "hidden";
+        }
+    },
+    show: (selector?: string) => {
+        var element: HTMLElement | null = document.querySelector(selector);
+        if (element) {
+            element.style.visibility = "visible";
+        }
+    },
+    toggle: (selector?: string) => {
+        var element: HTMLElement | null = document.querySelector(selector);
+        if (element) {
+            var style = element.style.visibility;
+            element.style.visibility = style === "hidden" ? "visible" : "hidden";
+        }
+    }
+  };
 export const FunGet = {
   text: (selector?: string, data?: string) => {
       var element: HTMLElement | null = document.querySelector(selector);
