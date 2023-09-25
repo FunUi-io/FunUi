@@ -7,7 +7,7 @@ interface TipProps {
   content?: React.ReactNode;
   animation?: string;
   duration?: number;
-}
+} 
 
 export default function Tip({
   tip,

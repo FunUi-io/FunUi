@@ -58,11 +58,13 @@ const Input: React.FC<InputProps> = ({
   options,
   rows,
   bg,
+  ...rest
 }) => {
   if (select) {
     if (bordered) {
       return (
         <select
+        {...rest}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -95,6 +97,7 @@ const Input: React.FC<InputProps> = ({
     } else if (bordereless) {
       return (
         <select
+        {...rest}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -128,6 +131,7 @@ const Input: React.FC<InputProps> = ({
     } else {
       return (
         <select
+        {...rest}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -162,6 +166,7 @@ const Input: React.FC<InputProps> = ({
     if (bordered) {
       return (
         <textarea
+        {...rest}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -188,6 +193,7 @@ const Input: React.FC<InputProps> = ({
     } else if (bordereless) {
       return (
         <textarea
+        {...rest}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -214,6 +220,7 @@ const Input: React.FC<InputProps> = ({
     } else {
       return (
         <textarea
+        {...rest}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -253,6 +260,8 @@ const Input: React.FC<InputProps> = ({
           </Button>
         )}
         <input
+        {...rest}
+            name={name}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -267,7 +276,6 @@ const Input: React.FC<InputProps> = ({
           `}
           onChange={onChange}
           type={'file'}
-          name={name}
           style={{
             borderRadius: `${rounded ? '400rem' : ''}`,
             width: `${fullWidth ? '100%' : ''}`,
@@ -280,6 +288,8 @@ const Input: React.FC<InputProps> = ({
     if (bordered) {
       return (
         <input
+        {...rest}
+            name={name}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -295,7 +305,6 @@ const Input: React.FC<InputProps> = ({
           defaultValue={defaultValue}
           type={type}
           placeholder={label}
-          name={name}
           style={{
             borderRadius: `${rounded ? '400rem' : ''}`,
             width: `${fullWidth ? '100%' : ''}`,
@@ -306,6 +315,8 @@ const Input: React.FC<InputProps> = ({
     } else if (bordereless) {
       return (
         <input
+        {...rest}
+            name={name}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -321,7 +332,6 @@ const Input: React.FC<InputProps> = ({
           defaultValue={defaultValue}
           type={type}
           placeholder={label}
-          name={name}
           value={value}
           style={{
             borderRadius: `${rounded ? '400rem' : ''}`,
@@ -332,6 +342,8 @@ const Input: React.FC<InputProps> = ({
     } else {
       return (
         <input
+        {...rest}
+            name={name}
           id={id}
           className={`
             ${status === 'success' ? 'success-input' : ''}
@@ -346,7 +358,6 @@ const Input: React.FC<InputProps> = ({
           defaultValue={defaultValue}
           type={type}
           placeholder={label}
-          name={name}
           value={value}
           style={{
             borderRadius: `${rounded ? '400rem' : ''}`,
