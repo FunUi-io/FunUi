@@ -806,12 +806,15 @@ export default function Button({
                     <PiSpinner/>
           </span>
         }
-          <span  className=' btn_left_icon'>
-          {status === "success" && <PiCheck />}
-    {status === "info" && <PiInfo />}
-    {status === "warning" && <PiWarning />}
-    {status === "danger" && <PiX />}
-    </span>
+    {
+      status &&
+      <span  className=' btn_left_icon'>
+      {status === "success" && <PiCheck />}
+{status === "info" && <PiInfo />}
+{status === "warning" && <PiWarning />}
+{status === "danger" && <PiX />}
+</span>
+    }
       {fillAnimation ? <span  className={`button_fill_span ${bg}`} ></span> : ''}
       {startIcon && <span className="btn_left_icon">{startIcon}</span>}
       {text ? text : children}

@@ -401,11 +401,12 @@ function Button(_a) {
             isLoading &&
                 React.createElement("span", { className: 'rotate btn_left_icon' },
                     React.createElement(pi_1.PiSpinner, null)),
-            React.createElement("span", { className: ' btn_left_icon' },
-                status === "success" && React.createElement(pi_1.PiCheck, null),
-                status === "info" && React.createElement(pi_1.PiInfo, null),
-                status === "warning" && React.createElement(pi_1.PiWarning, null),
-                status === "danger" && React.createElement(pi_1.PiX, null)),
+            status &&
+                React.createElement("span", { className: ' btn_left_icon' },
+                    status === "success" && React.createElement(pi_1.PiCheck, null),
+                    status === "info" && React.createElement(pi_1.PiInfo, null),
+                    status === "warning" && React.createElement(pi_1.PiWarning, null),
+                    status === "danger" && React.createElement(pi_1.PiX, null)),
             fillAnimation ? React.createElement("span", { className: "button_fill_span ".concat(bg) }) : '',
             startIcon && React.createElement("span", { className: "btn_left_icon" }, startIcon),
             text ? text : children,
