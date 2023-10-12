@@ -254,6 +254,7 @@ const Input: React.FC<InputProps> = ({
             funcss={` ${funcss} `}
             startIcon={icon ? icon : <PiCloudArrowUp />}
             bg="primary800"
+            fullWidth
             raised
           >
             {label ? label : 'Upload File'}

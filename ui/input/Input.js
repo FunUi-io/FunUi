@@ -78,7 +78,7 @@ var Input = function (_a) {
     }
     else if (file) {
         return (react_1.default.createElement("div", { className: "fileInput" },
-            button ? (button) : (react_1.default.createElement(Button_1.default, { funcss: " ".concat(funcss, " "), startIcon: icon ? icon : react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: "primary800", raised: true }, label ? label : 'Upload File')),
+            button ? (button) : (react_1.default.createElement(Button_1.default, { funcss: " ".concat(funcss, " "), startIcon: icon ? icon : react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: "primary800", fullWidth: true, raised: true }, label ? label : 'Upload File')),
             react_1.default.createElement("input", __assign({}, rest, { name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n            filedInput\n          "), onChange: onChange, type: 'file', style: {
                     borderRadius: "".concat(rounded ? '400rem' : ''),
                     width: "".concat(fullWidth ? '100%' : ''),

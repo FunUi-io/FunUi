@@ -5,7 +5,7 @@ type DropItemProps = {
   funcss?: string;
   onClick?: () => void;
 };
-
+ 
 export default function DropItem({ children, funcss, onClick }: DropItemProps) {
   return (
     <div className={`${funcss} drop-item`} onClick={onClick}>

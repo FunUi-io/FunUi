@@ -24,8 +24,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-var DropUp = function (_a) {
+var DropDown = function (_a) {
     var funcss = _a.funcss, children = _a.children, id = _a.id, side = _a.side;
-    return (React.createElement("div", { className: "dropup ".concat(side ? side : 'left', " ").concat(funcss), id: id }, children));
+    return (React.createElement("div", { className: "dropdown ".concat(side ? side : 'left', " ").concat(funcss), id: id }, children));
 };
-exports.default = DropUp;
+exports.default = DropDown;

@@ -24,8 +24,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-var DropUp = function (_a) {
-    var funcss = _a.funcss, children = _a.children, id = _a.id, side = _a.side;
-    return (React.createElement("div", { className: "dropup ".concat(side ? side : 'left', " ").concat(funcss), id: id }, children));
-};
-exports.default = DropUp;
+function DropMenu(_a) {
+    var children = _a.children, funcss = _a.funcss, hoverable = _a.hoverable, duration = _a.duration, animation = _a.animation, id = _a.id, width = _a.width;
+    return (React.createElement("div", null,
+        React.createElement("div", { id: id, className: "drop-menu ".concat(funcss, " item-").concat(hoverable ? hoverable : ''), style: {
+                animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation ? animation : 'ScaleUp'),
+                width: width ? width : '100%',
+            } }, children)));
+}
+exports.default = DropMenu;

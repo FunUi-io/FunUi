@@ -7,7 +7,6 @@ type DropMenuProps = {
   hoverable?: string;
   duration?: number;
   animation?: string;
-  state: boolean;
   id?: string;
   width?: string;
 };
@@ -18,18 +17,13 @@ export default function DropMenu({
   hoverable,
   duration,
   animation,
-  state,
   id,
   width,
 }: DropMenuProps) {
-  const [show, setshow] = useState(false);
-  useEffect(() => {
-    setshow(state);
-  }, [state]);
 
   return (
     <div>
-      {show ? (
+
         <div
           id={id}
           className={`drop-menu ${funcss} item-${hoverable ? hoverable : ''}`}
@@ -40,9 +34,7 @@ export default function DropMenu({
         >
           {children}
         </div>
-      ) : (
-        ''
-      )}
+     
     </div>
   );
 }

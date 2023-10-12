@@ -5,15 +5,14 @@ type DropDownProps = {
   children: React.ReactNode;
   id?: string;
   side?: string;
-  drop?: string;
 };
 
-const DropDown = ({ funcss, children, id, side, drop }: DropDownProps) => {
+const DropDown = ({ funcss, children, id, side,  }: DropDownProps) => {
   return (
-    <div className={`${drop ? 'drop' + drop : 'dropdown'} ${side ? side : 'left'} ${funcss}`} id={id}>
+    <div className={`dropdown ${side ? side : 'left'} ${funcss}`} id={id}>
       {children}
     </div>
   );
 };
 
-export default DropDown;
+export default DropDown; 
