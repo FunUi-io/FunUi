@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -22,19 +33,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var Div = function (_a) {
-    var children = _a.children, funcss = _a.funcss, content = _a.content, minHeight = _a.minHeight, maxHeight = _a.maxHeight, maxWidth = _a.maxWidth, minWidth = _a.minWidth, height = _a.height, width = _a.width, padding = _a.padding, margin = _a.margin, fit = _a.fit, customStyle = _a.customStyle, onClick = _a.onClick;
-    return (React.createElement("div", null, customStyle ? (React.createElement("div", { onClick: onClick, className: "".concat(fit ? 'width-100-p height-100-p' : '', " ").concat(funcss), style: customStyle }, content || children)) : (React.createElement("div", { onClick: onClick, className: "".concat(fit ? 'width-100-p height-100-p' : '', " ").concat(funcss), style: {
-            height: height || '',
-            maxHeight: maxHeight || '',
-            minHeight: minHeight || '',
-            maxWidth: maxWidth || '',
-            minWidth: minWidth || '',
-            width: width || '',
-            padding: padding || '',
-            margin: margin || '',
-        } }, content || children))));
+    var children = _a.children, funcss = _a.funcss, content = _a.content, minHeight = _a.minHeight, maxHeight = _a.maxHeight, maxWidth = _a.maxWidth, minWidth = _a.minWidth, height = _a.height, width = _a.width, padding = _a.padding, margin = _a.margin, fit = _a.fit, customStyle = _a.customStyle, rest = __rest(_a, ["children", "funcss", "content", "minHeight", "maxHeight", "maxWidth", "minWidth", "height", "width", "padding", "margin", "fit", "customStyle"]);
+    return (React.createElement("div", null,
+        React.createElement("div", __assign({ className: "".concat(fit ? 'width-100-p height-100-p' : '', " ").concat(funcss), style: __assign({ height: height || '', maxHeight: maxHeight || '', minHeight: minHeight || '', maxWidth: maxWidth || '', minWidth: minWidth || '', width: width || '', padding: padding || '', margin: margin || '' }, customStyle) }, rest), content || children)));
 };
 exports.default = Div;

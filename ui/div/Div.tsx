@@ -31,17 +31,12 @@ const Div = ({
   margin,
   fit,
   customStyle,
-  onClick,
+  ...rest
 }: DivProps) => {
   return (
     <div>
-      {customStyle ? (
-        <div onClick={onClick} className={`${fit ? 'width-100-p height-100-p' : ''} ${funcss}`} style={customStyle}>
-          {content || children}
-        </div>
-      ) : (
+
         <div
-          onClick={onClick}
           className={`${fit ? 'width-100-p height-100-p' : ''} ${funcss}`}
           style={{
             height: height || '',
@@ -52,11 +47,12 @@ const Div = ({
             width: width || '',
             padding: padding || '',
             margin: margin || '',
+            ...customStyle
           }}
+          {...rest}
         >
           {content || children}
         </div>
-      )}
     </div>
   );
 };

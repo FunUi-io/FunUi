@@ -24,8 +24,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-var Dropup = function (_a) {
+var DropUp = function (_a) {
     var funcss = _a.funcss, children = _a.children;
     return (React.createElement("div", { className: "dropup-hover ".concat(funcss) }, children));
 };
-exports.default = Dropup;
+exports.default = DropUp;

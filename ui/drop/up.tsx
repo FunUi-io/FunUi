@@ -5,7 +5,7 @@ type DropupProps = {
   children: React.ReactNode;
 };
 
-const Dropup = ({ funcss, children }: DropupProps) => {
+const DropUp = ({ funcss, children }: DropupProps) => {
   return (
     <div className={`dropup-hover ${funcss}`}>
       {children}
@@ -13,4 +13,4 @@ const Dropup = ({ funcss, children }: DropupProps) => {
   );
 };
 
-export default Dropup;
+export default DropUp;

@@ -9,6 +9,7 @@ interface ListProps {
   bordered?: boolean;
   hoverable?: boolean;
   roundItems?: boolean;
+  gap?:number
 }
 
 export default function List({
@@ -20,6 +21,7 @@ export default function List({
   bordered,
   hoverable,
   roundItems,
+  gap,
   ...rest
 }: ListProps) {
   return (
@@ -33,7 +35,9 @@ export default function List({
         ${bordered ? 'bordered' : ''}
         ${roundItems ? 'roundItems' : ''}
       `}
+      style={{gap:gap ? gap + "rem" : ''}}
       {...rest}
+    
     >
       {children}
     </ul>

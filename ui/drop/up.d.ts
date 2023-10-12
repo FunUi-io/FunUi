@@ -3,5 +3,5 @@ type DropupProps = {
     funcss?: string;
     children: React.ReactNode;
 };
-declare const Dropup: ({ funcss, children }: DropupProps) => any;
-export default Dropup;
+declare const DropUp: ({ funcss, children }: DropupProps) => any;
+export default DropUp;
