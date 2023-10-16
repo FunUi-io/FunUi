@@ -1,4 +1,3 @@
-'use client';
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -25,13 +24,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-function Circle(_a) {
-    var size = _a.size, funcss = _a.funcss, bg = _a.bg, children = _a.children, hoverable = _a.hoverable, raised = _a.raised;
-    return (React.createElement("div", null,
-        React.createElement("div", { className: "pointer avatar ".concat(funcss || '', "  ").concat(raised ? "raised" : '', " ").concat(bg || '', " ").concat(hoverable ? 'hoverable' : ''), style: {
-                width: "".concat(size + "rem" || '2.3rem'),
-                height: "".concat(size + "rem" || '2.3rem'),
-            } },
-            React.createElement(React.Fragment, null, children))));
-}
-exports.default = Circle;
+var Section = function (_a) {
+    var children = _a.children, funcss = _a.funcss, gap = _a.gap;
+    return (React.createElement("div", { className: "".concat(funcss), style: { marginTop: gap ? gap + "rem" : "0.5rem", marginBottom: gap ? gap + "rem" : "0.5rem" } }, children));
+};
+exports.default = Section;

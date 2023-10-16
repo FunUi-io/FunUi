@@ -5,6 +5,7 @@ interface Circle_Props extends HTMLProps<HTMLDivElement> {
     bg?: string;
     children?: ReactNode;
     hoverable?: boolean;
+    raised?: boolean;
 }
-export default function Circle({ size, funcss, bg, children, hoverable, }: Circle_Props): any;
+export default function Circle({ size, funcss, bg, children, hoverable, raised }: Circle_Props): any;
 export {};
