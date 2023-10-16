@@ -33,9 +33,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "boxicons": "^2.1.4",
     "next": "^13.3.1",
     "react-icons": "^4.11.0"
   }
-
 }
