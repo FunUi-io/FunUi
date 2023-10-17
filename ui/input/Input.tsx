@@ -70,7 +70,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -80,8 +81,7 @@ const Input: React.FC<InputProps> = ({
           defaultValue={defaultValue}
           name={name}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
           value={value}
         >
@@ -103,7 +103,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -115,8 +116,7 @@ const Input: React.FC<InputProps> = ({
           name={name}
           value={value}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
         >
           {options
@@ -137,7 +137,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -148,8 +149,7 @@ const Input: React.FC<InputProps> = ({
           name={name}
           value={value}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
         >
           {options
@@ -172,7 +172,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -183,8 +184,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={label}
           name={name}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
           value={value}
           rows={rows ? rows : 2}
@@ -199,7 +199,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -211,8 +212,7 @@ const Input: React.FC<InputProps> = ({
           name={name}
           value={value}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
           rows={rows ? rows : 2}
         />
@@ -226,7 +226,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -237,8 +238,7 @@ const Input: React.FC<InputProps> = ({
           name={name}
           value={value}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
           rows={rows ? rows : 2}
         />
@@ -268,7 +268,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -278,8 +279,7 @@ const Input: React.FC<InputProps> = ({
           onChange={onChange}
           type={'file'}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
           value={value}
         />
@@ -296,7 +296,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -307,8 +308,7 @@ const Input: React.FC<InputProps> = ({
           type={type}
           placeholder={label}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
           value={value}
         />
@@ -323,7 +323,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -335,8 +336,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={label}
           value={value}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
         />
       );
@@ -350,7 +350,8 @@ const Input: React.FC<InputProps> = ({
             ${status === 'success' ? 'success-input' : ''}
             ${status === 'warning' ? 'warning-input' : ''}
             ${status === 'danger' ? 'danger-input' : ''}
-            input
+            input 
+            ${rounded ? "rounded" : ''}
             ${bg ? bg : ''}
             ${funcss} ${flat ? 'flat' : ''}
             ${leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : ''}
@@ -361,8 +362,7 @@ const Input: React.FC<InputProps> = ({
           placeholder={label}
           value={value}
           style={{
-            borderRadius: `${rounded ? '400rem' : ''}`,
-            width: `${fullWidth ? '100%' : ''}`,
+            width: `${fullWidth ? '100%' : ''}`
           }}
         />
       );

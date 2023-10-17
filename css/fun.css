@@ -467,6 +467,7 @@
   --notificationZindex:21;
   --inputHeight:2.3rem;
   --inputPadding:0.5rem 0;
+  --inputRoundedPadding:0.5rem 1rem;
   --smallScreens:600px;
   --mediumScreen:1000px;
   --largeScreen: calc(var(var(--mediumScreen)) + 1px);
@@ -5875,7 +5876,13 @@ h6,
 .dropdown .drop-menu {
   top: 101%;
 }
-.dropup.left .drop-menu{
+.dropdown.left  .drop-menu{
+  left: 0rem;
+}
+.dropdown.right .drop-menu{
+  right: 0rem;
+}
+.dropup.left  .drop-menu{
   left: 0rem;
 }
 .dropup.right .drop-menu{
@@ -6012,16 +6019,12 @@ input , select{height: var(--inputHeight);}
   width: 100%;
 }
 .input.round,.input.rounded {
-  border-radius: 500px;
+  border-radius: 100rem !important;
+  padding: var(--inputRoundedPadding);
+
 }
-.input.animate-width {
-  width: 100px;
-  transition: 2s ease;
-  min-width: fit-content;
-}
-.input.animate-width:focus {
-  width: 300px;
-}
+
+
 .icon-container {
   position: relative;
   display: flex;
@@ -6831,7 +6834,7 @@ background-color: rgba(0, 0, 0, 0.2);
 }
 
 .rotate > *{
-  animation: loader4 1.5s infinite linear;
+  animation: loader4 1s infinite linear;
   width: fit-content !important;
   height: fit-content !important;
   display: inline-block !important;
@@ -6905,19 +6908,6 @@ background-color: rgba(0, 0, 0, 0.2);
 
 
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  width: 100%;
-  flex-direction: row;
-}
-.col{
-  flex: 1 0 0%;
-}
-.row.gap .col{
-  padding: 0.5rem;
-}
 
 
 
@@ -7866,6 +7856,21 @@ background-color: rgba(0, 0, 0, 0.2);
     display: none;
   }
 }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  width: 100%;
+  flex-direction: row;
+}
+.col{
+  flex: 1 0 0%;
+}
+.row.gap .col{
+  padding: 0.5rem;
+}
+
 
 /* medium screens */
  @media (min-width: 601px) and (max-width:1000px) {
