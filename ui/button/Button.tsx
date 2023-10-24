@@ -791,7 +791,7 @@ export default function Button({
   <span >
         <button
          onClick={onClick}
-      className={`${classNames} ${startIcon || endIcon ? 'iconic' : ''}`}
+      className={`${classNames} ${startIcon || endIcon || status || isLoading ? 'iconic' : ''}`}
       style={{
         height: height || '',
         width: fullWidth ? '100%' : width || '',

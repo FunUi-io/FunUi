@@ -447,16 +447,18 @@
   --linkColor:rgb(124, 124, 124);
   /* Body and font */
   --bd-font-weight: 400;
-  --bdfontSize: 1rem;
+  --bdfontSize: .91rem;
   --bd-line-height: normal;
   /* --fontFamily: var(--font); */
-  --smallFont: 0.7rem;
-  --smallerFont: 0.65rem;
+  --smallFont: .775rem;
+  --smallerFont: .657rem;
   --navHeight: 45px !important ;
   --borderColor:#ddd;
   --border: 0.1rem solid var(--borderColor);
   --inputBorder:0.12rem;
-  --bordeRadius:0.5rem;
+  --borderRadius:1rem;
+  --borderRadiusSmall:0.5rem;
+  --borderRadiusMax:2rem;
   --hoverable: brightness(90%);
   --linkHover:(139, 185, 254;);
   --sideBarZindex:10;
@@ -5426,14 +5428,7 @@ h6,
 
 }
 
-.btn_left_icon{
-  display: inline-block;
-  margin: 0 0.3rem 0 0;
-}
-.btn_right_icon{
-  display: inline-block;
-  margin: 0 0  0 0.3rem ;
-}
+
 
 .button-fill {
   background-color: transparent;
@@ -5474,7 +5469,14 @@ h6,
 .raisedBtn , .raised{
   box-shadow: var(--raised);
 }
-.button.iconic{gap: 0.5rem;}
+
+
+.button.iconic{
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center !important;
+}
+
 .button:hover {
   cursor: pointer;
   filter: brightness(90%);
@@ -5508,10 +5510,17 @@ h6,
   padding: 0.3rem 0.5rem !important;
   font-size: var(--smallFont) ;
 }
+.smallBtn.roundBtn{
+  padding: 0.3rem 0.7rem !important;
+}
+
 .smallBtn.iconic , .smallerBtn.iconic{gap: 0.3rem;}
 .button.smallerBtn{
   padding: 0.2rem 0.5rem !important;
   font-size: var(--smallerFont) ;
+}
+.smallerBtn.roundBtn{
+  padding: 0.2rem 0.7rem !important;
 }
 .button.bigBtn {
   padding: 1rem !important;
@@ -5679,7 +5688,7 @@ h6,
 .linkWrapperLogo {
   display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .sidebar-trigger {
     display: block;
   }
@@ -5691,6 +5700,7 @@ h6,
   display: inline-block;
 }
 }
+
 .fixedTop {
   position: fixed !important;
   top: 0;
@@ -5789,23 +5799,29 @@ h6,
 }
 
 /*border radius and borders*/
-.round {
+.round, .circle {
   border-radius: 50%;
 }
 .round-edge, .roundEdge {
-  border-radius: var(--bordeRadius);
+  border-radius: var(--borderRadius);
+}
+.roundEdgeSmall{
+  border-radius: var(--borderRadiusSmall);
+}
+.roundEdgeMax{
+  border-radius: var(--borderRadiusMax);
 }
 .leftEdge{
   border-top-right-radius: 0 ;
   border-bottom-right-radius: 0;
-  border-top-left-radius: var(--bordeRadius);
-  border-bottom-left-radius: var(--bordeRadius);
+  border-top-left-radius: var(--borderRadius);
+  border-bottom-left-radius: var(--borderRadius);
 }
 .rightEdge{
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-top-right-radius:var(--bordeRadius);
-  border-bottom-right-radius: var(--bordeRadius);
+  border-top-right-radius:var(--borderRadius);
+  border-bottom-right-radius: var(--borderRadius);
 }
 .leftRounded{
   border-top-right-radius: 0 ;
@@ -5820,12 +5836,12 @@ h6,
   border-bottom-right-radius: 100rem;
 }
 .topEdge{
-  border-top-right-radius: var(--bordeRadius);
-  border-top-left-radius: var(--bordeRadius);
+  border-top-right-radius: var(--borderRadius);
+  border-top-left-radius: var(--borderRadius);
 }
 .bottomEdge{
-  border-bottom-right-radius: var(--bordeRadius);
-  border-bottom-left-radius: var(--bordeRadius);
+  border-bottom-right-radius: var(--borderRadius);
+  border-bottom-left-radius: var(--borderRadius);
 }
 
 .round-top-left-edge {
@@ -5938,7 +5954,6 @@ h6,
   outline: none;
   border: var(--inputBorder) transparent;
   border-bottom: var(--inputBorder) solid  var(--borderColor);
-  transition: 0.1s linear;
   color: var(--bd-color);
 }
 
@@ -5979,7 +5994,7 @@ input , select{height: var(--inputHeight);}
 .input.flat{border-radius: 0;}
 
 .input:focus {
-  border-bottom: 0.1rem solid var(--primary);
+  border-bottom: var(--inputBorder) solid var(--primary);
 }
 
 .input.borderedInput ,.input.borderless{
@@ -6004,7 +6019,7 @@ input , select{height: var(--inputHeight);}
 }
 
 .input.borderedInput:focus {
-  outline: 0.1rem solid var(--inputOutline);
+  outline: 0.127rem solid var(--inputOutline);
 }
 .input.borderless {
   border: none;
@@ -7870,6 +7885,7 @@ background-color: rgba(0, 0, 0, 0.2);
 .row.gap .col{
   padding: 0.5rem;
 }
+
 
 
 /* medium screens */

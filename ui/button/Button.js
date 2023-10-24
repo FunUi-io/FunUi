@@ -392,7 +392,7 @@ function Button(_a) {
         "".concat(fillAnimation ? "".concat(fillTextColor ? "hover-text-".concat(fillTextColor) : '', " button-fill fill-").concat(fillDirection ? fillDirection : 'left') : '')
     ].join(' ');
     return (React.createElement("span", null,
-        React.createElement("button", { onClick: onClick, className: "".concat(classNames, " ").concat(startIcon || endIcon ? 'iconic' : ''), style: {
+        React.createElement("button", { onClick: onClick, className: "".concat(classNames, " ").concat(startIcon || endIcon || status || isLoading ? 'iconic' : ''), style: {
                 height: height || '',
                 width: fullWidth ? '100%' : width || '',
                 borderRadius: flat ? '0rem' : '',
