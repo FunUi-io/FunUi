@@ -487,6 +487,7 @@
   --lightThemeDark: var(--dark)
 }
 
+
 /* normalise css */
 
 *,
@@ -5475,6 +5476,7 @@ h6,
   display: inline-flex;
   gap: 0.5rem;
   align-items: center !important;
+  justify-content: center;
 }
 
 .button:hover {
