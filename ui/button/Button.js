@@ -24,6 +24,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.colors = void 0;
+var React = __importStar(require("react"));
+var pi_1 = require("react-icons/pi");
 exports.colors = {
     primary: "#6366f1",
     primary50: "#eef2ff",
@@ -369,8 +371,6 @@ exports.colors = {
     white: "#FFFFFF",
     black: "#000000",
 };
-var React = __importStar(require("react"));
-var pi_1 = require("react-icons/pi");
 function Button(_a) {
     var color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, disabled = _a.disabled, isLoading = _a.isLoading, status = _a.status, children = _a.children, onClick = _a.onClick;
     var classNames = [
@@ -396,7 +396,7 @@ function Button(_a) {
                 height: height || '',
                 width: fullWidth ? '100%' : width || '',
                 borderRadius: flat ? '0rem' : '',
-                border: "".concat(outlineSize ? "".concat(outlineSize, "rem solid ").concat(exports.colors[bg]) : "0.12rem solid ".concat(exports.colors[bg]))
+                border: "".concat(outlined ? outlineSize ? "".concat(outlineSize, "rem solid ").concat(exports.colors[bg]) : "0.12rem solid ".concat(exports.colors[bg]) : '')
             } },
             isLoading &&
                 React.createElement("span", { className: 'rotate btn_left_icon' },

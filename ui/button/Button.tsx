@@ -1,4 +1,8 @@
 
+import  { ReactNode, HTMLProps, MouseEvent, ChangeEvent } from 'react';
+import * as React from 'react';
+import { PiInfo , PiCheck , PiWarning , PiX , PiSpinner } from "react-icons/pi";
+
 interface ColorPalette {
   primary: string;
   primary50: string;
@@ -696,9 +700,6 @@ black: "#000000",
 
 }
 
-import  { ReactNode, HTMLProps, MouseEvent, ChangeEvent } from 'react';
-import * as React from 'react';
-import { PiInfo , PiCheck , PiWarning , PiX , PiSpinner } from "react-icons/pi";
 
 interface ButtonProps {
   color?: string;
@@ -796,7 +797,7 @@ export default function Button({
         height: height || '',
         width: fullWidth ? '100%' : width || '',
         borderRadius: flat ? '0rem' : '',
-        border:`${outlineSize ? `${outlineSize}rem solid ${colors[bg as keyof ColorPalette]}` : `0.12rem solid ${colors[bg as keyof ColorPalette]}`}`
+        border:`${outlined ? outlineSize ? `${outlineSize}rem solid ${colors[bg as keyof ColorPalette]}` : `0.12rem solid ${colors[bg as keyof ColorPalette]}` : ''}`
       }}  
     >
       

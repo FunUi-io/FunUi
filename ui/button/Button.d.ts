@@ -1,3 +1,5 @@
+import { ReactNode, MouseEvent } from 'react';
+import * as React from 'react';
 interface ColorPalette {
     primary: string;
     primary50: string;
@@ -344,8 +346,6 @@ interface ColorPalette {
     black: string;
 }
 export declare const colors: ColorPalette;
-import { ReactNode, MouseEvent } from 'react';
-import * as React from 'react';
 interface ButtonProps {
     color?: string;
     bg?: string;

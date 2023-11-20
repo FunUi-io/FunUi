@@ -24,6 +24,7 @@ interface ModalProps {
   close?:React.ReactNode
   closecss?:string ,
   id?:string
+  position?:string
 }
 
 export default function Modal({
@@ -45,12 +46,13 @@ export default function Modal({
   footercss,
   close,
   closecss,
+  position,
   id,
   ...rest
 }: ModalProps) {
   if (open) {
     return (
-      <div className={`${funcss} modal ${backdrop ? 'backdrop' : ''}`}  id={id ? id : ''}>
+      <div className={`${funcss} modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
         <div
           className="modal-content"
           style={{
