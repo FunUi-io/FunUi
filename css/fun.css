@@ -4926,7 +4926,7 @@ link:hover {
   box-sizing: border-box;
 }
 .text-big , .text-bigger , .text-jumbo{
-  line-height: 1rem;
+  line-height: normal;
   font-weight: 900;
 }
 .monospace{
@@ -4947,7 +4947,7 @@ link:hover {
   letter-spacing: normal;
 }
 .body{
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   letter-spacing: normal;
   font-size: 1rem;
 }
