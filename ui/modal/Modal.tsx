@@ -52,9 +52,9 @@ export default function Modal({
 }: ModalProps) {
   if (open) {
     return (
-      <div className={`${funcss} modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
+      <div className={` modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
         <div
-          className="modal-content"
+          className={`modal-content ${funcss}`}
           style={{
             animation: ` ${duration}s ${animation}`,
             maxWidth: maxWidth ? maxWidth : undefined,
