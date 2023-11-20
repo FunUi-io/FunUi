@@ -26,73 +26,118 @@ Install the package via NPM
 npm install funuicss
 </pre>
 
+<h3>Using Yarn</h3>
+Install the package via NPM
+
+<pre>
+yarn add funuicss
+</pre>
+
+
 <h3>Import CSS file</h3>
 Import the css file at your entry point to apply our classes,for example: _app.js, _app.jsx, index.js, index,jsx files
 <pre>
 import 'funuicss/css/fun.css'
 </pre>
 
-<h3>Simple Progress Bars </h3>
-<p> These progress bars are good for showind the state of an action, for example, a user downloading an asset </p>
+<h3>Demo Login Form </h3>
+<p> 
+Create a simple login form with our framework.
+</p>
 
 ```jsx
 import React from 'react'
-import ProgressBar from 'funuicss/component/ProgressBar'
-import Typography from 'funuicss/component/Typography'
+import Text from 'funuicss/ui/text/Text'
+import Input from 'funuicss/ui/input/Input'
+import Button from 'funuicss/ui/button/Button'
+import Section from 'funuicss/ui/specials/Section'
 export default function App() {
 
 return (
 
 <div>
-<ProgressBar 
-progress={99} 
-content={"Success! 99%"} 
-bg="light-success" 
+<div className="central height-500-min" >
+ <div className='width-300-max fit'>
+<div className="margin-bottom-40">
+<Text
+text='Welcome'
+heading='h2'
+block
 />
-<ProgressBar 
-progress={85} 
-content={<Typography text="85%" color="primary" bold/>} 
-bg="primary" 
-lined
+<Text
+text='Sign in to continue!'
+block
 />
-<ProgressBar 
-progress={90} 
-content={<Typography text="90%" color="secondary" bold/>} 
-bg="secondary" 
-lined/>
+</div>
+<Section gap={1.5}>
+<Text text="Email" funcss="margin-bottom-10" block size="small" bold color="primary"/>
+<Input type="email" fullWidth bordered />
+</Section>
+<Section gap={1}>
+<Text text="Password" funcss="margin-bottom-10" block size="small" bold color="primary"/>
+<Input type="password" fullWidth bordered />
+</Section>
+
+<div className="section">
+  <Link href={"/#"}>
+      <Text text='Forgot password!' size='small' underline color='primary'/>
+  </Link>
+</div>
+<div className="section">
+  <Button
+  text={"Let's go"}
+  raised
+  fullWidth
+  bg='primary800'
+  />
+</div>
+
+</div>
+</div>
 </div>
 
 )
 }
+
 ```
 
-<h3>Simple App NavBar with FunUi </h3>
-<p> This is a simple Navbar you just import and use for your project </p>
+<h3>Simple Buttons </h3>
+<p> This is a simple button</p>
 
 ```jsx
 import React from 'react'
-import Navbar from 'funuicss/component/Navbar'
-import Typography from 'funuicss/component/Typography'
-import LinkWrapper from 'funuicss/component/LinkWrapper'
-import Button from 'funuicss/component/Button'
-import NavLogo from 'funuicss/component/NavLogo'
+import Button from 'funuicss/ui/button/Button'
+
 export default function App() {
 return (
+<Button  bg="primary" outlined text="Simple Button"/>
+)
+}
+```
 
-<div>
-<Navbar>
- <NavLogo>
- <Typography heading="h4" text="Fun Ui" />
- </NavLogo>
 
- <LinkWrapper visibleLinks>
- <Button text="Sign In" color="primary"> </Button>
- <Button text="Sign Up" bg="primary"  rounded > </Button>
- </LinkWrapper>
+<h3>Simple Input </h3>
+<p> This is a simple input</p>
 
-</Navbar>
-</div>
+```jsx
+import React from 'react'
+import Input from 'funuicss/ui/input/Input'
 
+export default function App() {
+return (
+<>
+<Input 
+type="text" 
+label="This is a simple input" 
+funcss="full-width"
+/>
+<Input 
+type="text" 
+bordered 
+label="This is a bordered" 
+funcss="full-width section"
+/>
+</>
 )
 }
 ```
