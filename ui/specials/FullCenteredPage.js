@@ -33,10 +33,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var FullCenteredPage = function (_a) {
-    var children = _a.children, funcss = _a.funcss, style = _a.style;
-    return (React.createElement("div", { className: "flex central ".concat(funcss), style: __assign({ minHeight: "100vh", minWidth: "100vw", overflow: "auto" }, style) }, children));
+    var children = _a.children, funcss = _a.funcss, style = _a.style, rest = __rest(_a, ["children", "funcss", "style"]);
+    return (React.createElement("div", __assign({ className: "flex central ".concat(funcss), style: __assign({ minHeight: "100vh", minWidth: "100%", maxWidth: "100%", overflow: "auto" }, style) }, rest), children));
 };
 exports.default = FullCenteredPage;

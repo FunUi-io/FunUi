@@ -7,5 +7,5 @@ interface Circle_Props extends HTMLProps<HTMLDivElement> {
     hoverable?: boolean;
     raised?: boolean;
 }
-export default function Circle({ size, funcss, bg, children, hoverable, raised }: Circle_Props): any;
+export default function Circle({ size, funcss, bg, children, hoverable, raised, ...rest }: Circle_Props): any;
 export {};

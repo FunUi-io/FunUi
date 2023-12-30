@@ -791,6 +791,7 @@ export default function Button({
   return (
   <span >
         <button
+        disabled={disabled ? true : false}
          onClick={onClick}
       className={`${classNames} ${startIcon || endIcon || status || isLoading ? 'iconic' : ''}`}
       style={{

@@ -4,5 +4,5 @@ type SectionProps = {
     funcss?: string;
     gap?: number;
 };
-declare const Section: ({ children, funcss, gap }: SectionProps) => any;
+declare const Section: ({ children, funcss, gap, ...rest }: SectionProps) => any;
 export default Section;

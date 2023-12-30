@@ -19,7 +19,8 @@ export default function Circle({
   bg,
   children,
   hoverable,
-  raised
+  raised ,
+  ...rest
 }: Circle_Props) {
   return (
     <div>
@@ -31,6 +32,7 @@ export default function Circle({
           width: `${size + "rem" || '2.3rem'}`,
           height: `${size + "rem" || '2.3rem'}`,
         }}
+        {...rest}
       >
         <>{ children}</>
       </div>

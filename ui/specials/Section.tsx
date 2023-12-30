@@ -6,10 +6,10 @@ type SectionProps = {
   gap?: number
 };
 
-const Section = ({ children, funcss , gap }: SectionProps) => {
+const Section = ({ children, funcss , gap , ...rest}: SectionProps) => {
   return (
     <div className={`${funcss}`} 
-    style={{marginTop:gap ? gap  + "rem" : "0.5rem" , marginBottom:gap ? gap  + "rem" : "0.5rem" }}>
+    style={{marginTop:gap ? gap  + "rem" : "0.5rem" , marginBottom:gap ? gap  + "rem" : "0.5rem" }} {...rest}>
       {children}
     </div>
   );

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -22,15 +33,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function RowFlex(_a) {
-    var funcss = _a.funcss, content = _a.content, justify = _a.justify, gap = _a.gap, alignItems = _a.alignItems, responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, id = _a.id, children = _a.children;
-    return (React.createElement("div", { id: id ? id : '', className: "\n        row-flex ".concat(funcss ? funcss : '', "\n        ").concat(responsiveSmall ? 'responsiveSmall' : responsiveMedium ? 'responsiveMedium' : '', "\n      "), style: {
+    var funcss = _a.funcss, content = _a.content, justify = _a.justify, gap = _a.gap, alignItems = _a.alignItems, responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, id = _a.id, children = _a.children, rest = __rest(_a, ["funcss", "content", "justify", "gap", "alignItems", "responsiveSmall", "responsiveMedium", "id", "children"]);
+    return (React.createElement("div", __assign({ id: id ? id : '', className: "\n        row-flex ".concat(funcss ? funcss : '', "\n        ").concat(responsiveSmall ? 'responsiveSmall' : responsiveMedium ? 'responsiveMedium' : '', "\n      "), style: {
             justifyContent: justify ? justify : '',
             gap: gap ? gap + "rem" : '',
             alignItems: alignItems ? alignItems : '',
-        } },
+        } }, rest),
         children,
         " ",
         content));

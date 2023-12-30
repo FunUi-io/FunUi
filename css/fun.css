@@ -6446,6 +6446,14 @@ th {
   justify-content: flex-end !important;
   align-items: flex-start !important;
 }
+.modal.right{
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+.modal.left{
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
 .modal.top-left{
   justify-content: flex-start !important;
   align-items: flex-start !important;
@@ -6473,11 +6481,7 @@ th {
 /* .modal-content {
   margin: 100px auto;
 } */
-.close-modal {
-  float: right;
-  margin: 30px;
-  cursor: pointer;
-}
+
 
 .closeModal {
   width: 2.2rem;
@@ -6500,7 +6504,7 @@ filter: brightness(90%);
 }
 .modal-title {
   padding: 1rem 0.7rem;
-  border-bottom: 1.5px solid var(--borderColor);
+  border-bottom: 0.1px solid var(--borderColor);
   min-height: 70px;
   height: fit-content;
 }
@@ -6792,7 +6796,7 @@ filter: brightness(90%);
 
 
 /* glassmophisiam */
-.glass {
+.glass , .glassy{
   background-color: transparent !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
@@ -6842,18 +6846,18 @@ filter: brightness(90%);
 
 @keyframes SlideBottom {
   from {
-    margin-bottom: -100%;
+    transform: translateY(-100%);
   }
   to {
-    margin-bottom: 0%;
+    transform: translateY(0);
   }
 }
 @keyframes SlideTop {
   from {
-    margin-top: -100%;
+    transform: translateY(100%);
   }
   to {
-    margin-top: 0%;
+    transform: translateY(0);
   }
 }
 @keyframes SlideLeft {
@@ -6872,6 +6876,7 @@ filter: brightness(90%);
     margin-right: 0%;
   }
 }
+
 
 
 /* Loader */

@@ -22,6 +22,7 @@ export default function RowFlex({
   responsiveMedium,
   id,
   children,
+  ...rest
 }: RowFlexProps) {
   return (
     <div
@@ -35,6 +36,7 @@ export default function RowFlex({
         gap: gap ? gap + "rem": '',
         alignItems: alignItems ? alignItems : '',
       }}
+      {...rest}
     >
       {children} {content}
     </div>

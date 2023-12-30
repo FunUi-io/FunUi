@@ -4,5 +4,5 @@ type HrProps = {
     funcss?: string;
     style?: object;
 };
-declare const FullCenteredPage: ({ children, funcss, style }: HrProps) => any;
+declare const FullCenteredPage: ({ children, funcss, style, ...rest }: HrProps) => any;
 export default FullCenteredPage;
