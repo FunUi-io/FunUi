@@ -56,10 +56,11 @@ export default function Modal({
         <div
           className={`modal-content ${funcss}`}
           style={{
-            maxWidth: maxWidth ? maxWidth : undefined,
-            maxHeight: maxHeight ? maxHeight : undefined,
-            width: width ? width : undefined,
-            height: height ? height : undefined,
+            animation: ` ${duration ? duration : 0.2}s ${animation ? animation : "ScaleUp"}` ,
+            maxWidth: maxWidth ? maxWidth : null,
+            maxHeight: maxHeight ? maxHeight : null,
+            width: width ? width : null,
+            height: height ? height : null,
           }}
     
           {...rest}
@@ -76,7 +77,7 @@ export default function Modal({
           }
           {
             body &&
-            <ModalContent  animation={animation} duration={duration} funcss={bodycss ? bodycss : ''} >
+            <ModalContent  funcss={bodycss ? bodycss : ''} >
               {body}
             </ModalContent>
           }
