@@ -6425,6 +6425,8 @@ th {
   height: 100vh;
   width: 100%;
 }
+
+
 /*modal*/
 .modal {
   position: fixed;
@@ -6690,16 +6692,14 @@ filter: brightness(90%);
   position: relative;
   display: inline-block;
 }
-
 .tooltip .tip {
   display: none;
-  min-width: 100px;
-  max-width: 500px;
-  width: fit-content ;
+  width: 100%;
+  min-width: 100%;
   background-color: #1E1E1E;
   color: #fff;
   text-align: center;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 0.5rem;
   position: absolute;
   z-index: 5;
@@ -6852,7 +6852,23 @@ filter: brightness(90%);
     transform: translateY(0);
   }
 }
+@keyframes SlideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
 @keyframes SlideTop {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes SlideUp {
   from {
     transform: translateY(100%);
   }
@@ -6862,18 +6878,18 @@ filter: brightness(90%);
 }
 @keyframes SlideLeft {
   from {
-    margin-left: -100%;
+    transform: translateX(100%);
   }
   to {
-    margin-left: 0%;
+    transform: translateX(0%);
   }
 }
 @keyframes SlideRight {
   from {
-    margin-right: -100%;
+    transform: translateX(-100%);
   }
   to {
-    margin-right: 0%;
+    transform: translateX(0%);
   }
 }
 
