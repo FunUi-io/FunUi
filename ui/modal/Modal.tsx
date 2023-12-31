@@ -56,7 +56,6 @@ export default function Modal({
         <div
           className={`modal-content ${funcss}`}
           style={{
-            animation: ` ${duration}s ${animation}`,
             maxWidth: maxWidth ? maxWidth : undefined,
             maxHeight: maxHeight ? maxHeight : undefined,
             width: width ? width : undefined,
@@ -77,7 +76,7 @@ export default function Modal({
           }
           {
             body &&
-            <ModalContent  funcss={bodycss ? bodycss : ''} >
+            <ModalContent  animation={animation} duration={duration} funcss={bodycss ? bodycss : ''} >
               {body}
             </ModalContent>
           }

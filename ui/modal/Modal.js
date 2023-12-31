@@ -57,7 +57,6 @@ function Modal(_a) {
     if (open) {
         return (React.createElement("div", { className: " modal ".concat(backdrop ? 'backdrop' : '', "  ").concat(position ? position : ''), id: id ? id : '' },
             React.createElement("div", __assign({ className: "modal-content ".concat(funcss), style: {
-                    animation: " ".concat(duration, "s ").concat(animation),
                     maxWidth: maxWidth ? maxWidth : undefined,
                     maxHeight: maxHeight ? maxHeight : undefined,
                     width: width ? width : undefined,
@@ -69,7 +68,7 @@ function Modal(_a) {
                         close &&
                             close),
                 body &&
-                    React.createElement(Content_1.default, { funcss: bodycss ? bodycss : '' }, body),
+                    React.createElement(Content_1.default, { animation: animation, duration: duration, funcss: bodycss ? bodycss : '' }, body),
                 footer &&
                     React.createElement(Action_1.default, { funcss: footercss ? footercss : '' }, footer),
                 children)));

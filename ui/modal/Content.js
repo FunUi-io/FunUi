@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function ModalContent(_a) {
-    var funcss = _a.funcss, children = _a.children;
-    return (React.createElement("div", { className: "modal-body ".concat(funcss) }, children));
+    var funcss = _a.funcss, children = _a.children, animation = _a.animation, duration = _a.duration;
+    return (React.createElement("div", { className: "modal-body ".concat(funcss), style: { animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation ? animation : "ScaleUp"), } }, children));
 }
 exports.default = ModalContent;
