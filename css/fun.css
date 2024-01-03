@@ -6695,7 +6695,8 @@ filter: brightness(90%);
 .tooltip .tip {
   display: none;
   width: 100%;
-  min-width: 100%;
+  max-width: 300px;
+  min-width: 100px;
   background-color: #1E1E1E;
   color: #fff;
   text-align: center;

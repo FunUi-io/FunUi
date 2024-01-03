@@ -11,9 +11,9 @@ type NotificationProps = {
   children: React.ReactNode;
   state: boolean;
   width?: string;
-  header: React.ReactNode;
-  content: React.ReactNode;
-  footer: React.ReactNode;
+  header?: React.ReactNode;
+  content?: React.ReactNode;
+  footer?: React.ReactNode; 
 };
 
 export default function Notification({
@@ -26,7 +26,7 @@ export default function Notification({
   width,
   header,
   content,
-  footer
+  footer 
 }: NotificationProps) {
   if (state) {
     return (

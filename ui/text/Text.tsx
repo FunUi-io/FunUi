@@ -3,15 +3,15 @@ import * as React from 'react';
 
 type TypographyProps = {
   id?: string; // Added id prop
-  size?: string;
+  size?: "smaller" | "small" | "big" | "bigger" | "jumbo";
   bg?: string;
-  color?: string;
+  color?: "color";
   children?: React.ReactNode;
   hoverBg?: string;
-  hoverText?: string;
+  hoverText?: "color";
   text?: string;
-  heading?: string;
-  funcss?: string;
+  heading?: "h1" | "h2" |"h3" |"h4" |"h5" |"h6" ;
+  funcss?: "className";
   emp?: boolean;
   bold?: boolean;
   block?: boolean;
