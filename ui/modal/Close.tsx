@@ -8,7 +8,9 @@ interface CloseModalProps extends HTMLProps<HTMLDivElement> {
 export default function CloseModal({ funcss, ...rest }: CloseModalProps) {
   return (
     <div className={`${funcss || ''} closeModal`} {...rest}>
-      <PiX />
+     <div className="height-30 width-30">
+     <PiX />
+     </div>
     </div>
   );
 }
