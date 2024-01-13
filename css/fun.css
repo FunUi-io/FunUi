@@ -6433,9 +6433,8 @@ th {
   top: 0;
   display: flex;
   justify-content: center;
-  align-items: first baseline;
   left: 0;
-  padding: 3rem 1rem;
+  padding: 1rem;
   z-index: var(--modalZIndex);
   width: 100%;
   height: 100%;
@@ -6497,10 +6496,10 @@ th {
 .modal-content {
   background-color: var(--raiseThemes);
   max-width: 700px;
-  width: 100%;
+  width: fit-content;
   border-radius: 10px;
   box-shadow: var(--card);
-  height: fit-content !important;
+  height: fit-content ;
 
 }
 .modal-body {
