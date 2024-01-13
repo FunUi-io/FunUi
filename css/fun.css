@@ -6435,7 +6435,7 @@ th {
   justify-content: center;
   align-items: first baseline;
   left: 0;
-  padding: 2rem 3rem;
+  padding: 3rem 1rem;
   z-index: var(--modalZIndex);
   width: 100%;
   height: 100%;
@@ -6452,11 +6452,9 @@ th {
 }
 .modal.right{
   justify-content: flex-end !important;
-  align-items: center !important;
 }
 .modal.left{
   justify-content: flex-start !important;
-  align-items: center !important;
 }
 .modal.top-left{
   justify-content: flex-start !important;
