@@ -67,13 +67,7 @@ export default function Modal({
         >
           {
             title &&
-            <ModalHeader  funcss={titlecss ? titlecss : ''}>
-              {title}
-              {
-                close &&
-                close
-              }
-            </ModalHeader>
+            <ModalHeader  funcss={titlecss ? titlecss : ''} title={title ? title : ""} close={close ? close : ""} />
           }
           {
             body &&

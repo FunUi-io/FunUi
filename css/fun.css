@@ -6433,7 +6433,7 @@ th {
   top: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: first baseline;
   left: 0;
   padding: 2rem 3rem;
   z-index: var(--modalZIndex);
@@ -6443,6 +6443,8 @@ th {
   transition: 0.5s;
   overflow: auto; 
   backdrop-filter: blur(5px);
+  /* The x overflow is hidden form smooth slide transitions */
+  overflow-x: hidden;
 }
 .modal.top-right{
   justify-content: flex-end !important;
@@ -6480,10 +6482,40 @@ th {
 .modal.backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
-/* .modal-content {
-  margin: 100px auto;
-} */
 
+
+.modal-title {
+  padding: 1rem;
+  border-bottom: 0.1px solid var(--borderColor);
+  min-height: 70px;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.modal-content {
+  background-color: var(--raiseThemes);
+  max-width: 700px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: var(--card);
+  height: fit-content !important;
+
+}
+.modal-body {
+  padding: 1rem ;
+  height: 100%;
+  /* max-height: calc(100vh - 200px) ; */
+  overflow: auto;
+}
+
+.modal-action {
+  padding: 1rem ;
+  height: fit-content;
+}
 
 .closeModal {
   width: 2.2rem;
@@ -6494,43 +6526,12 @@ th {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  /* transform: translate(1.25rem, -1.25rem); */
   transition: 0.3s linear;
   cursor: pointer;
 }
 .closeModal:hover {
 filter: brightness(90%);
 }
-.modal-title {
-  padding: 1rem 0.7rem;
-  border-bottom: 0.1px solid var(--borderColor);
-  min-height: 70px;
-  height: fit-content;
-}
-.modal-content {
-  background-color: var(--raiseThemes);
-  max-width: 700px;
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: var(--card);
-
-}
-.modal-body {
-  padding: 1rem 0.7rem;
-  height: 100%;
-  max-height: calc(100vh - 200px) ;
-  overflow: auto;
-}
-
-.modal-action {
-  padding: 1rem 0.7rem;
-  height: fit-content;
-}
-
-
 
 
 .notification{
@@ -6794,6 +6795,7 @@ filter: brightness(90%);
   gap: 1rem;
   padding: 0.2rem 0.5rem;
 }
+
 
 
 /* glassmophisiam */

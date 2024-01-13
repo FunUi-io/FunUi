@@ -64,10 +64,7 @@ function Modal(_a) {
                     height: height ? height : null,
                 } }, rest),
                 title &&
-                    React.createElement(Header_1.default, { funcss: titlecss ? titlecss : '' },
-                        title,
-                        close &&
-                            close),
+                    React.createElement(Header_1.default, { funcss: titlecss ? titlecss : '', title: title ? title : "", close: close ? close : "" }),
                 body &&
                     React.createElement(Content_1.default, { funcss: bodycss ? bodycss : '' }, body),
                 footer &&

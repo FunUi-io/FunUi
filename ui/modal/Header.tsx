@@ -4,14 +4,13 @@ interface ModalHeaderProps {
   funcss?: string;
   children?: React.ReactNode;
   close?: React.ReactNode | '';
+  title?:string
 }
 
-export default function ModalHeader({ funcss, children, close, ...rest }: ModalHeaderProps) {
+export default function ModalHeader({ funcss, children, close , title, ...rest }: ModalHeaderProps) {
   return (
     <div className={`${funcss} modal-title`} {...rest}>
-      <div className="fit relative">
-        {children} {close ? close : ''}
-      </div>
+        <div className="fit">{title ? title : children}</div> <div>{close ? close : ''}</div>
     </div>
   );
 }

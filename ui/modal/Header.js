@@ -47,11 +47,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function ModalHeader(_a) {
-    var funcss = _a.funcss, children = _a.children, close = _a.close, rest = __rest(_a, ["funcss", "children", "close"]);
+    var funcss = _a.funcss, children = _a.children, close = _a.close, title = _a.title, rest = __rest(_a, ["funcss", "children", "close", "title"]);
     return (React.createElement("div", __assign({ className: "".concat(funcss, " modal-title") }, rest),
-        React.createElement("div", { className: "fit relative" },
-            children,
-            " ",
-            close ? close : '')));
+        React.createElement("div", { className: "fit" }, title ? title : children),
+        " ",
+        React.createElement("div", null, close ? close : '')));
 }
 exports.default = ModalHeader;

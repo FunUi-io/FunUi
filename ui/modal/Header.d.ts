@@ -3,6 +3,7 @@ interface ModalHeaderProps {
     funcss?: string;
     children?: React.ReactNode;
     close?: React.ReactNode | '';
+    title?: string;
 }
-export default function ModalHeader({ funcss, children, close, ...rest }: ModalHeaderProps): any;
+export default function ModalHeader({ funcss, children, close, title, ...rest }: ModalHeaderProps): any;
 export {};
