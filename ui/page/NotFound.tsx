@@ -50,7 +50,7 @@ export default function NotFound(
                 action ? action :
                 <div className="row-flex gap" style={{ justifyContent: "center", gap: "0.4rem" }}>
                 <Button raised rounded startIcon={<PiHouse />} bg='primary' onClick={() => {
-                     const previousUrl = document.referrer || '/';
+                     const previousUrl =  '/';
                      window.location.assign(previousUrl)
                   
                   }}>

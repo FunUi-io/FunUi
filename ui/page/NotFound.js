@@ -48,7 +48,7 @@ function NotFound(_a) {
                     React.createElement("div", { style: { margin: "2rem 0px" } }, action ? action :
                         React.createElement("div", { className: "row-flex gap", style: { justifyContent: "center", gap: "0.4rem" } },
                             React.createElement(Button_1.default, { raised: true, rounded: true, startIcon: React.createElement(pi_1.PiHouse, null), bg: 'primary', onClick: function () {
-                                    var previousUrl = document.referrer || '/';
+                                    var previousUrl = '/';
                                     window.location.assign(previousUrl);
                                 } }, "Back To Home"))))))));
 }
