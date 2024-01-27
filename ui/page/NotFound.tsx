@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from '../button/Button';
 import {PiHouse} from 'react-icons/pi'
+import Text from '../text/Text';
 
 interface NotFoundProps {
     header?:React.ReactNode 
@@ -41,14 +42,18 @@ export default function NotFound(
           {
             content ? content :
             <div className="article">
-            Sorry, we couldn't find the page you're looking for.
+            <Text article text={`Sorry, we couldn't find the page you're looking for.`} color="dark300" block/>
           </div>
           }
             <div style={{ margin: "2rem 0px" }}>
               {
                 action ? action :
                 <div className="row-flex gap" style={{ justifyContent: "center", gap: "0.4rem" }}>
-                <Button raised startIcon={<PiHouse />} bg='primary800' onClick={() => window.location.assign("/")}>
+                <Button raised rounded startIcon={<PiHouse />} bg='primary' onClick={() => {
+                     const previousUrl = document.referrer || '/';
+                     window.location.assign(previousUrl)
+                  
+                  }}>
                  Back To Home
                 </Button>
               </div>

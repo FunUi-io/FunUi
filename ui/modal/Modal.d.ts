@@ -20,6 +20,7 @@ interface ModalProps {
     closecss?: string;
     id?: string;
     position?: string;
+    flat?: boolean;
 }
-export default function Modal({ children, funcss, animation, duration, open, maxWidth, maxHeight, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, position, id, ...rest }: ModalProps): any;
+export default function Modal({ children, funcss, animation, duration, open, maxWidth, maxHeight, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, position, id, flat, ...rest }: ModalProps): any;
 export {};

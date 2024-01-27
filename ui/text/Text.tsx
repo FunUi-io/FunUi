@@ -2,16 +2,17 @@
 import * as React from 'react';
 
 type TypographyProps = {
-  id?: string; // Added id prop
+  id?: string;
   size?: "smaller" | "small" | "big" | "bigger" | "jumbo";
   bg?: string;
-  color?: "color";
+  color?: string;
   children?: React.ReactNode;
   hoverBg?: string;
-  hoverText?: "color";
+  monospace?: boolean;
+  hoverText?: string;
   text?: string;
   heading?: "h1" | "h2" |"h3" |"h4" |"h5" |"h6" ;
-  funcss?: "className";
+  funcss?: string;
   emp?: boolean;
   bold?: boolean;
   block?: boolean;
@@ -21,12 +22,24 @@ type TypographyProps = {
   lighter?: boolean;
   italic?: boolean;
   underline?: boolean;
-  align?: string;
+  align?: "left" | "center" | "right" | "justify";
   lineHeight?: string;
   letterSpacing?: string;
-  monospace?: boolean;
+  uppercase?: boolean;
+  lowercase?: boolean;
+  capitalize?: boolean;
+  textDecoration?: "none" | "underline" | "overline" | "line-through";
+  textTransform?: "none" | "capitalize" | "uppercase" | "lowercase";
+  whiteSpace?: "normal" | "nowrap" | "pre" | "pre-line" | "pre-wrap";
+  wordBreak?: "normal" | "break-all" | "keep-all" | "break-word";
+  fontFamily?: string;
+  textShadow?: string;
+  textAlign?: "left" | "center" | "right" | "justify";
+  opacity?: number;
+  zIndex?: number;
+  transform?: string;
   customStyles?: React.CSSProperties;
-  onClick?: () => void; // Added onClick event
+  onClick?: () => void;
 };
 
 export default function Text({
@@ -52,8 +65,21 @@ export default function Text({
   align,
   lineHeight,
   letterSpacing,
-  monospace,
+  uppercase,
+  lowercase,
+  capitalize,
+  textDecoration,
+  textTransform,
+  whiteSpace,
+  wordBreak,
+  fontFamily,
+  textShadow,
+  textAlign,
+  opacity,
+  zIndex,
+  transform,
   customStyles,
+  monospace,
   ...rest
 }: TypographyProps) {
   const mergedStyles: React.CSSProperties = {
@@ -61,6 +87,15 @@ export default function Text({
     fontWeight: bold ? 'bold' : undefined,
     lineHeight: lineHeight ? lineHeight : undefined,
     letterSpacing: letterSpacing ? letterSpacing : undefined,
+    textTransform: textTransform ? textTransform : undefined,
+    textDecoration: textDecoration ? textDecoration : undefined,
+    fontFamily: fontFamily ? fontFamily : undefined,
+    textShadow: textShadow ? textShadow : undefined,
+    uppercase: textShadow ? textShadow : undefined,
+    textAlign: textAlign ? textAlign : undefined,
+    whiteSpace: whiteSpace ? whiteSpace : undefined,
+    wordBreak: wordBreak ? wordBreak : undefined,
+    transform: transform ? transform : undefined,
     ...customStyles,
   };
 
@@ -81,31 +116,34 @@ export default function Text({
     funcss ? funcss : '',
     emp ? 'emp' : '',
     bold ? 'bold' : '',
+    uppercase ? 'uppercase' : '',
+    lowercase ? 'lowercase' : '',
+    capitalize ? 'capitalize' : '',
   ].filter(Boolean).join(' ');
 
- if(block){
-  return (
-    <div
-      id={id} // Added id attribute
-      className={classNames}
-      style={mergedStyles}
-      {...rest}
-    >
-      {children}
-      {text}
-    </div>
-  );
- }else{
-  return (
-    <span
-      id={id} // Added id attribute
-      className={classNames}
-      style={mergedStyles}
-      {...rest}
-    >
-      {children}
-      {text}
-    </span>
-  );
- }
+  if (block) {
+    return (
+      <div
+        id={id}
+        className={classNames}
+        style={mergedStyles}
+        {...rest}
+      >
+        {children}
+        {text}
+      </div>
+    );
+  } else {
+    return (
+      <span
+        id={id}
+        className={classNames}
+        style={mergedStyles}
+        {...rest}
+      >
+        {children}
+        {text}
+      </span>
+    );
+  }
 }

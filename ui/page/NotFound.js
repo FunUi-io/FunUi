@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var Button_1 = __importDefault(require("../button/Button"));
 var pi_1 = require("react-icons/pi");
+var Text_1 = __importDefault(require("../text/Text"));
 function NotFound(_a) {
     var header = _a.header, code = _a.code, content = _a.content, action = _a.action;
     return (React.createElement("div", null,
@@ -42,9 +43,13 @@ function NotFound(_a) {
                         :
                             React.createElement("div", { className: "text-bigger text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "Page Not Found")),
                     content ? content :
-                        React.createElement("div", { className: "article" }, "Sorry, we couldn't find the page you're looking for."),
+                        React.createElement("div", { className: "article" },
+                            React.createElement(Text_1.default, { article: true, text: "Sorry, we couldn't find the page you're looking for.", color: "dark300", block: true })),
                     React.createElement("div", { style: { margin: "2rem 0px" } }, action ? action :
                         React.createElement("div", { className: "row-flex gap", style: { justifyContent: "center", gap: "0.4rem" } },
-                            React.createElement(Button_1.default, { raised: true, startIcon: React.createElement(pi_1.PiHouse, null), bg: 'primary800', onClick: function () { return window.location.assign("/"); } }, "Back To Home"))))))));
+                            React.createElement(Button_1.default, { raised: true, rounded: true, startIcon: React.createElement(pi_1.PiHouse, null), bg: 'primary', onClick: function () {
+                                    var previousUrl = document.referrer || '/';
+                                    window.location.assign(previousUrl);
+                                } }, "Back To Home"))))))));
 }
 exports.default = NotFound;

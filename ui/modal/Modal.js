@@ -53,9 +53,9 @@ var Header_1 = __importDefault(require("./Header"));
 var Content_1 = __importDefault(require("./Content"));
 var Action_1 = __importDefault(require("./Action"));
 function Modal(_a) {
-    var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, height = _a.height, width = _a.width, backdrop = _a.backdrop, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, position = _a.position, id = _a.id, rest = __rest(_a, ["children", "funcss", "animation", "duration", "open", "maxWidth", "maxHeight", "height", "width", "backdrop", "title", "titlecss", "body", "bodycss", "footer", "footercss", "close", "closecss", "position", "id"]);
+    var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, height = _a.height, width = _a.width, backdrop = _a.backdrop, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, position = _a.position, id = _a.id, flat = _a.flat, rest = __rest(_a, ["children", "funcss", "animation", "duration", "open", "maxWidth", "maxHeight", "height", "width", "backdrop", "title", "titlecss", "body", "bodycss", "footer", "footercss", "close", "closecss", "position", "id", "flat"]);
     if (open) {
-        return (React.createElement("div", { className: " modal ".concat(backdrop ? 'backdrop' : '', "  ").concat(position ? position : ''), id: id ? id : '' },
+        return (React.createElement("div", { className: " ".concat(flat ? "flat" : "", " modal ").concat(backdrop ? 'backdrop' : '', "  ").concat(position ? position : ''), id: id ? id : '' },
             React.createElement("div", __assign({ className: "modal-content ".concat(funcss), style: {
                     animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation ? animation : "ScaleUp"),
                     maxWidth: maxWidth ? maxWidth : null,

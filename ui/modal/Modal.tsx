@@ -24,7 +24,8 @@ interface ModalProps {
   close?:React.ReactNode
   closecss?:string ,
   id?:string
-  position?:string
+  position?:string 
+  flat?:boolean
 }
 
 export default function Modal({
@@ -48,11 +49,12 @@ export default function Modal({
   closecss,
   position,
   id,
+  flat ,
   ...rest
 }: ModalProps) {
   if (open) {
     return (
-      <div className={` modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
+      <div className={` ${flat ? "flat" : ""} modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
         <div
           className={`modal-content ${funcss}`}
           style={{
@@ -60,7 +62,7 @@ export default function Modal({
             maxWidth: maxWidth ? maxWidth : null,
             maxHeight: maxHeight ? maxHeight : null,
             width: width ? width : null,
-            height: height ? height : null,
+            height: height ? height : null, 
           }}
     
           {...rest}
