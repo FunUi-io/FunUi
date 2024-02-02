@@ -1,4 +1,4 @@
-import { ReactNode, MouseEvent } from 'react';
+import { ReactNode } from 'react';
 import * as React from 'react';
 interface ColorPalette {
     primary: string;
@@ -369,15 +369,17 @@ interface ButtonProps {
     flat?: boolean;
     hoverNone?: boolean;
     fillAnimation?: boolean;
+    bold?: boolean;
+    hoverless?: boolean;
     fillDirection?: string;
     fillTextColor?: string;
     buttonFillStyle?: React.CSSProperties;
     outlineSize?: number;
-    disabled?: boolean;
     isLoading?: boolean;
     status?: 'success' | 'warning' | 'info' | 'danger';
     children?: React.ReactNode;
-    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+    style?: React.CSSProperties;
+    onClick?: () => void;
 }
-export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, disabled, isLoading, status, children, onClick, }: ButtonProps): any;
+export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, children, bold, style, onClick, ...rest }: ButtonProps): any;
 export {};

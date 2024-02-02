@@ -463,12 +463,12 @@
   --DefaultBorderRadius:0.5rem;
   --hoverable: brightness(90%);
   --linkHover:(139, 185, 254;);
-  --sideBarZindex:10;
-  --navBarZindex:9;
+  --sideBarZindex:13;
+  --navBarZindex:12;
   --modalZIndex:15;
   --loaderZindex:100;
   --snackBarZindex:20;
-  --notificationZindex:21;
+  --notificationZindex:29;
   --inputHeight:2.3rem;
   --inputPadding:0.5rem 0;
   --inputRoundedPadding:0.5rem 1rem;
@@ -4954,23 +4954,23 @@ link:hover {
   line-height: 1.7rem;
   letter-spacing: normal;
 }
-.body{
-  line-height: 1.6rem;
+body{
+  line-height: normal;
   letter-spacing: normal;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 .text-bigger {
   font-size: calc(1.375rem + 2.5vw);
 }
 
 .text-jumbo {
-  font-size: calc(1.375rem + 3vw);
+  font-size: calc(1.375rem + 3.5vw);
 }
 .text-bold {
-  font-weight: 500 !important;
+  font-weight: bold !important;
 }
 .text-bolder {
-  font-weight: 800 !important;
+  font-weight: bolder !important;
 }
 .lightText{
   font-weight: 300 !important;
@@ -4999,7 +4999,7 @@ h2,
 h1,
 .h1 {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   line-height: 1.2;
   font-weight: 300;
 }
@@ -5498,6 +5498,9 @@ h6,
   cursor: pointer;
   filter: brightness(90%);
 }
+.button.hoverless:hover{
+  filter: none !important;
+}
 .block-button {
   width: 100%;
 }
@@ -5564,6 +5567,9 @@ h6,
   transition: 0.3s;
   background-color: var(--raiseThemes);
   backdrop-filter: blur(0.2rem) ;
+}
+.shadowless{
+  box-shadow: none !important;
 }
 .card_flex{
   display: flex;
@@ -5739,16 +5745,31 @@ h6,
   border-radius: var(--DefaultBorderRadius);
   gap: 0.3rem;
   font-size: var(--smallFont);
-  min-width: 150px;
   width: fit-content;
   height: fit-content;
   min-height: 2rem; 
 
 }
+.alert.top-success{
+  border-top: 0.2rem solid var(--success);
+  background-color: var(--raiseThemes);
+}
+.alert.top-warning{
+  border-top: 0.2rem solid var(--warning);
+  background-color: var(--raiseThemes);
+}
+.alert.top-info{
+  border-top: 0.2rem solid var(--info);
+  background-color: var(--raiseThemes);
+}
+.alert.top-danger{
+  border-top: 0.2rem solid var(--error);
+  background-color: var(--raiseThemes);
+}
 
 
 .alert-container > .alert{
-  box-shadow: var(--raised);
+  box-shadow: var(--card);
 }
 .alert-container
 {
@@ -5787,11 +5808,7 @@ h6,
   align-items: center;
   justify-content: center;
 }
-.alert-icon > i {
-  cursor: pointer;
-  margin: 0;
-  font-size: 0.9rem;
-}
+
 .alert.success {
   background-color: var(--successLight) !important;
  
@@ -6032,7 +6049,7 @@ input , select{height: var(--inputHeight);}
 }
 .borderless{border: none !important;outline: none !important;}
 
- .success-input.borderedInput{
+ .success-input.borderedInput {
   border: var(--inputBorder) solid var(--success) !important;
   outline: 0.127rem solid var(--success);
 }
@@ -6702,9 +6719,8 @@ filter: brightness(90%);
 
 .tooltip .tip {
   display: none;
-  width: 100%;
-  max-width: 300px;
   min-width: 100px;
+  max-width: 300px;
   background-color: var(--dark200);
   color: var(--dark900);
   text-align: center;
@@ -6854,6 +6870,7 @@ filter: brightness(90%);
   }
 }
 
+
 @keyframes SlideBottom {
   from {
     transform: translateY(-100%);
@@ -6940,6 +6957,25 @@ background-color: rgba(0, 0, 0, 0.2);
 @-webkit-keyframes loader4 {
   from {-webkit-transform: rotate(0deg);}
   to {-webkit-transform: rotate(360deg);}
+}
+
+
+.skeleton {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, .5) 50%,
+    rgba(255, 255, 255, 0) 60%
+  ) ;
+  background-size: 200% 100%;
+  background-position-x: 180%;
+  animation: 0.8s Skeleton ease-in-out infinite;
+}
+
+@keyframes Skeleton {
+  to {
+    background-position-x: -20%;
+  }
 }
 
 
@@ -7524,6 +7560,9 @@ background-color: rgba(0, 0, 0, 0.2);
 .margin {
   margin: 10px !important;
 }
+.margin-top-5 {
+  margin: 5px !important;
+}
 .margin-top-10 {
   margin-top: 10px !important;
 }
@@ -7581,8 +7620,12 @@ background-color: rgba(0, 0, 0, 0.2);
 .margin-top-90- {
   margin-top: -90px !important;
 }
+
 .margin-top-100 {
   margin-top: 100px;
+}
+.margin-bottom-5 {
+  margin: 5px !important;
 }
 .margin-10 {
   margin: 10px !important;

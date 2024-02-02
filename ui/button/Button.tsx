@@ -724,15 +724,17 @@ interface ButtonProps {
   flat?: boolean;
   hoverNone?: boolean;
   fillAnimation?:boolean;
+  bold?:boolean;
+  hoverless?:boolean;
   fillDirection?:string;
   fillTextColor?:string;
   buttonFillStyle?:React.CSSProperties ,
   outlineSize?:number ,
-  disabled?:boolean ,
   isLoading?:boolean ,
   status?: 'success' | 'warning' | 'info' | 'danger' 
-  children?:React.ReactNode,
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  children?:React.ReactNode, 
+  style?:React.CSSProperties ,
+  onClick?: () => void
 }
 
 export default function Button({
@@ -751,6 +753,7 @@ export default function Button({
   fullWidth,
   outlined,
   small,
+  hoverless,
   smaller,
   big,
   bigger,
@@ -761,17 +764,21 @@ export default function Button({
   fillDirection,
   fillTextColor,
   outlineSize,
-  disabled,
   isLoading,
   status,
   children,
-  onClick ,
+  bold ,
+  style,
+  onClick,
+  ...rest
 }: ButtonProps) {
   const classNames = [
     'button',
     `text-${color}`,
     funcss || '',
     rounded ? 'roundBtn' : '',
+    hoverless ? 'hoverless' : '',
+    bold ? 'text-bold' : '',
     float ? 'floatBtn' : '',
     raised ? 'raisedBtn' : '',
     hoverUp ? 'hover-up' : '',
@@ -791,15 +798,16 @@ export default function Button({
   return (
   <span >
         <button
-        disabled={disabled ? true : false}
-         onClick={onClick}
       className={`${classNames} ${startIcon || endIcon || status || isLoading ? 'iconic' : ''}`}
       style={{
         height: height || '',
         width: fullWidth ? '100%' : width || '',
         borderRadius: flat ? '0rem' : '',
-        border:`${outlined ? outlineSize ? `${outlineSize}rem solid ${colors[bg as keyof ColorPalette]}` : `0.12rem solid ${colors[bg as keyof ColorPalette]}` : ''}`
+        border:`${outlined ? outlineSize ? `${outlineSize}rem solid ${colors[bg as keyof ColorPalette]}` : `0.1rem solid ${colors[bg as keyof ColorPalette]}` : ''}` ,
+        ...style
       }}  
+      onClick={onClick}
+      {...rest}
     >
       
         {

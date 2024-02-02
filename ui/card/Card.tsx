@@ -18,15 +18,18 @@ interface CardProps {
   maxHeight?: string;
   maxWidth?: string;
   horizontal?: boolean;
+  flat?: boolean;
   id?: string;
   header?:ReactNode 
   body?:ReactNode 
   footer?:ReactNode 
   image?:ReactNode,
   noGap?:boolean ,
+  shadowless?:boolean,
   fab?:ReactNode ,
   responsiveSmall?:boolean;
-  responsiveMedium?:boolean
+  responsiveMedium?:boolean ,
+  style?:React.CSSProperties
 }
 
 export default function Card({
@@ -51,8 +54,12 @@ export default function Card({
   noGap,
   fab,
   image,
+  shadowless,
+  flat,
   responsiveMedium ,
-  responsiveSmall
+  responsiveSmall ,
+  style,
+  ...rest
 }: CardProps) {
   return (
     <div
@@ -65,6 +72,8 @@ export default function Card({
       ${bg || ''} 
       ${funcss || ''} 
       ${roundEdge ? 'round-edge' : ''} 
+      ${shadowless ? 'shadowless' : ''} 
+      ${flat ? 'flat' : ''} 
       ${horizontal ? 'horizontalCard' : ''}
       ${responsiveMedium ? 'responsiveMedium' : ''}
       ${responsiveSmall ? 'responsiveSmall' : ''}
@@ -78,8 +87,10 @@ export default function Card({
         maxHeight: maxHeight || '',
         maxWidth: maxWidth || '',
         margin: `${margin || ''}`,
-        padding: `${padding || ''}`,
+        padding: `${padding || ''}`, 
+        ...style
       }}
+      {...rest}
     >
       {image ? <div className={`${fab ? 'relative' : ''}`}>{image} {fab ? fab : ''}</div> : ''}
 

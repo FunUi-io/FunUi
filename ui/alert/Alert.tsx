@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import * as React from 'react'
 import { TfiCheck, TfiInfoAlt } from "react-icons/tfi";
-import { PiInfo , PiCheck , PiWarning , PiX , PiSpinner } from "react-icons/pi";
+import { PiInfo , PiCheckCircleDuotone , PiWarning , PiX , PiSpinner } from "react-icons/pi";
 interface AlertProps {
   message?: string;
   funcss?: string;
@@ -11,7 +11,13 @@ interface AlertProps {
   fullWidth?: boolean;
   isLoading?: boolean;
   children?: ReactNode;
-  raised?:boolean
+  animation?:string ;
+  duration?:string
+  raised?:boolean  ,
+  card?:boolean,
+  variant?:string, 
+  flat?:boolean,
+  style?:React.CSSProperties
 }
 
 export default function Alert({
@@ -23,7 +29,14 @@ export default function Alert({
   raised,
   fullWidth,
   isLoading,
-  children,
+  children, 
+  animation,
+  duration ,
+  variant,
+  flat,
+  card,
+  style,
+  ...rest
 }: AlertProps) {
   return (
     <div className={
@@ -39,17 +52,19 @@ export default function Alert({
       {outlined ? (
         <div
           style={{
-            animation: `${0.3}s ${"ScaleUp"}`,
+            animation: `${duration ? duration : "0.3"}s ${animation ? animation : "ScaleUp"}`,
+            ...style
           }}
-          className={`alert ${raised ? 'raised' : ''} ${type}-outline
+          className={`alert ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''} ${type}-outline
 
  ${fullWidth ? "width-100-p" : ""}
  `}
+ {...rest}
         >
           <div className="alert-icon">
             {!isLoading ? (
-              <div>
-                {type === "success" && <PiCheck />}
+              <div className={`text-${type}`}>
+                {type === "success" && <PiCheckCircleDuotone />}
                 {type === "info" && <PiInfo />}
                 {type === "warning" && <PiWarning />}
                 {type === "danger" && <PiX />}
@@ -69,16 +84,17 @@ export default function Alert({
       {!outlined ? (
         <div
           style={{
-            animation: `${0.3}s ${"ScaleUp"}`,
+            animation: `${duration ? duration : "0.3"}s ${animation ? animation : "ScaleUp"}`,
+            ...style
           }}
-          className={`alert ${raised ? 'raised' : ''} ${funcss || ""} ${type}
+          className={`alert ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''}  ${variant ? variant : type} ${funcss || ""}
  ${fullWidth ? "width-100-p" : ""}
 `}
         >
           <div className="alert-icon">
             {!isLoading ? (
-              <div>
-                  {type === "success" && <PiCheck />}
+              <div className={`text-${type}`}>
+                  {type === "success" && <PiCheckCircleDuotone />}
                 {type === "info" && <PiInfo />}
                 {type === "warning" && <PiWarning />}
                 {type === "danger" && <PiX />}

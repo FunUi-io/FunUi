@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import * as React from 'react';
 interface AlertProps {
     message?: string;
     funcss?: string;
@@ -8,7 +9,13 @@ interface AlertProps {
     fullWidth?: boolean;
     isLoading?: boolean;
     children?: ReactNode;
+    animation?: string;
+    duration?: string;
     raised?: boolean;
+    card?: boolean;
+    variant?: string;
+    flat?: boolean;
+    style?: React.CSSProperties;
 }
-export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, }: AlertProps): any;
+export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, card, style, ...rest }: AlertProps): any;
 export {};
