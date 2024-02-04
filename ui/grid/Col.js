@@ -47,12 +47,15 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function Col(_a) {
-    var sm = _a.sm, md = _a.md, lg = _a.lg, children = _a.children, funcss = _a.funcss, id = _a.id, rest = __rest(_a, ["sm", "md", "lg", "children", "funcss", "id"]);
+    var sm = _a.sm, md = _a.md, lg = _a.lg, children = _a.children, funcss = _a.funcss, id = _a.id, smOrder = _a.smOrder, mdOrder = _a.mdOrder, lgOrder = _a.lgOrder, rest = __rest(_a, ["sm", "md", "lg", "children", "funcss", "id", "smOrder", "mdOrder", "lgOrder"]);
     var classNames = [
         'col',
         sm ? "sm-".concat(sm) : '',
         md ? "md-".concat(md) : '',
         lg ? "lg-".concat(lg) : '',
+        smOrder ? "sm-order-".concat(smOrder) : '',
+        mdOrder ? "md-order-".concat(mdOrder) : '',
+        lgOrder ? "lg-order-".concat(lgOrder) : '',
         funcss || '',
     ].join(' ');
     return (React.createElement("div", __assign({ id: id || '', className: classNames }, rest), children));

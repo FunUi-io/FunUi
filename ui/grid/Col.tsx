@@ -6,7 +6,10 @@ interface ColProps extends HTMLProps<HTMLDivElement> {
   lg?: number;
   children?: ReactNode;
   funcss?: string;
-  id?: string;
+  id?: string; 
+  smOrder?:number;
+  mdOrder?:number;
+  lgOrder?:number
 }
 
 export default function Col({
@@ -16,6 +19,9 @@ export default function Col({
   children,
   funcss,
   id,
+  smOrder,
+  mdOrder,
+  lgOrder,
   ...rest
 }: ColProps) {
   const classNames = [
@@ -23,6 +29,9 @@ export default function Col({
     sm ? `sm-${sm}` : '',
     md ? `md-${md}` : '',
     lg ? `lg-${lg}` : '',
+    smOrder ? `sm-order-${smOrder}` : '',
+    mdOrder ? `md-order-${mdOrder}` : '',
+    lgOrder ? `lg-order-${lgOrder}` : '',
     funcss || '',
   ].join(' ');
 

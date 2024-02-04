@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://funui.netlify.app/logo.png" width="200px">
+<img src="https://funui.netlify.app/logo.png" width="150px">
 </p>
 <h1 align="center">The React & Next Js Ui Library</h1>
 

@@ -16,7 +16,8 @@ interface AlertProps {
   raised?:boolean  ,
   card?:boolean,
   variant?:string, 
-  flat?:boolean,
+  flat?:boolean, 
+  standard?:boolean,
   style?:React.CSSProperties
 }
 
@@ -34,6 +35,7 @@ export default function Alert({
   duration ,
   variant,
   flat,
+  standard,
   card,
   style,
   ...rest
@@ -55,7 +57,7 @@ export default function Alert({
             animation: `${duration ? duration : "0.3"}s ${animation ? animation : "ScaleUp"}`,
             ...style
           }}
-          className={`alert ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''} ${type}-outline
+          className={`alert  ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''} ${type}-outline
 
  ${fullWidth ? "width-100-p" : ""}
  `}
@@ -87,7 +89,10 @@ export default function Alert({
             animation: `${duration ? duration : "0.3"}s ${animation ? animation : "ScaleUp"}`,
             ...style
           }}
-          className={`alert ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''}  ${variant ? variant : type} ${funcss || ""}
+          className={`alert  ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''} 
+           ${variant ? variant : standard ? "" : type}
+           ${standard ? "top-" + type : ""}
+            ${funcss || ""}
  ${fullWidth ? "width-100-p" : ""}
 `}
         >

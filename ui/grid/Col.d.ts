@@ -6,6 +6,9 @@ interface ColProps extends HTMLProps<HTMLDivElement> {
     children?: ReactNode;
     funcss?: string;
     id?: string;
+    smOrder?: number;
+    mdOrder?: number;
+    lgOrder?: number;
 }
-export default function Col({ sm, md, lg, children, funcss, id, ...rest }: ColProps): any;
+export default function Col({ sm, md, lg, children, funcss, id, smOrder, mdOrder, lgOrder, ...rest }: ColProps): any;
 export {};
