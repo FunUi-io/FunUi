@@ -444,7 +444,7 @@
   --linkColor:rgb(124, 124, 124);
   /* Body and font */
   --bd-font-weight: 400;
-  --bdfontSize: 1em ;
+  --bdfontSize: .99em ;
   --bd-line-height: normal;
   /* --fontFamily: var(--font); */
   --smallFont: .82em;
@@ -507,7 +507,6 @@ body {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
-
   line-height: var(--bd-line-height);
   font-weight: var(--bd-font-weight);
   background-color: var(--bd-theme);
@@ -7896,7 +7895,7 @@ background-color: rgba(0, 0, 0, 0.2);
 
 
 /* small screens */
-@media(max-width: 600px) {
+@media only screen and (max-width: 767px) {
   .col.sm-order-1 { order: 1; }
   .col.sm-order-2 { order: 2; }
   .col.sm-order-3 { order: 3; }
@@ -8019,7 +8018,7 @@ background-color: rgba(0, 0, 0, 0.2);
 
 
 /* medium screens */
- @media (min-width: 601px) and (max-width:1000px) {
+@media only screen and (min-width: 768px) and (max-width: 991px)  {
   /* medium screen cols */
 
 
@@ -8123,7 +8122,7 @@ background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* large screens */
-@media screen and (min-width: 1001px) {
+@media screen and (min-width: 992px) {
   /* For lg-order */
 .col.lg-order-1 { order: 1; }
 .col.lg-order-2 { order: 2; }

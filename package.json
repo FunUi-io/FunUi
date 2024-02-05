@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.2",
   "name": "funuicss",
   "description": "React and Next.js component UI Library for creating Easy and good looking websites with fewer lines of code. Elevate your web development experience with our cutting-edge React/Next.js component UI Library. Craft stunning websites effortlessly, boasting both seamless functionality and aesthetic appeal—all achieved with minimal lines of code. Unleash the power of simplicity and style in your projects!",
   "main": "index.js",
@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "next": "^13.3.1",
-    "react-icons": "^4.11.0",
+    "react-icons": "^5.0.1",
     "tsc": "^2.0.4",
     "typescript": "^5.3.3"
   }
