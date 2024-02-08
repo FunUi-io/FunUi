@@ -444,11 +444,11 @@
   --linkColor:rgb(124, 124, 124);
   /* Body and font */
   --bd-font-weight: 400;
-  --bdfontSize: .99em ;
+  --bdfontSize: 1rem;
+  --minifiedFontSize:0.88rem;
   --bd-line-height: normal;
-  /* --fontFamily: var(--font); */
-  --smallFont: .82em;
-  --smallerFont: .72em;
+  --smallFont: .79rem ;
+  --smallerFont: .7rem;
   --navHeight: 45px ;
   --borderColor:#ddd;
   --border: 0.1rem solid var(--borderColor);
@@ -467,12 +467,9 @@
   --loaderZindex:100;
   --snackBarZindex:20;
   --notificationZindex:29;
-  --inputHeight:2.3rem;
+  --inputHeight:2.4rem;
   --inputPadding:0.5rem 0;
   --inputRoundedPadding:0.5rem 1rem;
-  --smallScreens:600px;
-  --mediumScreen:1000px;
-  --largeScreen: calc(var(var(--mediumScreen)) + 1px);
   --shadowMedium:0 0.8rem 2rem 0 rgba(3, 3, 3, 0.1);
   --card:rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
   --raised:0 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.3);
@@ -512,11 +509,10 @@ body {
   background-color: var(--bd-theme);
   color: var(--bd-color);
   letter-spacing: normal;
+  font-size: var(--bdfontSize) ;
 
 }
-*{
-  font-size: var(--bdfontSize);
-}
+
 
 .theme{
   background-color: var(--bd-theme);
@@ -4921,10 +4917,6 @@ link:hover {
 }
 
 /* Typography */
-*, input, button{
-  box-sizing: border-box;
-}
-
 .uppercase{text-transform: uppercase;}
 .lowercase{text-transform: lowercase;}
 .capitalize{text-transform: capitalize;}
@@ -4940,10 +4932,10 @@ link:hover {
   font-size: calc(1.375rem + 2vw);
 }
 .text-small {
-  font-size: var(--smallFont);
+  font-size: var(--smallFont) ;
 }
 .text-smaller {
-  font-size: var(--smallerFont);
+  font-size: var(--smallerFont) ;
 }
 .article{
   line-height: 1.7rem;
@@ -4952,7 +4944,6 @@ link:hover {
 body{
   line-height: normal;
   letter-spacing: normal;
-  font-size: 0.95rem;
 }
 .text-bigger {
   font-size: calc(1.375rem + 2.5vw);
@@ -5437,6 +5428,7 @@ h6,
   border-radius: var(--InputButtonBorderRadius);
   transition:0.5s linear;
   cursor: pointer;
+  font-size: var(--minifiedFontSize);
 }
 
 
@@ -5741,7 +5733,7 @@ h6,
   padding: 0.4rem 1rem;
   border-radius: var(--DefaultBorderRadius);
   gap: 0.3rem;
-  font-size: var(--smallFont);
+  font-size: var(--minifiedFontSize) ;
   width: fit-content;
   height: fit-content;
   min-height: 2rem; 
@@ -5993,6 +5985,7 @@ h6,
   border: var(--inputBorder) transparent;
   border-bottom: var(--inputBorder) solid  var(--borderColor);
   color: var(--bd-color); 
+  font-size: var(--minifiedFontSize);
 }
 
 .fileInput{
@@ -6726,7 +6719,7 @@ filter: brightness(90%);
   position: absolute;
   z-index: 5;
   transition:  0.3s;
-  font-size: var(--smallerFont) !important;
+  font-size: var(--smallFont) !important;
   box-shadow: var(--raised);
 }
 .tooltip .tip-top {
@@ -6781,9 +6774,10 @@ filter: brightness(90%);
   height: 100%;
   box-shadow: var(--raised);
   z-index: var(--snackBarZindex);
-  font-size: var(--smallFont);
   padding: 0.3rem;
+  font-size: var(--minifiedFontSize);
 }
+ 
 .snackbar.default {
   bottom: 20px;
   left: 20px;

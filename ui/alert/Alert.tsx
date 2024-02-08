@@ -42,7 +42,8 @@ export default function Alert({
 }: AlertProps) {
   return (
     <div className={
-      `${fixed ? 'alert-container ' : ''}
+      `
+      ${fixed ? 'alert-container ' : ''}
        ${fixed === "top-left" ? "top-left" : ""}
       ${fixed === "top-right" ? "top-right" : ""}
       ${fixed === "bottom-left" ? "bottom-left" : ""}
