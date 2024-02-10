@@ -7,6 +7,7 @@ interface SnackbarProps {
     funcss?: string;
     animation?: string;
     duration?: number;
+    flat?: boolean;
 }
 declare const SnackBar: React.FC<SnackbarProps>;
 export default SnackBar;

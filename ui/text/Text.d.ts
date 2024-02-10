@@ -1,7 +1,7 @@
 import * as React from 'react';
 type TypographyProps = {
     id?: string;
-    size?: "smaller" | "small" | "big" | "bigger" | "jumbo";
+    size?: "smaller" | "small" | "big" | "bigger" | "jumbo" | "minified";
     bg?: string;
     color?: string;
     children?: React.ReactNode;
@@ -20,6 +20,7 @@ type TypographyProps = {
     lighter?: boolean;
     italic?: boolean;
     underline?: boolean;
+    quote?: boolean;
     align?: "left" | "center" | "right" | "justify";
     lineHeight?: string;
     letterSpacing?: string;
@@ -39,5 +40,5 @@ type TypographyProps = {
     customStyles?: React.CSSProperties;
     onClick?: () => void;
 };
-export default function Text({ id, size, bg, color, children, hoverBg, hoverText, text, heading, funcss, emp, bold, block, body, article, light, lighter, italic, underline, align, lineHeight, letterSpacing, uppercase, lowercase, capitalize, textDecoration, textTransform, whiteSpace, wordBreak, fontFamily, textShadow, textAlign, opacity, zIndex, transform, customStyles, monospace, ...rest }: TypographyProps): any;
+export default function Text({ id, size, bg, color, children, hoverBg, hoverText, text, heading, funcss, emp, bold, block, body, article, light, lighter, italic, underline, align, lineHeight, letterSpacing, uppercase, lowercase, capitalize, textDecoration, textTransform, whiteSpace, wordBreak, fontFamily, textShadow, textAlign, opacity, zIndex, transform, customStyles, monospace, quote, ...rest }: TypographyProps): any;
 export {};

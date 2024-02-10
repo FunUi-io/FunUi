@@ -25,10 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var SnackBar = function (_a) {
-    var message = _a.message, close = _a.close, open = _a.open, position = _a.position, funcss = _a.funcss, animation = _a.animation, duration = _a.duration;
+    var message = _a.message, close = _a.close, open = _a.open, position = _a.position, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, flat = _a.flat;
     if (open) {
         return (React.createElement("div", null,
-            React.createElement("div", { className: "snackbar ".concat(position, " ").concat(funcss), style: { animation: " ".concat(duration, "s ").concat(animation) } },
+            React.createElement("div", { className: "snackbar ".concat(position, " ").concat(funcss, " ").concat(flat ? "flat" : ""), style: { animation: " ".concat(duration, "s ").concat(animation) } },
                 React.createElement("div", { className: "snackbar-content" },
                     React.createElement("div", { className: "snackbar-body" }, message),
                     close &&

@@ -47,8 +47,9 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
+var pi_1 = require("react-icons/pi");
 function Text(_a) {
-    var id = _a.id, size = _a.size, bg = _a.bg, color = _a.color, children = _a.children, hoverBg = _a.hoverBg, hoverText = _a.hoverText, text = _a.text, heading = _a.heading, funcss = _a.funcss, emp = _a.emp, bold = _a.bold, block = _a.block, body = _a.body, article = _a.article, light = _a.light, lighter = _a.lighter, italic = _a.italic, underline = _a.underline, align = _a.align, lineHeight = _a.lineHeight, letterSpacing = _a.letterSpacing, uppercase = _a.uppercase, lowercase = _a.lowercase, capitalize = _a.capitalize, textDecoration = _a.textDecoration, textTransform = _a.textTransform, whiteSpace = _a.whiteSpace, wordBreak = _a.wordBreak, fontFamily = _a.fontFamily, textShadow = _a.textShadow, textAlign = _a.textAlign, opacity = _a.opacity, zIndex = _a.zIndex, transform = _a.transform, customStyles = _a.customStyles, monospace = _a.monospace, rest = __rest(_a, ["id", "size", "bg", "color", "children", "hoverBg", "hoverText", "text", "heading", "funcss", "emp", "bold", "block", "body", "article", "light", "lighter", "italic", "underline", "align", "lineHeight", "letterSpacing", "uppercase", "lowercase", "capitalize", "textDecoration", "textTransform", "whiteSpace", "wordBreak", "fontFamily", "textShadow", "textAlign", "opacity", "zIndex", "transform", "customStyles", "monospace"]);
+    var id = _a.id, size = _a.size, bg = _a.bg, color = _a.color, children = _a.children, hoverBg = _a.hoverBg, hoverText = _a.hoverText, text = _a.text, heading = _a.heading, funcss = _a.funcss, emp = _a.emp, bold = _a.bold, block = _a.block, body = _a.body, article = _a.article, light = _a.light, lighter = _a.lighter, italic = _a.italic, underline = _a.underline, align = _a.align, lineHeight = _a.lineHeight, letterSpacing = _a.letterSpacing, uppercase = _a.uppercase, lowercase = _a.lowercase, capitalize = _a.capitalize, textDecoration = _a.textDecoration, textTransform = _a.textTransform, whiteSpace = _a.whiteSpace, wordBreak = _a.wordBreak, fontFamily = _a.fontFamily, textShadow = _a.textShadow, textAlign = _a.textAlign, opacity = _a.opacity, zIndex = _a.zIndex, transform = _a.transform, customStyles = _a.customStyles, monospace = _a.monospace, quote = _a.quote, rest = __rest(_a, ["id", "size", "bg", "color", "children", "hoverBg", "hoverText", "text", "heading", "funcss", "emp", "bold", "block", "body", "article", "light", "lighter", "italic", "underline", "align", "lineHeight", "letterSpacing", "uppercase", "lowercase", "capitalize", "textDecoration", "textTransform", "whiteSpace", "wordBreak", "fontFamily", "textShadow", "textAlign", "opacity", "zIndex", "transform", "customStyles", "monospace", "quote"]);
     var mergedStyles = __assign({ display: block ? 'block' : undefined, fontWeight: bold ? 'bold' : undefined, lineHeight: lineHeight ? lineHeight : undefined, letterSpacing: letterSpacing ? letterSpacing : undefined, textTransform: textTransform ? textTransform : undefined, textDecoration: textDecoration ? textDecoration : undefined, fontFamily: fontFamily ? fontFamily : undefined, textShadow: textShadow ? textShadow : undefined, uppercase: textShadow ? textShadow : undefined, textAlign: textAlign ? textAlign : undefined, whiteSpace: whiteSpace ? whiteSpace : undefined, wordBreak: wordBreak ? wordBreak : undefined, transform: transform ? transform : undefined }, customStyles);
     var classNames = [
         size ? "text-".concat(size) : '',
@@ -73,11 +74,15 @@ function Text(_a) {
     ].filter(Boolean).join(' ');
     if (block) {
         return (React.createElement("div", __assign({ id: id, className: classNames, style: mergedStyles }, rest),
+            quote && React.createElement("div", { className: "" },
+                React.createElement(pi_1.PiQuotesLight, null)),
             children,
             text));
     }
     else {
         return (React.createElement("span", __assign({ id: id, className: classNames, style: mergedStyles }, rest),
+            quote && React.createElement("div", { className: "" },
+                React.createElement(pi_1.PiQuotesLight, null)),
             children,
             text));
     }

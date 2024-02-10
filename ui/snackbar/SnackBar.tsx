@@ -8,13 +8,14 @@ interface SnackbarProps {
   funcss?: string;
   animation?: string;
   duration?: number;
+  flat?:boolean
 }
 
-const SnackBar: React.FC<SnackbarProps> = ({ message, close, open, position, funcss, animation, duration }) => {
+const SnackBar: React.FC<SnackbarProps> = ({ message, close, open, position, funcss, animation, duration , flat}) => {
   if (open) {
     return (
       <div>
-        <div className={`snackbar ${position} ${funcss}`} style={{ animation: ` ${duration}s ${animation}` }}>
+        <div className={`snackbar ${position} ${funcss} ${flat ? "flat" : ""}`} style={{ animation: ` ${duration}s ${animation}` }}>
           <div className="snackbar-content">
             <div className="snackbar-body">
               {message}

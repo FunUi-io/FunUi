@@ -1,9 +1,10 @@
 'use client';
 import * as React from 'react';
+import { PiQuotesLight } from 'react-icons/pi';
 
 type TypographyProps = {
   id?: string;
-  size?: "smaller" | "small" | "big" | "bigger" | "jumbo";
+  size?: "smaller" | "small" | "big" | "bigger" | "jumbo" | "minified";
   bg?: string;
   color?: string;
   children?: React.ReactNode;
@@ -22,6 +23,7 @@ type TypographyProps = {
   lighter?: boolean;
   italic?: boolean;
   underline?: boolean;
+  quote?:boolean;
   align?: "left" | "center" | "right" | "justify";
   lineHeight?: string;
   letterSpacing?: string;
@@ -80,6 +82,7 @@ export default function Text({
   transform,
   customStyles,
   monospace,
+  quote,
   ...rest
 }: TypographyProps) {
   const mergedStyles: React.CSSProperties = {
@@ -129,6 +132,11 @@ export default function Text({
         style={mergedStyles}
         {...rest}
       >
+          {
+          quote && <div className="">
+            <PiQuotesLight />
+          </div>
+        }
         {children}
         {text}
       </div>
@@ -141,6 +149,11 @@ export default function Text({
         style={mergedStyles}
         {...rest}
       >
+        {
+          quote && <div className="">
+            <PiQuotesLight />
+          </div>
+        }
         {children}
         {text}
       </span>

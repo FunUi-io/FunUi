@@ -4937,6 +4937,9 @@ link:hover {
 .text-smaller {
   font-size: var(--smallerFont) ;
 }
+.text-minified{
+  font-size: var(--minifiedFontSize);
+}
 .article{
   line-height: 1.7rem;
   letter-spacing: normal;

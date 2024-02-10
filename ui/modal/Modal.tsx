@@ -54,9 +54,9 @@ export default function Modal({
 }: ModalProps) {
   if (open) {
     return (
-      <div className={` ${flat ? "flat" : ""} modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
+      <div className={`  modal ${backdrop ? 'backdrop' : ''}  ${position ? position : ''}`}  id={id ? id : ''}>
         <div
-          className={`modal-content ${funcss}`}
+          className={`modal-content ${funcss} ${flat ? "flat" : ""}`}
           style={{
             animation: ` ${duration ? duration : 0.2}s ${animation ? animation : "ScaleUp"}` ,
             maxWidth: maxWidth ? maxWidth : null,
