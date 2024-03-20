@@ -46,20 +46,26 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-var pi_1 = require("react-icons/pi");
-function FunLoader(_a) {
-    var funcss = _a.funcss, size = _a.size, fixed = _a.fixed, backdrop = _a.backdrop, color = _a.color, variant = _a.variant, rest = __rest(_a, ["funcss", "size", "fixed", "backdrop", "color", "variant"]);
-    return (React.createElement("div", __assign({ className: "".concat(fixed ? 'fixedLoader' : '', " ").concat(backdrop && fixed ? 'backdropLoader' : '') }, rest), variant === 'simple' ?
-        React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-            React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px" } }))
-        : variant === 'duotone' ?
-            React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-                React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px" } }),
-                "     ")
-            : variant === 'circle' ?
-                React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-                    React.createElement(pi_1.PiCircleNotch, { style: { fontSize: size + "px" } }))
-                : React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-                    React.createElement(pi_1.PiSpinner, { style: { fontSize: size + "px" } }))));
+function SideBar(_a) {
+    var funcss = _a.funcss, position = _a.position, glassy = _a.glassy, header = _a.header, open = _a.open, content = _a.content, footer = _a.footer, width = _a.width, rest = __rest(_a, ["funcss", "position", "glassy", "header", "open", "content", "footer", "width"]);
+    if (open) {
+        return (React.createElement("div", __assign({ className: "fun_side_bar ".concat(glassy ? "glassy" : "") }, rest),
+            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque id nam perferendis officiis laboriosam, ullam dolorum odio sint a ratione nulla, voluptatibus quod voluptates error odit ea tempore, assumenda iusto.",
+            React.createElement("div", { className: "fun_sidebar_content", style: {
+                    width: width + "px" || "250px"
+                } },
+                header &&
+                    React.createElement("div", null,
+                        " ",
+                        header,
+                        " "),
+                content &&
+                    React.createElement("div", null, content),
+                footer &&
+                    React.createElement("div", null, footer))));
+    }
+    else {
+        return React.createElement(React.Fragment, null);
+    }
 }
-exports.default = FunLoader;
+exports.default = SideBar;

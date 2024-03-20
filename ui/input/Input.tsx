@@ -5,7 +5,7 @@ import Button from '../button/Button';
 interface InputProps {
   select?: boolean;
   bordered?: boolean;
-  bordereless?: boolean;
+  borderless?: boolean;
   multiline?: boolean;
   file?: boolean;
   noBorder?: boolean;
@@ -35,7 +35,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
   select,
   bordered,
-  bordereless,
+  borderless,
   multiline,
   file,
   noBorder,
@@ -94,7 +94,7 @@ const Input: React.FC<InputProps> = ({
             : ''}
         </select>
       );
-    } else if (bordereless) {
+    } else if (borderless) {
       return (
         <select
         {...rest}
@@ -190,7 +190,7 @@ const Input: React.FC<InputProps> = ({
           rows={rows ? rows : 2}
         />
       );
-    } else if (bordereless) {
+    } else if (borderless) {
       return (
         <textarea
         {...rest}
@@ -253,7 +253,7 @@ const Input: React.FC<InputProps> = ({
           <Button
             funcss={` ${funcss} `}
             startIcon={icon ? icon : <PiCloudArrowUp />}
-            bg="primary800"
+            bg="primary"
             fullWidth
             raised
           >
@@ -261,7 +261,6 @@ const Input: React.FC<InputProps> = ({
           </Button>
         )}
         <input
-        {...rest}
             name={name}
           id={id}
           className={`
@@ -282,6 +281,7 @@ const Input: React.FC<InputProps> = ({
             width: `${fullWidth ? '100%' : ''}`
           }}
           value={value}
+        {...rest}
         />
       </div>
     );
@@ -289,7 +289,7 @@ const Input: React.FC<InputProps> = ({
     if (bordered) {
       return (
         <input
-        {...rest}
+  
             name={name}
           id={id}
           className={`
@@ -311,12 +311,12 @@ const Input: React.FC<InputProps> = ({
             width: `${fullWidth ? '100%' : ''}`
           }}
           value={value}
+          {...rest}
         />
       );
-    } else if (bordereless) {
+    } else if (borderless) {
       return (
         <input
-        {...rest}
             name={name}
           id={id}
           className={`
@@ -338,12 +338,13 @@ const Input: React.FC<InputProps> = ({
           style={{
             width: `${fullWidth ? '100%' : ''}`
           }}
+        {...rest}
+
         />
       );
     } else {
       return (
         <input
-        {...rest}
             name={name}
           id={id}
           className={`
@@ -364,6 +365,7 @@ const Input: React.FC<InputProps> = ({
           style={{
             width: `${fullWidth ? '100%' : ''}`
           }}
+        {...rest}
         />
       );
     }

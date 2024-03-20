@@ -5626,6 +5626,7 @@ h6,
 .zoom-out {
   cursor: zoom-out;
 }
+
 /* Navbar */
 .navigation-bar {
   width: 100%;
@@ -5640,26 +5641,21 @@ h6,
   backdrop-filter: blur(0.2rem) ;
 }
 
-#funSideBar{
+.fun_side_bar{
   position: fixed;
   z-index: var(--sideBarZindex);
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh ;
+  background-color: #000000;
 }
-.navSidebar{
+/* .sidebar_content{
   position: absolute;
   top: 0;
   left: 0;
-  width: 250px;
-  background-color: var(--white);
   height: 100vh;
-  box-shadow: 0 2rem 3rem 0 rgba(0, 0, 0, 0.2);
-  animation: showNav 0.3s linear;
-  background-color: var(--raiseThemes);
-}
+  background-color: #000000;
+} */
 
 @keyframes showNav {
   from{
@@ -5668,32 +5664,6 @@ h6,
   to{
     transform: translateX(0%);
   }
-}
-.sideBarTop , .sideBarFooter{
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  padding: 0.5rem;
-}
-.sideBarTop{
-  top: 0;
-  }
-.sideBarFooter{
-  position: absolute;
-  bottom: 0;
-  }
-  .sideBarContent{
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 100px);
-    overflow: auto;
-  }
-.sidebar-trigger {
-  display: none;
-  cursor: pointer;
 }
 
 
@@ -6307,13 +6277,19 @@ th {
 .table.bordered {
   border: var(--border);
 }
+ /* tr , thead{
+  border-bottom: 0.1rem solid var(--borderColor);
+}
+thead{
+  border-top: 0.1rem solid var(--borderColor);
+} */
 .table.stripped tr:nth-child(even) {
-  background-color: var(--dark800);
+  background-color: var(--dark800); 
 }
 .table tr,
 th,
 td {
-  padding: 0.4rem;
+  padding: 0.5rem;
   margin: 0;
 }
 .table.hoverableTr tr,
@@ -6330,6 +6306,18 @@ th {
 .table.dark {
   background-color: var(--lightThemeDark);
   color: var(--light);
+}
+
+.pagination{
+  display: flex;
+  flex-direction: row;
+
+}
+.pagination .pageCircle:first-of-type {
+transform: translateX(20%);
+}
+.pagination .pageCircle:last-of-type {
+transform: translateX(-20%);
 }
 /*list*/
 .list {
@@ -6767,7 +6755,7 @@ filter: brightness(90%);
 }
 
 .snackbar {
-  position: fixed;
+  position: fixed !important;
   background-color: var(--dark200);
   color: var(--dark900);
   border-radius: var(--DefaultBorderRadius);

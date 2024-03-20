@@ -2,7 +2,7 @@ import React from 'react';
 interface InputProps {
     select?: boolean;
     bordered?: boolean;
-    bordereless?: boolean;
+    borderless?: boolean;
     multiline?: boolean;
     file?: boolean;
     noBorder?: boolean;

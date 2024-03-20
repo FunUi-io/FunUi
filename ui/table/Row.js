@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function TableRow(_a) {
-    var children = _a.children, funcss = _a.funcss, rowKey = _a.rowKey;
-    return (React.createElement("tr", { className: "".concat(funcss ? funcss : ''), key: rowKey }, children));
+    var children = _a.children, funcss = _a.funcss, rowKey = _a.rowKey, key = _a.key;
+    return (React.createElement("tr", { className: "".concat(funcss ? funcss : ''), key: key ? key : rowKey }, children));
 }
 exports.default = TableRow;

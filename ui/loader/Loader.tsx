@@ -3,7 +3,7 @@ import {  PiSpinner , PiSpinnerDuotone , PiCircleNotch } from "react-icons/pi";
 
 interface FunLoaderProps {
   funcss?: string;
-  size?: string;
+  size?: number;
   fixed?: boolean;
   backdrop?: boolean;
   color?: string;
@@ -17,26 +17,26 @@ export default function FunLoader({
   backdrop,
   color,
   variant ,
+  ...rest
 }: FunLoaderProps) {
   return (
-    <div className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`}>
+    <div className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`} {...rest}>
       
      {
         variant === 'simple'?
         <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-            <PiSpinnerDuotone size={size}    
-        />     </span>
+            <PiSpinnerDuotone  style={{fontSize:size + "px"}}  />
+          </span>
         : variant === 'duotone'?
-        <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-        <PiSpinnerDuotone  size={size}   
+        <span  className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
+        <PiSpinnerDuotone style={{fontSize:size + "px"}}  
         />     </span>
         : variant === 'circle'?
         <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-        <PiCircleNotch size={size} 
-        />
+        <PiCircleNotch style={{fontSize:size + "px"}}  />
              </span>
         : <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-          <PiSpinner/>
+          <PiSpinner style={{fontSize:size + "px"}}  />
           </span>
      }
 
