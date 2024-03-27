@@ -1,5 +1,4 @@
-'use client';
-import * as React from 'react';
+import React from 'react';
 import { PiQuotesLight } from 'react-icons/pi';
 
 type TypographyProps = {
@@ -9,8 +8,8 @@ type TypographyProps = {
   color?: string;
   children?: React.ReactNode;
   hoverBg?: string;
-  monospace?: boolean;
   hoverText?: string;
+  monospace?: boolean;
   text?: string;
   heading?: "h1" | "h2" |"h3" |"h4" |"h5" |"h6" ;
   funcss?: string;
@@ -44,7 +43,7 @@ type TypographyProps = {
   onClick?: () => void;
 };
 
-export default function Text({
+const Text: React.FC<TypographyProps> = ({
   id,
   size,
   bg,
@@ -77,14 +76,11 @@ export default function Text({
   fontFamily,
   textShadow,
   textAlign,
-  opacity,
-  zIndex,
-  transform,
   customStyles,
   monospace,
   quote,
   ...rest
-}: TypographyProps) {
+}) => {
   const mergedStyles: React.CSSProperties = {
     display: block ? 'block' : undefined,
     fontWeight: bold ? 'bold' : undefined,
@@ -94,11 +90,10 @@ export default function Text({
     textDecoration: textDecoration ? textDecoration : undefined,
     fontFamily: fontFamily ? fontFamily : undefined,
     textShadow: textShadow ? textShadow : undefined,
-    uppercase: textShadow ? textShadow : undefined,
     textAlign: textAlign ? textAlign : undefined,
     whiteSpace: whiteSpace ? whiteSpace : undefined,
     wordBreak: wordBreak ? wordBreak : undefined,
-    transform: transform ? transform : undefined,
+    transform: customStyles?.transform,
     ...customStyles,
   };
 
@@ -124,39 +119,20 @@ export default function Text({
     capitalize ? 'capitalize' : '',
   ].filter(Boolean).join(' ');
 
-  if (block) {
-    return (
-      <div
-        id={id}
-        className={classNames}
-        style={mergedStyles}
-        {...rest}
-      >
-          {
-          quote && <div className="">
-            <PiQuotesLight />
-          </div>
-        }
-        {children}
-        {text}
-      </div>
-    );
-  } else {
-    return (
-      <span
-        id={id}
-        className={classNames}
-        style={mergedStyles}
-        {...rest}
-      >
-        {
-          quote && <div className="">
-            <PiQuotesLight />
-          </div>
-        }
-        {children}
-        {text}
-      </span>
-    );
-  }
-}
+  const HeadingTag = heading ? heading : block ? "div" : 'span';
+
+  return (
+    <HeadingTag
+      id={id}
+      className={classNames}
+      style={mergedStyles}
+      {...rest}
+    >
+      {quote && <div className=""><PiQuotesLight /></div>}
+      {children}
+      {text}
+    </HeadingTag>
+  );
+};
+
+export default Text;

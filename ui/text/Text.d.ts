@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 type TypographyProps = {
     id?: string;
     size?: "smaller" | "small" | "big" | "bigger" | "jumbo" | "minified";
@@ -6,8 +6,8 @@ type TypographyProps = {
     color?: string;
     children?: React.ReactNode;
     hoverBg?: string;
-    monospace?: boolean;
     hoverText?: string;
+    monospace?: boolean;
     text?: string;
     heading?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
     funcss?: string;
@@ -40,5 +40,5 @@ type TypographyProps = {
     customStyles?: React.CSSProperties;
     onClick?: () => void;
 };
-export default function Text({ id, size, bg, color, children, hoverBg, hoverText, text, heading, funcss, emp, bold, block, body, article, light, lighter, italic, underline, align, lineHeight, letterSpacing, uppercase, lowercase, capitalize, textDecoration, textTransform, whiteSpace, wordBreak, fontFamily, textShadow, textAlign, opacity, zIndex, transform, customStyles, monospace, quote, ...rest }: TypographyProps): any;
-export {};
+declare const Text: React.FC<TypographyProps>;
+export default Text;

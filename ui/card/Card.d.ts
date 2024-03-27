@@ -25,7 +25,8 @@ interface CardProps {
     fab?: ReactNode;
     responsiveSmall?: boolean;
     responsiveMedium?: boolean;
+    xl?: boolean;
     style?: React.CSSProperties;
 }
-export default function Card({ color, bg, width, height, minHeight, minWidth, margin, padding, funcss, children, roundEdge, maxHeight, maxWidth, horizontal, id, header, body, footer, noGap, fab, image, shadowless, flat, responsiveMedium, responsiveSmall, style, ...rest }: CardProps): any;
+export default function Card({ color, bg, width, height, minHeight, minWidth, margin, padding, funcss, children, roundEdge, maxHeight, maxWidth, horizontal, id, header, body, footer, noGap, fab, image, shadowless, flat, responsiveMedium, xl, responsiveSmall, style, ...rest }: CardProps): any;
 export {};

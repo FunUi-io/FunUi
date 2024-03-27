@@ -11,6 +11,7 @@ import { PiDownload } from "react-icons/pi";
 import Circle from '../specials/Circle';
 import Text from '../text/Text';
 import { exportToCSV } from 'react-easy-export';
+
 type TableProps = {
   children?: React.ReactNode;
   funcss?: string;
@@ -25,7 +26,7 @@ type TableProps = {
   body?: React.ReactNode;
   height?: number;
   pageSize?: number; // New prop for page size
-  customColumns?:React.ReactNode
+  customColumns?: { title: string; render: (data: any) => React.ReactNode; onClick?: (data: any) => void }[];
 };
 
 export default function Table({
@@ -45,38 +46,48 @@ export default function Table({
   customColumns,
   ...rest
 }: TableProps) {
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+   // Check if data is null or undefined before accessing its properties
+   const [search, setSearch] = useState<string>(data?.data ? "" : "");
+   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const totalPages = Math.ceil((data?.data?.length || 0) / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = Math.min(startIndex + pageSize, data?.data?.length || 0);
+  // Determine the total number of pages based on data length and page size
+  const totalPages = data ? Math.ceil((data?.data?.length || 0) / pageSize) : 0;
+  
+  // Calculate start and end indices for data pagination
+  const startIndex = data ? (currentPage - 1) * pageSize : 0;
+  const endIndex = data ? Math.min(startIndex + pageSize, data?.data?.length || 0) : 0;
 
+  // Function to handle page change
   const handleChangePage = (page: number) => {
-    setCurrentPage(page);
+    if(data) {
+      setCurrentPage(page);
+    }
   };
 
+  // Filter data based on search input
   const filteredData = data?.data.filter(item => {
     return Object.values(item).some(value =>
       value.toString().toLowerCase().includes(search.toLowerCase())
     );
   });
 
-  const maxVisiblePages = 5; // Maximum number of visible pages
+  // Maximum number of visible pages for pagination
+  const maxVisiblePages = 5; 
 
   // Determine which pages to display
-  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-  let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+  let startPage = data ?  Math.max(1, currentPage - Math.floor(maxVisiblePages / 2)) : 0;
+  let endPage = data ? Math.min(startPage + maxVisiblePages - 1, totalPages) : 0;
 
   // Adjust startPage and endPage if there are not enough pages to fill maxVisiblePages
   if (endPage - startPage + 1 < maxVisiblePages) {
     startPage = Math.max(1, endPage - maxVisiblePages + 1);
   }
 
-
+  // Function to export data to CSV
   const Export = () => {
     exportToCSV(data.data, 'data.csv');
   }
+
   return (
     <div className={`${funcss ? funcss : ''} roundEdge`}>
       {
@@ -110,7 +121,7 @@ export default function Table({
         }}
         {...rest}  >
 
-        {
+        { data &&
           data?.titles &&
           <TableHead>
             {
@@ -137,10 +148,17 @@ export default function Table({
                   </TableData>
                 ))
               }
-              {
-                customColumns &&
-                customColumns
-              }
+              {customColumns ?
+                customColumns.map((column, columnIndex) => (
+                  <td key={columnIndex}>
+                    {column.render && column.render(mdoc)}
+                    {column.onClick && (
+                      <Button onClick={() => column.onClick && column.onClick(mdoc)}>
+                        {column.title}
+                      </Button>
+                    )}
+                  </td>
+                )) : ""}
             </TableRow>
           ))
         }

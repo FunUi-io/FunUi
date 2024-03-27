@@ -29,6 +29,7 @@ interface CardProps {
   fab?:ReactNode ,
   responsiveSmall?:boolean;
   responsiveMedium?:boolean ,
+  xl?:boolean ,
   style?:React.CSSProperties
 }
 
@@ -57,6 +58,7 @@ export default function Card({
   shadowless,
   flat,
   responsiveMedium ,
+  xl,
   responsiveSmall ,
   style,
   ...rest
@@ -68,6 +70,7 @@ export default function Card({
       card 
       card_flex
       ${noGap ? 'no-gap' : ''} 
+      ${xl ? 'xl' : ''} 
       text-${color || ''} 
       ${bg || ''} 
       ${funcss || ''} 
@@ -92,7 +95,7 @@ export default function Card({
       }}
       {...rest}
     >
-      {image ? <div className={`${fab ? 'relative' : ''}`}>{image} {fab ? fab : ''}</div> : ''}
+      {image ? <div className={`${fab ? 'relative' : ''}`}>{image} {fab ? fab : ''}</div>: ''}
 
       {header && !horizontal ? <CardHeader>{header}</CardHeader> : ''}
 

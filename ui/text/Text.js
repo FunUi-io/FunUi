@@ -1,4 +1,3 @@
-'use client';
 "use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -11,29 +10,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -45,12 +21,15 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __importStar(require("react"));
+var react_1 = __importDefault(require("react"));
 var pi_1 = require("react-icons/pi");
-function Text(_a) {
-    var id = _a.id, size = _a.size, bg = _a.bg, color = _a.color, children = _a.children, hoverBg = _a.hoverBg, hoverText = _a.hoverText, text = _a.text, heading = _a.heading, funcss = _a.funcss, emp = _a.emp, bold = _a.bold, block = _a.block, body = _a.body, article = _a.article, light = _a.light, lighter = _a.lighter, italic = _a.italic, underline = _a.underline, align = _a.align, lineHeight = _a.lineHeight, letterSpacing = _a.letterSpacing, uppercase = _a.uppercase, lowercase = _a.lowercase, capitalize = _a.capitalize, textDecoration = _a.textDecoration, textTransform = _a.textTransform, whiteSpace = _a.whiteSpace, wordBreak = _a.wordBreak, fontFamily = _a.fontFamily, textShadow = _a.textShadow, textAlign = _a.textAlign, opacity = _a.opacity, zIndex = _a.zIndex, transform = _a.transform, customStyles = _a.customStyles, monospace = _a.monospace, quote = _a.quote, rest = __rest(_a, ["id", "size", "bg", "color", "children", "hoverBg", "hoverText", "text", "heading", "funcss", "emp", "bold", "block", "body", "article", "light", "lighter", "italic", "underline", "align", "lineHeight", "letterSpacing", "uppercase", "lowercase", "capitalize", "textDecoration", "textTransform", "whiteSpace", "wordBreak", "fontFamily", "textShadow", "textAlign", "opacity", "zIndex", "transform", "customStyles", "monospace", "quote"]);
-    var mergedStyles = __assign({ display: block ? 'block' : undefined, fontWeight: bold ? 'bold' : undefined, lineHeight: lineHeight ? lineHeight : undefined, letterSpacing: letterSpacing ? letterSpacing : undefined, textTransform: textTransform ? textTransform : undefined, textDecoration: textDecoration ? textDecoration : undefined, fontFamily: fontFamily ? fontFamily : undefined, textShadow: textShadow ? textShadow : undefined, uppercase: textShadow ? textShadow : undefined, textAlign: textAlign ? textAlign : undefined, whiteSpace: whiteSpace ? whiteSpace : undefined, wordBreak: wordBreak ? wordBreak : undefined, transform: transform ? transform : undefined }, customStyles);
+var Text = function (_a) {
+    var id = _a.id, size = _a.size, bg = _a.bg, color = _a.color, children = _a.children, hoverBg = _a.hoverBg, hoverText = _a.hoverText, text = _a.text, heading = _a.heading, funcss = _a.funcss, emp = _a.emp, bold = _a.bold, block = _a.block, body = _a.body, article = _a.article, light = _a.light, lighter = _a.lighter, italic = _a.italic, underline = _a.underline, align = _a.align, lineHeight = _a.lineHeight, letterSpacing = _a.letterSpacing, uppercase = _a.uppercase, lowercase = _a.lowercase, capitalize = _a.capitalize, textDecoration = _a.textDecoration, textTransform = _a.textTransform, whiteSpace = _a.whiteSpace, wordBreak = _a.wordBreak, fontFamily = _a.fontFamily, textShadow = _a.textShadow, textAlign = _a.textAlign, customStyles = _a.customStyles, monospace = _a.monospace, quote = _a.quote, rest = __rest(_a, ["id", "size", "bg", "color", "children", "hoverBg", "hoverText", "text", "heading", "funcss", "emp", "bold", "block", "body", "article", "light", "lighter", "italic", "underline", "align", "lineHeight", "letterSpacing", "uppercase", "lowercase", "capitalize", "textDecoration", "textTransform", "whiteSpace", "wordBreak", "fontFamily", "textShadow", "textAlign", "customStyles", "monospace", "quote"]);
+    var mergedStyles = __assign({ display: block ? 'block' : undefined, fontWeight: bold ? 'bold' : undefined, lineHeight: lineHeight ? lineHeight : undefined, letterSpacing: letterSpacing ? letterSpacing : undefined, textTransform: textTransform ? textTransform : undefined, textDecoration: textDecoration ? textDecoration : undefined, fontFamily: fontFamily ? fontFamily : undefined, textShadow: textShadow ? textShadow : undefined, textAlign: textAlign ? textAlign : undefined, whiteSpace: whiteSpace ? whiteSpace : undefined, wordBreak: wordBreak ? wordBreak : undefined, transform: customStyles === null || customStyles === void 0 ? void 0 : customStyles.transform }, customStyles);
     var classNames = [
         size ? "text-".concat(size) : '',
         color ? "text-".concat(color) : '',
@@ -72,19 +51,11 @@ function Text(_a) {
         lowercase ? 'lowercase' : '',
         capitalize ? 'capitalize' : '',
     ].filter(Boolean).join(' ');
-    if (block) {
-        return (React.createElement("div", __assign({ id: id, className: classNames, style: mergedStyles }, rest),
-            quote && React.createElement("div", { className: "" },
-                React.createElement(pi_1.PiQuotesLight, null)),
-            children,
-            text));
-    }
-    else {
-        return (React.createElement("span", __assign({ id: id, className: classNames, style: mergedStyles }, rest),
-            quote && React.createElement("div", { className: "" },
-                React.createElement(pi_1.PiQuotesLight, null)),
-            children,
-            text));
-    }
-}
+    var HeadingTag = heading ? heading : block ? "div" : 'span';
+    return (react_1.default.createElement(HeadingTag, __assign({ id: id, className: classNames, style: mergedStyles }, rest),
+        quote && react_1.default.createElement("div", { className: "" },
+            react_1.default.createElement(pi_1.PiQuotesLight, null)),
+        children,
+        text));
+};
 exports.default = Text;

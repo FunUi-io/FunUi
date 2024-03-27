@@ -8,6 +8,7 @@ interface FunLoaderProps {
     content?: ReactNode;
     footer?: ReactNode;
     width?: number;
+    fixed?: boolean;
 }
-export default function SideBar({ funcss, position, glassy, header, open, content, footer, width, ...rest }: FunLoaderProps): any;
+export default function SideBar({ funcss, position, glassy, header, open, content, footer, width, fixed, ...rest }: FunLoaderProps): any;
 export {};

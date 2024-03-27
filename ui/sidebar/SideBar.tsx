@@ -1,4 +1,4 @@
-import { ReactNode, HTMLProps } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import * as React from 'react'
 
 
@@ -10,7 +10,8 @@ interface FunLoaderProps {
   header?: ReactNode ,
   content?: ReactNode ,
   footer?: ReactNode ,
-  width?:number
+  width?:number , 
+  fixed?:boolean
 }
 
 export default function SideBar({
@@ -21,17 +22,24 @@ export default function SideBar({
   open ,
   content ,
   footer ,
-  width,
+  width, 
+  fixed,
   ...rest
 }: FunLoaderProps) {
+
+
+  
   if(open){
     return (
-        <div className={`fun_side_bar ${glassy ? "glassy" : ""}`} {...rest}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque id nam perferendis officiis laboriosam, ullam dolorum odio sint a ratione nulla, voluptatibus quod voluptates error odit ea tempore, assumenda iusto.
-            <div className="fun_sidebar_content" style={{
-                width: width + "px" || "250px"
+        <nav className={`fun_side_bar_wrapper ${fixed ? "fixed_sidebar" : ""} ${glassy ? "glassy" : ""}`} {...rest}>
+            <div className={`
+            fun_sidebar_content ${funcss || ""} ${position || ""} 
+            `} 
+            style={{
+                width: width ? width + "px" : "200px"
             }}>
-                {
+             <aside>
+             {
                     header && 
                     <div> {header} </div>
                 }
@@ -43,8 +51,9 @@ export default function SideBar({
                     footer && 
                     <div>{footer}</div>
                 }
+             </aside>
             </div>
-        </div>
+        </nav>
       );
   }else{
     return <></>

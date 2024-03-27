@@ -47,22 +47,22 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function SideBar(_a) {
-    var funcss = _a.funcss, position = _a.position, glassy = _a.glassy, header = _a.header, open = _a.open, content = _a.content, footer = _a.footer, width = _a.width, rest = __rest(_a, ["funcss", "position", "glassy", "header", "open", "content", "footer", "width"]);
+    var funcss = _a.funcss, position = _a.position, glassy = _a.glassy, header = _a.header, open = _a.open, content = _a.content, footer = _a.footer, width = _a.width, fixed = _a.fixed, rest = __rest(_a, ["funcss", "position", "glassy", "header", "open", "content", "footer", "width", "fixed"]);
     if (open) {
-        return (React.createElement("div", __assign({ className: "fun_side_bar ".concat(glassy ? "glassy" : "") }, rest),
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque id nam perferendis officiis laboriosam, ullam dolorum odio sint a ratione nulla, voluptatibus quod voluptates error odit ea tempore, assumenda iusto.",
-            React.createElement("div", { className: "fun_sidebar_content", style: {
-                    width: width + "px" || "250px"
+        return (React.createElement("nav", __assign({ className: "fun_side_bar_wrapper ".concat(fixed ? "fixed_sidebar" : "", " ").concat(glassy ? "glassy" : "") }, rest),
+            React.createElement("div", { className: "\n            fun_sidebar_content ".concat(funcss || "", " ").concat(position || "", " \n            "), style: {
+                    width: width ? width + "px" : "200px"
                 } },
-                header &&
-                    React.createElement("div", null,
-                        " ",
-                        header,
-                        " "),
-                content &&
-                    React.createElement("div", null, content),
-                footer &&
-                    React.createElement("div", null, footer))));
+                React.createElement("aside", null,
+                    header &&
+                        React.createElement("div", null,
+                            " ",
+                            header,
+                            " "),
+                    content &&
+                        React.createElement("div", null, content),
+                    footer &&
+                        React.createElement("div", null, footer)))));
     }
     else {
         return React.createElement(React.Fragment, null);
