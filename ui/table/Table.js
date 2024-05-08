@@ -126,7 +126,11 @@ function Table(_a) {
         data &&
             React.createElement("div", { className: "padding bb" },
                 React.createElement(RowFlex_1.default, { justify: 'space-between' },
-                    data && filterableFields.length > 0 ?
+                    data &&
+                        React.createElement("div", { className: "text-bold" },
+                            React.createElement(Text_1.default, { text: 'Records:', size: "small", bold: true, color: 'primary' }),
+                            React.createElement(Text_1.default, { text: filteredData.length, heading: 'h4' })),
+                    data && filterableFields ?
                         React.createElement("div", { className: "col width-200-max" },
                             React.createElement(RowFlex_1.default, { gap: 0.7 },
                                 React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) { return handleFieldChange(e.target.value); } },
@@ -140,13 +144,14 @@ function Table(_a) {
                     React.createElement("div", null,
                         React.createElement(RowFlex_1.default, { gap: 0.5 },
                             right && right,
-                            React.createElement(Button_1.default, { small: true, bold: true, text: 'Export', startIcon: React.createElement(pi_1.PiDownload, null), onClick: Export }))))),
+                            React.createElement(Button_1.default, { small: true, bold: true, text: 'Export', startIcon: React.createElement(pi_1.PiFileCsv, null), color: 'gradient', onClick: Export }))))),
         React.createElement("table", __assign({ className: "table  ".concat(bordered ? 'border' : '', " ").concat(noStripped ? '' : 'stripped', " ").concat(hoverable ? 'hoverableTr' : '', " ").concat(light ? 'light' : '', " ").concat(dark ? 'dark' : ''), style: {
                 height: height ? height + "px" : ""
             } }, rest),
             data &&
                 (data === null || data === void 0 ? void 0 : data.titles) &&
-                React.createElement(Head_1.default, null, data.titles.map(function (mdoc) { return (React.createElement("th", { key: mdoc }, mdoc)); })),
+                React.createElement(Head_1.default, null, data.titles.map(function (mdoc) { return (React.createElement("th", { key: mdoc },
+                    React.createElement(Text_1.default, { text: mdoc, bold: true, color: 'primary' }))); })),
             head && React.createElement(Head_1.default, null, head),
             body && React.createElement(Body_1.default, null, body),
             data &&
@@ -162,10 +167,7 @@ function Table(_a) {
         data &&
             React.createElement(React.Fragment, null,
                 React.createElement("div", { className: "padding bt" },
-                    React.createElement(RowFlex_1.default, { gap: 1, justify: 'space-between' },
-                        React.createElement("div", { className: "" }, data &&
-                            React.createElement("div", { className: "text-bold" },
-                                React.createElement(Text_1.default, { text: filteredData.length, heading: 'h4' }))),
+                    React.createElement(RowFlex_1.default, { gap: 1, justify: 'center' },
                         React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary' },
                             React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'small' }))); })))))));
 }

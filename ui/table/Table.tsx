@@ -8,7 +8,7 @@ import Input from '../input/Input';
 import { useState } from "react";
 import RowFlex from '../specials/RowFlex';
 import Button from '../button/Button';
-import { PiDownload } from "react-icons/pi";
+import { PiDownload, PiFileCsv} from "react-icons/pi";
 import Circle from '../specials/Circle';
 import Text from '../text/Text';
 import { exportToCSV } from 'react-easy-export';
@@ -131,8 +131,15 @@ export default function Table({
         data &&
         <div className="padding bb">
         <RowFlex justify='space-between'>
+        {
+              data &&
+              <div className="text-bold">
+                       <Text text='Records:' size="small" bold color='primary'/>
+                       <Text text={filteredData.length} heading='h4'/>
+              </div>
+            }
           {
-            data && filterableFields.length > 0 ?
+            data && filterableFields ?
             <div className="col width-200-max">
            <RowFlex gap={0.7}>
            <select className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" value={selectedField || ''} onChange={(e) => handleFieldChange(e.target.value)}>
@@ -169,7 +176,8 @@ export default function Table({
               small
               bold
               text='Export'
-              startIcon={<PiDownload />}
+              startIcon={<PiFileCsv />}
+              color='gradient'
               onClick={Export}
             />
           </RowFlex>
@@ -191,7 +199,9 @@ export default function Table({
           <TableHead>
             {
               data.titles.map(mdoc => (
-                <th key={mdoc}>{mdoc}</th>
+                <th key={mdoc}>
+                  <Text text={mdoc} bold color='primary'/>
+                </th>
               ))
             }
           </TableHead>
@@ -239,15 +249,8 @@ export default function Table({
         data && 
         <>
         <div className="padding bt">
-        <RowFlex gap={1} justify='space-between'>
-          <div className="">
-            {
-              data &&
-              <div className="text-bold">
-                       <Text text={filteredData.length} heading='h4'/>
-              </div>
-            }
-          </div>
+        <RowFlex gap={1} justify='center'>
+       
           <div className="pagination">
             {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
               <Circle
