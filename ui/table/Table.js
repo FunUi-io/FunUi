@@ -63,9 +63,9 @@ var Text_1 = __importDefault(require("../text/Text"));
 var react_easy_export_1 = require("react-easy-export");
 function Table(_a) {
     var _b, _c;
-    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, right = _a.right, height = _a.height, _d = _a.pageSize, pageSize = _d === void 0 ? data ? 10 : 0 : _d, // Default page size,
+    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, isLoading = _a.isLoading, right = _a.right, height = _a.height, _d = _a.pageSize, pageSize = _d === void 0 ? data ? 10 : 0 : _d, // Default page size,
     customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
-    rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "showTotal", "light", "dark", "head", "body", "data", "right", "height", "pageSize", "customColumns", "filterableFields"]);
+    rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "height", "pageSize", "customColumns", "filterableFields"]);
     // Check if data is null or undefined before accessing its properties
     var _e = (0, react_1.useState)((data === null || data === void 0 ? void 0 : data.data) ? "" : ""), search = _e[0], setSearch = _e[1];
     var _f = (0, react_1.useState)(1), currentPage = _f[0], setCurrentPage = _f[1];
@@ -154,6 +154,8 @@ function Table(_a) {
                         customColumns.map(function (column, columnIndex) { return (React.createElement("td", { key: columnIndex },
                             column.render && column.render(mdoc),
                             column.onClick && (React.createElement(Button_1.default, { onClick: function () { return column.onClick && column.onClick(mdoc); } }, column.title)))); }) : "")); }),
+            isLoading &&
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function () { return (React.createElement(Row_1.default, { funcss: 'skeleton' })); }),
             children ? children : ''),
         data &&
             React.createElement(React.Fragment, null,

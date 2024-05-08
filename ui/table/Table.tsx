@@ -21,6 +21,7 @@ type TableProps = {
   hoverable?: boolean;
   showTotal?: boolean;
   light?: boolean;
+  isLoading?: boolean;
   dark?: boolean;
   data?: { "fields": string[], "data": any[], "titles": string[] };
   head?: React.ReactNode;
@@ -44,6 +45,7 @@ export default function Table({
   head,
   body,
   data,
+  isLoading,
   right,
   height,
   pageSize = data ? 10 : 0, // Default page size,
@@ -221,6 +223,12 @@ export default function Table({
                   </td>
                 )) : ""}
             </TableRow>
+          ))
+        }
+        {
+          isLoading &&
+          [1,2,3,4,5,6,7,8,9,10].map(() => (
+            <TableRow funcss='skeleton'/>
           ))
         }
         {children ? children : ''}

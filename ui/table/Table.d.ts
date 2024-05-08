@@ -7,6 +7,7 @@ type TableProps = {
     hoverable?: boolean;
     showTotal?: boolean;
     light?: boolean;
+    isLoading?: boolean;
     dark?: boolean;
     data?: {
         "fields": string[];
@@ -25,7 +26,7 @@ type TableProps = {
     }[];
     filterableFields?: string[];
 };
-export default function Table({ children, funcss, bordered, noStripped, hoverable, showTotal, light, dark, head, body, data, right, height, pageSize, // Default page size,
+export default function Table({ children, funcss, bordered, noStripped, hoverable, showTotal, light, dark, head, body, data, isLoading, right, height, pageSize, // Default page size,
 customColumns, filterableFields, // New prop
 ...rest }: TableProps): any;
 export {};
