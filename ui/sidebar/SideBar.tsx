@@ -1,5 +1,6 @@
 import { ReactNode, useState, useEffect } from 'react';
 import * as React from 'react'
+import RowFlex from '../specials/RowFlex';
 
 
 interface FunLoaderProps {
@@ -9,8 +10,8 @@ interface FunLoaderProps {
   open?:boolean
   header?: ReactNode ,
   content?: ReactNode ,
+  close?: ReactNode ,
   footer?: ReactNode ,
-  width?:number , 
   fixed?:boolean
 }
 
@@ -21,8 +22,8 @@ export default function SideBar({
   header ,
   open ,
   content ,
+  close,
   footer ,
-  width, 
   fixed,
   ...rest
 }: FunLoaderProps) {
@@ -31,18 +32,19 @@ export default function SideBar({
   
   if(open){
     return (
-        <nav className={`fun_side_bar_wrapper ${fixed ? "fixed_sidebar" : ""} ${glassy ? "glassy" : ""}`} {...rest}>
+        <aside className={`fun_side_bar_wrapper ${fixed ? "fixed_sidebar" : ""} ${glassy ? "glassy" : ""}`} {...rest}>
             <div className={`
             fun_sidebar_content ${funcss || ""} ${position || ""} 
             `} 
-            style={{
-                width: width ? width + "px" : "200px"
-            }}>
-             <aside>
+           >
+              <RowFlex justify='space-between'>
              {
                     header && 
-                    <div> {header} </div>
+                    <div className="col fit"> {header} </div>
                 }
+              {close && <div className="close_sidebar">{close} </div>}
+
+              </RowFlex>
                 {
                     content && 
                     <div>{content}</div>
@@ -51,9 +53,8 @@ export default function SideBar({
                     footer && 
                     <div>{footer}</div>
                 }
-             </aside>
-            </div>
-        </nav>
+              </div>
+        </aside>
       );
   }else{
     return <></>

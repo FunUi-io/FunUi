@@ -10,8 +10,11 @@ interface NavbarProps {
   left?:React.ReactNode
   center?:React.ReactNode
   right?:React.ReactNode 
-  visibleLinks:boolean,
-  sidebarTrigger:React.ReactNode
+  visibleLinks?:boolean,
+  sidebarTrigger?:React.ReactNode ,
+  transparent?:Boolean
+  sideBar?:number
+  width?:string
 }
 
 export default function AppBar({
@@ -24,18 +27,23 @@ export default function AppBar({
   left ,
   center,
   right ,
+  sideBar,
+  width ,
   visibleLinks ,
-  sidebarTrigger
+  sidebarTrigger ,
+  transparent
 }: NavbarProps) {
   return (
     <div>
       <nav
         className={`
           navigation-bar ${funcss ? funcss : ''}
-          ${fixedTop ? 'fixedTop' : ''}
+          ${fixedTop ? 'fixed_top_navbar' : ''}
+          ${sideBar ? 'there_is_sidebar' : ''}
+          ${transparent ? 'transparent' : ''}
           ${fixedBottom ? 'fixedBottom' : ''}
         `}
-        style={{ padding: `${padding ? padding : ''}`, justifyContent: `${justify ? justify : ''}` }}
+        style={{ padding: `${padding ? padding : ''}`, justifyContent: `${justify ? justify : ''}`}}
       >
         <div>
             {left}

@@ -22,7 +22,9 @@ type TableProps = {
         render: (data: any) => React.ReactNode;
         onClick?: (data: any) => void;
     }[];
+    filterableFields?: string[];
 };
 export default function Table({ children, funcss, bordered, noStripped, hoverable, showTotal, light, dark, head, body, data, height, pageSize, // Default page size,
-customColumns, ...rest }: TableProps): any;
+customColumns, filterableFields, // New prop
+...rest }: TableProps): any;
 export {};

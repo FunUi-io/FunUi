@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import TableHead from './Head';
 import TableBody from './Body';
@@ -27,6 +28,7 @@ type TableProps = {
   height?: number;
   pageSize?: number; // New prop for page size
   customColumns?: { title: string; render: (data: any) => React.ReactNode; onClick?: (data: any) => void }[];
+  filterableFields?: string[]; // New prop for filterable fields
 };
 
 export default function Table({
@@ -44,6 +46,7 @@ export default function Table({
   height,
   pageSize = data ? 10 : 0, // Default page size,
   customColumns,
+  filterableFields, // New prop
   ...rest
 }: TableProps) {
    // Check if data is null or undefined before accessing its properties
@@ -57,6 +60,9 @@ export default function Table({
   const startIndex = data ? (currentPage - 1) * pageSize : 0;
   const endIndex = data ? Math.min(startIndex + pageSize, data?.data?.length || 0) : 0;
 
+  const [selectedField, setSelectedField] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+
   // Function to handle page change
   const handleChangePage = (page: number) => {
     if(data) {
@@ -64,12 +70,30 @@ export default function Table({
     }
   };
 
-  // Filter data based on search input
+  const handleFieldChange = (field: string) => {
+    setSelectedField(field);
+    setSelectedValue(null); // Reset selected value when field changes
+  };
+
+  const handleValueChange = (value: string) => {
+    setSelectedValue(value);
+  };
+
+
   const filteredData = data?.data.filter(item => {
-    return Object.values(item).some(value =>
-      value.toString().toLowerCase().includes(search.toLowerCase())
-    );
-  });
+    if (!search && !selectedField && !selectedValue) return true;
+    if (selectedField && selectedValue) {
+      const value = item[selectedField];
+      return value ? value.toString().toLowerCase() === selectedValue.toLowerCase() : false;
+    }
+    if (selectedField) {
+      const value = item[selectedField];
+      return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
+    }
+    return Object.values(item).some(value => {
+      return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
+    });
+  })
 
   // Maximum number of visible pages for pagination
   const maxVisiblePages = 5; 
@@ -97,7 +121,29 @@ export default function Table({
           {
             data &&
             <div className="col width-200-max">
-              <Input fullWidth bordered funcss="text-smaller text-bold height-30" label="Search..." onChange={(e) => setSearch(e.target.value)} />
+           <RowFlex gap={0.7}>
+           <select className="dark800 input text-dark200 borderless roundEdgeSmall text-small" value={selectedField || ''} onChange={(e) => handleFieldChange(e.target.value)}>
+        <option value="">Select Field</option>
+        {filterableFields?.map(field => (
+          <option key={field} value={field}>{field}</option>
+        ))}
+      </select>
+      {
+        selectedField && <div>
+        =
+      </div>
+      }
+      {selectedField && (
+        <select  className="dark800 input text-dark200 borderless roundEdgeSmall text-small"  value={selectedValue || ''} onChange={(e) => handleValueChange(e.target.value)}>
+          <option value="">Select Value</option>
+          {data?.data.map(item => (
+            <option key={item[selectedField]} value={item[selectedField]}>
+              {item[selectedField]}
+            </option>
+          ))}
+        </select>
+      )}
+           </RowFlex>
             </div>
           }
           <div>

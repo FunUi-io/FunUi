@@ -25,9 +25,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function AppBar(_a) {
-    var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, children = _a.children, left = _a.left, center = _a.center, right = _a.right, visibleLinks = _a.visibleLinks, sidebarTrigger = _a.sidebarTrigger;
+    var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, children = _a.children, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, width = _a.width, visibleLinks = _a.visibleLinks, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
     return (React.createElement("div", null,
-        React.createElement("nav", { className: "\n          navigation-bar ".concat(funcss ? funcss : '', "\n          ").concat(fixedTop ? 'fixedTop' : '', "\n          ").concat(fixedBottom ? 'fixedBottom' : '', "\n        "), style: { padding: "".concat(padding ? padding : ''), justifyContent: "".concat(justify ? justify : '') } },
+        React.createElement("nav", { className: "\n          navigation-bar ".concat(funcss ? funcss : '', "\n          ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n          ").concat(sideBar ? 'there_is_sidebar' : '', "\n          ").concat(transparent ? 'transparent' : '', "\n          ").concat(fixedBottom ? 'fixedBottom' : '', "\n        "), style: { padding: "".concat(padding ? padding : ''), justifyContent: "".concat(justify ? justify : '') } },
             React.createElement("div", null, left),
             React.createElement("div", { className: " linkWrapper ".concat(visibleLinks ? "visibleLinks" : "") }, center),
             React.createElement("div", { className: "linkWrapper ".concat(visibleLinks ? "visibleLinks" : "") }, right),

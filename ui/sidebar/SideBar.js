@@ -44,25 +44,30 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
+var RowFlex_1 = __importDefault(require("../specials/RowFlex"));
 function SideBar(_a) {
-    var funcss = _a.funcss, position = _a.position, glassy = _a.glassy, header = _a.header, open = _a.open, content = _a.content, footer = _a.footer, width = _a.width, fixed = _a.fixed, rest = __rest(_a, ["funcss", "position", "glassy", "header", "open", "content", "footer", "width", "fixed"]);
+    var funcss = _a.funcss, position = _a.position, glassy = _a.glassy, header = _a.header, open = _a.open, content = _a.content, close = _a.close, footer = _a.footer, fixed = _a.fixed, rest = __rest(_a, ["funcss", "position", "glassy", "header", "open", "content", "close", "footer", "fixed"]);
     if (open) {
-        return (React.createElement("nav", __assign({ className: "fun_side_bar_wrapper ".concat(fixed ? "fixed_sidebar" : "", " ").concat(glassy ? "glassy" : "") }, rest),
-            React.createElement("div", { className: "\n            fun_sidebar_content ".concat(funcss || "", " ").concat(position || "", " \n            "), style: {
-                    width: width ? width + "px" : "200px"
-                } },
-                React.createElement("aside", null,
+        return (React.createElement("aside", __assign({ className: "fun_side_bar_wrapper ".concat(fixed ? "fixed_sidebar" : "", " ").concat(glassy ? "glassy" : "") }, rest),
+            React.createElement("div", { className: "\n            fun_sidebar_content ".concat(funcss || "", " ").concat(position || "", " \n            ") },
+                React.createElement(RowFlex_1.default, { justify: 'space-between' },
                     header &&
-                        React.createElement("div", null,
+                        React.createElement("div", { className: "col fit" },
                             " ",
                             header,
                             " "),
-                    content &&
-                        React.createElement("div", null, content),
-                    footer &&
-                        React.createElement("div", null, footer)))));
+                    close && React.createElement("div", { className: "close_sidebar" },
+                        close,
+                        " ")),
+                content &&
+                    React.createElement("div", null, content),
+                footer &&
+                    React.createElement("div", null, footer))));
     }
     else {
         return React.createElement(React.Fragment, null);
