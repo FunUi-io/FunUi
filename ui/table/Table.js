@@ -89,7 +89,7 @@ function Table(_a) {
     var handleValueChange = function (value) {
         setSelectedValue(value);
     };
-    var filteredData = data === null || data === void 0 ? void 0 : data.data.filter(function (item) {
+    var filteredData = data ? data === null || data === void 0 ? void 0 : data.data.filter(function (item) {
         if (!search && !selectedField && !selectedValue)
             return true;
         if (selectedField && selectedValue) {
@@ -103,7 +103,8 @@ function Table(_a) {
         return Object.values(item).some(function (value) {
             return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
         });
-    });
+    })
+        : [];
     // Maximum number of visible pages for pagination
     var maxVisiblePages = 5;
     // Determine which pages to display
@@ -125,7 +126,7 @@ function Table(_a) {
         data &&
             React.createElement("div", { className: "padding bb" },
                 React.createElement(RowFlex_1.default, { justify: 'space-between' },
-                    data && filterableFields.length > 0 &&
+                    data && filterableFields.length > 0 ?
                         React.createElement("div", { className: "col width-200-max" },
                             React.createElement(RowFlex_1.default, { gap: 0.7 },
                                 React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) { return handleFieldChange(e.target.value); } },
@@ -134,7 +135,8 @@ function Table(_a) {
                                 selectedField && React.createElement("div", null, "="),
                                 selectedField && (React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) { return handleValueChange(e.target.value); } },
                                     React.createElement("option", { value: "" }, "Select Value"),
-                                    uniqueValues.map(function (item) { return (React.createElement("option", { key: item[selectedField], value: item }, item)); }))))),
+                                    uniqueValues.map(function (item) { return (React.createElement("option", { key: item[selectedField], value: item }, item)); })))))
+                        : '',
                     React.createElement("div", null,
                         React.createElement(RowFlex_1.default, { gap: 0.5 },
                             right && right,

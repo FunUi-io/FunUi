@@ -84,7 +84,7 @@ export default function Table({
   };
 
 
-  const filteredData = data?.data.filter(item => {
+  const filteredData = data ? data?.data.filter(item => {
     if (!search && !selectedField && !selectedValue) return true;
     if (selectedField && selectedValue) {
       const value = item[selectedField];
@@ -98,6 +98,7 @@ export default function Table({
       return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
     });
   })
+  : []
 
   // Maximum number of visible pages for pagination
   const maxVisiblePages = 5; 
@@ -131,7 +132,7 @@ export default function Table({
         <div className="padding bb">
         <RowFlex justify='space-between'>
           {
-            data && filterableFields.length > 0 &&
+            data && filterableFields.length > 0 ?
             <div className="col width-200-max">
            <RowFlex gap={0.7}>
            <select className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" value={selectedField || ''} onChange={(e) => handleFieldChange(e.target.value)}>
@@ -157,6 +158,7 @@ export default function Table({
       )}
            </RowFlex>
             </div>
+            :''
           }
           <div>
           <RowFlex gap={0.5}>
