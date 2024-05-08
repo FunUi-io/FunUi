@@ -24,6 +24,7 @@ type TableProps = {
   dark?: boolean;
   data?: { "fields": string[], "data": any[], "titles": string[] };
   head?: React.ReactNode;
+  right?: React.ReactNode;
   body?: React.ReactNode;
   height?: number;
   pageSize?: number; // New prop for page size
@@ -43,6 +44,7 @@ export default function Table({
   head,
   body,
   data,
+  right,
   height,
   pageSize = data ? 10 : 0, // Default page size,
   customColumns,
@@ -112,6 +114,14 @@ export default function Table({
     exportToCSV(data.data, 'data.csv');
   }
 
+
+   // Extract the data array
+   const dataArray = data ? data.data : []
+   
+ // Remove duplicate values
+ const uniqueValues = Array.from(new Set(dataArray.map(item => item[selectedField])));
+
+
   return (
     <div className={`${funcss ? funcss : ''} roundEdge`}>
       {
@@ -119,10 +129,10 @@ export default function Table({
         <div className="padding bb">
         <RowFlex justify='space-between'>
           {
-            data &&
+            data && filterableFields.length > 0 &&
             <div className="col width-200-max">
            <RowFlex gap={0.7}>
-           <select className="dark800 input text-dark200 borderless roundEdgeSmall text-small" value={selectedField || ''} onChange={(e) => handleFieldChange(e.target.value)}>
+           <select className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" value={selectedField || ''} onChange={(e) => handleFieldChange(e.target.value)}>
         <option value="">Select Field</option>
         {filterableFields?.map(field => (
           <option key={field} value={field}>{field}</option>
@@ -134,11 +144,11 @@ export default function Table({
       </div>
       }
       {selectedField && (
-        <select  className="dark800 input text-dark200 borderless roundEdgeSmall text-small"  value={selectedValue || ''} onChange={(e) => handleValueChange(e.target.value)}>
+        <select  className="dark800 input text-dark200 borderless roundEdgeSmall smallInput"  value={selectedValue || ''} onChange={(e) => handleValueChange(e.target.value)}>
           <option value="">Select Value</option>
-          {data?.data.map(item => (
-            <option key={item[selectedField]} value={item[selectedField]}>
-              {item[selectedField]}
+          {uniqueValues.map(item => (
+            <option key={item[selectedField]} value={item}>
+              {item}
             </option>
           ))}
         </select>
@@ -147,13 +157,18 @@ export default function Table({
             </div>
           }
           <div>
-            <Button
+          <RowFlex gap={0.5}>
+            {
+              right && right
+            }
+          <Button
               small
               bold
               text='Export'
               startIcon={<PiDownload />}
               onClick={Export}
             />
+          </RowFlex>
           </div>
         </RowFlex>
       </div>
@@ -219,19 +234,19 @@ export default function Table({
             {
               data &&
               <div className="text-bold">
-                Total: {filteredData.length}
+                       <Text text={filteredData.length} heading='h4'/>
               </div>
             }
           </div>
           <div className="pagination">
             {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
               <Circle
-                size={2}
+                size={2.5}
                 key={startPage + i}
                 onClick={() => handleChangePage(startPage + i)}
-                funcss={currentPage === startPage + i ? 'primary pageCircle' : 'dark pageCircle'}
+                funcss={currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary'}
               >
-                <Text text={`${startPage + i}`} bold />
+                <Text text={`${startPage + i}`} bold size='small'/>
               </Circle>
             ))}
           </div>

@@ -14,6 +14,7 @@ type TableProps = {
         "titles": string[];
     };
     head?: React.ReactNode;
+    right?: React.ReactNode;
     body?: React.ReactNode;
     height?: number;
     pageSize?: number;
@@ -24,7 +25,7 @@ type TableProps = {
     }[];
     filterableFields?: string[];
 };
-export default function Table({ children, funcss, bordered, noStripped, hoverable, showTotal, light, dark, head, body, data, height, pageSize, // Default page size,
+export default function Table({ children, funcss, bordered, noStripped, hoverable, showTotal, light, dark, head, body, data, right, height, pageSize, // Default page size,
 customColumns, filterableFields, // New prop
 ...rest }: TableProps): any;
 export {};
