@@ -88,14 +88,14 @@ export default function Table({
     if (!search && !selectedField && !selectedValue) return true;
     if (selectedField && selectedValue) {
       const value = item[selectedField];
-      return value ? value.toString().toLowerCase() === selectedValue.toLowerCase() : false;
+      return value ? value.toString().toLowerCase() === selectedValue.toString().toLowerCase() : false;
     }
     if (selectedField) {
       const value = item[selectedField];
-      return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
+      return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
     }
     return Object.values(item).some(value => {
-      return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
+      return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
     });
   })
   : []
@@ -148,7 +148,8 @@ export default function Table({
            onChange={(e) => {
             handleFieldChange(e.target.value)
            }}>
-        <option value="">Select Field</option>
+        <option value="">🔍 Filter</option>
+        <option value="">All*</option>
         {filterableFields?.map(field => (
           <option key={field} value={field}>{field}</option>
         ))}
@@ -167,10 +168,10 @@ export default function Table({
           handleChangePage(1)
          }}
          >
-          <option value="">Select Value</option>
+          <option value="">All*</option>
           {uniqueValues.map(item => (
             <option key={item[selectedField]} value={item}>
-              {item}
+              {item.toString()}
             </option>
           ))}
         </select>
