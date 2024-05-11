@@ -142,7 +142,12 @@ export default function Table({
             data && filterableFields ?
             <div className="col width-200-max">
            <RowFlex gap={0.7}>
-           <select className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" value={selectedField || ''} onChange={(e) => handleFieldChange(e.target.value)}>
+           <select 
+           className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" 
+           value={selectedField || ''} 
+           onChange={(e) => {
+            handleFieldChange(e.target.value)
+           }}>
         <option value="">Select Field</option>
         {filterableFields?.map(field => (
           <option key={field} value={field}>{field}</option>
@@ -154,7 +159,14 @@ export default function Table({
       </div>
       }
       {selectedField && (
-        <select  className="dark800 input text-dark200 borderless roundEdgeSmall smallInput"  value={selectedValue || ''} onChange={(e) => handleValueChange(e.target.value)}>
+        <select  
+        className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" 
+         value={selectedValue || ''} 
+         onChange={(e) => {
+          handleValueChange(e.target.value)
+          handleChangePage(1)
+         }}
+         >
           <option value="">Select Value</option>
           {uniqueValues.map(item => (
             <option key={item[selectedField]} value={item}>
@@ -248,23 +260,32 @@ export default function Table({
       {
         data && 
         <>
-        <div className="padding bt">
-        <RowFlex gap={1} justify='center'>
-       
-          <div className="pagination">
-            {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
-              <Circle
-                size={2.5}
-                key={startPage + i}
-                onClick={() => handleChangePage(startPage + i)}
-                funcss={currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary'}
-              >
-                <Text text={`${startPage + i}`} bold size='small'/>
-              </Circle>
-            ))}
-          </div>
-        </RowFlex>
-      </div>
+        {
+            pageSize &&
+            <>
+            {
+              filteredData.length > pageSize &&
+              <div className="padding bt">
+              <RowFlex gap={1} justify='center'>
+             
+                <div className="pagination">
+                  {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+                    <Circle
+                      size={2.5}
+                      key={startPage + i}
+                      onClick={() => handleChangePage(startPage + i)}
+                      funcss={currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary'}
+                    >
+                      <Text text={`${startPage + i}`} bold size='small'/>
+                    </Circle>
+                  ))}
+                </div>
+              </RowFlex>
+            </div>
+            }
+            </>
+        }
+
         </>
       }
     </div>

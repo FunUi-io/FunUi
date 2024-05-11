@@ -133,11 +133,16 @@ function Table(_a) {
                     data && filterableFields ?
                         React.createElement("div", { className: "col width-200-max" },
                             React.createElement(RowFlex_1.default, { gap: 0.7 },
-                                React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) { return handleFieldChange(e.target.value); } },
+                                React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) {
+                                        handleFieldChange(e.target.value);
+                                    } },
                                     React.createElement("option", { value: "" }, "Select Field"), filterableFields === null || filterableFields === void 0 ? void 0 :
                                     filterableFields.map(function (field) { return (React.createElement("option", { key: field, value: field }, field)); })),
                                 selectedField && React.createElement("div", null, "="),
-                                selectedField && (React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) { return handleValueChange(e.target.value); } },
+                                selectedField && (React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) {
+                                        handleValueChange(e.target.value);
+                                        handleChangePage(1);
+                                    } },
                                     React.createElement("option", { value: "" }, "Select Value"),
                                     uniqueValues.map(function (item) { return (React.createElement("option", { key: item[selectedField], value: item }, item)); })))))
                         : '',
@@ -165,10 +170,11 @@ function Table(_a) {
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function () { return (React.createElement(Row_1.default, { funcss: 'skeleton' })); }),
             children ? children : ''),
         data &&
-            React.createElement(React.Fragment, null,
-                React.createElement("div", { className: "padding bt" },
-                    React.createElement(RowFlex_1.default, { gap: 1, justify: 'center' },
-                        React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary' },
-                            React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'small' }))); })))))));
+            React.createElement(React.Fragment, null, pageSize &&
+                React.createElement(React.Fragment, null, filteredData.length > pageSize &&
+                    React.createElement("div", { className: "padding bt" },
+                        React.createElement(RowFlex_1.default, { gap: 1, justify: 'center' },
+                            React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary' },
+                                React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'small' }))); }))))))));
 }
 exports.default = Table;

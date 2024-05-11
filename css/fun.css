@@ -6373,12 +6373,6 @@ th {
   column-gap:0.2rem;
 
 }
-/* .pagination .pageCircle:first-of-type {
-transform: translateX(20%);
-}
-.pagination .pageCircle:last-of-type {
-transform: translateX(-20%);
-} */
 
 
 /*list*/
@@ -7934,7 +7928,6 @@ background-color: rgba(0, 0, 0, 0.2);
 .padding-right-100 {
   padding-bottom: 100px;
 }
-
 
 
 
