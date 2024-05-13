@@ -94,14 +94,14 @@ function Table(_a) {
             return true;
         if (selectedField && selectedValue) {
             var value = item[selectedField];
-            return value ? value.toString().toLowerCase() === selectedValue.toLowerCase() : false;
+            return value ? value.toString().toLowerCase() === selectedValue.toString().toLowerCase() : false;
         }
         if (selectedField) {
             var value = item[selectedField];
-            return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
+            return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
         }
         return Object.values(item).some(function (value) {
-            return value ? value.toString().toLowerCase().includes(search.toLowerCase()) : false;
+            return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
         });
     })
         : [];
@@ -136,15 +136,16 @@ function Table(_a) {
                                 React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) {
                                         handleFieldChange(e.target.value);
                                     } },
-                                    React.createElement("option", { value: "" }, "Select Field"), filterableFields === null || filterableFields === void 0 ? void 0 :
+                                    React.createElement("option", { value: "" }, "\uD83D\uDD0D Filter"),
+                                    React.createElement("option", { value: "" }, "All*"), filterableFields === null || filterableFields === void 0 ? void 0 :
                                     filterableFields.map(function (field) { return (React.createElement("option", { key: field, value: field }, field)); })),
                                 selectedField && React.createElement("div", null, "="),
                                 selectedField && (React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) {
                                         handleValueChange(e.target.value);
                                         handleChangePage(1);
                                     } },
-                                    React.createElement("option", { value: "" }, "Select Value"),
-                                    uniqueValues.map(function (item) { return (React.createElement("option", { key: item[selectedField], value: item }, item)); })))))
+                                    React.createElement("option", { value: "" }, "All*"),
+                                    uniqueValues.map(function (item) { return (React.createElement("option", { key: item[selectedField], value: item }, item.toString())); })))))
                         : '',
                     React.createElement("div", null,
                         React.createElement(RowFlex_1.default, { gap: 0.5 },

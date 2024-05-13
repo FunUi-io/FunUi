@@ -16,6 +16,7 @@ import { exportToCSV } from 'react-easy-export';
 type TableProps = {
   children?: React.ReactNode;
   funcss?: string;
+  title?: string;
   bordered?: boolean;
   noStripped?: boolean;
   hoverable?: boolean;
@@ -39,6 +40,7 @@ export default function Table({
   bordered,
   noStripped,
   hoverable,
+  title,
   showTotal,
   light,
   dark,
@@ -88,17 +90,17 @@ export default function Table({
     if (!search && !selectedField && !selectedValue) return true;
     if (selectedField && selectedValue) {
       const value = item[selectedField];
-      return value ? value.toString().toLowerCase() === selectedValue.toString().toLowerCase() : false;
+      return value !== undefined && value.toString().toLowerCase() === selectedValue.toString().toLowerCase();
     }
     if (selectedField) {
       const value = item[selectedField];
-      return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
+      return value !== undefined && value.toString().toLowerCase().includes(search.toString().toLowerCase());
     }
     return Object.values(item).some(value => {
-      return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
+      return value !== undefined && value.toString().toLowerCase().includes(search.toString().toLowerCase());
     });
   })
-  : []
+  : [];
 
   // Maximum number of visible pages for pagination
   const maxVisiblePages = 5; 
@@ -114,7 +116,7 @@ export default function Table({
 
   // Function to export data to CSV
   const Export = () => {
-    exportToCSV(data.data, 'data.csv');
+    exportToCSV(filteredData, title ? `${title}.csv` : 'data.csv');
   }
 
 

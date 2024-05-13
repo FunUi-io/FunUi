@@ -5649,6 +5649,7 @@ h6,
   top: 0;
   width: 100%;
   right: 0;
+  z-index: var(--navBarZindex);
 }
 
 .navigation-bar.transparent{  backdrop-filter: none !important ;}
