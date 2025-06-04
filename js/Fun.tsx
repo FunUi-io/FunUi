@@ -65,14 +65,15 @@ export const FunGet = {
   },
   val: (selector?: string, data?: string) => {
       var element: HTMLInputElement | null = document.querySelector(selector);
-      if (element) {
-          var text = element.value;
-          if (data) {
-              element.value = data;
-          } else {
-              return text;
-          }
-      }
+ if (element) {
+  var text = element.value;
+  if (data !== undefined && data !== null) {
+    element.value = data === '' ? '' : data;
+  } else {
+    return text;
+  }
+}
+
   },
 };
 

@@ -83,8 +83,8 @@ exports.FunGet = {
         var element = document.querySelector(selector);
         if (element) {
             var text = element.value;
-            if (data) {
-                element.value = data;
+            if (data !== undefined && data !== null) {
+                element.value = data === '' ? '' : data;
             }
             else {
                 return text;
