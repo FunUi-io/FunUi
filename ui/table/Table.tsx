@@ -90,14 +90,20 @@ export default function Table({
     if (!search && !selectedField && !selectedValue) return true;
     if (selectedField && selectedValue) {
       const value = item[selectedField];
-      return value !== undefined && value.toString().toLowerCase() === selectedValue.toString().toLowerCase();
+     if(value){
+      return value.toString().toLowerCase() === selectedValue.toString().toLowerCase();
+     }
     }
     if (selectedField) {
       const value = item[selectedField];
-      return value !== undefined && value.toString().toLowerCase().includes(search.toString().toLowerCase());
+      if(value){
+      return value.toString().toLowerCase().includes(search.toString().toLowerCase());
+      }
     }
     return Object.values(item).some(value => {
-      return value !== undefined && value.toString().toLowerCase().includes(search.toString().toLowerCase());
+      if(value){
+        return value.toString().toLowerCase().includes(search.toString().toLowerCase());
+      }
     });
   })
   : [];
@@ -116,7 +122,7 @@ export default function Table({
 
   // Function to export data to CSV
   const Export = () => {
-    exportToCSV(filteredData, title ? `${title}.csv` : 'data.csv');
+    exportToCSV(filteredData, title ? `${title} ${selectedField ? `_${selectedField}` : ''}.csv` : 'data.csv');
   }
 
 
@@ -133,19 +139,30 @@ export default function Table({
         data &&
         <div className="padding bb">
         <RowFlex justify='space-between'>
-        {
-              data &&
-              <div className="text-bold">
-                       <Text text='Records:' size="small" bold color='primary'/>
-                       <Text text={filteredData.length} heading='h4'/>
+        <div>
+          {
+              title &&
+              <div >
+                       <Text text={title || ""} size='h4'/>
+              </div>
+
+              
+            }
+                {
+              showTotal && data &&
+              <div >
+                       <Text text='Records:' size='sm'  color='primary'/>
+                        <Text text={filteredData.length} size='h6'/>
               </div>
             }
+        </div>
+        
           {
             data && filterableFields ?
             <div className="col width-200-max">
            <RowFlex gap={0.7}>
            <select 
-           className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" 
+           className=" input borderedInput roundEdgeSmall smallInput" 
            value={selectedField || ''} 
            onChange={(e) => {
             handleFieldChange(e.target.value)
@@ -163,7 +180,7 @@ export default function Table({
       }
       {selectedField && (
         <select  
-        className="dark800 input text-dark200 borderless roundEdgeSmall smallInput" 
+        className=" input borderedInput width-200-max  roundEdgeSmall smallInput" 
          value={selectedValue || ''} 
          onChange={(e) => {
           handleValueChange(e.target.value)
@@ -172,9 +189,14 @@ export default function Table({
          >
           <option value="">All*</option>
           {uniqueValues.map(item => (
+           <>
+           {
+            item &&
             <option key={item[selectedField]} value={item}>
-              {item.toString()}
-            </option>
+            {item.toString()}
+          </option>
+           }
+           </>
           ))}
         </select>
       )}
@@ -279,10 +301,11 @@ export default function Table({
                       onClick={() => handleChangePage(startPage + i)}
                       funcss={currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary'}
                     >
-                      <Text text={`${startPage + i}`} bold size='small'/>
+                      <Text text={`${startPage + i}`} bold size='sm'/>
                     </Circle>
                   ))}
                 </div>
+            
               </RowFlex>
             </div>
             }

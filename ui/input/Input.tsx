@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import { PiCheck, PiCloudArrowUp } from 'react-icons/pi';
 import Button from '../button/Button';
 
@@ -10,6 +11,7 @@ interface InputProps {
   file?: boolean;
   noBorder?: boolean;
   icon?: React.ReactNode;
+  extra?: React.ReactNode;
   button?: React.ReactNode;
   id?: string;
   status?: 'success' | 'warning' | 'danger' | '';
@@ -19,6 +21,7 @@ interface InputProps {
   rightRounded?: boolean;
   rounded?: boolean;
   fullWidth?: boolean;
+  btn?: boolean;
   type?: string;
   label?: string;
   name?: string;
@@ -32,14 +35,17 @@ interface InputProps {
   bg?: string;
 }
 
+
 const Input: React.FC<InputProps> = ({
   select,
   bordered,
   borderless,
   multiline,
   file,
+  extra,
   noBorder,
   icon,
+  btn,
   button,
   id,
   status,
@@ -60,6 +66,17 @@ const Input: React.FC<InputProps> = ({
   bg,
   ...rest
 }) => {
+    const [fileName, setFileName] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name);
+    }
+    if (onChange) onChange(e);
+  };
+
+
   if (select) {
     if (bordered) {
       return (
@@ -112,7 +129,6 @@ const Input: React.FC<InputProps> = ({
           `}
           onChange={onChange}
           defaultValue={defaultValue}
-          placeholder={label}
           name={name}
           value={value}
           style={{
@@ -145,7 +161,6 @@ const Input: React.FC<InputProps> = ({
           `}
           onChange={onChange}
           defaultValue={defaultValue}
-          placeholder={label}
           name={name}
           value={value}
           style={{
@@ -245,7 +260,8 @@ const Input: React.FC<InputProps> = ({
       );
     }
   } else if (file) {
-    return (
+    if(btn)
+      return (
       <div className="fileInput">
         {button ? (
           button
@@ -257,7 +273,7 @@ const Input: React.FC<InputProps> = ({
             fullWidth
             raised
           >
-            {label ? label : 'Upload File'}
+            {fileName || label || 'Upload File'}
           </Button>
         )}
         <input
@@ -275,16 +291,27 @@ const Input: React.FC<InputProps> = ({
             borderedInput
             filedInput
           `}
-          onChange={onChange}
+          onChange={handleChange}
           type={'file'}
           style={{
             width: `${fullWidth ? '100%' : ''}`
           }}
+          
           value={value}
         {...rest}
         />
       </div>
-    );
+    )
+    return (
+          <div className="_upload_container">
+          <label htmlFor={id || "fileInput"} className="_upload_label">
+            <div className="_upload_icon">{ icon || <>&#8682;</>}</div> 
+            <div className="_upload_text">{fileName || label || `Upload File`}</div>
+            <div className="text-small opacity-3">{extra || ''}</div>
+          </label>
+          <input onChange={handleChange} type="file" id={id || "fileInput"} className="_upload_input" {...rest} />
+        </div>
+    )
   } else {
     if (bordered) {
       return (

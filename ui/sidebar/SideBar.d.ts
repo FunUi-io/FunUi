@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import * as React from 'react';
 interface FunLoaderProps {
     funcss?: string;
     position?: "left" | "right";
@@ -10,5 +11,5 @@ interface FunLoaderProps {
     footer?: ReactNode;
     fixed?: boolean;
 }
-export default function SideBar({ funcss, position, glassy, header, open, content, close, footer, fixed, ...rest }: FunLoaderProps): any;
+export default function SideBar({ funcss, position, glassy, header, open, content, close, footer, fixed, ...rest }: FunLoaderProps): React.JSX.Element;
 export {};

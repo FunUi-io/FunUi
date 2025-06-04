@@ -3,5 +3,5 @@ type HrProps = {
     children: React.ReactNode;
     funcss?: string;
 };
-declare const Hr: ({ children, funcss }: HrProps) => any;
+declare const Hr: ({ children, funcss }: HrProps) => React.JSX.Element;
 export default Hr;

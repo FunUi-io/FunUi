@@ -48,8 +48,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function Circle(_a) {
-    var size = _a.size, funcss = _a.funcss, bg = _a.bg, children = _a.children, hoverable = _a.hoverable, raised = _a.raised, key = _a.key, onClick = _a.onClick, rest = __rest(_a, ["size", "funcss", "bg", "children", "hoverable", "raised", "key", "onClick"]);
-    return (React.createElement("div", __assign({ className: "pointer avatar ".concat(funcss || '', "  ").concat(raised ? "raised" : '', " ").concat(bg || '', " ").concat(hoverable ? 'hoverable' : ''), style: {
+    var size = _a.size, funcss = _a.funcss, bg = _a.bg, color = _a.color, children = _a.children, hoverable = _a.hoverable, raised = _a.raised, key = _a.key, onClick = _a.onClick, rest = __rest(_a, ["size", "funcss", "bg", "color", "children", "hoverable", "raised", "key", "onClick"]);
+    return (React.createElement("div", __assign({ className: "pointer avatar ".concat(funcss || '', " ").concat("text-" + (color === null || color === void 0 ? void 0 : color.trim()) || '', " ").concat(raised ? "raised" : '', " ").concat(bg || '', " ").concat(hoverable ? 'hoverable' : ''), style: {
             width: "".concat(size + "rem" || '2.3rem'),
             height: "".concat(size + "rem" || '2.3rem'),
         }, key: key, onClick: onClick }, rest),

@@ -10,5 +10,5 @@ interface ListProps {
     roundItems?: boolean;
     gap?: number;
 }
-export default function List({ children, funcss, dark, light, stripped, bordered, hoverable, roundItems, gap, ...rest }: ListProps): any;
+export default function List({ children, funcss, dark, light, stripped, bordered, hoverable, roundItems, gap, ...rest }: ListProps): React.JSX.Element;
 export {};

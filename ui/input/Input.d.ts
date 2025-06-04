@@ -7,6 +7,7 @@ interface InputProps {
     file?: boolean;
     noBorder?: boolean;
     icon?: React.ReactNode;
+    extra?: React.ReactNode;
     button?: React.ReactNode;
     id?: string;
     status?: 'success' | 'warning' | 'danger' | '';
@@ -16,6 +17,7 @@ interface InputProps {
     rightRounded?: boolean;
     rounded?: boolean;
     fullWidth?: boolean;
+    btn?: boolean;
     type?: string;
     label?: string;
     name?: string;

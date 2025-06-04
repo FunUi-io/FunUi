@@ -3,16 +3,13 @@ import { PiQuotesLight } from 'react-icons/pi';
 
 type TypographyProps = {
   id?: string;
-  size?: "smaller" | "small" | "big" | "bigger" | "jumbo" | "minified";
+  text?: React.ReactNode;
+  funcss?: string;
   bg?: string;
   color?: string;
-  children?: React.ReactNode;
   hoverBg?: string;
   hoverText?: string;
   monospace?: boolean;
-  text?: string;
-  heading?: "h1" | "h2" |"h3" |"h4" |"h5" |"h6" ;
-  funcss?: string;
   emp?: boolean;
   bold?: boolean;
   block?: boolean;
@@ -22,7 +19,8 @@ type TypographyProps = {
   lighter?: boolean;
   italic?: boolean;
   underline?: boolean;
-  quote?:boolean;
+  weight?: number;
+  quote?: boolean;
   align?: "left" | "center" | "right" | "justify";
   lineHeight?: string;
   letterSpacing?: string;
@@ -41,18 +39,38 @@ type TypographyProps = {
   transform?: string;
   customStyles?: React.CSSProperties;
   onClick?: () => void;
+  children?: React.ReactNode;
+
+  size?: 
+    | "xs" 
+    | "sm" 
+    | "base" 
+    | "lg" 
+    | "xl" 
+    | "2xl" 
+    | "3xl" 
+    | "4xl" 
+    | "5xl" 
+    | "6xl"
+    | "7xl"
+    | "8xl"
+    | "9xl"
+    | "h1" 
+    | "h2" 
+    | "h3" 
+    | "h4" 
+    | "h5" 
+    | "h6";
 };
 
 const Text: React.FC<TypographyProps> = ({
   id,
-  size,
   bg,
   color,
   children,
   hoverBg,
   hoverText,
   text,
-  heading,
   funcss,
   emp,
   bold,
@@ -62,6 +80,7 @@ const Text: React.FC<TypographyProps> = ({
   light,
   lighter,
   italic,
+  weight,
   underline,
   align,
   lineHeight,
@@ -79,59 +98,69 @@ const Text: React.FC<TypographyProps> = ({
   customStyles,
   monospace,
   quote,
+  size = 'base', // default
+
   ...rest
 }) => {
+  const Tag = block ? 'div' : 'span';
+
+  const sizeClass = `${size === 'h1' ? `h1` : 
+    size === 'h2' ? `h2` : 
+    size === 'h3' ? `h3` : 
+    size === 'h4' ? `h4` : 
+    size === 'h5' ? `h5` : 
+    size === 'h6' ? `h6` : 
+    `text-${size}`}`;
+
   const mergedStyles: React.CSSProperties = {
     display: block ? 'block' : undefined,
-    fontWeight: bold ? 'bold' : undefined,
-    lineHeight: lineHeight ? lineHeight : undefined,
-    letterSpacing: letterSpacing ? letterSpacing : undefined,
-    textTransform: textTransform ? textTransform : undefined,
-    textDecoration: textDecoration ? textDecoration : undefined,
-    fontFamily: fontFamily ? fontFamily : undefined,
-    textShadow: textShadow ? textShadow : undefined,
-    textAlign: textAlign ? textAlign : undefined,
-    whiteSpace: whiteSpace ? whiteSpace : undefined,
-    wordBreak: wordBreak ? wordBreak : undefined,
+    fontWeight: bold ? 'bold' : weight ? weight : undefined,
+    lineHeight,
+    letterSpacing,
+    textTransform,
+    textDecoration,
+    fontFamily,
+    textShadow,
+    textAlign,
+    whiteSpace,
+    wordBreak,
     transform: customStyles?.transform,
     ...customStyles,
   };
 
   const classNames = [
-    size ? `text-${size}` : '',
+    funcss || '',
+    sizeClass,
     color ? `text-${color}` : '',
     align ? `text-${align}` : '',
     monospace ? 'monospace' : '',
-    bg ? bg : '',
+    bg || '',
     hoverText ? `hover-text-${hoverText}` : '',
     hoverBg ? `hover-${hoverBg}` : '',
     light ? 'lightText' : lighter ? 'lighterText' : '',
-    heading ? heading : '',
     italic ? 'italicText' : '',
     underline ? 'underlineText' : '',
     body ? 'body' : '',
     article ? 'article' : '',
-    funcss ? funcss : '',
     emp ? 'emp' : '',
     bold ? 'bold' : '',
     uppercase ? 'uppercase' : '',
     lowercase ? 'lowercase' : '',
     capitalize ? 'capitalize' : '',
-  ].filter(Boolean).join(' ');
-
-  const HeadingTag = heading ? heading : block ? "div" : 'span';
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <HeadingTag
-      id={id}
-      className={classNames}
-      style={mergedStyles}
-      {...rest}
-    >
-      {quote && <div className=""><PiQuotesLight /></div>}
+    <Tag id={id} className={classNames} style={mergedStyles} {...rest}>
+      {quote && (
+        <div>
+          <PiQuotesLight />
+        </div>
+      )}
       {children}
       {text}
-    </HeadingTag>
+    </Tag>
   );
 };
 

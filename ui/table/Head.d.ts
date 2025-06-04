@@ -3,5 +3,5 @@ type TableHeadProps = {
     children?: React.ReactNode;
     funcss?: string;
 };
-export default function TableHead({ children, funcss }: TableHeadProps): any;
+export default function TableHead({ children, funcss }: TableHeadProps): React.JSX.Element;
 export {};

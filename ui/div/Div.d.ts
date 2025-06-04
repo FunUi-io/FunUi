@@ -15,5 +15,5 @@ type DivProps = {
     customStyle?: React.CSSProperties;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
-declare const Div: ({ children, funcss, content, minHeight, maxHeight, maxWidth, minWidth, height, width, padding, margin, fit, customStyle, ...rest }: DivProps) => any;
+declare const Div: ({ children, funcss, content, minHeight, maxHeight, maxWidth, minWidth, height, width, padding, margin, fit, customStyle, ...rest }: DivProps) => React.JSX.Element;
 export default Div;

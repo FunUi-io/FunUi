@@ -1,3 +1,4 @@
+'use client';
 "use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -9,6 +10,29 @@ var __assign = (this && this.__assign) || function () {
         return t;
     };
     return __assign.apply(this, arguments);
+};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
@@ -25,11 +49,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(require("react"));
+var react_1 = __importStar(require("react"));
 var pi_1 = require("react-icons/pi");
 var Button_1 = __importDefault(require("../button/Button"));
 var Input = function (_a) {
-    var select = _a.select, bordered = _a.bordered, borderless = _a.borderless, multiline = _a.multiline, file = _a.file, noBorder = _a.noBorder, icon = _a.icon, button = _a.button, id = _a.id, status = _a.status, funcss = _a.funcss, flat = _a.flat, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, rounded = _a.rounded, fullWidth = _a.fullWidth, type = _a.type, label = _a.label, name = _a.name, value = _a.value, defaultValue = _a.defaultValue, onChange = _a.onChange, options = _a.options, rows = _a.rows, bg = _a.bg, rest = __rest(_a, ["select", "bordered", "borderless", "multiline", "file", "noBorder", "icon", "button", "id", "status", "funcss", "flat", "leftRounded", "rightRounded", "rounded", "fullWidth", "type", "label", "name", "value", "defaultValue", "onChange", "options", "rows", "bg"]);
+    var select = _a.select, bordered = _a.bordered, borderless = _a.borderless, multiline = _a.multiline, file = _a.file, extra = _a.extra, noBorder = _a.noBorder, icon = _a.icon, btn = _a.btn, button = _a.button, id = _a.id, status = _a.status, funcss = _a.funcss, flat = _a.flat, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, rounded = _a.rounded, fullWidth = _a.fullWidth, type = _a.type, label = _a.label, name = _a.name, value = _a.value, defaultValue = _a.defaultValue, onChange = _a.onChange, options = _a.options, rows = _a.rows, bg = _a.bg, rest = __rest(_a, ["select", "bordered", "borderless", "multiline", "file", "extra", "noBorder", "icon", "btn", "button", "id", "status", "funcss", "flat", "leftRounded", "rightRounded", "rounded", "fullWidth", "type", "label", "name", "value", "defaultValue", "onChange", "options", "rows", "bg"]);
+    var _b = (0, react_1.useState)(''), fileName = _b[0], setFileName = _b[1];
+    var handleChange = function (e) {
+        var _a;
+        var file = (_a = e.target.files) === null || _a === void 0 ? void 0 : _a[0];
+        if (file) {
+            setFileName(file.name);
+        }
+        if (onChange)
+            onChange(e);
+    };
     if (select) {
         if (bordered) {
             return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n          "), onChange: onChange, defaultValue: defaultValue, name: name, style: {
@@ -39,14 +73,14 @@ var Input = function (_a) {
                 : ''));
         }
         else if (borderless) {
-            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderless\n          "), onChange: onChange, defaultValue: defaultValue, placeholder: label, name: name, value: value, style: {
+            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderless\n          "), onChange: onChange, defaultValue: defaultValue, name: name, value: value, style: {
                     width: "".concat(fullWidth ? '100%' : '')
                 } }), options
                 ? options.map(function (doc) { return (react_1.default.createElement("option", { value: doc.value, key: doc.value }, doc.text)); })
                 : ''));
         }
         else {
-            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n          "), onChange: onChange, defaultValue: defaultValue, placeholder: label, name: name, value: value, style: {
+            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n          "), onChange: onChange, defaultValue: defaultValue, name: name, value: value, style: {
                     width: "".concat(fullWidth ? '100%' : '')
                 } }), options
                 ? options.map(function (doc) { return (react_1.default.createElement("option", { value: doc.value, key: doc.value }, doc.text)); })
@@ -71,11 +105,18 @@ var Input = function (_a) {
         }
     }
     else if (file) {
-        return (react_1.default.createElement("div", { className: "fileInput" },
-            button ? (button) : (react_1.default.createElement(Button_1.default, { funcss: " ".concat(funcss, " "), startIcon: icon ? icon : react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: "primary", fullWidth: true, raised: true }, label ? label : 'Upload File')),
-            react_1.default.createElement("input", __assign({ name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n            filedInput\n          "), onChange: onChange, type: 'file', style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                }, value: value }, rest))));
+        if (btn)
+            return (react_1.default.createElement("div", { className: "fileInput" },
+                button ? (button) : (react_1.default.createElement(Button_1.default, { funcss: " ".concat(funcss, " "), startIcon: icon ? icon : react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: "primary", fullWidth: true, raised: true }, fileName || label || 'Upload File')),
+                react_1.default.createElement("input", __assign({ name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n            filedInput\n          "), onChange: handleChange, type: 'file', style: {
+                        width: "".concat(fullWidth ? '100%' : '')
+                    }, value: value }, rest))));
+        return (react_1.default.createElement("div", { className: "_upload_container" },
+            react_1.default.createElement("label", { htmlFor: id || "fileInput", className: "_upload_label" },
+                react_1.default.createElement("div", { className: "_upload_icon" }, icon || react_1.default.createElement(react_1.default.Fragment, null, "\u21EA")),
+                react_1.default.createElement("div", { className: "_upload_text" }, fileName || label || "Upload File"),
+                react_1.default.createElement("div", { className: "text-small opacity-3" }, extra || '')),
+            react_1.default.createElement("input", __assign({ onChange: handleChange, type: "file", id: id || "fileInput", className: "_upload_input" }, rest))));
     }
     else {
         if (bordered) {

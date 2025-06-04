@@ -25,18 +25,20 @@ export default function FunLoader({
      {
         variant === 'simple'?
         <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-            <PiSpinnerDuotone  style={{fontSize:size + "px"}}  />
+            <PiSpinnerDuotone  style={{fontSize:size + "px" , display:'block'}}  />
           </span>
         : variant === 'duotone'?
-        <span  className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-        <PiSpinnerDuotone style={{fontSize:size + "px"}}  
+        <span   className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
+        <PiSpinnerDuotone   
+      
+        style={{fontSize:size + "px" , display:'block'}}
         />     </span>
         : variant === 'circle'?
-        <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-        <PiCircleNotch style={{fontSize:size + "px"}}  />
+        <span  className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
+        <PiCircleNotch />
              </span>
-        : <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-          <PiSpinner style={{fontSize:size + "px"}}  />
+        : <span  className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
+          <PiSpinner style={{fontSize:size + "px" , display:'block'}} />
           </span>
      }
 

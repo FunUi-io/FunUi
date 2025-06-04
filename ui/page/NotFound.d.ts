@@ -5,5 +5,5 @@ interface NotFoundProps {
     content?: React.ReactNode;
     action?: React.ReactNode;
 }
-export default function NotFound({ header, code, content, action }: NotFoundProps): any;
+export default function NotFound({ header, code, content, action }: NotFoundProps): React.JSX.Element;
 export {};

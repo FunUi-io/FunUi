@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Tip from './Tip';
 
 interface ToolTipProps {
   funcss?: string;
@@ -6,8 +7,13 @@ interface ToolTipProps {
 }
 
 export default function ToolTip({ funcss, children, ...rest }: ToolTipProps) {
+
   return (
-    <span className={`tooltip ${funcss ? funcss : ''}`} {...rest}>
+    <span
+ 
+      className={`tooltip ${funcss ?? ''}`}
+      {...rest}
+    >
       {children}
     </span>
   );

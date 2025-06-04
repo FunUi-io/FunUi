@@ -5,5 +5,5 @@ interface ListItemProps {
     animation?: string;
     anchorPlacement?: string;
 }
-export default function Animation({ children, funcss, animation, anchorPlacement, ...rest }: ListItemProps): any;
+export default function Animation({ children, funcss, animation, anchorPlacement, ...rest }: ListItemProps): React.JSX.Element;
 export {};

@@ -10,5 +10,5 @@ interface RowFlexProps {
     id?: string;
     children?: React.ReactNode;
 }
-export default function RowFlex({ funcss, content, justify, gap, alignItems, responsiveSmall, responsiveMedium, id, children, ...rest }: RowFlexProps): any;
+export default function RowFlex({ funcss, content, justify, gap, alignItems, responsiveSmall, responsiveMedium, id, children, ...rest }: RowFlexProps): React.JSX.Element;
 export {};

@@ -5,5 +5,5 @@ interface UnAuthorizedProps {
     content?: React.ReactNode;
     action?: React.ReactNode;
 }
-export default function UnAuthorized({ header, code, content, action }: UnAuthorizedProps): any;
+export default function UnAuthorized({ header, code, content, action }: UnAuthorizedProps): React.JSX.Element;
 export {};

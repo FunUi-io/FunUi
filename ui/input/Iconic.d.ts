@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 interface IconicInputProps {
     funcss?: string;
     children?: ReactNode;
@@ -7,5 +7,5 @@ interface IconicInputProps {
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
 }
-export default function IconicInput({ funcss, children, leftIcon, rightIcon, input, iconicBg, }: IconicInputProps): any;
+export default function IconicInput({ funcss, children, leftIcon, rightIcon, input, iconicBg, }: IconicInputProps): React.JSX.Element;
 export {};

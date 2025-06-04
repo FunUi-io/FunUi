@@ -48,6 +48,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function ToolTip(_a) {
     var funcss = _a.funcss, children = _a.children, rest = __rest(_a, ["funcss", "children"]);
-    return (React.createElement("span", __assign({ className: "tooltip ".concat(funcss ? funcss : '') }, rest), children));
+    return (React.createElement("span", __assign({ className: "tooltip ".concat(funcss !== null && funcss !== void 0 ? funcss : '') }, rest), children));
 }
 exports.default = ToolTip;

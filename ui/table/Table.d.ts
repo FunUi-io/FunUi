@@ -2,6 +2,7 @@ import * as React from 'react';
 type TableProps = {
     children?: React.ReactNode;
     funcss?: string;
+    title?: string;
     bordered?: boolean;
     noStripped?: boolean;
     hoverable?: boolean;
@@ -26,7 +27,7 @@ type TableProps = {
     }[];
     filterableFields?: string[];
 };
-export default function Table({ children, funcss, bordered, noStripped, hoverable, showTotal, light, dark, head, body, data, isLoading, right, height, pageSize, // Default page size,
+export default function Table({ children, funcss, bordered, noStripped, hoverable, title, showTotal, light, dark, head, body, data, isLoading, right, height, pageSize, // Default page size,
 customColumns, filterableFields, // New prop
-...rest }: TableProps): any;
+...rest }: TableProps): React.JSX.Element;
 export {};

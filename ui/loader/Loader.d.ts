@@ -1,3 +1,4 @@
+import * as React from 'react';
 interface FunLoaderProps {
     funcss?: string;
     size?: number;
@@ -6,5 +7,5 @@ interface FunLoaderProps {
     color?: string;
     variant?: 'simple' | 'duotone' | "circle";
 }
-export default function FunLoader({ funcss, size, fixed, backdrop, color, variant, ...rest }: FunLoaderProps): any;
+export default function FunLoader({ funcss, size, fixed, backdrop, color, variant, ...rest }: FunLoaderProps): React.JSX.Element;
 export {};

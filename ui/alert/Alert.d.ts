@@ -18,5 +18,5 @@ interface AlertProps {
     standard?: boolean;
     style?: React.CSSProperties;
 }
-export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, standard, card, style, ...rest }: AlertProps): any;
+export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, standard, card, style, ...rest }: AlertProps): React.JSX.Element;
 export {};

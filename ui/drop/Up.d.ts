@@ -5,5 +5,5 @@ type DropUpProps = {
     id?: string;
     side?: string;
 };
-declare const DropUp: ({ funcss, children, id, side, }: DropUpProps) => any;
+declare const DropUp: ({ funcss, children, id, side, }: DropUpProps) => React.JSX.Element;
 export default DropUp;

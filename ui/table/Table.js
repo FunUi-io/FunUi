@@ -63,9 +63,9 @@ var Text_1 = __importDefault(require("../text/Text"));
 var react_easy_export_1 = require("react-easy-export");
 function Table(_a) {
     var _b, _c;
-    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, isLoading = _a.isLoading, right = _a.right, height = _a.height, _d = _a.pageSize, pageSize = _d === void 0 ? data ? 10 : 0 : _d, // Default page size,
+    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, title = _a.title, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, isLoading = _a.isLoading, right = _a.right, height = _a.height, _d = _a.pageSize, pageSize = _d === void 0 ? data ? 10 : 0 : _d, // Default page size,
     customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
-    rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "height", "pageSize", "customColumns", "filterableFields"]);
+    rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "height", "pageSize", "customColumns", "filterableFields"]);
     // Check if data is null or undefined before accessing its properties
     var _e = (0, react_1.useState)((data === null || data === void 0 ? void 0 : data.data) ? "" : ""), search = _e[0], setSearch = _e[1];
     var _f = (0, react_1.useState)(1), currentPage = _f[0], setCurrentPage = _f[1];
@@ -94,14 +94,20 @@ function Table(_a) {
             return true;
         if (selectedField && selectedValue) {
             var value = item[selectedField];
-            return value ? value.toString().toLowerCase() === selectedValue.toString().toLowerCase() : false;
+            if (value) {
+                return value.toString().toLowerCase() === selectedValue.toString().toLowerCase();
+            }
         }
         if (selectedField) {
             var value = item[selectedField];
-            return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
+            if (value) {
+                return value.toString().toLowerCase().includes(search.toString().toLowerCase());
+            }
         }
         return Object.values(item).some(function (value) {
-            return value ? value.toString().toLowerCase().includes(search.toString().toLowerCase()) : false;
+            if (value) {
+                return value.toString().toLowerCase().includes(search.toString().toLowerCase());
+            }
         });
     })
         : [];
@@ -116,7 +122,7 @@ function Table(_a) {
     }
     // Function to export data to CSV
     var Export = function () {
-        (0, react_easy_export_1.exportToCSV)(data.data, 'data.csv');
+        (0, react_easy_export_1.exportToCSV)(filteredData, title ? "".concat(title, " ").concat(selectedField ? "_".concat(selectedField) : '', ".csv") : 'data.csv');
     };
     // Extract the data array
     var dataArray = data ? data.data : [];
@@ -126,26 +132,31 @@ function Table(_a) {
         data &&
             React.createElement("div", { className: "padding bb" },
                 React.createElement(RowFlex_1.default, { justify: 'space-between' },
-                    data &&
-                        React.createElement("div", { className: "text-bold" },
-                            React.createElement(Text_1.default, { text: 'Records:', size: "small", bold: true, color: 'primary' }),
-                            React.createElement(Text_1.default, { text: filteredData.length, heading: 'h4' })),
+                    React.createElement("div", null,
+                        title &&
+                            React.createElement("div", null,
+                                React.createElement(Text_1.default, { text: title || "", size: 'h4' })),
+                        showTotal && data &&
+                            React.createElement("div", null,
+                                React.createElement(Text_1.default, { text: 'Records:', size: 'sm', color: 'primary' }),
+                                React.createElement(Text_1.default, { text: filteredData.length, size: 'h6' }))),
                     data && filterableFields ?
                         React.createElement("div", { className: "col width-200-max" },
                             React.createElement(RowFlex_1.default, { gap: 0.7 },
-                                React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) {
+                                React.createElement("select", { className: " input borderedInput roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) {
                                         handleFieldChange(e.target.value);
                                     } },
                                     React.createElement("option", { value: "" }, "\uD83D\uDD0D Filter"),
                                     React.createElement("option", { value: "" }, "All*"), filterableFields === null || filterableFields === void 0 ? void 0 :
                                     filterableFields.map(function (field) { return (React.createElement("option", { key: field, value: field }, field)); })),
                                 selectedField && React.createElement("div", null, "="),
-                                selectedField && (React.createElement("select", { className: "dark800 input text-dark200 borderless roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) {
+                                selectedField && (React.createElement("select", { className: " input borderedInput width-200-max  roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) {
                                         handleValueChange(e.target.value);
                                         handleChangePage(1);
                                     } },
                                     React.createElement("option", { value: "" }, "All*"),
-                                    uniqueValues.map(function (item) { return (React.createElement("option", { key: item[selectedField], value: item }, item.toString())); })))))
+                                    uniqueValues.map(function (item) { return (React.createElement(React.Fragment, null, item &&
+                                        React.createElement("option", { key: item[selectedField], value: item }, item.toString()))); })))))
                         : '',
                     React.createElement("div", null,
                         React.createElement(RowFlex_1.default, { gap: 0.5 },
@@ -176,6 +187,6 @@ function Table(_a) {
                     React.createElement("div", { className: "padding bt" },
                         React.createElement(RowFlex_1.default, { gap: 1, justify: 'center' },
                             React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary' },
-                                React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'small' }))); }))))))));
+                                React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'sm' }))); }))))))));
 }
 exports.default = Table;

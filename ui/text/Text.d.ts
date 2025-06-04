@@ -1,16 +1,13 @@
 import React from 'react';
 type TypographyProps = {
     id?: string;
-    size?: "smaller" | "small" | "big" | "bigger" | "jumbo" | "minified";
+    text?: React.ReactNode;
+    funcss?: string;
     bg?: string;
     color?: string;
-    children?: React.ReactNode;
     hoverBg?: string;
     hoverText?: string;
     monospace?: boolean;
-    text?: string;
-    heading?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-    funcss?: string;
     emp?: boolean;
     bold?: boolean;
     block?: boolean;
@@ -20,6 +17,7 @@ type TypographyProps = {
     lighter?: boolean;
     italic?: boolean;
     underline?: boolean;
+    weight?: number;
     quote?: boolean;
     align?: "left" | "center" | "right" | "justify";
     lineHeight?: string;
@@ -39,6 +37,8 @@ type TypographyProps = {
     transform?: string;
     customStyles?: React.CSSProperties;
     onClick?: () => void;
+    children?: React.ReactNode;
+    size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "8xl" | "9xl" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 };
 declare const Text: React.FC<TypographyProps>;
 export default Text;

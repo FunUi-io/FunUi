@@ -7,10 +7,11 @@ interface Circle_Props extends HTMLProps<HTMLDivElement> {
     size?: number;
     funcss?: string;
     bg?: string;
+    color?: string;
     children?: ReactNode;
     hoverable?: boolean;
     raised?:boolean 
-    key?:React.key
+    key?:React.Key
     onClick?: ()=> void
   }
   
@@ -19,6 +20,7 @@ export default function Circle({
   size,
   funcss,
   bg,
+  color,
   children,
   hoverable,
   raised ,
@@ -28,7 +30,7 @@ export default function Circle({
 }: Circle_Props) {
   return (
       <div
-        className={`pointer avatar ${funcss || ''}  ${raised ? "raised" : ''} ${bg || ''} ${
+        className={`pointer avatar ${funcss || ''} ${`text-` + color?.trim() || ''} ${raised ? "raised" : ''} ${bg || ''} ${
           hoverable ? 'hoverable' : ''
         }`}
         style={{

@@ -4,5 +4,5 @@ type DropItemProps = {
     funcss?: string;
     onClick?: () => void;
 };
-export default function DropItem({ children, funcss, onClick }: DropItemProps): any;
+export default function DropItem({ children, funcss, onClick }: DropItemProps): React.JSX.Element;
 export {};

@@ -51,15 +51,15 @@ function FunLoader(_a) {
     var funcss = _a.funcss, size = _a.size, fixed = _a.fixed, backdrop = _a.backdrop, color = _a.color, variant = _a.variant, rest = __rest(_a, ["funcss", "size", "fixed", "backdrop", "color", "variant"]);
     return (React.createElement("div", __assign({ className: "".concat(fixed ? 'fixedLoader' : '', " ").concat(backdrop && fixed ? 'backdropLoader' : '') }, rest), variant === 'simple' ?
         React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-            React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px" } }))
+            React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px", display: 'block' } }))
         : variant === 'duotone' ?
             React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-                React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px" } }),
+                React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px", display: 'block' } }),
                 "     ")
             : variant === 'circle' ?
                 React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-                    React.createElement(pi_1.PiCircleNotch, { style: { fontSize: size + "px" } }))
+                    React.createElement(pi_1.PiCircleNotch, null))
                 : React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
-                    React.createElement(pi_1.PiSpinner, { style: { fontSize: size + "px" } }))));
+                    React.createElement(pi_1.PiSpinner, { style: { fontSize: size + "px", display: 'block' } }))));
 }
 exports.default = FunLoader;

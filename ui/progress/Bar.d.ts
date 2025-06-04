@@ -10,5 +10,5 @@ interface ProgressBarProps {
     raised?: boolean;
     rounded?: boolean;
 }
-export default function ProgressBar({ funcss, progress, height, children, content, raised, rounded, bg, lined, }: ProgressBarProps): any;
+export default function ProgressBar({ funcss, progress, height, children, content, raised, rounded, bg, lined, }: ProgressBarProps): React.JSX.Element;
 export {};

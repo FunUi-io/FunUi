@@ -381,5 +381,5 @@ interface ButtonProps {
     style?: React.CSSProperties;
     onClick?: () => void;
 }
-export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, children, bold, style, onClick, ...rest }: ButtonProps): any;
+export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, children, bold, style, onClick, ...rest }: ButtonProps): React.JSX.Element;
 export {};

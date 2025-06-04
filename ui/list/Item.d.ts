@@ -3,5 +3,5 @@ interface ListItemProps {
     children?: React.ReactNode;
     funcss?: string;
 }
-export default function ListItem({ children, funcss, ...rest }: ListItemProps): any;
+export default function ListItem({ children, funcss, ...rest }: ListItemProps): React.JSX.Element;
 export {};

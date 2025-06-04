@@ -8,5 +8,5 @@ type DropMenuProps = {
     id?: string;
     width?: string;
 };
-export default function DropMenu({ children, funcss, hoverable, duration, animation, id, width, }: DropMenuProps): any;
+export default function DropMenu({ children, funcss, hoverable, duration, animation, id, width, }: DropMenuProps): React.JSX.Element;
 export {};

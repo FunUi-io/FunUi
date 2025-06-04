@@ -15,5 +15,5 @@ interface NavbarProps {
     sideBar?: number;
     width?: string;
 }
-export default function AppBar({ fixedTop, funcss, padding, fixedBottom, justify, children, left, center, right, sideBar, width, visibleLinks, sidebarTrigger, transparent }: NavbarProps): any;
+export default function AppBar({ fixedTop, funcss, padding, fixedBottom, justify, children, left, center, right, sideBar, width, visibleLinks, sidebarTrigger, transparent }: NavbarProps): React.JSX.Element;
 export {};

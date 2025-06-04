@@ -5,5 +5,5 @@ type TableRowProps = {
     rowKey?: React.Key;
     key?: React.Key;
 };
-export default function TableRow({ children, funcss, rowKey, key }: TableRowProps): any;
+export default function TableRow({ children, funcss, rowKey, key }: TableRowProps): React.JSX.Element;
 export {};
