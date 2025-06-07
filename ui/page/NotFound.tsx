@@ -1,6 +1,7 @@
+'use client'
 import * as React from 'react';
 import Button from '../button/Button';
-import {PiHouse} from 'react-icons/pi'
+import {PiArrowLeft} from 'react-icons/pi'
 import Text from '../text/Text';
 
 interface NotFoundProps {
@@ -34,7 +35,7 @@ export default function NotFound(
               {
                 header ? header 
                 : 
-                <div className="text-bigger text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
+                <div className="text-big text-bold text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
                 Page Not Found
               </div>
               }
@@ -49,12 +50,10 @@ export default function NotFound(
               {
                 action ? action :
                 <div className="row-flex gap" style={{ justifyContent: "center", gap: "0.4rem" }}>
-                <Button raised rounded startIcon={<PiHouse />} bg='primary' onClick={() => {
-                     const previousUrl =  '/';
-                     window.location.assign(previousUrl)
-                  
+                <Button raised rounded startIcon={<PiArrowLeft />} bg='primary' onClick={() => {
+                    window.history.back()
                   }}>
-                 Back To Home
+                 Go Back
                 </Button>
               </div>
               }

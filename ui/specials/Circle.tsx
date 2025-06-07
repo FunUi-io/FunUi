@@ -17,7 +17,7 @@ interface Circle_Props extends HTMLProps<HTMLDivElement> {
   
 
 export default function Circle({
-  size,
+  size = 2,
   funcss,
   bg,
   color,

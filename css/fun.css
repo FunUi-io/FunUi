@@ -65,6 +65,14 @@
 
   --leading-none: 1;      
 
+
+  /* default colors */
+  --page-bg: #FFFFFF ; /* Page background color */
+  --text-color: #000000; /* Text color */
+  --raiseThemes:#FFFFFF; /* Raised element color */
+  --borderColor:#CCC; /* Border color */
+
+
     /* Primary Colors */
     --primary: #6366f1;
     --primary50: #eef2ff;
@@ -90,6 +98,22 @@
     --secondary700: #be185d;
     --secondary800: #9d174d;
     --secondary900: #831843;
+
+    /* Accent Colors */
+--accent:  #ffc300;
+--accent50:  #ffc300;
+--accent50:  #fff9e6;
+--accent100: #fff3cc;
+--accent200: #ffe999;
+--accent300: #ffdf66;
+--accent400: #ffd633;
+--accent500: #ffc300; /* Base */
+--accent600: #e6af00;
+--accent700: #cc9c00;
+--accent800: #b38800;
+--accent900: #8f6e00;
+
+
 /* Error Colors */
 --error: #ef4444;
 --error50: #fef2f2;
@@ -220,6 +244,7 @@
   --gradient:linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
   --gradientColors:90deg, var(--secondary) 0%, var(--primary) 100%;
   --linkColor:rgb(124, 124, 124);
+
   /* Body and font */
   --bd-font-weight: 400;
   --bdfontSize: 1rem;
@@ -227,8 +252,7 @@
   --bd-line-height: normal;
   --smallFont: .79rem ;
   --smallerFont: .7rem;
-  --navHeight: 45px ;
-  --borderColor:#ddd;
+  --navHeight: fit-content ;
   --border: 0.1rem solid var(--borderColor);
   --inputBorder:0.12rem;
   --input_outline_size:0.127rem;
@@ -259,10 +283,10 @@
 
 /* DarkTheme */
 :root{
-  --raiseThemes:#FFFFFF;
   --inputOutline:var(--primary);
   --lightThemeDark: var(--dark)
 }
+
 
 
 /* normalise css */
@@ -409,6 +433,7 @@ link:hover {
 .hover-primary:hover {
   background-color: var(--primary) !important;
   color: var(--white);
+  stroke: var(--primary);
 }
 
 /* Primary 50 */
@@ -416,6 +441,7 @@ link:hover {
 .hover-primary50:hover {
   background-color: var(--primary50) !important;
   color: var(--white);
+  stroke: var(--primary50);
 }
 
 /* Primary 100 */
@@ -423,6 +449,7 @@ link:hover {
 .hover-primary100:hover {
   background-color: var(--primary100) !important;
   color: var(--white);
+  stroke: var(--primary100);
 }
 
 /* Primary 200 */
@@ -430,6 +457,7 @@ link:hover {
 .hover-primary200:hover {
   background-color: var(--primary200) !important;
   color: var(--white);
+  stroke: var(--primary200);
 }
 
 /* Primary 300 */
@@ -437,6 +465,7 @@ link:hover {
 .hover-primary300:hover {
   background-color: var(--primary300) !important;
   color: var(--white);
+  stroke: var(--primary300);
 }
 
 /* Primary 400 */
@@ -444,6 +473,7 @@ link:hover {
 .hover-primary400:hover {
   background-color: var(--primary400) !important;
   color: var(--white);
+  stroke: var(--primary400);
 }
 
 /* Primary 500 */
@@ -451,6 +481,7 @@ link:hover {
 .hover-primary500:hover {
   background-color: var(--primary500) !important;
   color: var(--white);
+  stroke: var(--primary500);
 }
 
 /* Primary 600 */
@@ -458,6 +489,7 @@ link:hover {
 .hover-primary600:hover {
   background-color: var(--primary600) !important;
   color: var(--white);
+  stroke: var(--primary600);
 }
 
 /* Primary 700 */
@@ -465,6 +497,7 @@ link:hover {
 .hover-primary700:hover {
   background-color: var(--primary700) !important;
   color: var(--white);
+  stroke: var(--primary700);
 }
 
 /* Primary 800 */
@@ -472,6 +505,7 @@ link:hover {
 .hover-primary800:hover {
   background-color: var(--primary800) !important;
   color: var(--white);
+  stroke: var(--primary800);
 }
 
 /* Primary 900 */
@@ -479,6 +513,7 @@ link:hover {
 .hover-primary900:hover {
   background-color: var(--primary900) !important;
   color: var(--white);
+  stroke: var(--primary900);
 }
 
 
@@ -487,6 +522,7 @@ link:hover {
 .hover-secondary:hover {
   background-color: var(--secondary) !important;
   color: var(--white);
+  stroke: var(--secondary);
 }
 
 /* Secondary 50 */
@@ -494,6 +530,7 @@ link:hover {
 .hover-secondary50:hover {
   background-color: var(--secondary50) !important;
   color: var(--white);
+  stroke: var(--secondary50);
 }
 
 /* Secondary 100 */
@@ -501,6 +538,7 @@ link:hover {
 .hover-secondary100:hover {
   background-color: var(--secondary100) !important;
   color: var(--white);
+  stroke: var(--secondary100);
 }
 
 /* Secondary 200 */
@@ -508,6 +546,7 @@ link:hover {
 .hover-secondary200:hover {
   background-color: var(--secondary200) !important;
   color: var(--white);
+  stroke: var(--secondary200);
 }
 
 /* Secondary 300 */
@@ -515,6 +554,7 @@ link:hover {
 .hover-secondary300:hover {
   background-color: var(--secondary300) !important;
   color: var(--white);
+  stroke: var(--secondary300);
 }
 
 /* Secondary 400 */
@@ -522,6 +562,7 @@ link:hover {
 .hover-secondary400:hover {
   background-color: var(--secondary400) !important;
   color: var(--white);
+  stroke: var(--secondary400);
 }
 
 /* Secondary 500 */
@@ -529,6 +570,7 @@ link:hover {
 .hover-secondary500:hover {
   background-color: var(--secondary500) !important;
   color: var(--white);
+  stroke: var(--secondary500);
 }
 
 /* Secondary 600 */
@@ -536,6 +578,7 @@ link:hover {
 .hover-secondary600:hover {
   background-color: var(--secondary600) !important;
   color: var(--white);
+  stroke: var(--secondary600);
 }
 
 /* Secondary 700 */
@@ -543,6 +586,7 @@ link:hover {
 .hover-secondary700:hover {
   background-color: var(--secondary700) !important;
   color: var(--white);
+  stroke: var(--secondary700);
 }
 
 /* Secondary 800 */
@@ -550,6 +594,7 @@ link:hover {
 .hover-secondary800:hover {
   background-color: var(--secondary800) !important;
   color: var(--white);
+  stroke: var(--secondary800);
 }
 
 /* Secondary 900 */
@@ -557,6 +602,84 @@ link:hover {
 .hover-secondary900:hover {
   background-color: var(--secondary900) !important;
   color: var(--white);
+  stroke: var(--secondary900);
+}
+
+.accent,
+.hover-accent:hover {
+  background-color: var(--accent) !important;
+  color: var(--white);
+  stroke: var(--accent);
+}
+
+.accent50,
+.hover-accent50:hover {
+  background-color: var(--accent50) !important;
+  color: var(--black);
+  stroke: var(--accent50);
+}
+
+.accent100,
+.hover-accent100:hover {
+  background-color: var(--accent100) !important;
+  color: var(--accent900);
+  stroke: var(--accent100);
+}
+
+.accent200,
+.hover-accent200:hover {
+  background-color: var(--accent200) !important;
+  color: var(--accent800);
+  stroke: var(--accent200);
+}
+
+.accent300,
+.hover-accent300:hover {
+  background-color: var(--accent300) !important;
+  color: var(--accent700);
+  stroke: var(--accent300);
+}
+
+.accent400,
+.hover-accent400:hover {
+  background-color: var(--accent400) !important;
+  color: var(--white);
+  stroke: var(--accent400);
+}
+
+.accent500,
+.hover-accent500:hover {
+  background-color: var(--accent500) !important;
+  color: var(--white);
+  stroke: var(--accent500);
+}
+
+.accent600,
+.hover-accent600:hover {
+  background-color: var(--accent600) !important;
+  color: var(--white);
+  stroke: var(--accent600);
+}
+
+.accent700,
+.hover-accent700:hover {
+  background-color: var(--accent700) !important;
+  color: var(--white);
+  stroke: var(--accent700);
+}
+
+.accent800,
+.hover-accent800:hover {
+  background-color: var(--accent800) !important;
+  color: var(--white);
+  stroke: var(--accent800);
+}
+
+.accent900,
+.hover-accent900:hover {
+  background-color: var(--accent900) !important;
+  color: var(--white);
+  stroke: var(--accent900);
 }
 
 /* Error Color */
@@ -564,6 +687,7 @@ link:hover {
 .hover-error:hover {
   background-color: var(--error) !important;
   color: var(--white);
+  stroke: var(--error);
 }
 
 /* Error 50 */
@@ -571,6 +695,7 @@ link:hover {
 .hover-error50:hover {
   background-color: var(--error50) !important;
   color: var(--white);
+  stroke: var(--error50);
 }
 
 /* Error 100 */
@@ -578,6 +703,7 @@ link:hover {
 .hover-error100:hover {
   background-color: var(--error100) !important;
   color: var(--white);
+  stroke: var(--error100);
 }
 
 /* Error 200 */
@@ -585,6 +711,7 @@ link:hover {
 .hover-error200:hover {
   background-color: var(--error200) !important;
   color: var(--white);
+  stroke: var(--error200);
 }
 
 /* Error 300 */
@@ -592,6 +719,7 @@ link:hover {
 .hover-error300:hover {
   background-color: var(--error300) !important;
   color: var(--white);
+  stroke: var(--error300);
 }
 
 /* Error 400 */
@@ -599,6 +727,7 @@ link:hover {
 .hover-error400:hover {
   background-color: var(--error400) !important;
   color: var(--white);
+  stroke: var(--error400);
 }
 
 /* Error 500 */
@@ -606,6 +735,7 @@ link:hover {
 .hover-error500:hover {
   background-color: var(--error500) !important;
   color: var(--white);
+  stroke: var(--error500);
 }
 
 /* Error 600 */
@@ -613,6 +743,7 @@ link:hover {
 .hover-error600:hover {
   background-color: var(--error600) !important;
   color: var(--white);
+  stroke: var(--error600);
 }
 
 /* Error 700 */
@@ -620,6 +751,7 @@ link:hover {
 .hover-error700:hover {
   background-color: var(--error700) !important;
   color: var(--white);
+  stroke: var(--error700);
 }
 
 /* Error 800 */
@@ -627,6 +759,7 @@ link:hover {
 .hover-error800:hover {
   background-color: var(--error800) !important;
   color: var(--white);
+  stroke: var(--error800);
 }
 
 /* Error 900 */
@@ -634,6 +767,7 @@ link:hover {
 .hover-error900:hover {
   background-color: var(--error900) !important;
   color: var(--white);
+  stroke: var(--error900);
 }
 
 /* Success Color */
@@ -641,6 +775,7 @@ link:hover {
 .hover-success:hover {
   background-color: var(--success) !important;
   color: var(--white);
+  stroke: var(--success);
 }
 
 /* Success 50 */
@@ -648,6 +783,7 @@ link:hover {
 .hover-success50:hover {
   background-color: var(--success50) !important;
   color: var(--white);
+  stroke: var(--success50);
 }
 
 /* Success 100 */
@@ -655,6 +791,7 @@ link:hover {
 .hover-success100:hover {
   background-color: var(--success100) !important;
   color: var(--white);
+  stroke: var(--success100);
 }
 
 /* Success 200 */
@@ -662,6 +799,7 @@ link:hover {
 .hover-success200:hover {
   background-color: var(--success200) !important;
   color: var(--white);
+  stroke: var(--success200);
 }
 
 /* Success 300 */
@@ -669,6 +807,7 @@ link:hover {
 .hover-success300:hover {
   background-color: var(--success300) !important;
   color: var(--white);
+  stroke: var(--success300);
 }
 
 /* Success 400 */
@@ -676,6 +815,7 @@ link:hover {
 .hover-success400:hover {
   background-color: var(--success400) !important;
   color: var(--white);
+  stroke: var(--success400);
 }
 
 /* Success 500 */
@@ -683,6 +823,7 @@ link:hover {
 .hover-success500:hover {
   background-color: var(--success500) !important;
   color: var(--white);
+  stroke: var(--success500);
 }
 
 /* Success 600 */
@@ -690,6 +831,7 @@ link:hover {
 .hover-success600:hover {
   background-color: var(--success600) !important;
   color: var(--white);
+  stroke: var(--success600);
 }
 
 /* Success 700 */
@@ -697,6 +839,7 @@ link:hover {
 .hover-success700:hover {
   background-color: var(--success700) !important;
   color: var(--white);
+  stroke: var(--success700);
 }
 
 /* Success 800 */
@@ -704,6 +847,7 @@ link:hover {
 .hover-success800:hover {
   background-color: var(--success800) !important;
   color: var(--white);
+  stroke: var(--success800);
 }
 
 /* Success 900 */
@@ -711,6 +855,7 @@ link:hover {
 .hover-success900:hover {
   background-color: var(--success900) !important;
   color: var(--white);
+  stroke: var(--success900);
 }
 
 /* Warning Color */
@@ -718,6 +863,7 @@ link:hover {
 .hover-warning:hover {
   background-color: var(--warning) !important;
   color: var(--white);
+  stroke: var(--warning);
 }
 
 /* Warning 50 */
@@ -725,6 +871,7 @@ link:hover {
 .hover-warning50:hover {
   background-color: var(--warning50) !important;
   color: var(--white);
+  stroke: var(--warning50);
 }
 
 /* Warning 100 */
@@ -732,6 +879,7 @@ link:hover {
 .hover-warning100:hover {
   background-color: var(--warning100) !important;
   color: var(--white);
+  stroke: var(--warning100);
 }
 
 /* Warning 200 */
@@ -739,6 +887,7 @@ link:hover {
 .hover-warning200:hover {
   background-color: var(--warning200) !important;
   color: var(--white);
+  stroke: var(--warning200);
 }
 
 /* Warning 300 */
@@ -746,6 +895,7 @@ link:hover {
 .hover-warning300:hover {
   background-color: var(--warning300) !important;
   color: var(--white);
+  stroke: var(--warning300);
 }
 
 /* Warning 400 */
@@ -753,6 +903,7 @@ link:hover {
 .hover-warning400:hover {
   background-color: var(--warning400) !important;
   color: var(--white);
+  stroke: var(--warning400);
 }
 
 /* Warning 500 */
@@ -760,6 +911,7 @@ link:hover {
 .hover-warning500:hover {
   background-color: var(--warning500) !important;
   color: var(--white);
+  stroke: var(--warning500);
 }
 
 /* Warning 600 */
@@ -767,6 +919,7 @@ link:hover {
 .hover-warning600:hover {
   background-color: var(--warning600) !important;
   color: var(--white);
+  stroke: var(--warning600);
 }
 
 /* Warning 700 */
@@ -774,6 +927,7 @@ link:hover {
 .hover-warning700:hover {
   background-color: var(--warning700) !important;
   color: var(--white);
+  stroke: var(--warning700);
 }
 
 /* Warning 800 */
@@ -781,6 +935,7 @@ link:hover {
 .hover-warning800:hover {
   background-color: var(--warning800) !important;
   color: var(--white);
+  stroke: var(--warning800);
 }
 
 /* Warning 900 */
@@ -788,6 +943,7 @@ link:hover {
 .hover-warning900:hover {
   background-color: var(--warning900) !important;
   color: var(--white);
+  stroke: var(--warning900);
 }
 
 /* Muted Color */
@@ -795,6 +951,7 @@ link:hover {
 .hover-muted:hover {
   background-color: var(--muted) !important;
   color: var(--white);
+  stroke: var(--muted);
 }
 
 /* Muted 50 */
@@ -802,6 +959,7 @@ link:hover {
 .hover-muted50:hover {
   background-color: var(--muted50) !important;
   color: var(--white);
+  stroke: var(--muted50);
 }
 
 /* Muted 100 */
@@ -809,6 +967,7 @@ link:hover {
 .hover-muted100:hover {
   background-color: var(--muted100) !important;
   color: var(--white);
+  stroke: var(--muted100);
 }
 
 /* Muted 200 */
@@ -816,6 +975,7 @@ link:hover {
 .hover-muted200:hover {
   background-color: var(--muted200) !important;
   color: var(--white);
+  stroke: var(--muted200);
 }
 
 /* Muted 300 */
@@ -823,6 +983,7 @@ link:hover {
 .hover-muted300:hover {
   background-color: var(--muted300) !important;
   color: var(--white);
+  stroke: var(--muted300);
 }
 
 /* Muted 400 */
@@ -830,6 +991,7 @@ link:hover {
 .hover-muted400:hover {
   background-color: var(--muted400) !important;
   color: var(--white);
+  stroke: var(--muted400);
 }
 
 /* Muted 500 */
@@ -837,6 +999,7 @@ link:hover {
 .hover-muted500:hover {
   background-color: var(--muted500) !important;
   color: var(--white);
+  stroke: var(--muted500);
 }
 
 /* Muted 600 */
@@ -844,6 +1007,7 @@ link:hover {
 .hover-muted600:hover {
   background-color: var(--muted600) !important;
   color: var(--white);
+  stroke: var(--muted600);
 }
 
 /* Muted 700 */
@@ -851,6 +1015,7 @@ link:hover {
 .hover-muted700:hover {
   background-color: var(--muted700) !important;
   color: var(--white);
+  stroke: var(--muted700);
 }
 
 /* Muted 800 */
@@ -858,6 +1023,7 @@ link:hover {
 .hover-muted800:hover {
   background-color: var(--muted800) !important;
   color: var(--white);
+  stroke: var(--muted800);
 }
 
 /* Muted 900 */
@@ -865,6 +1031,7 @@ link:hover {
 .hover-muted900:hover {
   background-color: var(--muted900) !important;
   color: var(--white);
+  stroke: var(--muted900);
 }
 
 /* Info Color */
@@ -872,6 +1039,7 @@ link:hover {
 .hover-info:hover {
   background-color: var(--info) !important;
   color: var(--white);
+  stroke: var(--info);
 }
 
 /* Info 50 */
@@ -879,6 +1047,7 @@ link:hover {
 .hover-info50:hover {
   background-color: var(--info50) !important;
   color: var(--white);
+  stroke: var(--info50);
 }
 
 /* Info 100 */
@@ -886,6 +1055,7 @@ link:hover {
 .hover-info100:hover {
   background-color: var(--info100) !important;
   color: var(--white);
+  stroke: var(--info100);
 }
 
 /* Info 200 */
@@ -893,6 +1063,7 @@ link:hover {
 .hover-info200:hover {
   background-color: var(--info200) !important;
   color: var(--white);
+  stroke: var(--info200);
 }
 
 /* Info 300 */
@@ -900,6 +1071,7 @@ link:hover {
 .hover-info300:hover {
   background-color: var(--info300) !important;
   color: var(--white);
+  stroke: var(--info300);
 }
 
 /* Info 400 */
@@ -907,6 +1079,7 @@ link:hover {
 .hover-info400:hover {
   background-color: var(--info400) !important;
   color: var(--white);
+  stroke: var(--info400);
 }
 
 /* Info 500 */
@@ -914,6 +1087,7 @@ link:hover {
 .hover-info500:hover {
   background-color: var(--info500) !important;
   color: var(--white);
+  stroke: var(--info500);
 }
 
 /* Info 600 */
@@ -921,6 +1095,7 @@ link:hover {
 .hover-info600:hover {
   background-color: var(--info600) !important;
   color: var(--white);
+  stroke: var(--info600);
 }
 
 /* Info 700 */
@@ -928,6 +1103,7 @@ link:hover {
 .hover-info700:hover {
   background-color: var(--info700) !important;
   color: var(--white);
+  stroke: var(--info700);
 }
 
 /* Info 800 */
@@ -935,6 +1111,7 @@ link:hover {
 .hover-info800:hover {
   background-color: var(--info800) !important;
   color: var(--white);
+  stroke: var(--info800);
 }
 
 /* Info 900 */
@@ -942,6 +1119,7 @@ link:hover {
 .hover-info900:hover {
   background-color: var(--info900) !important;
   color: var(--white);
+  stroke: var(--info900);
 }
 
 /* Light Color */
@@ -949,6 +1127,7 @@ link:hover {
 .hover-light:hover {
   background-color: var(--light) !important;
   color: var(--white);
+  stroke: var(--light);
 }
 
 /* Light 50 */
@@ -956,6 +1135,7 @@ link:hover {
 .hover-light50:hover {
   background-color: var(--light50) !important;
   color: var(--white);
+  stroke: var(--light50);
 }
 
 /* Light 100 */
@@ -963,6 +1143,7 @@ link:hover {
 .hover-light100:hover {
   background-color: var(--light100) !important;
   color: var(--white);
+  stroke: var(--light100);
 }
 
 /* Light 200 */
@@ -970,6 +1151,7 @@ link:hover {
 .hover-light200:hover {
   background-color: var(--light200) !important;
   color: var(--white);
+  stroke: var(--light200);
 }
 
 /* Light 300 */
@@ -977,6 +1159,7 @@ link:hover {
 .hover-light300:hover {
   background-color: var(--light300) !important;
   color: var(--white);
+  stroke: var(--light300);
 }
 
 /* Light 400 */
@@ -984,6 +1167,7 @@ link:hover {
 .hover-light400:hover {
   background-color: var(--light400) !important;
   color: var(--white);
+  stroke: var(--light400);
 }
 
 /* Light 500 */
@@ -991,6 +1175,7 @@ link:hover {
 .hover-light500:hover {
   background-color: var(--light500) !important;
   color: var(--white);
+  stroke: var(--light500);
 }
 
 /* Light 600 */
@@ -998,6 +1183,7 @@ link:hover {
 .hover-light600:hover {
   background-color: var(--light600) !important;
   color: var(--white);
+  stroke: var(--light600);
 }
 
 /* Light 700 */
@@ -1005,6 +1191,7 @@ link:hover {
 .hover-light700:hover {
   background-color: var(--light700) !important;
   color: var(--white);
+  stroke: var(--light700);
 }
 
 /* Light 800 */
@@ -1012,6 +1199,7 @@ link:hover {
 .hover-light800:hover {
   background-color: var(--light800) !important;
   color: var(--white);
+  stroke: var(--light800);
 }
 
 /* Light 900 */
@@ -1019,6 +1207,7 @@ link:hover {
 .hover-light900:hover {
   background-color: var(--light900) !important;
   color: var(--white);
+  stroke: var(--light900);
 }
 
 
@@ -1027,75 +1216,88 @@ link:hover {
 .hover-dark:hover {
   background-color: var(--dark) !important;
   color: var(--white);
+  stroke: var(--dark);
 }
 
 .dark50,
 .hover-dark50:hover {
   background-color: var(--dark50) !important;
   color: var(--white);
+  stroke: var(--dark50);
 }
 
 .dark100,
 .hover-dark100:hover {
   background-color: var(--dark100) !important;
   color: var(--white);
+  stroke: var(--dark100);
 }
 
 .dark200,
 .hover-dark200:hover {
   background-color: var(--dark200) !important;
   color: var(--white);
+  stroke: var(--dark200);
 }
 
 .dark300,
 .hover-dark300:hover {
   background-color: var(--dark300) !important;
   color: var(--white);
+  stroke: var(--dark300);
 }
 
 .dark400,
 .hover-dark400:hover {
   background-color: var(--dark400) !important;
   color: var(--white);
+  stroke: var(--dark400);
 }
 
 .dark500,
 .hover-dark500:hover {
   background-color: var(--dark500) !important;
   color: var(--white);
+  stroke: var(--dark500);
 }
 
 .dark600,
 .hover-dark600:hover {
   background-color: var(--dark600) !important;
   color: var(--white);
+  stroke: var(--dark600);
 }
 
 .dark700,
 .hover-dark700:hover {
   background-color: var(--dark700) !important;
   color: var(--white);
+  stroke: var(--dark700);
 }
 .dark800,
 .hover-dark800:hover {
   background-color: var(--dark800) !important;
   color: var(--white);
+  stroke: var(--dark800);
 }
 
 .dark900,
 .hover-dark900:hover {
   background-color: var(--dark900) !important;
   color: var(--white);
+  stroke: var(--dark900);
 }
 
 .black,
 .hover-black:hover {
   background-color: var(--black) !important;
   color: var(--white);
+  stroke: var(--black);
 }
 .white,
 .hover-white:hover {
   background-color: var(--white) !important;
+  stroke: var(--white);
 }
 
 
@@ -1255,6 +1457,61 @@ link:hover {
 .text-secondary900,
 .hover-text-secondary900:hover {
   color: var(--secondary900) !important;
+}
+
+.text-accent,
+.hover-text-accent:hover {
+  color: var(--accent) !important;
+}
+
+.text-accent50,
+.hover-text-accent50:hover {
+  color: var(--accent50) !important;
+}
+
+.text-accent100,
+.hover-text-accent100:hover {
+  color: var(--accent100) !important;
+}
+
+.text-accent200,
+.hover-text-accent200:hover {
+  color: var(--accent200) !important;
+}
+
+.text-accent300,
+.hover-text-accent300:hover {
+  color: var(--accent300) !important;
+}
+
+.text-accent400,
+.hover-text-accent400:hover {
+  color: var(--accent400) !important;
+}
+
+.text-accent500,
+.hover-text-accent500:hover {
+  color: var(--accent500) !important;
+}
+
+.text-accent600,
+.hover-text-accent600:hover {
+  color: var(--accent600) !important;
+}
+
+.text-accent700,
+.hover-text-accent700:hover {
+  color: var(--accent700) !important;
+}
+
+.text-accent800,
+.hover-text-accent800:hover {
+  color: var(--accent800) !important;
+}
+
+.text-accent900,
+.hover-text-accent900:hover {
+  color: var(--accent900) !important;
 }
 
 /* Error Colors */
@@ -1736,6 +1993,8 @@ body {
   font-size: var(--text-base);
   line-height: 1.5rem;
   letter-spacing: normal;
+  background-color: var(--page-bg) !important;
+  color: var(--text-color) !important;
 }
 
 /* Font utilities with matching line heights */
@@ -2305,15 +2564,16 @@ h6, .h6 {
 /*buttons*/
 .button {
   border: none;
-  padding:0.6rem 1rem;
+  padding:0.7rem 1rem;
   background-color: inherit;
   border-radius: var(--InputButtonBorderRadius);
-transition: all 0.5s linear; 
+  transition: all 0.5s linear; 
   cursor: pointer;
   font-size: var(--minifiedFontSize);
   position: relative;
   overflow: hidden;
-  font-weight: bold;
+  font-weight: 600;
+  line-height: 1 !important;
 }
 
 
@@ -2337,7 +2597,10 @@ transition: all 0.5s linear;
   transform: scale(2);
   opacity: 1;
   transition: 0s;
+
 }
+
+
 
 .button-fill {
   background-color: transparent;
@@ -2462,6 +2725,7 @@ transition: all 0.5s linear;
   transition: 0.3s;
   background-color: var(--raiseThemes);
   backdrop-filter: blur(0.2rem) ;
+  color: var(--text-color);
 }
 .card.xl{
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px !important;
@@ -2533,26 +2797,91 @@ transition: all 0.5s linear;
   cursor: zoom-out;
 }
 
-/* Navbar */
 .navigation-bar {
   width: 100%;
   display: flex;
   flex-direction: row;
-  display: -ms-flexbox;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 0.5rem 5%;
   gap: 2rem;
-  backdrop-filter: blur(0.2rem) ;
-
+  backdrop-filter: blur(0.2rem);
+  transition: all 0.3s ease;
+  max-height: 100vh;
+  overflow-y: auto;
 }
-.fixed_top_navbar{
+
+.linkWrapper {
+  display: none;
+}
+
+.sidebar-trigger {
+  display: block;
+  cursor: pointer;
+}
+
+/* Mobile layout when menu is open */
+.navbar-mobile-open {
+  flex-direction: column;
+}
+
+.navbar-mobile-open .linkWrapper {
+  display: flex !important;
+  flex-direction: column;
+  gap: 1rem;
+}
+.logoWrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-between ;
+  width: 100%;
+  gap: 0.5rem;}
+
+  ._closeNav{display: block;}
+
+
+  /* Desktop layout */
+@media screen and (min-width: 900px) {
+  .navigation-bar {
+    flex-direction: row;
+    height: var(--navHeight) !important;
+     justify-content: space-between !important;
+     overflow-y: visible !important;
+  }
+
+  .linkWrapper {
+    display: flex !important;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .sidebar-trigger {
+    display: none;
+  }
+  ._closeNav{display: none !important;}
+  .logoWrapper{display: block;  width:fit-content !important;}
+}
+
+
+/* Show links vertically when toggled on mobile */
+.navbar-links-visible {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+.fixed_top_navbar , .fixedTop {
   position: fixed;
   top: 0;
   width: 100%;
-  right: 0;
+  left: 0;
   z-index: var(--navBarZindex);
+  background-color: var(--raiseThemes) ;
+
 }
+
 
 .navigation-bar.transparent{  backdrop-filter: none !important ;}
 
@@ -2574,86 +2903,6 @@ transition: all 0.5s linear;
 }
 
 
-.fun_sidebar_content{
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 220px;
-  background-color: var(--raiseThemes);
-  animation: SlideRight 0.2s linear;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  z-index: var(--sideBarZindex);
-  overflow: auto;
-  overflow-x: hidden;
-
-}
-
-.fun_main_content{
-  position: absolute; 
-  top: 0;
-  right:0;
-  height: 100%;
-  overflow-y: auto; 
-  padding: 1rem; 
-
-}
-.there_is_sidebar , .fun_main_content{
-  width: calc(100% - 220px); 
-  right:0  !important;
-  }
-@media(max-width:800px){
-  .fun_side_bar_wrapper{
-    display: none;
-  }
-  .there_is_sidebar{
-    width: 100%;
-  } 
-  .fun_main_content{
-    width: 100%;
-  }
-}
-
-@keyframes showNav {
-  from{
-    transform: translateX(-110%);
-  }
-  to{
-    transform: translateX(0%);
-  }
-}
-
-
-.collapse {
-  overflow: auto;
-  transition: 0.5s;
-  display: block;
-  width: 100%;
-  max-height: fit-content;
-}
-.linkWrapperLogo {
-  display: none;
-}
-@media (max-width: 1000px) {
-  .sidebar-trigger {
-    display: block;
-  }
-
-  .linkWrapper {
-    display: none;
-  }
-.linkWrapper.visibleLinks{
-  display: inline-block;
-}
-}
-
-.fixedTop {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  z-index: 10;
-}
 
 /* Alerts */
 .alert {
@@ -3019,9 +3268,12 @@ input , select{height: var(--inputHeight);}
   outline: var(--input_outline_size) solid var(--danger);
 }
 
+
 .input.borderedInput:focus {
-  outline: var(--input_outline_size) solid var(--inputOutline);
+  outline: var(--input_outline_size) solid var(--primary);
+  box-shadow: 0 0 0 3px var(--primary200); 
 }
+
 .input.borderless {
   border: none;
 }
@@ -3481,9 +3733,6 @@ th {
 
 
 .modal-title {
-  padding: 1rem;
-  border-bottom: 0.1px solid var(--borderColor);
-  min-height: 70px;
   height: fit-content;
   display: flex;
   flex-direction: row;
@@ -3495,25 +3744,22 @@ th {
 .modal-content {
   background-color: var(--raiseThemes);
   max-width: 700px;
-  width: 100%;
+  padding: 1rem 1.5rem;
   border-radius: 10px;
   box-shadow: var(--card);
   height: fit-content ;
 
 }
 .modal-body {
-  padding: 1rem ;
   height: 100%;
-  /* max-height: calc(100vh - 200px) ; */
   overflow: auto;
 }
 
 .modal-action {
-  padding: 1rem ;
   height: fit-content;
 }
 
-.closeModal {
+/* .closeModal {
   width: 2.2rem;
   height: 2.2rem;
   background-color: var(--dark800);
@@ -3524,7 +3770,7 @@ th {
   border-radius: 50%;
   transition: 0.3s linear;
   cursor: pointer;
-}
+} */
 .closeModal:hover {
 filter: brightness(90%);
 }
@@ -3601,7 +3847,6 @@ filter: brightness(90%);
 
 
 
-/* Progress bars */
 .progressBar {
   background-color: var(--light100);
   position: relative;
@@ -3619,7 +3864,7 @@ filter: brightness(90%);
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   transition: 0.2s ease-in-out;
   background-image: linear-gradient(
     45deg,
@@ -3631,23 +3876,29 @@ filter: brightness(90%);
     transparent 75%,
     transparent
   );
-}
-.progressBar.lined {
-  background-color: transparent !important;
-  font-size: var(--smallerFont);
+  color: var(--darkText);
   font-weight: bold;
-  overflow: hidden;
+  padding-left: 0.5rem;
 }
-.linedProgress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 0.2rem;
-  text-align: right;
-  /* padding: 0 1rem; */
-  transition: 0.2s ease-in-out;
-  border-radius: 2rem;
+
+.circularProgressWrapper {
+  position: relative;
+  display: inline-block;
 }
+
+.circularProgress {
+  transform: rotate(-90deg);
+}
+
+.circularProgressCircle {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease-in-out;
+}
+
+
+
+
 /* affects rounded progress */
 .rounded{
   border-radius: 500rem;
@@ -3691,73 +3942,109 @@ filter: brightness(90%);
 }
 
 .tooltip .tip {
-  display: none;
-  min-width: 100px;
-  max-width: 300px;
-  background-color: var(--dark200);
+  display: block;
+  background-color: var(--dark100);
   color: var(--dark900);
   text-align: center;
   border-radius: var(--DefaultBorderRadius);
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 0.5rem !important;
+  font-weight: 600 !important;
   position: absolute;
-  z-index: 5;
-  transition:  0.3s;
+  z-index: 10;
+ transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
   font-size: var(--smallFont) !important;
+  line-height: normal !important;
   box-shadow: var(--raised);
+  width: max-content;
+  white-space: nowrap; /* prevents line breaks */
+  opacity: 0;
+  pointer-events: none;
 }
+
+
+/* Show on hover */
+.tooltip:hover .tip {
+ opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Arrow base */
+.tooltip .tip::after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+}
+
+/* Top Tooltip */
 .tooltip .tip-top {
   bottom: 125%;
-  left: 0;
-  /* margin-left: -60px; */
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tooltip .tip-top::after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-color: var(--dark100) transparent transparent transparent;
 }
 
-.tooltip:hover .tip-top {
-  display: inline-block;
-}
-
+/* Bottom Tooltip */
 .tooltip .tip-bottom {
-  top: 120%;
-  left:0;
-  /* margin-left: -60px; */
+  top: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tooltip .tip-bottom::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--dark100) transparent;
 }
 
-.tooltip:hover .tip-bottom {
-  display: inline-block;
-}
-
+/* Right Tooltip */
 .tooltip .tip-right {
-  top: -5px;
+  top: 50%;
   left: 105%;
-  font-size: small;
+  transform: translateY(-50%);
+}
+.tooltip .tip-right::after {
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  border-width: 6px 6px 6px 0;
+  border-color: transparent var(--dark100) transparent transparent;
 }
 
-.tooltip:hover .tip-right {
-  display: inline-block;
-}
-
+/* Left Tooltip */
 .tooltip .tip-left {
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: -5px;
+  top: 50%;
   right: 105%;
+  transform: translateY(-50%);
 }
-.tooltip:hover .tip-left {
-  display: inline-block;
+.tooltip .tip-left::after {
+  top: 50%;
+  right: -6px;
+  transform: translateY(-50%);
+  border-width: 6px 0 6px 6px;
+  border-color: transparent transparent transparent var(--dark100);
 }
-
 .snackbar {
   position: fixed !important;
-  background-color: var(--dark200);
+  background-color: var(--dark100);
   color: var(--dark900);
   border-radius: var(--DefaultBorderRadius);
   max-width: 90vw;
   width: fit-content;
   max-height: 2.5rem;
+  font-weight: 600;
+  line-height: normal;
   height: 100%;
   box-shadow: var(--raised);
   z-index: var(--snackBarZindex);
-  padding: 0.3rem;
+  padding: 0.3rem 0.5rem;
   font-size: var(--minifiedFontSize);
 }
  

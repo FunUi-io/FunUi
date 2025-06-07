@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '../button/Button';
-import {PiHouse} from 'react-icons/pi'
+import {PiArrowLeft} from 'react-icons/pi'
 
 interface UnAuthorizedProps {
     header?:React.ReactNode 
@@ -33,7 +33,7 @@ export default function UnAuthorized(
               {
                 header ? header 
                 : 
-                <div className="text-bigger text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
+                <div className="text-bigger text-bold text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
                 Unauthorized Access
               </div>
               }
@@ -48,9 +48,11 @@ export default function UnAuthorized(
               {
                 action ? action :
                 <div className="row-flex gap" style={{ justifyContent: "center", gap: "0.4rem" }}>
-                <Button raised startIcon={<PiHouse />} bg='primary800' onClick={() => window.location.assign("/")}>
-                 Back To Home
-                </Button>
+            <Button raised rounded startIcon={<PiArrowLeft />} bg='primary' onClick={() => {
+                              window.history.back()
+                            }}>
+                           Go Back
+                          </Button>
               </div>
               }
             </div>

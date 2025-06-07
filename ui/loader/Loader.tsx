@@ -20,7 +20,7 @@ export default function FunLoader({
   ...rest
 }: FunLoaderProps) {
   return (
-    <div className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`} {...rest}>
+    <div style={{lineHeight:"0"}} className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`} {...rest}>
       
      {
         variant === 'simple'?

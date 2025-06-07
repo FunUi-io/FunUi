@@ -4,11 +4,14 @@ interface ProgressBarProps {
     progress: number;
     height?: number;
     children?: React.ReactNode;
-    content?: React.ReactNode;
+    content?: ((progress: number) => React.ReactNode) | React.ReactNode;
     bg?: string;
-    lined?: boolean;
     raised?: boolean;
     rounded?: boolean;
+    type?: 'linear' | 'circle';
+    size?: number;
+    strokeWidth?: number;
 }
-export default function ProgressBar({ funcss, progress, height, children, content, raised, rounded, bg, lined, }: ProgressBarProps): React.JSX.Element;
+export default function ProgressBar({ funcss, progress, height, children, content, raised, rounded, bg, // default CSS class name
+type, size, strokeWidth, }: ProgressBarProps): React.JSX.Element;
 export {};

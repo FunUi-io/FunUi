@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import * as React from 'react'
-import { TfiCheck, TfiInfoAlt } from "react-icons/tfi";
+'use client'
 import { PiInfo , PiCheckCircleDuotone , PiWarning , PiX , PiSpinner } from "react-icons/pi";
+import React, { ReactNode, useEffect, useState } from 'react';
+
 interface AlertProps {
   message?: string;
   funcss?: string;
@@ -11,14 +11,17 @@ interface AlertProps {
   fullWidth?: boolean;
   isLoading?: boolean;
   children?: ReactNode;
-  animation?:string ;
-  duration?:string
-  raised?:boolean  ,
-  card?:boolean,
-  variant?:string, 
-  flat?:boolean, 
-  standard?:boolean,
-  style?:React.CSSProperties
+  animation?: string;
+  duration?: string;
+  raised?: boolean;
+  card?: boolean;
+  variant?: string;
+  flat?: boolean;
+  standard?: boolean;
+  style?: React.CSSProperties;
+  autoHide?: boolean;
+  autoHideDuration?: number;
+  onClose?: () => void;
 }
 
 export default function Alert({
@@ -30,92 +33,74 @@ export default function Alert({
   raised,
   fullWidth,
   isLoading,
-  children, 
+  children,
   animation,
-  duration ,
+  duration,
   variant,
   flat,
   standard,
   card,
   style,
+  autoHide = false,
+  autoHideDuration = 3000,
+  onClose,
   ...rest
 }: AlertProps) {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (autoHide) {
+      timeout = setTimeout(() => {
+        setVisible(false);
+        onClose?.();
+      }, autoHideDuration);
+    }
+    return () => clearTimeout(timeout);
+  }, [autoHide, autoHideDuration, onClose]);
+
+  if (!visible) return null;
+
   return (
-    <div className={
-      `
-      ${fixed ? 'alert-container ' : ''}
-       ${fixed === "top-left" ? "top-left" : ""}
-      ${fixed === "top-right" ? "top-right" : ""}
-      ${fixed === "bottom-left" ? "bottom-left" : ""}
-      ${fixed === "bottom-right" ? "bottom-right" : ""}
-      ${fixed === "middle" ? "middle-alert" : ""}
-      ${fixed === "top-middle" ? "top-middle" : ""}
-      ${fixed === "bottom-middle" ? "bottom-middle" : ""}`
-    }>
-      {outlined ? (
-        <div
-          style={{
-            animation: `${duration ? duration : "0.3"}s ${animation ? animation : "ScaleUp"}`,
-            ...style
-          }}
-          className={`alert  ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''} ${type}-outline
-
- ${fullWidth ? "width-100-p" : ""}
- `}
- {...rest}
-        >
-          <div className="alert-icon">
-            {!isLoading ? (
-              <div className={`text-${type}`}>
-                {type === "success" && <PiCheckCircleDuotone />}
-                {type === "info" && <PiInfo />}
-                {type === "warning" && <PiWarning />}
-                {type === "danger" && <PiX />}
-              </div>
-            ) : (
-             <span className='rotate'> <PiSpinner /> </span> 
-            )}
-          </div>
-          <div className="alert-text">
-            {message ? message : children ? children : ""}
-          </div>
+    <div
+      className={`${
+        fixed ? 'alert-container ' : ''
+      } ${fixed === 'top-left' ? 'top-left' : ''}
+        ${fixed === 'top-right' ? 'top-right' : ''}
+        ${fixed === 'bottom-left' ? 'bottom-left' : ''}
+        ${fixed === 'bottom-right' ? 'bottom-right' : ''}
+        ${fixed === 'middle' ? 'middle-alert' : ''}
+        ${fixed === 'top-middle' ? 'top-middle' : ''}
+        ${fixed === 'bottom-middle' ? 'bottom-middle' : ''}`}
+    >
+      <div
+        style={{
+          animation: `${duration || '0.3'}s ${animation || 'ScaleUp'}`,
+          ...style,
+        }}
+        className={`alert ${card ? 'card' : ''} ${flat ? 'flat' : ''} ${raised ? 'raised' : ''} ${
+          outlined
+            ? `${type}-outline`
+            : `${variant || (standard ? `top-${type}` : type)}`
+        } ${funcss || ''} ${fullWidth ? 'width-100-p' : ''}`}
+        {...rest}
+      >
+        <div className="alert-icon">
+          {!isLoading ? (
+            <div className={`text-${type}`}>
+              {type === 'success' && <PiCheckCircleDuotone />}
+              {type === 'info' && <PiInfo />}
+              {type === 'warning' && <PiWarning />}
+              {type === 'danger' && <PiX />}
+            </div>
+          ) : (
+            <span className="rotate">
+              <PiSpinner />
+            </span>
+          )}
         </div>
-      ) : (
-        ""
-      )}
-
-      {!outlined ? (
-        <div
-          style={{
-            animation: `${duration ? duration : "0.3"}s ${animation ? animation : "ScaleUp"}`,
-            ...style
-          }}
-          className={`alert  ${card ? "card" : ""} ${flat ? "flat" : ""} ${raised ? 'raised' : ''} 
-           ${variant ? variant : standard ? "" : type}
-           ${standard ? "top-" + type : ""}
-            ${funcss || ""}
- ${fullWidth ? "width-100-p" : ""}
-`}
-        >
-          <div className="alert-icon">
-            {!isLoading ? (
-              <div className={`text-${type}`}>
-                  {type === "success" && <PiCheckCircleDuotone />}
-                {type === "info" && <PiInfo />}
-                {type === "warning" && <PiWarning />}
-                {type === "danger" && <PiX />}
-              </div>
-            ) : (
-             <span className='rotate'> <PiSpinner /> </span> 
-            )}
-          </div>
-          <div className="alert-text">
-            {message ? message : children ? children : ""}
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
+        <div className="alert-text">{message || children}</div>
+      </div>
     </div>
   );
 }

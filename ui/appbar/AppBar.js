@@ -1,3 +1,4 @@
+'use client';
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -24,13 +25,36 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
+var react_1 = require("react");
+var pi_1 = require("react-icons/pi");
 function AppBar(_a) {
-    var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, children = _a.children, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, width = _a.width, visibleLinks = _a.visibleLinks, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
-    return (React.createElement("div", null,
-        React.createElement("nav", { className: "\n          navigation-bar ".concat(funcss ? funcss : '', "\n          ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n          ").concat(sideBar ? 'there_is_sidebar' : '', "\n          ").concat(transparent ? 'transparent' : '', "\n          ").concat(fixedBottom ? 'fixedBottom' : '', "\n        "), style: { padding: "".concat(padding ? padding : ''), justifyContent: "".concat(justify ? justify : '') } },
-            React.createElement("div", null, left),
-            React.createElement("div", { className: " linkWrapper ".concat(visibleLinks ? "visibleLinks" : "") }, center),
-            React.createElement("div", { className: "linkWrapper ".concat(visibleLinks ? "visibleLinks" : "") }, right),
-            sidebarTrigger ? React.createElement("span", { className: 'sidebar-trigger' }, sidebarTrigger) : '')));
+    var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
+    var _b = (0, react_1.useState)(false), isMobileMenuOpen = _b[0], setIsMobileMenuOpen = _b[1];
+    var _c = (0, react_1.useState)(false), isMobileScreen = _c[0], setIsMobileScreen = _c[1];
+    var toggleMenu = function () { return setIsMobileMenuOpen(function (prev) { return !prev; }); };
+    var closeMenu = function () { return setIsMobileMenuOpen(false); };
+    (0, react_1.useEffect)(function () {
+        var handleResize = function () {
+            var isMobile = window.innerWidth < 768;
+            setIsMobileScreen(isMobile);
+            if (!isMobile) {
+                setIsMobileMenuOpen(false); // auto-close on large screens
+            }
+        };
+        handleResize(); // initial check
+        window.addEventListener('resize', handleResize);
+        return function () { return window.removeEventListener('resize', handleResize); };
+    }, []);
+    return (React.createElement("nav", { className: "\n        navigation-bar\n        ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n        ").concat(funcss || '', "\n        ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n        ").concat(sideBar ? 'there_is_sidebar' : '', "\n        ").concat(transparent ? 'transparent' : '', "\n        ").concat(fixedBottom ? 'fixedBottom' : '', "\n      "), style: {
+            padding: "".concat(padding || ''),
+            justifyContent: "".concat(justify || ''),
+        } },
+        React.createElement("div", { className: "logoWrapper" },
+            left,
+            isMobileScreen && isMobileMenuOpen && (React.createElement("div", { className: "hover-text-error pointer _closeNav", onClick: closeMenu },
+                React.createElement(pi_1.PiX, { size: 25 })))),
+        React.createElement("div", { className: "linkWrapper" }, center),
+        React.createElement("div", { className: "linkWrapper" }, right),
+        isMobileScreen && !isMobileMenuOpen && (React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, sidebarTrigger || React.createElement(pi_1.PiList, { size: 30 })))));
 }
 exports.default = AppBar;

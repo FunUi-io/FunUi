@@ -1,3 +1,4 @@
+'use client';
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -25,19 +26,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var SnackBar = function (_a) {
-    var message = _a.message, close = _a.close, open = _a.open, position = _a.position, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, flat = _a.flat;
-    if (open) {
-        return (React.createElement("div", null,
-            React.createElement("div", { className: "snackbar ".concat(position, " ").concat(funcss, " ").concat(flat ? "flat" : ""), style: { animation: " ".concat(duration, "s ").concat(animation) } },
-                React.createElement("div", { className: "snackbar-content" },
-                    React.createElement("div", { className: "snackbar-body" }, message),
-                    close &&
-                        React.createElement("div", null,
-                            React.createElement("span", { className: "close-snackbar" },
-                                React.createElement("span", null, close)))))));
-    }
-    else {
-        return React.createElement("div", null);
-    }
+    var message = _a.message, close = _a.close, open = _a.open, setOpen = _a.setOpen, position = _a.position, funcss = _a.funcss, animation = _a.animation, _b = _a.duration, duration = _b === void 0 ? 0.3 : _b, _c = _a.autoHide, autoHide = _c === void 0 ? false : _c, _d = _a.autoHideDuration, autoHideDuration = _d === void 0 ? 3000 : _d, flat = _a.flat;
+    React.useEffect(function () {
+        if (open && autoHide) {
+            var timer_1 = setTimeout(function () {
+                setOpen(false);
+            }, autoHideDuration);
+            return function () { return clearTimeout(timer_1); };
+        }
+    }, [open, autoHide, autoHideDuration, setOpen]);
+    if (!open)
+        return null;
+    return (React.createElement("div", { className: "snackbar ".concat(position, " ").concat(funcss || '', " ").concat(flat ? 'flat' : ''), style: { animation: "".concat(duration, "s ").concat(animation || 'SlideUp') } },
+        React.createElement("div", { className: "snackbar-content" },
+            React.createElement("div", { className: "snackbar-body" }, message),
+            close && (React.createElement("div", { className: "close-snackbar pointer", onClick: function () { return setOpen ? setOpen(false) : null; } }, close)))));
 };
 exports.default = SnackBar;

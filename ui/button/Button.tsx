@@ -812,13 +812,13 @@ export default function Button({
       
         {
           isLoading &&
-          <span  className='rotate btn_left_icon'>
+          <span  className='rotate btn_left_icon' style={{lineHeight:"0"}}>
                     <PiSpinner/>
           </span>
         }
     {
       status &&
-      <span  className=' btn_left_icon'>
+      <span  className=' btn_left_icon' style={{lineHeight:"0"}}>
       {status === "success" && <PiCheck />}
 {status === "info" && <PiInfo />}
 {status === "warning" && <PiWarning />}
@@ -826,9 +826,9 @@ export default function Button({
 </span>
     }
       {fillAnimation ? <span  className={`button_fill_span ${bg}`} ></span> : ''}
-      {startIcon && <span className="btn_left_icon">{startIcon}</span>}
+      {startIcon && <span className="btn_left_icon" style={{lineHeight:"0"}}>{startIcon}</span>}
       {text ? text : children}
-      {endIcon && <span className="btn_right_icon">{endIcon}</span>}
+      {endIcon && <span className="btn_right_icon" style={{lineHeight:"0"}}>{endIcon}</span>}
 
     </button>
   </span>

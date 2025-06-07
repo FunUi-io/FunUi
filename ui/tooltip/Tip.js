@@ -48,13 +48,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 function Tip(_a) {
     var tip = _a.tip, funcss = _a.funcss, children = _a.children, content = _a.content, message = _a.message, animation = _a.animation, duration = _a.duration, rest = __rest(_a, ["tip", "funcss", "children", "content", "message", "animation", "duration"]);
-    // Calculate width only if content is a string
     var text = message || content || children;
-    // Check if content is a plain string to calculate width
-    var isString = typeof text === 'string';
-    var minWidth = isString
-        ? "".concat(text.replace(/\s+/g, '').length * 8, "px")
-        : 'auto';
-    return (React.createElement("span", __assign({ className: "tip-".concat(tip, " tip ").concat(funcss ? funcss : ''), style: { animation: " ".concat(duration ? duration : 0, "s ").concat(animation ? animation : ''), minWidth: minWidth } }, rest), text));
+    return (React.createElement("span", __assign({ className: "tip-".concat(tip, " tip ").concat(funcss ? funcss : ''), style: { animation: " ".concat(duration ? duration : 0, "s ").concat(animation ? animation : '') } }, rest), text));
 }
 exports.default = Tip;

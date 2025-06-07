@@ -1,3 +1,4 @@
+'use client';
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -41,15 +42,14 @@ function NotFound(_a) {
                         React.createElement("div", { className: "h2 text-warning round-edge" }, "404"),
                     React.createElement("div", { style: { margin: "1.4rem 0px" } }, header ? header
                         :
-                            React.createElement("div", { className: "text-bigger text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "Page Not Found")),
+                            React.createElement("div", { className: "text-big text-bold text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "Page Not Found")),
                     content ? content :
                         React.createElement("div", { className: "article" },
                             React.createElement(Text_1.default, { article: true, text: "Sorry, we couldn't find the page you're looking for.", color: "dark300", block: true })),
                     React.createElement("div", { style: { margin: "2rem 0px" } }, action ? action :
                         React.createElement("div", { className: "row-flex gap", style: { justifyContent: "center", gap: "0.4rem" } },
-                            React.createElement(Button_1.default, { raised: true, rounded: true, startIcon: React.createElement(pi_1.PiHouse, null), bg: 'primary', onClick: function () {
-                                    var previousUrl = '/';
-                                    window.location.assign(previousUrl);
-                                } }, "Back To Home"))))))));
+                            React.createElement(Button_1.default, { raised: true, rounded: true, startIcon: React.createElement(pi_1.PiArrowLeft, null), bg: 'primary', onClick: function () {
+                                    window.history.back();
+                                } }, "Go Back"))))))));
 }
 exports.default = NotFound;

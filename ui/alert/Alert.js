@@ -1,3 +1,4 @@
+'use client';
 "use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -45,30 +46,33 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __importStar(require("react"));
 var pi_1 = require("react-icons/pi");
+var react_1 = __importStar(require("react"));
 function Alert(_a) {
-    var message = _a.message, funcss = _a.funcss, type = _a.type, outlined = _a.outlined, fixed = _a.fixed, raised = _a.raised, fullWidth = _a.fullWidth, isLoading = _a.isLoading, children = _a.children, animation = _a.animation, duration = _a.duration, variant = _a.variant, flat = _a.flat, standard = _a.standard, card = _a.card, style = _a.style, rest = __rest(_a, ["message", "funcss", "type", "outlined", "fixed", "raised", "fullWidth", "isLoading", "children", "animation", "duration", "variant", "flat", "standard", "card", "style"]);
-    return (React.createElement("div", { className: "\n      ".concat(fixed ? 'alert-container ' : '', "\n       ").concat(fixed === "top-left" ? "top-left" : "", "\n      ").concat(fixed === "top-right" ? "top-right" : "", "\n      ").concat(fixed === "bottom-left" ? "bottom-left" : "", "\n      ").concat(fixed === "bottom-right" ? "bottom-right" : "", "\n      ").concat(fixed === "middle" ? "middle-alert" : "", "\n      ").concat(fixed === "top-middle" ? "top-middle" : "", "\n      ").concat(fixed === "bottom-middle" ? "bottom-middle" : "") },
-        outlined ? (React.createElement("div", __assign({ style: __assign({ animation: "".concat(duration ? duration : "0.3", "s ").concat(animation ? animation : "ScaleUp") }, style), className: "alert  ".concat(card ? "card" : "", " ").concat(flat ? "flat" : "", " ").concat(raised ? 'raised' : '', " ").concat(type, "-outline\n\n ").concat(fullWidth ? "width-100-p" : "", "\n ") }, rest),
-            React.createElement("div", { className: "alert-icon" }, !isLoading ? (React.createElement("div", { className: "text-".concat(type) },
-                type === "success" && React.createElement(pi_1.PiCheckCircleDuotone, null),
-                type === "info" && React.createElement(pi_1.PiInfo, null),
-                type === "warning" && React.createElement(pi_1.PiWarning, null),
-                type === "danger" && React.createElement(pi_1.PiX, null))) : (React.createElement("span", { className: 'rotate' },
-                " ",
-                React.createElement(pi_1.PiSpinner, null),
-                " "))),
-            React.createElement("div", { className: "alert-text" }, message ? message : children ? children : ""))) : (""),
-        !outlined ? (React.createElement("div", { style: __assign({ animation: "".concat(duration ? duration : "0.3", "s ").concat(animation ? animation : "ScaleUp") }, style), className: "alert  ".concat(card ? "card" : "", " ").concat(flat ? "flat" : "", " ").concat(raised ? 'raised' : '', " \n           ").concat(variant ? variant : standard ? "" : type, "\n           ").concat(standard ? "top-" + type : "", "\n            ").concat(funcss || "", "\n ").concat(fullWidth ? "width-100-p" : "", "\n") },
-            React.createElement("div", { className: "alert-icon" }, !isLoading ? (React.createElement("div", { className: "text-".concat(type) },
-                type === "success" && React.createElement(pi_1.PiCheckCircleDuotone, null),
-                type === "info" && React.createElement(pi_1.PiInfo, null),
-                type === "warning" && React.createElement(pi_1.PiWarning, null),
-                type === "danger" && React.createElement(pi_1.PiX, null))) : (React.createElement("span", { className: 'rotate' },
-                " ",
-                React.createElement(pi_1.PiSpinner, null),
-                " "))),
-            React.createElement("div", { className: "alert-text" }, message ? message : children ? children : ""))) : ("")));
+    var message = _a.message, funcss = _a.funcss, type = _a.type, outlined = _a.outlined, fixed = _a.fixed, raised = _a.raised, fullWidth = _a.fullWidth, isLoading = _a.isLoading, children = _a.children, animation = _a.animation, duration = _a.duration, variant = _a.variant, flat = _a.flat, standard = _a.standard, card = _a.card, style = _a.style, _b = _a.autoHide, autoHide = _b === void 0 ? false : _b, _c = _a.autoHideDuration, autoHideDuration = _c === void 0 ? 3000 : _c, onClose = _a.onClose, rest = __rest(_a, ["message", "funcss", "type", "outlined", "fixed", "raised", "fullWidth", "isLoading", "children", "animation", "duration", "variant", "flat", "standard", "card", "style", "autoHide", "autoHideDuration", "onClose"]);
+    var _d = (0, react_1.useState)(true), visible = _d[0], setVisible = _d[1];
+    (0, react_1.useEffect)(function () {
+        var timeout;
+        if (autoHide) {
+            timeout = setTimeout(function () {
+                setVisible(false);
+                onClose === null || onClose === void 0 ? void 0 : onClose();
+            }, autoHideDuration);
+        }
+        return function () { return clearTimeout(timeout); };
+    }, [autoHide, autoHideDuration, onClose]);
+    if (!visible)
+        return null;
+    return (react_1.default.createElement("div", { className: "".concat(fixed ? 'alert-container ' : '', " ").concat(fixed === 'top-left' ? 'top-left' : '', "\n        ").concat(fixed === 'top-right' ? 'top-right' : '', "\n        ").concat(fixed === 'bottom-left' ? 'bottom-left' : '', "\n        ").concat(fixed === 'bottom-right' ? 'bottom-right' : '', "\n        ").concat(fixed === 'middle' ? 'middle-alert' : '', "\n        ").concat(fixed === 'top-middle' ? 'top-middle' : '', "\n        ").concat(fixed === 'bottom-middle' ? 'bottom-middle' : '') },
+        react_1.default.createElement("div", __assign({ style: __assign({ animation: "".concat(duration || '0.3', "s ").concat(animation || 'ScaleUp') }, style), className: "alert ".concat(card ? 'card' : '', " ").concat(flat ? 'flat' : '', " ").concat(raised ? 'raised' : '', " ").concat(outlined
+                ? "".concat(type, "-outline")
+                : "".concat(variant || (standard ? "top-".concat(type) : type)), " ").concat(funcss || '', " ").concat(fullWidth ? 'width-100-p' : '') }, rest),
+            react_1.default.createElement("div", { className: "alert-icon" }, !isLoading ? (react_1.default.createElement("div", { className: "text-".concat(type) },
+                type === 'success' && react_1.default.createElement(pi_1.PiCheckCircleDuotone, null),
+                type === 'info' && react_1.default.createElement(pi_1.PiInfo, null),
+                type === 'warning' && react_1.default.createElement(pi_1.PiWarning, null),
+                type === 'danger' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("span", { className: "rotate" },
+                react_1.default.createElement(pi_1.PiSpinner, null)))),
+            react_1.default.createElement("div", { className: "alert-text" }, message || children))));
 }
 exports.default = Alert;

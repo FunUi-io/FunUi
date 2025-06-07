@@ -1,5 +1,4 @@
-import { ReactNode } from 'react';
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 interface AlertProps {
     message?: string;
     funcss?: string;
@@ -17,6 +16,9 @@ interface AlertProps {
     flat?: boolean;
     standard?: boolean;
     style?: React.CSSProperties;
+    autoHide?: boolean;
+    autoHideDuration?: number;
+    onClose?: () => void;
 }
-export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, standard, card, style, ...rest }: AlertProps): React.JSX.Element;
+export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, standard, card, style, autoHide, autoHideDuration, onClose, ...rest }: AlertProps): React.JSX.Element;
 export {};

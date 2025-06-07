@@ -418,17 +418,17 @@ function Button(_a) {
     return (React.createElement("span", null,
         React.createElement("button", __assign({ className: "".concat(classNames, " ").concat(startIcon || endIcon || status || isLoading ? 'iconic' : ''), style: __assign({ height: height || '', width: fullWidth ? '100%' : width || '', borderRadius: flat ? '0rem' : '', border: "".concat(outlined ? outlineSize ? "".concat(outlineSize, "rem solid ").concat(exports.colors[bg]) : "0.1rem solid ".concat(exports.colors[bg]) : '') }, style), onClick: onClick }, rest),
             isLoading &&
-                React.createElement("span", { className: 'rotate btn_left_icon' },
+                React.createElement("span", { className: 'rotate btn_left_icon', style: { lineHeight: "0" } },
                     React.createElement(pi_1.PiSpinner, null)),
             status &&
-                React.createElement("span", { className: ' btn_left_icon' },
+                React.createElement("span", { className: ' btn_left_icon', style: { lineHeight: "0" } },
                     status === "success" && React.createElement(pi_1.PiCheck, null),
                     status === "info" && React.createElement(pi_1.PiInfo, null),
                     status === "warning" && React.createElement(pi_1.PiWarning, null),
                     status === "danger" && React.createElement(pi_1.PiX, null)),
             fillAnimation ? React.createElement("span", { className: "button_fill_span ".concat(bg) }) : '',
-            startIcon && React.createElement("span", { className: "btn_left_icon" }, startIcon),
+            startIcon && React.createElement("span", { className: "btn_left_icon", style: { lineHeight: "0" } }, startIcon),
             text ? text : children,
-            endIcon && React.createElement("span", { className: "btn_right_icon" }, endIcon))));
+            endIcon && React.createElement("span", { className: "btn_right_icon", style: { lineHeight: "0" } }, endIcon))));
 }
 exports.default = Button;

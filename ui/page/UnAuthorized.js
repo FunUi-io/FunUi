@@ -40,11 +40,13 @@ function UnAuthorized(_a) {
                         React.createElement("div", { className: "h2 text-warning round-edge" }, "401"),
                     React.createElement("div", { style: { margin: "1.4rem 0px" } }, header ? header
                         :
-                            React.createElement("div", { className: "text-bigger text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "Unauthorized Access")),
+                            React.createElement("div", { className: "text-bigger text-bold text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "Unauthorized Access")),
                     content ? content :
                         React.createElement("div", { className: "article" }, "Sorry! You do not have access to this resource."),
                     React.createElement("div", { style: { margin: "2rem 0px" } }, action ? action :
                         React.createElement("div", { className: "row-flex gap", style: { justifyContent: "center", gap: "0.4rem" } },
-                            React.createElement(Button_1.default, { raised: true, startIcon: React.createElement(pi_1.PiHouse, null), bg: 'primary800', onClick: function () { return window.location.assign("/"); } }, "Back To Home"))))))));
+                            React.createElement(Button_1.default, { raised: true, rounded: true, startIcon: React.createElement(pi_1.PiArrowLeft, null), bg: 'primary', onClick: function () {
+                                    window.history.back();
+                                } }, "Go Back"))))))));
 }
 exports.default = UnAuthorized;

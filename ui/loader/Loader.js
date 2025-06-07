@@ -49,7 +49,7 @@ var React = __importStar(require("react"));
 var pi_1 = require("react-icons/pi");
 function FunLoader(_a) {
     var funcss = _a.funcss, size = _a.size, fixed = _a.fixed, backdrop = _a.backdrop, color = _a.color, variant = _a.variant, rest = __rest(_a, ["funcss", "size", "fixed", "backdrop", "color", "variant"]);
-    return (React.createElement("div", __assign({ className: "".concat(fixed ? 'fixedLoader' : '', " ").concat(backdrop && fixed ? 'backdropLoader' : '') }, rest), variant === 'simple' ?
+    return (React.createElement("div", __assign({ style: { lineHeight: "0" }, className: "".concat(fixed ? 'fixedLoader' : '', " ").concat(backdrop && fixed ? 'backdropLoader' : '') }, rest), variant === 'simple' ?
         React.createElement("span", { className: "rotate ".concat(funcss ? funcss : '', "  text-").concat(color ? color : '') },
             React.createElement(pi_1.PiSpinnerDuotone, { style: { fontSize: size + "px", display: 'block' } }))
         : variant === 'duotone' ?

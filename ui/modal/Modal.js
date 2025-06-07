@@ -1,3 +1,4 @@
+'use client';
 "use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
@@ -52,27 +53,38 @@ var React = __importStar(require("react"));
 var Header_1 = __importDefault(require("./Header"));
 var Content_1 = __importDefault(require("./Content"));
 var Action_1 = __importDefault(require("./Action"));
+var pi_1 = require("react-icons/pi");
+var Button_1 = __importDefault(require("../button/Button"));
 function Modal(_a) {
-    var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, height = _a.height, width = _a.width, backdrop = _a.backdrop, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, position = _a.position, id = _a.id, flat = _a.flat, rest = __rest(_a, ["children", "funcss", "animation", "duration", "open", "maxWidth", "maxHeight", "height", "width", "backdrop", "title", "titlecss", "body", "bodycss", "footer", "footercss", "close", "closecss", "position", "id", "flat"]);
-    if (open) {
-        return (React.createElement("div", { className: "  modal ".concat(backdrop ? 'backdrop' : '', "  ").concat(position ? position : ''), id: id ? id : '' },
-            React.createElement("div", __assign({ className: "modal-content ".concat(funcss, " ").concat(flat ? "flat" : ""), style: {
-                    animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation ? animation : "ScaleUp"),
-                    maxWidth: maxWidth ? maxWidth : null,
-                    maxHeight: maxHeight ? maxHeight : null,
-                    width: width ? width : null,
-                    height: height ? height : null,
-                } }, rest),
-                title &&
-                    React.createElement(Header_1.default, { funcss: titlecss ? titlecss : '', title: title ? title : "", close: close ? close : "" }),
-                body &&
-                    React.createElement(Content_1.default, { funcss: bodycss ? bodycss : '' }, body),
-                footer &&
-                    React.createElement(Action_1.default, { funcss: footercss ? footercss : '' }, footer),
-                children)));
-    }
-    else {
-        return React.createElement("div", null);
-    }
+    var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, setOpen = _a.setOpen, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, okIcon = _a.okIcon, height = _a.height, width = _a.width, _b = _a.backdrop, backdrop = _b === void 0 ? false : _b, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, position = _a.position, id = _a.id, flat = _a.flat, onOk = _a.onOk, // 👈 added
+    onOkText = _a.onOkText, // 👈 added
+    rest = __rest(_a, ["children", "funcss", "animation", "duration", "open", "setOpen", "maxWidth", "maxHeight", "okIcon", "height", "width", "backdrop", "title", "titlecss", "body", "bodycss", "footer", "footercss", "close", "closecss", "position", "id", "flat", "onOk", "onOkText"]);
+    var modalId = id || '_mymodal';
+    var handleClickOutside = function (e) {
+        if (e.target && e.target.id === modalId) {
+            setOpen(false);
+        }
+    };
+    var handleOkClick = function () {
+        if (onOk)
+            onOk();
+        else
+            setOpen(false); // default behavior if no onOk is provided
+    };
+    if (!open)
+        return null;
+    return (React.createElement("div", { className: "modal ".concat(backdrop ? 'backdrop' : '', " ").concat(position || ''), id: modalId, onClick: handleClickOutside },
+        React.createElement("div", __assign({ className: "modal-content ".concat(funcss || '', " ").concat(flat ? 'flat' : ''), style: {
+                animation: "".concat(duration || 0.2, "s ").concat(animation || 'ScaleUp'),
+                maxWidth: maxWidth || undefined,
+                maxHeight: maxHeight || undefined,
+                width: width || undefined,
+                height: height || undefined,
+            } }, rest),
+            title && (React.createElement(Header_1.default, { funcss: titlecss || '', title: title, close: React.createElement("div", { onClick: function () { return setOpen(false); }, className: "".concat(closecss || '', " pointer hover-text-error") }, close || React.createElement(pi_1.PiX, { size: 25 })) })),
+            body && (React.createElement(Content_1.default, { funcss: bodycss || '' }, body)),
+            footer ? (React.createElement(Action_1.default, { funcss: footercss || '' }, footer)) : (React.createElement(Action_1.default, { funcss: 'text-right' },
+                React.createElement(Button_1.default, { bg: 'success800', endIcon: okIcon || React.createElement(pi_1.PiPaperPlaneRight, null), raised: true, onClick: handleOkClick }, onOkText || 'OK'))),
+            children)));
 }
 exports.default = Modal;

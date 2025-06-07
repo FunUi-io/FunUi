@@ -1,10 +1,11 @@
 import * as React from 'react';
 interface ModalProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     funcss?: string;
     animation?: string;
     duration?: number;
     open: boolean;
+    setOpen: (val: boolean) => void;
     maxWidth?: string;
     maxHeight?: string;
     height?: string;
@@ -13,6 +14,7 @@ interface ModalProps {
     body?: React.ReactNode;
     bodycss?: string;
     title?: React.ReactNode;
+    okIcon?: React.ReactNode;
     titlecss?: string;
     footer?: React.ReactNode;
     footercss?: string;
@@ -21,6 +23,10 @@ interface ModalProps {
     id?: string;
     position?: string;
     flat?: boolean;
+    onOk?: () => void;
+    onOkText?: string;
 }
-export default function Modal({ children, funcss, animation, duration, open, maxWidth, maxHeight, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, position, id, flat, ...rest }: ModalProps): React.JSX.Element;
+export default function Modal({ children, funcss, animation, duration, open, setOpen, maxWidth, maxHeight, okIcon, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, position, id, flat, onOk, // 👈 added
+onOkText, // 👈 added
+...rest }: ModalProps): React.JSX.Element;
 export {};
