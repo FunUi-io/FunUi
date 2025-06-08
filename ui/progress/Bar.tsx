@@ -81,7 +81,7 @@ export default function ProgressBar({
             height: size,
           }}
         >
-          {isComplete ? <PiCheck className="text-success800" size={size / 2.1} /> : renderContent()}
+          {isComplete ? <PiCheck className="text-success800" size={size / 2.2} /> : renderContent()}
         </div>
       </div>
     );

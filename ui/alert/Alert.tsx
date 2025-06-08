@@ -5,7 +5,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 interface AlertProps {
   message?: string;
   funcss?: string;
-  type?: 'success' | 'info' | 'warning' | 'danger';
+  type?: 'success' | 'info' | 'warning' | 'error';
   outlined?: boolean;
   fixed?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'top-middle' | 'bottom-middle' | 'middle';
   fullWidth?: boolean;
@@ -78,20 +78,20 @@ export default function Alert({
           animation: `${duration || '0.3'}s ${animation || 'ScaleUp'}`,
           ...style,
         }}
-        className={`alert ${card ? 'card' : ''} ${flat ? 'flat' : ''} ${raised ? 'raised' : ''} ${
+        className={`text-${type}800 alert ${card ? 'card' : ''} ${flat ? 'flat' : ''} ${raised ? 'raised' : ''} ${
           outlined
-            ? `${type}-outline`
-            : `${variant || (standard ? `top-${type}` : type)}`
+            ? `outline-${type}500`
+            : `${variant || (standard ? `top-${type}` : `${type}200`  + ` outline-${type}300 `)}`
         } ${funcss || ''} ${fullWidth ? 'width-100-p' : ''}`}
         {...rest}
       >
         <div className="alert-icon">
           {!isLoading ? (
-            <div className={`text-${type}`}>
+            <div className={`text-${type}`} style={{lineHeight:"0"}}>
               {type === 'success' && <PiCheckCircleDuotone />}
               {type === 'info' && <PiInfo />}
               {type === 'warning' && <PiWarning />}
-              {type === 'danger' && <PiX />}
+              {type === 'error' && <PiX />}
             </div>
           ) : (
             <span className="rotate">

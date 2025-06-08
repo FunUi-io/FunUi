@@ -64,14 +64,14 @@ function Alert(_a) {
     if (!visible)
         return null;
     return (react_1.default.createElement("div", { className: "".concat(fixed ? 'alert-container ' : '', " ").concat(fixed === 'top-left' ? 'top-left' : '', "\n        ").concat(fixed === 'top-right' ? 'top-right' : '', "\n        ").concat(fixed === 'bottom-left' ? 'bottom-left' : '', "\n        ").concat(fixed === 'bottom-right' ? 'bottom-right' : '', "\n        ").concat(fixed === 'middle' ? 'middle-alert' : '', "\n        ").concat(fixed === 'top-middle' ? 'top-middle' : '', "\n        ").concat(fixed === 'bottom-middle' ? 'bottom-middle' : '') },
-        react_1.default.createElement("div", __assign({ style: __assign({ animation: "".concat(duration || '0.3', "s ").concat(animation || 'ScaleUp') }, style), className: "alert ".concat(card ? 'card' : '', " ").concat(flat ? 'flat' : '', " ").concat(raised ? 'raised' : '', " ").concat(outlined
-                ? "".concat(type, "-outline")
-                : "".concat(variant || (standard ? "top-".concat(type) : type)), " ").concat(funcss || '', " ").concat(fullWidth ? 'width-100-p' : '') }, rest),
-            react_1.default.createElement("div", { className: "alert-icon" }, !isLoading ? (react_1.default.createElement("div", { className: "text-".concat(type) },
+        react_1.default.createElement("div", __assign({ style: __assign({ animation: "".concat(duration || '0.3', "s ").concat(animation || 'ScaleUp') }, style), className: "text-".concat(type, "800 alert ").concat(card ? 'card' : '', " ").concat(flat ? 'flat' : '', " ").concat(raised ? 'raised' : '', " ").concat(outlined
+                ? "outline-".concat(type, "500")
+                : "".concat(variant || (standard ? "top-".concat(type) : "".concat(type, "200") + " outline-".concat(type, "300 "))), " ").concat(funcss || '', " ").concat(fullWidth ? 'width-100-p' : '') }, rest),
+            react_1.default.createElement("div", { className: "alert-icon" }, !isLoading ? (react_1.default.createElement("div", { className: "text-".concat(type), style: { lineHeight: "0" } },
                 type === 'success' && react_1.default.createElement(pi_1.PiCheckCircleDuotone, null),
                 type === 'info' && react_1.default.createElement(pi_1.PiInfo, null),
                 type === 'warning' && react_1.default.createElement(pi_1.PiWarning, null),
-                type === 'danger' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("span", { className: "rotate" },
+                type === 'error' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("span", { className: "rotate" },
                 react_1.default.createElement(pi_1.PiSpinner, null)))),
             react_1.default.createElement("div", { className: "alert-text" }, message || children))));
 }

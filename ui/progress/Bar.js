@@ -59,7 +59,7 @@ function ProgressBar(_a) {
                     justifyContent: 'center',
                     width: size,
                     height: size,
-                } }, isComplete ? React.createElement(pi_1.PiCheck, { className: "text-success800", size: size / 2.1 }) : renderContent())));
+                } }, isComplete ? React.createElement(pi_1.PiCheck, { className: "text-success800", size: size / 2.2 }) : renderContent())));
     }
     // Linear bar
     return (React.createElement("div", { className: "progressBar ".concat(raised ? 'raised' : '', " ").concat(rounded ? 'rounded' : '', " ").concat(funcss || '') },

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 interface AlertProps {
     message?: string;
     funcss?: string;
-    type?: 'success' | 'info' | 'warning' | 'danger';
+    type?: 'success' | 'info' | 'warning' | 'error';
     outlined?: boolean;
     fixed?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'top-middle' | 'bottom-middle' | 'middle';
     fullWidth?: boolean;

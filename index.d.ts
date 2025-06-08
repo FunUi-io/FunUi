@@ -21,6 +21,7 @@ export { default as NotFound } from "./ui/page/NotFound";
 export { default as UnAuthorized } from "./ui/page/UnAuthorized";
 export { default as DropUp } from "./ui/drop/Up";
 export { default as DropDown } from "./ui/drop/Down";
+export { default as Dropdown } from "./ui/drop/Dropdown";
 export { default as DropItem } from "./ui/drop/Item";
 export { default as DropMenu } from "./ui/drop/Menu";
 export { default as ProgressBar } from "./ui/progress/Bar";

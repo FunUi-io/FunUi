@@ -25,32 +25,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
-var ThemeProvider = function (_a) {
-    var theme = _a.theme, children = _a.children;
-    (0, react_1.useEffect)(function () {
-        var root = document.documentElement;
-        var lightTheme = {
-            '--page-bg': '#FFFFFF',
-            '--text-color': '#000000',
-            '--raiseThemes': '#FFFFFF',
-        };
-        var darkTheme = {
-            '--page-bg': '#121212',
-            '--text-color': '#FFFFFF',
-            '--raiseThemes': '#202020',
-            '--borderColor': '#333333',
-            '--lighter': '#202020',
-        };
-        var selectedTheme = theme === 'dark' ? darkTheme : lightTheme;
-        Object.entries(selectedTheme).forEach(function (_a) {
-            var key = _a[0], value = _a[1];
-            root.style.setProperty(key, value);
-        });
-    }, [theme]);
-    return (react_1.default.createElement("div", { className: "theme-".concat(theme), style: {
-            backgroundColor: 'var(--page-bg)',
-            color: 'var(--text-color)',
-            minHeight: '100vh',
-        } }, children));
+var Hamburger = function (_a) {
+    var controlledOpen = _a.isOpen, toggle = _a.toggle;
+    var _b = (0, react_1.useState)(false), internalOpen = _b[0], setInternalOpen = _b[1];
+    var isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+    var handleClick = function () {
+        if (toggle) {
+            toggle();
+        }
+        else {
+            setInternalOpen(!isOpen);
+        }
+    };
+    return (react_1.default.createElement("div", { className: "navhamburger ".concat(isOpen ? 'navopen' : ''), onClick: handleClick },
+        react_1.default.createElement("span", { className: "navline navtop" }),
+        react_1.default.createElement("span", { className: "navline navmiddle" }),
+        react_1.default.createElement("span", { className: "navline navbottom" })));
 };
-exports.default = ThemeProvider;
+exports.default = Hamburger;

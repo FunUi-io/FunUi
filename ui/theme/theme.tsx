@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect } from 'react';
 
 interface ThemeProviderProps {
@@ -14,7 +14,6 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ theme, children }) => {
       '--page-bg': '#FFFFFF',
       '--text-color': '#000000',
       '--raiseThemes': '#FFFFFF',
-      '--borderColor': '#CCCCCC',
     };
 
     const darkTheme = {
@@ -22,6 +21,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ theme, children }) => {
       '--text-color': '#FFFFFF',
       '--raiseThemes': '#202020',
       '--borderColor': '#333333',
+      '--lighter': '#202020',
     };
 
     const selectedTheme = theme === 'dark' ? darkTheme : lightTheme;
@@ -32,7 +32,14 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ theme, children }) => {
   }, [theme]);
 
   return (
-    <div className={`theme-${theme}`} style={{ backgroundColor: 'var(--page-bg)', color: 'var(--text-color)', minHeight: '100vh' }}>
+    <div
+      className={`theme-${theme}`}
+      style={{
+        backgroundColor: 'var(--page-bg)',
+        color: 'var(--text-color)',
+        minHeight: '100vh',
+      }}
+    >
       {children}
     </div>
   );

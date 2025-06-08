@@ -23,10 +23,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var react_1 = require("react");
-var pi_1 = require("react-icons/pi");
+var Hamburger_1 = __importDefault(require("./Hamburger"));
 function AppBar(_a) {
     var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
     var _b = (0, react_1.useState)(false), isMobileMenuOpen = _b[0], setIsMobileMenuOpen = _b[1];
@@ -45,6 +48,10 @@ function AppBar(_a) {
         window.addEventListener('resize', handleResize);
         return function () { return window.removeEventListener('resize', handleResize); };
     }, []);
+    var Trigger = function (_a) {
+        var isOpen = _a.isOpen;
+        return React.createElement(Hamburger_1.default, { isOpen: isOpen });
+    };
     return (React.createElement("nav", { className: "\n        navigation-bar\n        ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n        ").concat(funcss || '', "\n        ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n        ").concat(sideBar ? 'there_is_sidebar' : '', "\n        ").concat(transparent ? 'transparent' : '', "\n        ").concat(fixedBottom ? 'fixedBottom' : '', "\n      "), style: {
             padding: "".concat(padding || ''),
             justifyContent: "".concat(justify || ''),
@@ -52,9 +59,9 @@ function AppBar(_a) {
         React.createElement("div", { className: "logoWrapper" },
             left,
             isMobileScreen && isMobileMenuOpen && (React.createElement("div", { className: "hover-text-error pointer _closeNav", onClick: closeMenu },
-                React.createElement(pi_1.PiX, { size: 25 })))),
+                React.createElement(Trigger, { isOpen: isMobileMenuOpen })))),
         React.createElement("div", { className: "linkWrapper" }, center),
         React.createElement("div", { className: "linkWrapper" }, right),
-        isMobileScreen && !isMobileMenuOpen && (React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, sidebarTrigger || React.createElement(pi_1.PiList, { size: 30 })))));
+        isMobileScreen && !isMobileMenuOpen && (React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, sidebarTrigger || React.createElement(Trigger, { isOpen: isMobileMenuOpen })))));
 }
 exports.default = AppBar;

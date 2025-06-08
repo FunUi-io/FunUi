@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { PiList, PiX } from 'react-icons/pi';
+import Hamburger from './Hamburger';
 
 
 interface NavbarProps {
@@ -52,6 +53,11 @@ export default function AppBar({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+
+  const Trigger = ({ isOpen }) => {
+    return <Hamburger isOpen={isOpen} />
+  }
+
   return (
     <nav
       className={`
@@ -74,7 +80,7 @@ export default function AppBar({
         {/* Show close icon only when mobile and menu is open */}
         {isMobileScreen && isMobileMenuOpen && (
           <div className="hover-text-error pointer _closeNav" onClick={closeMenu}>
-            <PiX size={25} />
+       <Trigger isOpen={isMobileMenuOpen}/>
           </div>
         )}
       </div>
@@ -85,7 +91,7 @@ export default function AppBar({
       {/* Show trigger only when mobile and menu is not open */}
       {isMobileScreen && !isMobileMenuOpen && (
         <span className="sidebar-trigger pointer hover-text-primary" onClick={toggleMenu}>
-          {sidebarTrigger || <PiList size={30} />}
+          {sidebarTrigger || <Trigger isOpen={isMobileMenuOpen}/>}
         </span>
       )}
     </nav>
