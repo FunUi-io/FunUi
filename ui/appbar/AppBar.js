@@ -29,11 +29,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var react_1 = require("react");
+var router_1 = require("next/router");
 var Hamburger_1 = __importDefault(require("./Hamburger"));
 function AppBar(_a) {
     var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
     var _b = (0, react_1.useState)(false), isMobileMenuOpen = _b[0], setIsMobileMenuOpen = _b[1];
     var _c = (0, react_1.useState)(false), isMobileScreen = _c[0], setIsMobileScreen = _c[1];
+    var router = (0, router_1.useRouter)();
     var toggleMenu = function () { return setIsMobileMenuOpen(function (prev) { return !prev; }); };
     var closeMenu = function () { return setIsMobileMenuOpen(false); };
     (0, react_1.useEffect)(function () {
@@ -41,18 +43,28 @@ function AppBar(_a) {
             var isMobile = window.innerWidth < 768;
             setIsMobileScreen(isMobile);
             if (!isMobile) {
-                setIsMobileMenuOpen(false); // auto-close on large screens
+                closeMenu(); // close on larger screens
             }
         };
         handleResize(); // initial check
         window.addEventListener('resize', handleResize);
         return function () { return window.removeEventListener('resize', handleResize); };
     }, []);
+    // 🧠 Automatically close on route change
+    (0, react_1.useEffect)(function () {
+        var handleRouteChange = function () {
+            closeMenu();
+        };
+        router.events.on('routeChangeStart', handleRouteChange);
+        return function () {
+            router.events.off('routeChangeStart', handleRouteChange);
+        };
+    }, [router]);
     var Trigger = function (_a) {
         var isOpen = _a.isOpen;
         return React.createElement(Hamburger_1.default, { isOpen: isOpen });
     };
-    return (React.createElement("nav", { className: "\n        navigation-bar\n        ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n        ").concat(funcss || '', "\n        ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n        ").concat(sideBar ? 'there_is_sidebar' : '', "\n        ").concat(transparent ? 'transparent' : '', "\n        ").concat(fixedBottom ? 'fixedBottom' : '', "\n      "), style: {
+    return (React.createElement("nav", { className: "navigation-bar\n        ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n        ").concat(funcss || '', "\n        ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n        ").concat(sideBar ? 'there_is_sidebar' : '', "\n        ").concat(transparent ? 'transparent' : '', "\n        ").concat(fixedBottom ? 'fixedBottom' : '', "\n      "), style: {
             padding: "".concat(padding || ''),
             justifyContent: "".concat(justify || ''),
         } },

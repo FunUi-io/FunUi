@@ -1,9 +1,8 @@
-'use client'
+'use client';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { PiList, PiX } from 'react-icons/pi';
+import { useRouter } from 'next/router';
 import Hamburger from './Hamburger';
-
 
 interface NavbarProps {
   fixedTop?: boolean;
@@ -35,6 +34,7 @@ export default function AppBar({
 }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMobileMenuOpen(false);
@@ -44,7 +44,7 @@ export default function AppBar({
       const isMobile = window.innerWidth < 768;
       setIsMobileScreen(isMobile);
       if (!isMobile) {
-        setIsMobileMenuOpen(false); // auto-close on large screens
+        closeMenu(); // close on larger screens
       }
     };
 
@@ -53,15 +53,25 @@ export default function AppBar({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // 🧠 Automatically close on route change
+  useEffect(() => {
+    const handleRouteChange = () => {
+      closeMenu();
+    };
 
-  const Trigger = ({ isOpen }) => {
-    return <Hamburger isOpen={isOpen} />
-  }
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [router]);
+
+  const Trigger = ({ isOpen }: { isOpen: boolean }) => {
+    return <Hamburger isOpen={isOpen} />;
+  };
 
   return (
     <nav
-      className={`
-        navigation-bar
+      className={`navigation-bar
         ${isMobileMenuOpen ? 'navbar-mobile-open' : ''}
         ${funcss || ''}
         ${fixedTop ? 'fixed_top_navbar' : ''}
@@ -76,11 +86,9 @@ export default function AppBar({
     >
       <div className="logoWrapper">
         {left}
-
-        {/* Show close icon only when mobile and menu is open */}
         {isMobileScreen && isMobileMenuOpen && (
           <div className="hover-text-error pointer _closeNav" onClick={closeMenu}>
-       <Trigger isOpen={isMobileMenuOpen}/>
+            <Trigger isOpen={isMobileMenuOpen} />
           </div>
         )}
       </div>
@@ -88,10 +96,9 @@ export default function AppBar({
       <div className="linkWrapper">{center}</div>
       <div className="linkWrapper">{right}</div>
 
-      {/* Show trigger only when mobile and menu is not open */}
       {isMobileScreen && !isMobileMenuOpen && (
         <span className="sidebar-trigger pointer hover-text-primary" onClick={toggleMenu}>
-          {sidebarTrigger || <Trigger isOpen={isMobileMenuOpen}/>}
+          {sidebarTrigger || <Trigger isOpen={isMobileMenuOpen} />}
         </span>
       )}
     </nav>
