@@ -12,6 +12,7 @@ interface ModalProps {
   animation?: string;
   duration?: number;
   open: boolean;
+  hideClose: boolean;
   setOpen: (val: boolean) => void;
   maxWidth?: string;
   maxHeight?: string;
@@ -45,6 +46,7 @@ export default function Modal({
   maxHeight,
   okIcon,
   height,
+  hideClose = false,
   width,
   backdrop = false,
   title,
@@ -89,7 +91,7 @@ export default function Modal({
           animation: `${duration || 0.2}s ${animation || 'ScaleUp'}`,
           maxWidth: maxWidth || undefined,
           maxHeight: maxHeight || undefined,
-          width: width || undefined,
+          width: width || '100%',
           height: height || undefined,
         }}
         {...rest}
@@ -98,13 +100,15 @@ export default function Modal({
           <ModalHeader
             funcss={titlecss || ''}
             title={title}
-            close={
+            close={!hideClose ? 
+              
               <div
                 onClick={() => setOpen(false)}
                 className={`${closecss || ''} pointer hover-text-error`}
               >
-                {close || <PiX size={25} />}
+                    {close || <PiX size={25} />}
               </div>
+            : ""
             }
           />
         )}

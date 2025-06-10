@@ -1,3 +1,4 @@
+'use client'; 
 import * as React from 'react';
 import NotificationHeader from './Header';
 import NotificationContent from './Content';

@@ -1,5 +1,4 @@
-'use client';
-
+'use client'; 
 import React, { useState, useRef, useEffect } from 'react';
 
 type Position = 'left' | 'right';

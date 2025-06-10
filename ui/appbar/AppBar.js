@@ -1,5 +1,5 @@
-'use client';
 "use strict";
+'use client';
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -16,31 +16,42 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = AppBar;
 var React = __importStar(require("react"));
 var react_1 = require("react");
-var router_1 = require("next/router");
+var navigation_1 = require("next/navigation"); // <-- Updated import
 var Hamburger_1 = __importDefault(require("./Hamburger"));
 function AppBar(_a) {
     var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
     var _b = (0, react_1.useState)(false), isMobileMenuOpen = _b[0], setIsMobileMenuOpen = _b[1];
     var _c = (0, react_1.useState)(false), isMobileScreen = _c[0], setIsMobileScreen = _c[1];
-    var router = (0, router_1.useRouter)();
+    var pathname = (0, navigation_1.usePathname)(); // <-- New hook to detect path changes
     var toggleMenu = function () { return setIsMobileMenuOpen(function (prev) { return !prev; }); };
     var closeMenu = function () { return setIsMobileMenuOpen(false); };
     (0, react_1.useEffect)(function () {
         var handleResize = function () {
-            var isMobile = window.innerWidth < 768;
+            var isMobile = window.innerWidth < 992;
             setIsMobileScreen(isMobile);
             if (!isMobile) {
                 closeMenu(); // close on larger screens
@@ -50,16 +61,10 @@ function AppBar(_a) {
         window.addEventListener('resize', handleResize);
         return function () { return window.removeEventListener('resize', handleResize); };
     }, []);
-    // 🧠 Automatically close on route change
+    // Automatically close menu on route (pathname) change
     (0, react_1.useEffect)(function () {
-        var handleRouteChange = function () {
-            closeMenu();
-        };
-        router.events.on('routeChangeStart', handleRouteChange);
-        return function () {
-            router.events.off('routeChangeStart', handleRouteChange);
-        };
-    }, [router]);
+        closeMenu();
+    }, [pathname]);
     var Trigger = function (_a) {
         var isOpen = _a.isOpen;
         return React.createElement(Hamburger_1.default, { isOpen: isOpen });
@@ -76,4 +81,3 @@ function AppBar(_a) {
         React.createElement("div", { className: "linkWrapper" }, right),
         isMobileScreen && !isMobileMenuOpen && (React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, sidebarTrigger || React.createElement(Trigger, { isOpen: isMobileMenuOpen })))));
 }
-exports.default = AppBar;

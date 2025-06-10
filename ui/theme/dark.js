@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = DarkMode;
 function DarkMode(_a) {
     var state = _a.state;
     if (state) {
@@ -31,4 +32,3 @@ function DarkMode(_a) {
         root.style.setProperty('--deepLight', "#154556");
     }
 }
-exports.default = DarkMode;

@@ -1,5 +1,5 @@
-'use client';
 "use strict";
+'use client';
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -26,9 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = CardFab;
 var react_1 = __importDefault(require("react"));
 function CardFab(_a) {
     var funcss = _a.funcss, position = _a.position, children = _a.children, rest = __rest(_a, ["funcss", "position", "children"]);
     return (react_1.default.createElement("div", __assign({ className: "card-fab ".concat(funcss || '', " ").concat(position || '') }, rest), children));
 }
-exports.default = CardFab;

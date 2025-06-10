@@ -130,7 +130,10 @@ export default function Table({
    const dataArray = data ? data.data : []
    
  // Remove duplicate values
- const uniqueValues = Array.from(new Set(dataArray.map(item => item[selectedField])));
+const uniqueValues = selectedField
+  ? Array.from(new Set(dataArray.map(item => item[selectedField])))
+  : [];
+
 
 
   return (
@@ -222,7 +225,9 @@ export default function Table({
         </RowFlex>
       </div>
       }
-      <table
+     <main
+     style={{overflow:"auto" , width:"100%"}}>
+       <table
         className={`table  ${bordered ? 'border' : ''} ${
           noStripped ? '' : 'stripped'
           } ${hoverable ? 'hoverableTr' : ''} ${light ? 'light' : ''} ${dark ? 'dark' : ''}`}
@@ -282,6 +287,7 @@ export default function Table({
         }
         {children ? children : ''}
       </table>
+     </main>
       {
         data && 
         <>

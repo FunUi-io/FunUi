@@ -1,4 +1,5 @@
 "use strict";
+'use client';
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -25,6 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Card;
 var react_1 = __importDefault(require("react"));
 var CardHeader_1 = __importDefault(require("./CardHeader"));
 var CardBody_1 = __importDefault(require("./CardBody"));
@@ -49,4 +51,3 @@ function Card(_a) {
         footer && !horizontal ? react_1.default.createElement(CardFooter_1.default, null, footer) : '',
         children));
 }
-exports.default = Card;

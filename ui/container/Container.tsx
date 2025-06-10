@@ -1,4 +1,4 @@
-'use client'
+'use client'; 
 import { ReactNode, CSSProperties, HTMLProps } from 'react';
 import * as React from 'react';
 

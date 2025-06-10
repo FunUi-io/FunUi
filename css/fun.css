@@ -246,7 +246,7 @@
   --inputPadding:0.5rem 0;
   --inputRoundedPadding:0.5rem 1rem;
   --shadowMedium:0 0.8rem 2rem 0 rgba(3, 3, 3, 0.1);
-  --card:rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  --card:rgba(0, 0, 0, 0.05) 0px 4px 16px, rgba(0, 0, 0, 0.05) 0px 8px 32px;
   --raised:0 0.1rem 0.2rem 0rem rgba(0, 0, 0, 0.3);
   /* medium Screen body */
 
@@ -451,7 +451,7 @@ link:hover {
 .primary50,
 .hover-primary50:hover {
   background-color: var(--primary50) !important;
-  color: var(--white);
+  color: var(--primary);
   stroke: var(--primary50);
 }
 
@@ -459,7 +459,7 @@ link:hover {
 .primary100,
 .hover-primary100:hover {
   background-color: var(--primary100) !important;
-  color: var(--white);
+  color: var(--primary);
   stroke: var(--primary100);
 }
 
@@ -467,7 +467,7 @@ link:hover {
 .primary200,
 .hover-primary200:hover {
   background-color: var(--primary200) !important;
-  color: var(--white);
+  color: var(--primary);
   stroke: var(--primary200);
 }
 
@@ -475,7 +475,7 @@ link:hover {
 .primary300,
 .hover-primary300:hover {
   background-color: var(--primary300) !important;
-  color: var(--white);
+  color: var(--primary);
   stroke: var(--primary300);
 }
 
@@ -540,7 +540,7 @@ link:hover {
 .secondary50,
 .hover-secondary50:hover {
   background-color: var(--secondary50) !important;
-  color: var(--white);
+  color: var(--secondary);
   stroke: var(--secondary50);
 }
 
@@ -548,7 +548,7 @@ link:hover {
 .secondary100,
 .hover-secondary100:hover {
   background-color: var(--secondary100) !important;
-  color: var(--white);
+  color: var(--secondary);
   stroke: var(--secondary100);
 }
 
@@ -556,7 +556,7 @@ link:hover {
 .secondary200,
 .hover-secondary200:hover {
   background-color: var(--secondary200) !important;
-  color: var(--white);
+  color: var(--secondary);
   stroke: var(--secondary200);
 }
 
@@ -564,7 +564,7 @@ link:hover {
 .secondary300,
 .hover-secondary300:hover {
   background-color: var(--secondary300) !important;
-  color: var(--white);
+  color: var(--secondary);
   stroke: var(--secondary300);
 }
 
@@ -626,7 +626,7 @@ link:hover {
 .accent50,
 .hover-accent50:hover {
   background-color: var(--accent50) !important;
-  color: var(--black);
+  color: var(--accent900);
   stroke: var(--accent50);
 }
 
@@ -705,7 +705,7 @@ link:hover {
 .error50,
 .hover-error50:hover {
   background-color: var(--error50) !important;
-  color: var(--white);
+  color: var(--error);
   stroke: var(--error50);
 }
 
@@ -713,7 +713,7 @@ link:hover {
 .error100,
 .hover-error100:hover {
   background-color: var(--error100) !important;
-  color: var(--white);
+  color: var(--error);
   stroke: var(--error100);
 }
 
@@ -721,7 +721,7 @@ link:hover {
 .error200,
 .hover-error200:hover {
   background-color: var(--error200) !important;
-  color: var(--white);
+  color: var(--error);
   stroke: var(--error200);
 }
 
@@ -729,7 +729,7 @@ link:hover {
 .error300,
 .hover-error300:hover {
   background-color: var(--error300) !important;
-  color: var(--white);
+  color: var(--error);
   stroke: var(--error300);
 }
 
@@ -793,7 +793,7 @@ link:hover {
 .success50,
 .hover-success50:hover {
   background-color: var(--success50) !important;
-  color: var(--white);
+  color: var(--success);
   stroke: var(--success50);
 }
 
@@ -801,7 +801,7 @@ link:hover {
 .success100,
 .hover-success100:hover {
   background-color: var(--success100) !important;
-  color: var(--white);
+  color: var(--success);
   stroke: var(--success100);
 }
 
@@ -809,7 +809,7 @@ link:hover {
 .success200,
 .hover-success200:hover {
   background-color: var(--success200) !important;
-  color: var(--white);
+  color: var(--success);
   stroke: var(--success200);
 }
 
@@ -817,7 +817,7 @@ link:hover {
 .success300,
 .hover-success300:hover {
   background-color: var(--success300) !important;
-  color: var(--white);
+  color: var(--success);
   stroke: var(--success300);
 }
 
@@ -881,7 +881,7 @@ link:hover {
 .warning50,
 .hover-warning50:hover {
   background-color: var(--warning50) !important;
-  color: var(--white);
+  color: var(--warning);
   stroke: var(--warning50);
 }
 
@@ -889,7 +889,7 @@ link:hover {
 .warning100,
 .hover-warning100:hover {
   background-color: var(--warning100) !important;
-  color: var(--white);
+  color: var(--warning);
   stroke: var(--warning100);
 }
 
@@ -897,7 +897,7 @@ link:hover {
 .warning200,
 .hover-warning200:hover {
   background-color: var(--warning200) !important;
-  color: var(--white);
+  color: var(--warning);
   stroke: var(--warning200);
 }
 
@@ -905,7 +905,7 @@ link:hover {
 .warning300,
 .hover-warning300:hover {
   background-color: var(--warning300) !important;
-  color: var(--white);
+  color: var(--warning);
   stroke: var(--warning300);
 }
 
@@ -969,7 +969,7 @@ link:hover {
 .muted50,
 .hover-muted50:hover {
   background-color: var(--muted50) !important;
-  color: var(--white);
+  color: var(--muted);
   stroke: var(--muted50);
 }
 
@@ -977,7 +977,7 @@ link:hover {
 .muted100,
 .hover-muted100:hover {
   background-color: var(--muted100) !important;
-  color: var(--white);
+  color: var(--muted);
   stroke: var(--muted100);
 }
 
@@ -985,7 +985,7 @@ link:hover {
 .muted200,
 .hover-muted200:hover {
   background-color: var(--muted200) !important;
-  color: var(--white);
+  color: var(--muted);
   stroke: var(--muted200);
 }
 
@@ -993,7 +993,7 @@ link:hover {
 .muted300,
 .hover-muted300:hover {
   background-color: var(--muted300) !important;
-  color: var(--white);
+  color: var(--muted);
   stroke: var(--muted300);
 }
 
@@ -1057,7 +1057,7 @@ link:hover {
 .info50,
 .hover-info50:hover {
   background-color: var(--info50) !important;
-  color: var(--white);
+  color: var(--info);
   stroke: var(--info50);
 }
 
@@ -1065,7 +1065,7 @@ link:hover {
 .info100,
 .hover-info100:hover {
   background-color: var(--info100) !important;
-  color: var(--white);
+  color: var(--info);
   stroke: var(--info100);
 }
 
@@ -1073,7 +1073,7 @@ link:hover {
 .info200,
 .hover-info200:hover {
   background-color: var(--info200) !important;
-  color: var(--white);
+  color: var(--info);
   stroke: var(--info200);
 }
 
@@ -1081,7 +1081,7 @@ link:hover {
 .info300,
 .hover-info300:hover {
   background-color: var(--info300) !important;
-  color: var(--white);
+  color: var(--info);
   stroke: var(--info300);
 }
 
@@ -1185,23 +1185,27 @@ link:hover {
 .hover-dark600:hover {
   background-color: var(--dark600) !important;
   stroke: var(--dark600);
+   color: var(--dark50);
 }
 
 .dark700,
 .hover-dark700:hover {
   background-color: var(--dark700) !important;
   stroke: var(--dark700);
+   color: var(--dark100);
 }
 .dark800,
 .hover-dark800:hover {
   background-color: var(--dark800) !important;
   stroke: var(--dark800);
+   color: var(--dark100);
 }
 
 .dark900,
 .hover-dark900:hover {
   background-color: var(--dark900) !important;
   stroke: var(--dark900);
+  color: var(--dark100);
 }
 
 .black,
@@ -2102,6 +2106,8 @@ link:hover {
 
 
 /* Typography */
+.baseColor, .text-base{
+  color: var(--text-color) !important;}
 body {
   font-size: var(--text-base);
   line-height: 1.5rem;
@@ -2974,9 +2980,8 @@ h6, .h6 {
 
   ._closeNav{display: block;}
 
-
   /* Desktop layout */
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 992px) {
   .navigation-bar {
     flex-direction: row;
     height: var(--navHeight) !important;
@@ -3347,6 +3352,16 @@ h6, .h6 {
 .circle {
   border-radius: 50%;
 }
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  font-weight: bold;
+}
+
 
 /* dropdown */
 .dropdown,
@@ -3763,21 +3778,17 @@ thead {
 th {
   font-weight: bold;
 }
-.table {
+.table , table {
   width: 100%;
   text-align: left;
   padding: 0;
   border-collapse: collapse;
+
 }
 .table.bordered {
   border: var(--border);
 }
- /* tr , thead{
-  border-bottom: 0.1rem solid var(--borderColor);
-}
-thead{
-  border-top: 0.1rem solid var(--borderColor);
-} */
+
 .table.stripped tr:nth-child(even) {
   background-color: var(--lighter); 
 }
@@ -3838,7 +3849,7 @@ th {
   border-top: none;
 }
 .list.stripped li:nth-child(even) {
-  background-color: var(--dark800);
+  background-color: var(--lighter);
 }
 .list.stripped.dark li:nth-child(even) {
   background-color: var(--dark200);
@@ -3931,7 +3942,7 @@ th {
   display: flex;
   justify-content: center;
   left: 0;
-  padding: 1rem;
+  padding:  2rem;
   z-index: var(--modalZIndex);
   width: 100%;
   height: 100%;
@@ -3978,6 +3989,7 @@ th {
 }
 
 
+
 .modal-title {
   height: fit-content;
   display: flex;
@@ -3991,7 +4003,7 @@ th {
   background-color: var(--raiseThemes);
   max-width: 700px;
   padding: 1rem 1.5rem;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   box-shadow: var(--card);
   height: fit-content ;
 
@@ -4449,11 +4461,10 @@ background-color: rgba(0, 0, 0, 0.2);
 }
 
 
-.rotate > *{
+.rotate{
   animation: loader4 1s infinite linear;
-  width: fit-content !important;
-  height: fit-content !important;
   display: inline-block !important;
+  line-height: 0 !important;
 
 }
 @keyframes loader4 {
@@ -5948,6 +5959,8 @@ background-color: rgba(0, 0, 0, 0.2);
     display: none;
   }
 }
+
+
 
 /* large screens */
 @media screen and (min-width: 992px) {

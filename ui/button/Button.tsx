@@ -1,4 +1,4 @@
-
+'use client'; 
 import  { ReactNode, HTMLProps, MouseEvent, ChangeEvent } from 'react';
 import * as React from 'react';
 import { PiInfo , PiCheck , PiWarning , PiX , PiSpinner } from "react-icons/pi";
@@ -75,24 +75,23 @@ export default function Button({
   onClick,
   ...rest
 }: ButtonProps) {
-  function removeNumbers(text:string) {
+  function removeNumbers(text:any) {
   return text.replace(/[0-9]/g, '');
 }
-function hasNumberAbove(text:string) {
+function hasNumberAbove(text:any) {
   const matches = text.match(/\d+/g); // find all numbers in the string
   if (!matches) return false;
-
-  return matches.some(num => parseInt(num) >= 400);
+  return matches.some((num: string) => parseInt(num) >= 400);
 }
 
-function hasNumber(text:string) {
+function hasNumber(text:any) {
   return /\d/.test(text);
 }
 
 
   const classNames = [
     'button',
-    `text-${color ? color : !hasNumber(bg) && !outlined ? "white" : hasNumberAbove(bg) && !outlined ? "white" : removeNumbers(bg) }`,
+    `text-${bg ? color ? color : !hasNumber(bg) && !outlined ? "white" : hasNumberAbove(bg) && !outlined ? "white" : removeNumbers(bg) : 'base'}`,
     funcss || '',
     rounded ? 'roundBtn' : '',
     hoverless ? 'hoverless' : '',

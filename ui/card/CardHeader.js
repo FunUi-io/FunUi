@@ -25,9 +25,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = CardHeader;
 var react_1 = __importDefault(require("react"));
 function CardHeader(_a) {
     var funcss = _a.funcss, children = _a.children, rest = __rest(_a, ["funcss", "children"]);
     return (react_1.default.createElement("div", __assign({ className: "card-header ".concat(funcss || '') }, rest), children));
 }
-exports.default = CardHeader;

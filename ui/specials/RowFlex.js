@@ -26,13 +26,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -45,6 +55,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = RowFlex;
 var React = __importStar(require("react"));
 function RowFlex(_a) {
     var funcss = _a.funcss, content = _a.content, justify = _a.justify, gap = _a.gap, alignItems = _a.alignItems, responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, id = _a.id, children = _a.children, rest = __rest(_a, ["funcss", "content", "justify", "gap", "alignItems", "responsiveSmall", "responsiveMedium", "id", "children"]);
@@ -57,4 +68,3 @@ function RowFlex(_a) {
         " ",
         content));
 }
-exports.default = RowFlex;

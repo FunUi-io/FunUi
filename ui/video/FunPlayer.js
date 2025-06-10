@@ -1,3 +1,4 @@
+"use strict";
 // import React, { useState, useRef, useEffect } from 'react';
 // import { PiCornersOut, PiDownload, PiFastForward, PiFileAudio, PiPause, PiPlay, PiRewind, PiSpeakerHifi, PiSpeakerLow } from 'react-icons/pi';
 // import ToolTip from "../tooltip/ToolTip"

@@ -266,15 +266,16 @@ const Input: React.FC<InputProps> = ({
         {button ? (
           button
         ) : (
-          <Button
-            funcss={` ${funcss} `}
-            startIcon={icon ? icon : <PiCloudArrowUp />}
-            bg="primary"
-            fullWidth
-            raised
-          >
-            {fileName || label || 'Upload File'}
-          </Button>
+     <Button
+  funcss={` ${funcss} `}
+  startIcon={icon ? icon : <PiCloudArrowUp />}
+  bg="primary"
+  fullWidth
+  raised
+>
+    {fileName || label || 'Upload File'}
+</Button>
+
         )}
         <input
             name={name}
@@ -306,7 +307,13 @@ const Input: React.FC<InputProps> = ({
           <div className="_upload_container">
           <label htmlFor={id || "fileInput"} className="_upload_label">
             <div className="_upload_icon">{ icon || <>&#8682;</>}</div> 
-            <div className="_upload_text">{fileName || label || `Upload File`}</div>
+            <div className="_upload_text"    style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: 'inline-block',
+            width: '100%',
+          }}>{fileName || label || `Upload File`}</div>
             <div className="text-small opacity-3">{extra || ''}</div>
           </label>
           <input onChange={handleChange} type="file" id={id || "fileInput"} className="_upload_input" {...rest} />

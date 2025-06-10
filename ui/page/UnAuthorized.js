@@ -15,17 +15,28 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = UnAuthorized;
 var React = __importStar(require("react"));
 var Button_1 = __importDefault(require("../button/Button"));
 var pi_1 = require("react-icons/pi");
@@ -40,13 +51,12 @@ function UnAuthorized(_a) {
                         React.createElement("div", { className: "h2 text-warning round-edge" }, "401"),
                     React.createElement("div", { style: { margin: "1.4rem 0px" } }, header ? header
                         :
-                            React.createElement("div", { className: "text-bigger text-bold text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "Unauthorized Access")),
+                            React.createElement("div", { className: "text-big text-bold text-dark300", style: { display: "block", transition: "all 0.2s linear 0s" } }, "\uD83D\uDEAB Unauthorized Access")),
                     content ? content :
                         React.createElement("div", { className: "article" }, "Sorry! You do not have access to this resource."),
                     React.createElement("div", { style: { margin: "2rem 0px" } }, action ? action :
                         React.createElement("div", { className: "row-flex gap", style: { justifyContent: "center", gap: "0.4rem" } },
                             React.createElement(Button_1.default, { raised: true, rounded: true, startIcon: React.createElement(pi_1.PiArrowLeft, null), bg: 'primary', onClick: function () {
                                     window.history.back();
-                                } }, "Go Back"))))))));
+                                } }, "Take Me Back"))))))));
 }
-exports.default = UnAuthorized;

@@ -1,3 +1,4 @@
+'use client'; 
 import * as React from 'react';
 import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 interface BreadCrumbProps {

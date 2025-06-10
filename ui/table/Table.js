@@ -1,5 +1,5 @@
-'use client';
 "use strict";
+'use client';
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -27,13 +27,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -49,6 +59,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Table;
 var React = __importStar(require("react"));
 var Head_1 = __importDefault(require("./Head"));
 var Body_1 = __importDefault(require("./Body"));
@@ -127,7 +138,9 @@ function Table(_a) {
     // Extract the data array
     var dataArray = data ? data.data : [];
     // Remove duplicate values
-    var uniqueValues = Array.from(new Set(dataArray.map(function (item) { return item[selectedField]; })));
+    var uniqueValues = selectedField
+        ? Array.from(new Set(dataArray.map(function (item) { return item[selectedField]; })))
+        : [];
     return (React.createElement("div", { className: "".concat(funcss ? funcss : '', " roundEdge") },
         data &&
             React.createElement("div", { className: "padding bb" },
@@ -162,25 +175,26 @@ function Table(_a) {
                         React.createElement(RowFlex_1.default, { gap: 0.5 },
                             right && right,
                             React.createElement(Button_1.default, { small: true, bold: true, text: 'Export', startIcon: React.createElement(pi_1.PiFileCsv, null), color: 'gradient', onClick: Export }))))),
-        React.createElement("table", __assign({ className: "table  ".concat(bordered ? 'border' : '', " ").concat(noStripped ? '' : 'stripped', " ").concat(hoverable ? 'hoverableTr' : '', " ").concat(light ? 'light' : '', " ").concat(dark ? 'dark' : ''), style: {
-                height: height ? height + "px" : ""
-            } }, rest),
-            data &&
-                (data === null || data === void 0 ? void 0 : data.titles) &&
-                React.createElement(Head_1.default, null, data.titles.map(function (mdoc) { return (React.createElement("th", { key: mdoc },
-                    React.createElement(Text_1.default, { text: mdoc, bold: true, color: 'primary' }))); })),
-            head && React.createElement(Head_1.default, null, head),
-            body && React.createElement(Body_1.default, null, body),
-            data &&
-                filteredData.slice(startIndex, endIndex).map(function (mdoc, index) { return (React.createElement(Row_1.default, { rowKey: index },
-                    data.fields.map(function (fdoc) { return (React.createElement(Data_1.default, { key: fdoc }, mdoc[fdoc])); }),
-                    customColumns ?
-                        customColumns.map(function (column, columnIndex) { return (React.createElement("td", { key: columnIndex },
-                            column.render && column.render(mdoc),
-                            column.onClick && (React.createElement(Button_1.default, { onClick: function () { return column.onClick && column.onClick(mdoc); } }, column.title)))); }) : "")); }),
-            isLoading &&
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function () { return (React.createElement(Row_1.default, { funcss: 'skeleton' })); }),
-            children ? children : ''),
+        React.createElement("main", { style: { overflow: "auto", width: "100%" } },
+            React.createElement("table", __assign({ className: "table  ".concat(bordered ? 'border' : '', " ").concat(noStripped ? '' : 'stripped', " ").concat(hoverable ? 'hoverableTr' : '', " ").concat(light ? 'light' : '', " ").concat(dark ? 'dark' : ''), style: {
+                    height: height ? height + "px" : ""
+                } }, rest),
+                data &&
+                    (data === null || data === void 0 ? void 0 : data.titles) &&
+                    React.createElement(Head_1.default, null, data.titles.map(function (mdoc) { return (React.createElement("th", { key: mdoc },
+                        React.createElement(Text_1.default, { text: mdoc, bold: true, color: 'primary' }))); })),
+                head && React.createElement(Head_1.default, null, head),
+                body && React.createElement(Body_1.default, null, body),
+                data &&
+                    filteredData.slice(startIndex, endIndex).map(function (mdoc, index) { return (React.createElement(Row_1.default, { rowKey: index },
+                        data.fields.map(function (fdoc) { return (React.createElement(Data_1.default, { key: fdoc }, mdoc[fdoc])); }),
+                        customColumns ?
+                            customColumns.map(function (column, columnIndex) { return (React.createElement("td", { key: columnIndex },
+                                column.render && column.render(mdoc),
+                                column.onClick && (React.createElement(Button_1.default, { onClick: function () { return column.onClick && column.onClick(mdoc); } }, column.title)))); }) : "")); }),
+                isLoading &&
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function () { return (React.createElement(Row_1.default, { funcss: 'skeleton' })); }),
+                children ? children : '')),
         data &&
             React.createElement(React.Fragment, null, pageSize &&
                 React.createElement(React.Fragment, null, filteredData.length > pageSize &&
@@ -189,4 +203,3 @@ function Table(_a) {
                             React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary' },
                                 React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'sm' }))); }))))))));
 }
-exports.default = Table;

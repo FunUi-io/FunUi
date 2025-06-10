@@ -36,6 +36,7 @@ type TypographyProps = {
   textAlign?: "left" | "center" | "right" | "justify";
   opacity?: number;
   zIndex?: number;
+  truncate?: number;
   transform?: string;
   customStyles?: React.CSSProperties;
   onClick?: () => void;
@@ -93,6 +94,7 @@ const Text: React.FC<TypographyProps> = ({
   whiteSpace,
   wordBreak,
   fontFamily,
+  truncate,
   textShadow,
   textAlign,
   customStyles,
@@ -112,21 +114,31 @@ const Text: React.FC<TypographyProps> = ({
     size === 'h6' ? `h6` : 
     `text-${size}`}`;
 
-  const mergedStyles: React.CSSProperties = {
-    display: block ? 'block' : undefined,
-    fontWeight: bold ? 'bold' : weight ? weight : undefined,
-    lineHeight,
-    letterSpacing,
-    textTransform,
-    textDecoration,
-    fontFamily,
-    textShadow,
-    textAlign,
-    whiteSpace,
-    wordBreak,
-    transform: customStyles?.transform,
-    ...customStyles,
-  };
+const mergedStyles: React.CSSProperties = {
+  display: block ? 'block' : undefined,
+  fontWeight: bold ? 'bold' : weight ? weight : undefined,
+  lineHeight,
+  letterSpacing,
+  textTransform,
+  textDecoration,
+  fontFamily,
+  textShadow,
+  textAlign,
+  whiteSpace,
+  wordBreak,
+  transform: customStyles?.transform,
+  ...customStyles,
+  ...(truncate
+    ? {
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: truncate,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }
+    : {}),
+};
+
 
   const classNames = [
     funcss || '',

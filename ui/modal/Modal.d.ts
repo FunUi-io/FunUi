@@ -5,6 +5,7 @@ interface ModalProps {
     animation?: string;
     duration?: number;
     open: boolean;
+    hideClose: boolean;
     setOpen: (val: boolean) => void;
     maxWidth?: string;
     maxHeight?: string;
@@ -26,7 +27,7 @@ interface ModalProps {
     onOk?: () => void;
     onOkText?: string;
 }
-export default function Modal({ children, funcss, animation, duration, open, setOpen, maxWidth, maxHeight, okIcon, height, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, position, id, flat, onOk, // 👈 added
+export default function Modal({ children, funcss, animation, duration, open, setOpen, maxWidth, maxHeight, okIcon, height, hideClose, width, backdrop, title, titlecss, body, bodycss, footer, footercss, close, closecss, position, id, flat, onOk, // 👈 added
 onOkText, // 👈 added
-...rest }: ModalProps): React.JSX.Element;
+...rest }: ModalProps): React.JSX.Element | null;
 export {};

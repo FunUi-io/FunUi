@@ -1,3 +1,4 @@
+'use client'; 
 import React, { ReactNode } from 'react';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';

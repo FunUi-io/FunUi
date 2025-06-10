@@ -1,3 +1,4 @@
+'use client'; 
 import  { ReactNode } from 'react';
 import * as React from 'react'
 interface AvatarProps {

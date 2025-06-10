@@ -34,6 +34,7 @@ type TypographyProps = {
     textAlign?: "left" | "center" | "right" | "justify";
     opacity?: number;
     zIndex?: number;
+    truncate?: number;
     transform?: string;
     customStyles?: React.CSSProperties;
     onClick?: () => void;

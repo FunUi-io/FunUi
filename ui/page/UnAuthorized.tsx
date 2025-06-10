@@ -33,15 +33,15 @@ export default function UnAuthorized(
               {
                 header ? header 
                 : 
-                <div className="text-bigger text-bold text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
-                Unauthorized Access
+                <div className="text-big text-bold text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
+                🚫 Unauthorized Access
               </div>
               }
             </div>
           {
             content ? content :
             <div className="article">
-            Sorry! You do not have access to this resource.
+           Sorry! You do not have access to this resource.
           </div>
           }
             <div style={{ margin: "2rem 0px" }}>
@@ -51,7 +51,7 @@ export default function UnAuthorized(
             <Button raised rounded startIcon={<PiArrowLeft />} bg='primary' onClick={() => {
                               window.history.back()
                             }}>
-                           Go Back
+                           Take Me Back
                           </Button>
               </div>
               }

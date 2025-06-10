@@ -1,4 +1,4 @@
-'use client'
+'use client'; 
 import { PiInfo , PiCheckCircleDuotone , PiWarning , PiX , PiSpinner } from "react-icons/pi";
 import React, { ReactNode, useEffect, useState } from 'react';
 

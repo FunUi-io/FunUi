@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FullCenteredPage = exports.Circle = exports.Hr = exports.Section = exports.RowFlex = exports.Tip = exports.AppBar = exports.ToolTip = exports.Notification = exports.FunLoader = exports.ProgressBar = exports.DropMenu = exports.DropItem = exports.Dropdown = exports.DropDown = exports.DropUp = exports.UnAuthorized = exports.NotFound = exports.StepLine = exports.StepHeader = exports.Step = exports.StepContainer = exports.Div = exports.Text = exports.List = exports.Table = exports.Modal = exports.Loader = exports.Input = exports.Col = exports.Grid = exports.Container = exports.BreadCrumb = exports.Card = exports.Button = exports.ThemeProvider = exports.Alert = void 0;
+exports.FullCenteredPage = exports.CircleGroup = exports.Circle = exports.Hr = exports.Section = exports.RowFlex = exports.Tip = exports.AppBar = exports.ToolTip = exports.Notification = exports.FunLoader = exports.ProgressBar = exports.DropMenu = exports.DropItem = exports.Dropdown = exports.DropDown = exports.DropUp = exports.UnAuthorized = exports.NotFound = exports.StepLine = exports.StepHeader = exports.Step = exports.StepContainer = exports.Div = exports.Text = exports.List = exports.Table = exports.Modal = exports.Loader = exports.Input = exports.Col = exports.Grid = exports.Container = exports.BreadCrumb = exports.Card = exports.Button = exports.ThemeProvider = exports.Alert = void 0;
 var Alert_1 = require("./ui/alert/Alert");
 Object.defineProperty(exports, "Alert", { enumerable: true, get: function () { return __importDefault(Alert_1).default; } });
 var theme_1 = require("./ui/theme/theme");
@@ -76,5 +76,7 @@ var Hr_1 = require("./ui/specials/Hr");
 Object.defineProperty(exports, "Hr", { enumerable: true, get: function () { return __importDefault(Hr_1).default; } });
 var Circle_1 = require("./ui/specials/Circle");
 Object.defineProperty(exports, "Circle", { enumerable: true, get: function () { return __importDefault(Circle_1).default; } });
+var CircleGroup_1 = require("./ui/specials/CircleGroup");
+Object.defineProperty(exports, "CircleGroup", { enumerable: true, get: function () { return __importDefault(CircleGroup_1).default; } });
 var FullCenteredPage_1 = require("./ui/specials/FullCenteredPage");
 Object.defineProperty(exports, "FullCenteredPage", { enumerable: true, get: function () { return __importDefault(FullCenteredPage_1).default; } });

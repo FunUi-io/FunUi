@@ -20,5 +20,5 @@ interface AlertProps {
     autoHideDuration?: number;
     onClose?: () => void;
 }
-export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, standard, card, style, autoHide, autoHideDuration, onClose, ...rest }: AlertProps): React.JSX.Element;
+export default function Alert({ message, funcss, type, outlined, fixed, raised, fullWidth, isLoading, children, animation, duration, variant, flat, standard, card, style, autoHide, autoHideDuration, onClose, ...rest }: AlertProps): React.JSX.Element | null;
 export {};

@@ -36,14 +36,14 @@ export default function NotFound(
                 header ? header 
                 : 
                 <div className="text-big text-bold text-dark300" style={{ display: "block", transition: "all 0.2s linear 0s" }}>
-                Page Not Found
+                Page not found 🤔
               </div>
               }
             </div>
           {
             content ? content :
             <div className="article">
-            <Text article text={`Sorry, we couldn't find the page you're looking for.`} color="dark300" block/>
+            <Text article text={`Don't worry, it happens to the best of us 😅. We'll help you find what you're looking for.`} color="dark300" block/>
           </div>
           }
             <div style={{ margin: "2rem 0px" }}>
@@ -53,7 +53,7 @@ export default function NotFound(
                 <Button raised rounded startIcon={<PiArrowLeft />} bg='primary' onClick={() => {
                     window.history.back()
                   }}>
-                 Go Back
+                 Take me back 🏠
                 </Button>
               </div>
               }
@@ -64,3 +64,4 @@ export default function NotFound(
     </div>
   );
 }
+

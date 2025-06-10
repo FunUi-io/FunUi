@@ -28,8 +28,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var pi_1 = require("react-icons/pi");
 var Text = function (_a) {
-    var id = _a.id, bg = _a.bg, color = _a.color, children = _a.children, hoverBg = _a.hoverBg, hoverText = _a.hoverText, text = _a.text, funcss = _a.funcss, emp = _a.emp, bold = _a.bold, block = _a.block, body = _a.body, article = _a.article, light = _a.light, lighter = _a.lighter, italic = _a.italic, weight = _a.weight, underline = _a.underline, align = _a.align, lineHeight = _a.lineHeight, letterSpacing = _a.letterSpacing, uppercase = _a.uppercase, lowercase = _a.lowercase, capitalize = _a.capitalize, textDecoration = _a.textDecoration, textTransform = _a.textTransform, whiteSpace = _a.whiteSpace, wordBreak = _a.wordBreak, fontFamily = _a.fontFamily, textShadow = _a.textShadow, textAlign = _a.textAlign, customStyles = _a.customStyles, monospace = _a.monospace, quote = _a.quote, _b = _a.size, size = _b === void 0 ? 'base' : _b, // default
-    rest = __rest(_a, ["id", "bg", "color", "children", "hoverBg", "hoverText", "text", "funcss", "emp", "bold", "block", "body", "article", "light", "lighter", "italic", "weight", "underline", "align", "lineHeight", "letterSpacing", "uppercase", "lowercase", "capitalize", "textDecoration", "textTransform", "whiteSpace", "wordBreak", "fontFamily", "textShadow", "textAlign", "customStyles", "monospace", "quote", "size"]);
+    var id = _a.id, bg = _a.bg, color = _a.color, children = _a.children, hoverBg = _a.hoverBg, hoverText = _a.hoverText, text = _a.text, funcss = _a.funcss, emp = _a.emp, bold = _a.bold, block = _a.block, body = _a.body, article = _a.article, light = _a.light, lighter = _a.lighter, italic = _a.italic, weight = _a.weight, underline = _a.underline, align = _a.align, lineHeight = _a.lineHeight, letterSpacing = _a.letterSpacing, uppercase = _a.uppercase, lowercase = _a.lowercase, capitalize = _a.capitalize, textDecoration = _a.textDecoration, textTransform = _a.textTransform, whiteSpace = _a.whiteSpace, wordBreak = _a.wordBreak, fontFamily = _a.fontFamily, truncate = _a.truncate, textShadow = _a.textShadow, textAlign = _a.textAlign, customStyles = _a.customStyles, monospace = _a.monospace, quote = _a.quote, _b = _a.size, size = _b === void 0 ? 'base' : _b, // default
+    rest = __rest(_a, ["id", "bg", "color", "children", "hoverBg", "hoverText", "text", "funcss", "emp", "bold", "block", "body", "article", "light", "lighter", "italic", "weight", "underline", "align", "lineHeight", "letterSpacing", "uppercase", "lowercase", "capitalize", "textDecoration", "textTransform", "whiteSpace", "wordBreak", "fontFamily", "truncate", "textShadow", "textAlign", "customStyles", "monospace", "quote", "size"]);
     var Tag = block ? 'div' : 'span';
     var sizeClass = "".concat(size === 'h1' ? "h1" :
         size === 'h2' ? "h2" :
@@ -38,7 +38,15 @@ var Text = function (_a) {
                     size === 'h5' ? "h5" :
                         size === 'h6' ? "h6" :
                             "text-".concat(size));
-    var mergedStyles = __assign({ display: block ? 'block' : undefined, fontWeight: bold ? 'bold' : weight ? weight : undefined, lineHeight: lineHeight, letterSpacing: letterSpacing, textTransform: textTransform, textDecoration: textDecoration, fontFamily: fontFamily, textShadow: textShadow, textAlign: textAlign, whiteSpace: whiteSpace, wordBreak: wordBreak, transform: customStyles === null || customStyles === void 0 ? void 0 : customStyles.transform }, customStyles);
+    var mergedStyles = __assign(__assign({ display: block ? 'block' : undefined, fontWeight: bold ? 'bold' : weight ? weight : undefined, lineHeight: lineHeight, letterSpacing: letterSpacing, textTransform: textTransform, textDecoration: textDecoration, fontFamily: fontFamily, textShadow: textShadow, textAlign: textAlign, whiteSpace: whiteSpace, wordBreak: wordBreak, transform: customStyles === null || customStyles === void 0 ? void 0 : customStyles.transform }, customStyles), (truncate
+        ? {
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: truncate,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+        }
+        : {}));
     var classNames = [
         funcss || '',
         sizeClass,

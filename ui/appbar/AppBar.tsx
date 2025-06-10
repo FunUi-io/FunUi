@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'; // <-- Updated import
 import Hamburger from './Hamburger';
 
 interface NavbarProps {
@@ -34,14 +34,14 @@ export default function AppBar({
 }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname(); // <-- New hook to detect path changes
 
   const toggleMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth < 992;
       setIsMobileScreen(isMobile);
       if (!isMobile) {
         closeMenu(); // close on larger screens
@@ -53,17 +53,10 @@ export default function AppBar({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 🧠 Automatically close on route change
+  // Automatically close menu on route (pathname) change
   useEffect(() => {
-    const handleRouteChange = () => {
-      closeMenu();
-    };
-
-    router.events.on('routeChangeStart', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [router]);
+    closeMenu();
+  }, [pathname]);
 
   const Trigger = ({ isOpen }: { isOpen: boolean }) => {
     return <Hamburger isOpen={isOpen} />;
