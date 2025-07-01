@@ -32,7 +32,7 @@ type TypographyProps = {
     fontFamily?: string;
     textShadow?: string;
     textAlign?: "left" | "center" | "right" | "justify";
-    opacity?: number;
+    opacity?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
     zIndex?: number;
     truncate?: number;
     transform?: string;

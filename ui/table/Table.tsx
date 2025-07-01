@@ -23,8 +23,9 @@ type TableProps = {
   showTotal?: boolean;
   light?: boolean;
   isLoading?: boolean;
+  hideExport?: boolean;
   dark?: boolean;
-  data?: { "fields": string[], "data": any[], "titles": string[] };
+  data?: { "fields": string[], "data": any[], "titles": string[] , "funcss": string[]};
   head?: React.ReactNode;
   right?: React.ReactNode;
   body?: React.ReactNode;
@@ -49,6 +50,7 @@ export default function Table({
   data,
   isLoading,
   right,
+  hideExport,
   height,
   pageSize = data ? 10 : 0, // Default page size,
   customColumns,
@@ -56,7 +58,8 @@ export default function Table({
   ...rest
 }: TableProps) {
    // Check if data is null or undefined before accessing its properties
-   const [search, setSearch] = useState<string>(data?.data ? "" : "");
+  // Replace this in your component
+const [search, setSearch] = useState<string | string[]>('');
    const [currentPage, setCurrentPage] = useState<number>(1);
 
   // Determine the total number of pages based on data length and page size
@@ -68,6 +71,24 @@ export default function Table({
 
   const [selectedField, setSelectedField] = useState<string | null>(null);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
+
+
+
+  // Enhanced filter logic:
+const normalize = (val: any) => val?.toString().toLowerCase().trim();
+
+const matchesSearch = (item: any) => {
+  const searchTerms = Array.isArray(search) ? search : [search];
+  return searchTerms.some(term =>
+    Object.values(item).some(value =>
+      normalize(value).includes(normalize(term))
+    )
+  );
+};
+
+
+
+
 
   // Function to handle page change
   const handleChangePage = (page: number) => {
@@ -85,17 +106,20 @@ export default function Table({
     setSelectedValue(value);
   };
 
+  const getNestedValue = (obj: any, path: string) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  };
 
   const filteredData = data ? data?.data.filter(item => {
     if (!search && !selectedField && !selectedValue) return true;
     if (selectedField && selectedValue) {
-      const value = item[selectedField];
+      const value = getNestedValue(item, selectedField);
      if(value){
       return value.toString().toLowerCase() === selectedValue.toString().toLowerCase();
      }
     }
     if (selectedField) {
-      const value = item[selectedField];
+      const value = getNestedValue(item, selectedField);
       if(value){
       return value.toString().toLowerCase().includes(search.toString().toLowerCase());
       }
@@ -125,24 +149,30 @@ export default function Table({
     exportToCSV(filteredData, title ? `${title} ${selectedField ? `_${selectedField}` : ''}.csv` : 'data.csv');
   }
 
-
    // Extract the data array
    const dataArray = data ? data.data : []
    
  // Remove duplicate values
 const uniqueValues = selectedField
-  ? Array.from(new Set(dataArray.map(item => item[selectedField])))
+  ? Array.from(new Set(dataArray.map(item => getNestedValue(item, selectedField))))
   : [];
-
-
 
   return (
     <div className={`${funcss ? funcss : ''} roundEdge`}>
       {
         data &&
         <div className="padding bb">
-        <RowFlex justify='space-between'>
-        <div>
+        <RowFlex gap={0.5} justify='space-between'>
+        {
+          title ? 
+          <div>
+                 {
+              showTotal && data &&
+              <div >
+                       <Text text='Records: ' size='sm'  />
+                        <Text text={filteredData.length} size='h6'/>
+              </div>
+            }
           {
               title &&
               <div >
@@ -151,20 +181,27 @@ const uniqueValues = selectedField
 
               
             }
+         
+        </div>
+        : 
+           <>
                 {
               showTotal && data &&
               <div >
-                       <Text text='Records:' size='sm'  color='primary'/>
+                       <Text text='Records: ' size='sm'  />
                         <Text text={filteredData.length} size='h6'/>
               </div>
             }
-        </div>
+           </>
+        }
         
           {
             data && filterableFields ?
             <div className="col width-200-max">
            <RowFlex gap={0.7}>
-           <select 
+           {
+            !selectedField && 
+              <select 
            className=" input borderedInput roundEdgeSmall smallInput" 
            value={selectedField || ''} 
            onChange={(e) => {
@@ -176,18 +213,23 @@ const uniqueValues = selectedField
           <option key={field} value={field}>{field}</option>
         ))}
       </select>
-      {
+           }
+      {/* {
         selectedField && <div>
         =
       </div>
-      }
+      } */}
       {selectedField && (
         <select  
         className=" input borderedInput width-200-max  roundEdgeSmall smallInput" 
          value={selectedValue || ''} 
          onChange={(e) => {
-          handleValueChange(e.target.value)
+        if(e.target.value === 'clear_all'){
+          setSelectedField('')
+        }else{
+            handleValueChange(e.target.value)
           handleChangePage(1)
+        }
          }}
          >
           <option value="">All*</option>
@@ -195,24 +237,27 @@ const uniqueValues = selectedField
            <>
            {
             item &&
-            <option key={item[selectedField]} value={item}>
+            <option key={item} value={item}>
             {item.toString()}
           </option>
            }
            </>
           ))}
+             <option value="clear_all">Clear</option>
         </select>
       )}
            </RowFlex>
             </div>
             :''
           }
-          <div>
+          <>
           <RowFlex gap={0.5}>
             {
               right && right
             }
-          <Button
+         {
+          !hideExport &&
+           <Button
               small
               bold
               text='Export'
@@ -220,8 +265,9 @@ const uniqueValues = selectedField
               color='gradient'
               onClick={Export}
             />
+         }
           </RowFlex>
-          </div>
+          </>
         </RowFlex>
       </div>
       }
@@ -242,7 +288,7 @@ const uniqueValues = selectedField
             {
               data.titles.map(mdoc => (
                 <th key={mdoc}>
-                  <Text text={mdoc} bold color='primary'/>
+                  <Text text={mdoc} weight={500} funcss='text-secondary'/>
                 </th>
               ))
             }
@@ -257,11 +303,11 @@ const uniqueValues = selectedField
 
         {  data &&
           filteredData.slice(startIndex, endIndex).map((mdoc, index) => (
-            <TableRow rowKey={index}>
+            <TableRow funcss='animated slide-down' rowKey={index} >
               {
-                data.fields.map(fdoc => (
-                  <TableData key={fdoc}>
-                    {mdoc[fdoc]}
+                data.fields.map((fdoc , findex) => (
+                  <TableData key={fdoc} funcss={data.funcss ? data?.funcss?.[findex] || '' : ''}>
+                    {getNestedValue(mdoc, fdoc)}
                   </TableData>
                 ))
               }
@@ -305,7 +351,7 @@ const uniqueValues = selectedField
                       size={2.5}
                       key={startPage + i}
                       onClick={() => handleChangePage(startPage + i)}
-                      funcss={currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary'}
+                      funcss={currentPage === startPage + i ? 'primary pageCircle' : 'lighter pageCircle text-primary'}
                     >
                       <Text text={`${startPage + i}`} bold size='sm'/>
                     </Circle>
@@ -323,3 +369,4 @@ const uniqueValues = selectedField
     </div>
   );
 }
+

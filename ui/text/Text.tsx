@@ -34,14 +34,13 @@ type TypographyProps = {
   fontFamily?: string;
   textShadow?: string;
   textAlign?: "left" | "center" | "right" | "justify";
-  opacity?: number;
+  opacity?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   zIndex?: number;
   truncate?: number;
   transform?: string;
   customStyles?: React.CSSProperties;
   onClick?: () => void;
   children?: React.ReactNode;
-
   size?: 
     | "xs" 
     | "sm" 
@@ -100,8 +99,8 @@ const Text: React.FC<TypographyProps> = ({
   customStyles,
   monospace,
   quote,
+  opacity,
   size = 'base', // default
-
   ...rest
 }) => {
   const Tag = block ? 'div' : 'span';
@@ -143,8 +142,8 @@ const mergedStyles: React.CSSProperties = {
   const classNames = [
     funcss || '',
     sizeClass,
-    color ? `text-${color}` : '',
-    align ? `text-${align}` : '',
+    color ? ` text-${color} ` : '',
+    align ? ` text-${align} ` : '',
     monospace ? 'monospace' : '',
     bg || '',
     hoverText ? `hover-text-${hoverText}` : '',
@@ -159,6 +158,7 @@ const mergedStyles: React.CSSProperties = {
     uppercase ? 'uppercase' : '',
     lowercase ? 'lowercase' : '',
     capitalize ? 'capitalize' : '',
+    opacity ? 'opacity-' + opacity : '',
   ]
     .filter(Boolean)
     .join(' ');

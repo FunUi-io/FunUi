@@ -87,14 +87,14 @@ export default function Alert({
       >
         <div className="alert-icon">
           {!isLoading ? (
-            <div className={`text-${type}`} style={{lineHeight:"0"}}>
+            <div className={`text-${type}900`} style={{lineHeight:"0"}}>
               {type === 'success' && <PiCheckCircleDuotone />}
               {type === 'info' && <PiInfo />}
               {type === 'warning' && <PiWarning />}
               {type === 'error' && <PiX />}
             </div>
           ) : (
-            <span className="rotate">
+            <span className="rotate"  style={{lineHeight:"0"}}>
               <PiSpinner />
             </span>
           )}

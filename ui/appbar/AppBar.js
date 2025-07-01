@@ -43,9 +43,9 @@ var react_1 = require("react");
 var navigation_1 = require("next/navigation"); // <-- Updated import
 var Hamburger_1 = __importDefault(require("./Hamburger"));
 function AppBar(_a) {
-    var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent;
-    var _b = (0, react_1.useState)(false), isMobileMenuOpen = _b[0], setIsMobileMenuOpen = _b[1];
-    var _c = (0, react_1.useState)(false), isMobileScreen = _c[0], setIsMobileScreen = _c[1];
+    var fixedTop = _a.fixedTop, funcss = _a.funcss, padding = _a.padding, fixedBottom = _a.fixedBottom, justify = _a.justify, left = _a.left, center = _a.center, right = _a.right, sideBar = _a.sideBar, sidebarTrigger = _a.sidebarTrigger, transparent = _a.transparent, hasSidebar = _a.hasSidebar, openSidebar = _a.openSidebar, _b = _a.sidebarOpen, sidebarOpen = _b === void 0 ? false : _b;
+    var _c = (0, react_1.useState)(false), isMobileMenuOpen = _c[0], setIsMobileMenuOpen = _c[1];
+    var _d = (0, react_1.useState)(false), isMobileScreen = _d[0], setIsMobileScreen = _d[1];
     var pathname = (0, navigation_1.usePathname)(); // <-- New hook to detect path changes
     var toggleMenu = function () { return setIsMobileMenuOpen(function (prev) { return !prev; }); };
     var closeMenu = function () { return setIsMobileMenuOpen(false); };
@@ -69,7 +69,9 @@ function AppBar(_a) {
         var isOpen = _a.isOpen;
         return React.createElement(Hamburger_1.default, { isOpen: isOpen });
     };
-    return (React.createElement("nav", { className: "navigation-bar\n        ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n        ").concat(funcss || '', "\n        ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n        ").concat(sideBar ? 'there_is_sidebar' : '', "\n        ").concat(transparent ? 'transparent' : '', "\n        ").concat(fixedBottom ? 'fixedBottom' : '', "\n      "), style: {
+    return (React.createElement("nav", { 
+        // the id will be used to get the height for the sidebar in the sidebar file
+        id: 'appBar', className: "navigation-bar\n        ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n        ").concat(funcss || '', "\n        ").concat(fixedTop ? 'fixed_top_navbar' : '', "\n        ").concat(sideBar ? 'there_is_sidebar' : '', "\n        ").concat(transparent ? 'transparent' : '', "\n        ").concat(fixedBottom ? 'fixedBottom' : '', "\n      "), style: {
             padding: "".concat(padding || ''),
             justifyContent: "".concat(justify || ''),
         } },
@@ -79,5 +81,7 @@ function AppBar(_a) {
                 React.createElement(Trigger, { isOpen: isMobileMenuOpen })))),
         React.createElement("div", { className: "linkWrapper" }, center),
         React.createElement("div", { className: "linkWrapper" }, right),
-        isMobileScreen && !isMobileMenuOpen && (React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, sidebarTrigger || React.createElement(Trigger, { isOpen: isMobileMenuOpen })))));
+        isMobileScreen && !isMobileMenuOpen && (React.createElement(React.Fragment, null, hasSidebar ?
+            React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: openSidebar }, sidebarTrigger || React.createElement(Trigger, { isOpen: sidebarOpen }))
+            : React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, sidebarTrigger || React.createElement(Trigger, { isOpen: isMobileMenuOpen }))))));
 }

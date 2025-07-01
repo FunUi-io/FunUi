@@ -15,6 +15,6 @@
     "incremental": true,
     "composite": true
   },
-  "include": ["ui/**/*", "types/**/*", "next-env.d.ts" , "index.tsx"],
+  "include": ["ui/**/*", "types/**/*", "next-env.d.ts" , "index.tsx" , "utils/**/*" , "hooks/**/*" ],
   "exclude": ["node_modules"]
 }

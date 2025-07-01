@@ -1,34 +1,34 @@
 'use client';
 import React, { useEffect } from 'react';
+import { colorVarsToDarken, themes } from './themes';
+import { getDarkenAmount, darkenToRgba } from './darkenUtils';
 
 interface ThemeProviderProps {
-  theme: 'light' | 'dark';
+  theme: 'light' | 'dark' | 'dark-blue' | 'light-gray';
   children: React.ReactNode;
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ theme, children }) => {
   useEffect(() => {
     const root = document.documentElement;
+    const selectedTheme = themes[theme] || themes.light;
 
-    const lightTheme = {
-      '--page-bg': '#FFFFFF',
-      '--text-color': '#000000',
-      '--raiseThemes': '#FFFFFF',
-    };
-
-    const darkTheme = {
-      '--page-bg': '#121212',
-      '--text-color': '#FFFFFF',
-      '--raiseThemes': '#202020',
-      '--borderColor': '#333333',
-      '--lighter': '#202020',
-    };
-
-    const selectedTheme = theme === 'dark' ? darkTheme : lightTheme;
-
+    // Apply selected theme variables
     Object.entries(selectedTheme).forEach(([key, value]) => {
       root.style.setProperty(key, value);
     });
+
+    // Apply darkened RGBA versions (for dark themes only)
+    if (theme === 'dark' || theme === 'dark-blue') {
+      colorVarsToDarken.forEach((varName) => {
+        const original = getComputedStyle(root).getPropertyValue(varName).trim();
+        if (original) {
+          const darkAmount = getDarkenAmount(varName);
+          const rgba = darkenToRgba(original, darkAmount, 0.9);
+          root.style.setProperty(varName, rgba);
+        }
+      });
+    }
   }, [theme]);
 
   return (

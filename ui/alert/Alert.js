@@ -78,11 +78,11 @@ function Alert(_a) {
         react_1.default.createElement("div", __assign({ style: __assign({ animation: "".concat(duration || '0.3', "s ").concat(animation || 'ScaleUp') }, style), className: "text-".concat(type, "800 alert ").concat(card ? 'card' : '', " ").concat(flat ? 'flat' : '', " ").concat(raised ? 'raised' : '', " ").concat(outlined
                 ? "outline-".concat(type, "500")
                 : "".concat(variant || (standard ? "top-".concat(type) : "".concat(type, "200") + " outline-".concat(type, "300 "))), " ").concat(funcss || '', " ").concat(fullWidth ? 'width-100-p' : '') }, rest),
-            react_1.default.createElement("div", { className: "alert-icon" }, !isLoading ? (react_1.default.createElement("div", { className: "text-".concat(type), style: { lineHeight: "0" } },
+            react_1.default.createElement("div", { className: "alert-icon" }, !isLoading ? (react_1.default.createElement("div", { className: "text-".concat(type, "900"), style: { lineHeight: "0" } },
                 type === 'success' && react_1.default.createElement(pi_1.PiCheckCircleDuotone, null),
                 type === 'info' && react_1.default.createElement(pi_1.PiInfo, null),
                 type === 'warning' && react_1.default.createElement(pi_1.PiWarning, null),
-                type === 'error' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("span", { className: "rotate" },
+                type === 'error' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("span", { className: "rotate", style: { lineHeight: "0" } },
                 react_1.default.createElement(pi_1.PiSpinner, null)))),
             react_1.default.createElement("div", { className: "alert-text" }, message || children))));
 }

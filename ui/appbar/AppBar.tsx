@@ -17,6 +17,9 @@ interface NavbarProps {
   sidebarTrigger?: React.ReactNode;
   transparent?: boolean;
   sideBar?: number;
+  hasSidebar?: boolean;
+  sidebarOpen?: boolean;
+  openSidebar?: () => void;
 }
 
 export default function AppBar({
@@ -31,6 +34,9 @@ export default function AppBar({
   sideBar,
   sidebarTrigger,
   transparent,
+  hasSidebar,
+  openSidebar,
+  sidebarOpen = false
 }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
@@ -64,6 +70,8 @@ export default function AppBar({
 
   return (
     <nav
+    // the id will be used to get the height for the sidebar in the sidebar file
+    id='appBar'
       className={`navigation-bar
         ${isMobileMenuOpen ? 'navbar-mobile-open' : ''}
         ${funcss || ''}
@@ -90,9 +98,17 @@ export default function AppBar({
       <div className="linkWrapper">{right}</div>
 
       {isMobileScreen && !isMobileMenuOpen && (
-        <span className="sidebar-trigger pointer hover-text-primary" onClick={toggleMenu}>
+       <>
+       {
+        hasSidebar ? 
+         <span className="sidebar-trigger pointer hover-text-primary" onClick={openSidebar}>
+          {sidebarTrigger  || <Trigger isOpen={sidebarOpen} />}
+        </span>
+        :  <span className="sidebar-trigger pointer hover-text-primary" onClick={toggleMenu}>
           {sidebarTrigger || <Trigger isOpen={isMobileMenuOpen} />}
         </span>
+       }
+       </>
       )}
     </nav>
   );

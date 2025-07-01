@@ -1,6 +1,6 @@
 import React from 'react';
 interface ThemeProviderProps {
-    theme: 'light' | 'dark';
+    theme: 'light' | 'dark' | 'dark-blue' | 'light-gray';
     children: React.ReactNode;
 }
 declare const ThemeProvider: React.FC<ThemeProviderProps>;

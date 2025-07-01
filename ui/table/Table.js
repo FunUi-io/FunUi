@@ -74,11 +74,12 @@ var Text_1 = __importDefault(require("../text/Text"));
 var react_easy_export_1 = require("react-easy-export");
 function Table(_a) {
     var _b, _c;
-    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, title = _a.title, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, isLoading = _a.isLoading, right = _a.right, height = _a.height, _d = _a.pageSize, pageSize = _d === void 0 ? data ? 10 : 0 : _d, // Default page size,
+    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, title = _a.title, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, isLoading = _a.isLoading, right = _a.right, hideExport = _a.hideExport, height = _a.height, _d = _a.pageSize, pageSize = _d === void 0 ? data ? 10 : 0 : _d, // Default page size,
     customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
-    rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "height", "pageSize", "customColumns", "filterableFields"]);
+    rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "hideExport", "height", "pageSize", "customColumns", "filterableFields"]);
     // Check if data is null or undefined before accessing its properties
-    var _e = (0, react_1.useState)((data === null || data === void 0 ? void 0 : data.data) ? "" : ""), search = _e[0], setSearch = _e[1];
+    // Replace this in your component
+    var _e = (0, react_1.useState)(''), search = _e[0], setSearch = _e[1];
     var _f = (0, react_1.useState)(1), currentPage = _f[0], setCurrentPage = _f[1];
     // Determine the total number of pages based on data length and page size
     var totalPages = data ? Math.ceil((((_b = data === null || data === void 0 ? void 0 : data.data) === null || _b === void 0 ? void 0 : _b.length) || 0) / pageSize) : 0;
@@ -87,6 +88,16 @@ function Table(_a) {
     var endIndex = data ? Math.min(startIndex + pageSize, ((_c = data === null || data === void 0 ? void 0 : data.data) === null || _c === void 0 ? void 0 : _c.length) || 0) : 0;
     var _g = (0, react_1.useState)(null), selectedField = _g[0], setSelectedField = _g[1];
     var _h = (0, react_1.useState)(null), selectedValue = _h[0], setSelectedValue = _h[1];
+    // Enhanced filter logic:
+    var normalize = function (val) { return val === null || val === void 0 ? void 0 : val.toString().toLowerCase().trim(); };
+    var matchesSearch = function (item) {
+        var searchTerms = Array.isArray(search) ? search : [search];
+        return searchTerms.some(function (term) {
+            return Object.values(item).some(function (value) {
+                return normalize(value).includes(normalize(term));
+            });
+        });
+    };
     // Function to handle page change
     var handleChangePage = function (page) {
         if (data) {
@@ -100,17 +111,20 @@ function Table(_a) {
     var handleValueChange = function (value) {
         setSelectedValue(value);
     };
+    var getNestedValue = function (obj, path) {
+        return path.split('.').reduce(function (acc, part) { return acc && acc[part]; }, obj);
+    };
     var filteredData = data ? data === null || data === void 0 ? void 0 : data.data.filter(function (item) {
         if (!search && !selectedField && !selectedValue)
             return true;
         if (selectedField && selectedValue) {
-            var value = item[selectedField];
+            var value = getNestedValue(item, selectedField);
             if (value) {
                 return value.toString().toLowerCase() === selectedValue.toString().toLowerCase();
             }
         }
         if (selectedField) {
-            var value = item[selectedField];
+            var value = getNestedValue(item, selectedField);
             if (value) {
                 return value.toString().toLowerCase().includes(search.toString().toLowerCase());
             }
@@ -139,42 +153,55 @@ function Table(_a) {
     var dataArray = data ? data.data : [];
     // Remove duplicate values
     var uniqueValues = selectedField
-        ? Array.from(new Set(dataArray.map(function (item) { return item[selectedField]; })))
+        ? Array.from(new Set(dataArray.map(function (item) { return getNestedValue(item, selectedField); })))
         : [];
     return (React.createElement("div", { className: "".concat(funcss ? funcss : '', " roundEdge") },
         data &&
             React.createElement("div", { className: "padding bb" },
-                React.createElement(RowFlex_1.default, { justify: 'space-between' },
-                    React.createElement("div", null,
-                        title &&
-                            React.createElement("div", null,
-                                React.createElement(Text_1.default, { text: title || "", size: 'h4' })),
-                        showTotal && data &&
-                            React.createElement("div", null,
-                                React.createElement(Text_1.default, { text: 'Records:', size: 'sm', color: 'primary' }),
-                                React.createElement(Text_1.default, { text: filteredData.length, size: 'h6' }))),
+                React.createElement(RowFlex_1.default, { gap: 0.5, justify: 'space-between' },
+                    title ?
+                        React.createElement("div", null,
+                            showTotal && data &&
+                                React.createElement("div", null,
+                                    React.createElement(Text_1.default, { text: 'Records: ', size: 'sm' }),
+                                    React.createElement(Text_1.default, { text: filteredData.length, size: 'h6' })),
+                            title &&
+                                React.createElement("div", null,
+                                    React.createElement(Text_1.default, { text: title || "", size: 'h4' })))
+                        :
+                            React.createElement(React.Fragment, null, showTotal && data &&
+                                React.createElement("div", null,
+                                    React.createElement(Text_1.default, { text: 'Records: ', size: 'sm' }),
+                                    React.createElement(Text_1.default, { text: filteredData.length, size: 'h6' }))),
                     data && filterableFields ?
                         React.createElement("div", { className: "col width-200-max" },
                             React.createElement(RowFlex_1.default, { gap: 0.7 },
-                                React.createElement("select", { className: " input borderedInput roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) {
-                                        handleFieldChange(e.target.value);
-                                    } },
-                                    React.createElement("option", { value: "" }, "\uD83D\uDD0D Filter"),
-                                    React.createElement("option", { value: "" }, "All*"), filterableFields === null || filterableFields === void 0 ? void 0 :
-                                    filterableFields.map(function (field) { return (React.createElement("option", { key: field, value: field }, field)); })),
-                                selectedField && React.createElement("div", null, "="),
+                                !selectedField &&
+                                    React.createElement("select", { className: " input borderedInput roundEdgeSmall smallInput", value: selectedField || '', onChange: function (e) {
+                                            handleFieldChange(e.target.value);
+                                        } },
+                                        React.createElement("option", { value: "" }, "\uD83D\uDD0D Filter"),
+                                        React.createElement("option", { value: "" }, "All*"), filterableFields === null || filterableFields === void 0 ? void 0 :
+                                        filterableFields.map(function (field) { return (React.createElement("option", { key: field, value: field }, field)); })),
                                 selectedField && (React.createElement("select", { className: " input borderedInput width-200-max  roundEdgeSmall smallInput", value: selectedValue || '', onChange: function (e) {
-                                        handleValueChange(e.target.value);
-                                        handleChangePage(1);
+                                        if (e.target.value === 'clear_all') {
+                                            setSelectedField('');
+                                        }
+                                        else {
+                                            handleValueChange(e.target.value);
+                                            handleChangePage(1);
+                                        }
                                     } },
                                     React.createElement("option", { value: "" }, "All*"),
                                     uniqueValues.map(function (item) { return (React.createElement(React.Fragment, null, item &&
-                                        React.createElement("option", { key: item[selectedField], value: item }, item.toString()))); })))))
+                                        React.createElement("option", { key: item, value: item }, item.toString()))); }),
+                                    React.createElement("option", { value: "clear_all" }, "Clear")))))
                         : '',
-                    React.createElement("div", null,
+                    React.createElement(React.Fragment, null,
                         React.createElement(RowFlex_1.default, { gap: 0.5 },
                             right && right,
-                            React.createElement(Button_1.default, { small: true, bold: true, text: 'Export', startIcon: React.createElement(pi_1.PiFileCsv, null), color: 'gradient', onClick: Export }))))),
+                            !hideExport &&
+                                React.createElement(Button_1.default, { small: true, bold: true, text: 'Export', startIcon: React.createElement(pi_1.PiFileCsv, null), color: 'gradient', onClick: Export }))))),
         React.createElement("main", { style: { overflow: "auto", width: "100%" } },
             React.createElement("table", __assign({ className: "table  ".concat(bordered ? 'border' : '', " ").concat(noStripped ? '' : 'stripped', " ").concat(hoverable ? 'hoverableTr' : '', " ").concat(light ? 'light' : '', " ").concat(dark ? 'dark' : ''), style: {
                     height: height ? height + "px" : ""
@@ -182,12 +209,15 @@ function Table(_a) {
                 data &&
                     (data === null || data === void 0 ? void 0 : data.titles) &&
                     React.createElement(Head_1.default, null, data.titles.map(function (mdoc) { return (React.createElement("th", { key: mdoc },
-                        React.createElement(Text_1.default, { text: mdoc, bold: true, color: 'primary' }))); })),
+                        React.createElement(Text_1.default, { text: mdoc, weight: 500, funcss: 'text-secondary' }))); })),
                 head && React.createElement(Head_1.default, null, head),
                 body && React.createElement(Body_1.default, null, body),
                 data &&
-                    filteredData.slice(startIndex, endIndex).map(function (mdoc, index) { return (React.createElement(Row_1.default, { rowKey: index },
-                        data.fields.map(function (fdoc) { return (React.createElement(Data_1.default, { key: fdoc }, mdoc[fdoc])); }),
+                    filteredData.slice(startIndex, endIndex).map(function (mdoc, index) { return (React.createElement(Row_1.default, { funcss: 'animated slide-down', rowKey: index },
+                        data.fields.map(function (fdoc, findex) {
+                            var _a;
+                            return (React.createElement(Data_1.default, { key: fdoc, funcss: data.funcss ? ((_a = data === null || data === void 0 ? void 0 : data.funcss) === null || _a === void 0 ? void 0 : _a[findex]) || '' : '' }, getNestedValue(mdoc, fdoc)));
+                        }),
                         customColumns ?
                             customColumns.map(function (column, columnIndex) { return (React.createElement("td", { key: columnIndex },
                                 column.render && column.render(mdoc),
@@ -200,6 +230,6 @@ function Table(_a) {
                 React.createElement(React.Fragment, null, filteredData.length > pageSize &&
                     React.createElement("div", { className: "padding bt" },
                         React.createElement(RowFlex_1.default, { gap: 1, justify: 'center' },
-                            React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'dark800 pageCircle text-primary' },
+                            React.createElement("div", { className: "pagination" }, Array.from({ length: endPage - startPage + 1 }, function (_, i) { return (React.createElement(Circle_1.default, { size: 2.5, key: startPage + i, onClick: function () { return handleChangePage(startPage + i); }, funcss: currentPage === startPage + i ? 'primary pageCircle' : 'lighter pageCircle text-primary' },
                                 React.createElement(Text_1.default, { text: "".concat(startPage + i), bold: true, size: 'sm' }))); }))))))));
 }

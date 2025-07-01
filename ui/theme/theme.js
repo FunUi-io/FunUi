@@ -35,27 +35,29 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
+var themes_1 = require("./themes");
+var darkenUtils_1 = require("./darkenUtils");
 var ThemeProvider = function (_a) {
     var theme = _a.theme, children = _a.children;
     (0, react_1.useEffect)(function () {
         var root = document.documentElement;
-        var lightTheme = {
-            '--page-bg': '#FFFFFF',
-            '--text-color': '#000000',
-            '--raiseThemes': '#FFFFFF',
-        };
-        var darkTheme = {
-            '--page-bg': '#121212',
-            '--text-color': '#FFFFFF',
-            '--raiseThemes': '#202020',
-            '--borderColor': '#333333',
-            '--lighter': '#202020',
-        };
-        var selectedTheme = theme === 'dark' ? darkTheme : lightTheme;
+        var selectedTheme = themes_1.themes[theme] || themes_1.themes.light;
+        // Apply selected theme variables
         Object.entries(selectedTheme).forEach(function (_a) {
             var key = _a[0], value = _a[1];
             root.style.setProperty(key, value);
         });
+        // Apply darkened RGBA versions (for dark themes only)
+        if (theme === 'dark' || theme === 'dark-blue') {
+            themes_1.colorVarsToDarken.forEach(function (varName) {
+                var original = getComputedStyle(root).getPropertyValue(varName).trim();
+                if (original) {
+                    var darkAmount = (0, darkenUtils_1.getDarkenAmount)(varName);
+                    var rgba = (0, darkenUtils_1.darkenToRgba)(original, darkAmount, 0.9);
+                    root.style.setProperty(varName, rgba);
+                }
+            });
+        }
     }, [theme]);
     return (react_1.default.createElement("div", { className: "theme-".concat(theme), style: {
             backgroundColor: 'var(--page-bg)',

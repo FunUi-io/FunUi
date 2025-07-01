@@ -123,7 +123,8 @@ var Input = function (_a) {
                     }, value: value }, rest))));
         return (react_1.default.createElement("div", { className: "_upload_container" },
             react_1.default.createElement("label", { htmlFor: id || "fileInput", className: "_upload_label" },
-                react_1.default.createElement("div", { className: "_upload_icon" }, icon || react_1.default.createElement(react_1.default.Fragment, null, "\u21EA")),
+                react_1.default.createElement("div", { className: "_upload_icon" }, icon || react_1.default.createElement(react_1.default.Fragment, null,
+                    react_1.default.createElement(pi_1.PiCloudArrowUp, null))),
                 react_1.default.createElement("div", { className: "_upload_text", style: {
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',

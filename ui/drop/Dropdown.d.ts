@@ -13,6 +13,12 @@ interface DropdownProps {
     hoverable?: boolean;
     openOnHover?: boolean;
     className?: string;
+    width?: string;
+    minWidth?: string;
+    maxWidth?: string;
+    height?: string;
+    minHeight?: string;
+    maxHeight?: string;
 }
 declare const Dropdown: React.FC<DropdownProps>;
 export default Dropdown;

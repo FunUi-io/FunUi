@@ -306,7 +306,7 @@ const Input: React.FC<InputProps> = ({
     return (
           <div className="_upload_container">
           <label htmlFor={id || "fileInput"} className="_upload_label">
-            <div className="_upload_icon">{ icon || <>&#8682;</>}</div> 
+            <div className="_upload_icon">{ icon || <><PiCloudArrowUp /></>}</div> 
             <div className="_upload_text"    style={{
             whiteSpace: 'nowrap',
             overflow: 'hidden',

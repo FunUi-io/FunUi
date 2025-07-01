@@ -17,6 +17,12 @@ interface DropdownProps {
   hoverable?: boolean;
   openOnHover?: boolean;
   className?: string;
+  width?: string;
+  minWidth?: string;
+  maxWidth?: string;
+  height?: string;
+  minHeight?: string;
+  maxHeight?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -27,6 +33,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   hoverable = true,
   openOnHover = true,
   className = '',
+  width,
+  minWidth,
+  maxWidth,
+  height,
+  minHeight,
+  maxHeight,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
@@ -66,12 +78,20 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       <div
         className={menuClass}
-        style={{ display: showMenu ? 'block' : 'none' }}
+        style={{
+          display: showMenu ? 'block' : 'none',
+          width,
+          minWidth,
+          maxWidth,
+          height,
+          minHeight,
+          maxHeight,
+        }}
       >
         {items.map((item, index) => (
           <div
             key={index}
-            className="drop-item"
+            className="drop-item hoverable"
             onClick={() => {
               item.onClick?.();
               if (!openOnHover) setOpen(false);
@@ -86,3 +106,4 @@ const Dropdown: React.FC<DropdownProps> = ({
 };
 
 export default Dropdown;
+

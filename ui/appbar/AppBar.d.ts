@@ -12,6 +12,9 @@ interface NavbarProps {
     sidebarTrigger?: React.ReactNode;
     transparent?: boolean;
     sideBar?: number;
+    hasSidebar?: boolean;
+    sidebarOpen?: boolean;
+    openSidebar?: () => void;
 }
-export default function AppBar({ fixedTop, funcss, padding, fixedBottom, justify, left, center, right, sideBar, sidebarTrigger, transparent, }: NavbarProps): React.JSX.Element;
+export default function AppBar({ fixedTop, funcss, padding, fixedBottom, justify, left, center, right, sideBar, sidebarTrigger, transparent, hasSidebar, openSidebar, sidebarOpen }: NavbarProps): React.JSX.Element;
 export {};
