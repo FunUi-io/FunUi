@@ -95,8 +95,7 @@ function Modal(_a) {
             title && (React.createElement(Header_1.default, { funcss: titlecss || '', title: title, close: !hideClose ?
                     React.createElement("div", { onClick: function () { return setOpen(false); }, className: "".concat(closecss || '', " pointer hover-text-error") }, close || React.createElement(pi_1.PiX, { size: 25 }))
                     : "" })),
-            body && (React.createElement(Content_1.default, { funcss: bodycss || '' }, body)),
+            React.createElement(Content_1.default, { funcss: bodycss || '' }, body || children),
             footer ? (React.createElement(Action_1.default, { funcss: footercss || '' }, footer)) : (React.createElement(Action_1.default, { funcss: 'text-right' },
-                React.createElement(Button_1.default, { bg: 'success800', endIcon: okIcon || React.createElement(pi_1.PiPaperPlaneRight, null), raised: true, onClick: handleOkClick }, onOkText || 'OK'))),
-            children)));
+                React.createElement(Button_1.default, { bg: 'success800', endIcon: okIcon || React.createElement(pi_1.PiPaperPlaneRight, null), raised: true, onClick: handleOkClick }, onOkText || 'OK'))))));
 }

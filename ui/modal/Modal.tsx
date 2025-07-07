@@ -113,13 +113,11 @@ export default function Modal({
           />
         )}
 
-        {body && (
           <ModalContent funcss={bodycss || ''}>
-            {body}
+            {body || children}
           </ModalContent>
-        )}
 
-        {/* Show default Ok button if no custom footer */}
+               {/* Show default Ok button if no custom footer */}
         {footer ? (
           <ModalAction funcss={footercss || ''}>
             {footer}
@@ -136,8 +134,6 @@ export default function Modal({
             </Button>
           </ModalAction>
         )}
-
-        {children}
       </div>
     </div>
   );

@@ -3300,15 +3300,16 @@ color: var(--text-color);
   position: absolute;
   box-shadow: var(--card);
   transition: 0.5s;
-  z-index: 1;
+  z-index: 999; /* Higher to sit above everything */
   width: 100%;
   min-width: max-content !important;
-  overflow: hidden;
+  overflow: visible; /* allow overflow! */
   border-radius: 0.5rem;
   background-color: var(--raiseOpaque) !important;
-  backdrop-filter: var(--raiseBackdrop) !important ;
+  backdrop-filter: var(--raiseBackdrop) !important;
   display: none;
 }
+
 
 
 .dropup:hover .drop-menu {
