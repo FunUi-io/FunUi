@@ -60,7 +60,7 @@ exports.default = Circle;
 var React = __importStar(require("react"));
 function Circle(_a) {
     var _b = _a.size, size = _b === void 0 ? 2 : _b, funcss = _a.funcss, bg = _a.bg, color = _a.color, children = _a.children, hoverable = _a.hoverable, raised = _a.raised, key = _a.key, onClick = _a.onClick, bordered = _a.bordered, rest = __rest(_a, ["size", "funcss", "bg", "color", "children", "hoverable", "raised", "key", "onClick", "bordered"]);
-    return (React.createElement("div", __assign({ className: " animated fade-in ".concat(bordered ? "border" : "", " pointer avatar ").concat(funcss || '', " ").concat("text-" + (color === null || color === void 0 ? void 0 : color.trim()) || '', " ").concat(raised ? "raised" : '', " ").concat(bg || '', " ").concat(hoverable ? 'hoverable' : ''), style: {
+    return (React.createElement("div", __assign({ className: " animated fade-in ".concat(bordered ? "border" : "", " pointer avatar ").concat(funcss || '', " ").concat("text-" + (color === null || color === void 0 ? void 0 : color.trim()) || '', " ").concat(raised ? "raised" : '', " ").concat(bg || 'lighter', " ").concat(hoverable ? 'hoverable' : ''), style: {
             width: "".concat(size + "rem" || '2.3rem'),
             height: "".concat(size + "rem" || '2.3rem'),
         }, key: key, onClick: onClick }, rest),

@@ -43,22 +43,48 @@ export default function Video({ src, poster, onDuration, isPause, className, aut
   const [isMouseMoving, setIsMouseMoving] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const playVideo = () => {
-    const video = videoRef.current;
-    if (video && video.paused) {
-      video.play().catch(() => {});
+
+
+  const handleVideoEnd = () => {
+  setIsPlaying(false);
+  setCurrentTime(duration); // optional
+};
+
+useEffect(() => {
+  const video = videoRef.current;
+  if (!video) return;
+
+  video.addEventListener('ended', handleVideoEnd);
+  return () => {
+    video.removeEventListener('ended', handleVideoEnd);
+  };
+}, [duration]);
+
+
+const playVideo = () => {
+  const video = videoRef.current;
+  if (video) {
+    // ✅ if video ended, reset it to start
+    if (video.currentTime === video.duration) {
+      video.currentTime = 0;
+    }
+
+    video.play().then(() => {
       setIsPlaying(true);
       setHasStarted(true);
-    }
-  };
+    }).catch(() => {});
+  }
+};
 
-  const pauseVideo = () => {
-    const video = videoRef.current;
-    if (video && !video.paused) {
-      video.pause();
-      setIsPlaying(false);
-    }
-  };
+const pauseVideo = () => {
+  const video = videoRef.current;
+  if (video && !video.paused) {
+    video.pause();
+    setIsPlaying(false);
+  }
+};
+
+
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => handleKeyDown(e, isPlaying, playVideo, pauseVideo);
@@ -98,16 +124,33 @@ export default function Video({ src, poster, onDuration, isPause, className, aut
     }
   }, []);
 
-  const handleLoadedMetadata = () => {
-    const video = videoRef.current;
-    if (video) {
-      setDuration(video.duration || 0);
-      onDuration?.(video.duration);
-      if (autoPlay) {
-        playVideo();
-      }
+const handleLoadedMetadata = () => {
+  const video = videoRef.current;
+  if (video) {
+    setDuration(video.duration || 0);
+    onDuration?.(video.duration);
+    if (autoPlay) {
+      video.play().then(() => {
+        setIsPlaying(true); // ✅ update UI state
+        setHasStarted(true);
+      }).catch(() => {});
     }
-  };
+  }
+};
+
+
+useEffect(() => {
+  if (autoPlay && videoRef.current) {
+    videoRef.current.muted = true; // ✅ important for autoplay to work
+    videoRef.current.play().then(() => {
+      setIsPlaying(true);
+      setHasStarted(true);
+    }).catch((err) => {
+      console.warn('Autoplay failed', err);
+    });
+  }
+}, [autoPlay]);
+
 
   const handleProgressBarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = parseFloat(e.target.value);
@@ -118,6 +161,9 @@ export default function Video({ src, poster, onDuration, isPause, className, aut
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(videoRef.current){
+      videoRef.current.muted = false; 
+    }
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
     if (videoRef.current) videoRef.current.volume = newVolume;
@@ -185,6 +231,20 @@ export default function Video({ src, poster, onDuration, isPause, className, aut
     };
   }, []);
 
+
+  useEffect(() => {
+  const video = videoRef.current;
+  if (!video) return;
+
+  const onEnd = () => {
+    setIsPlaying(false);
+  };
+
+  video.addEventListener('ended', onEnd);
+  return () => video.removeEventListener('ended', onEnd);
+}, []);
+
+
   return (
     <div ref={containerRef} className={`video_container fit ${className || ''}`} id="fun_video_container">
       {poster && !hasStarted && !isPlaying && (
@@ -207,7 +267,7 @@ export default function Video({ src, poster, onDuration, isPause, className, aut
 
       <div className={`video_controls ${isMouseMoving ? 'show_controls' : 'hide_controls'}`}>
         <div className="w-80-p center animated fade-in">
-          <RowFlex gap={0.3} funcss="padding-5" alignItems="center">
+          <RowFlex gap={0.3} funcss='mb-2' alignItems="center">
            <div className='video_time'>
              <Text text={formatTime(currentTime)} funcss='m-0' size="sm"  />
            </div>
@@ -218,13 +278,13 @@ export default function Video({ src, poster, onDuration, isPause, className, aut
                 max={duration}
                 value={currentTime}
                 onChange={handleProgressBarChange}
-                className="width-100-p styled-slider m-0"
+                className="width-100-p videoSlider styled-slider m-0"
                 aria-label="Progress bar"
                 style={{ '--progress': `${(currentTime / duration) * 100}` } as React.CSSProperties}
               />
             </div>
             <div className="video_time">
-            <Text text={`-${formatTime(duration - currentTime)}`} funcss='m-0' size="sm"  />
+            <Text text={`${formatTime(duration - currentTime)}`} funcss='m-0' size="sm"  />
             </div>
           </RowFlex>
         </div>

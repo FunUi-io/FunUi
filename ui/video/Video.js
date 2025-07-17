@@ -83,12 +83,30 @@ function Video(_a) {
     var _g = (0, react_1.useState)(false), showVolume = _g[0], setShowVolume = _g[1];
     var _h = (0, react_1.useState)(true), isMouseMoving = _h[0], setIsMouseMoving = _h[1];
     var _j = (0, react_1.useState)(false), hasStarted = _j[0], setHasStarted = _j[1];
+    var handleVideoEnd = function () {
+        setIsPlaying(false);
+        setCurrentTime(duration); // optional
+    };
+    (0, react_1.useEffect)(function () {
+        var video = videoRef.current;
+        if (!video)
+            return;
+        video.addEventListener('ended', handleVideoEnd);
+        return function () {
+            video.removeEventListener('ended', handleVideoEnd);
+        };
+    }, [duration]);
     var playVideo = function () {
         var video = videoRef.current;
-        if (video && video.paused) {
-            video.play().catch(function () { });
-            setIsPlaying(true);
-            setHasStarted(true);
+        if (video) {
+            // ✅ if video ended, reset it to start
+            if (video.currentTime === video.duration) {
+                video.currentTime = 0;
+            }
+            video.play().then(function () {
+                setIsPlaying(true);
+                setHasStarted(true);
+            }).catch(function () { });
         }
     };
     var pauseVideo = function () {
@@ -141,10 +159,24 @@ function Video(_a) {
             setDuration(video.duration || 0);
             onDuration === null || onDuration === void 0 ? void 0 : onDuration(video.duration);
             if (autoPlay) {
-                playVideo();
+                video.play().then(function () {
+                    setIsPlaying(true); // ✅ update UI state
+                    setHasStarted(true);
+                }).catch(function () { });
             }
         }
     };
+    (0, react_1.useEffect)(function () {
+        if (autoPlay && videoRef.current) {
+            videoRef.current.muted = true; // ✅ important for autoplay to work
+            videoRef.current.play().then(function () {
+                setIsPlaying(true);
+                setHasStarted(true);
+            }).catch(function (err) {
+                console.warn('Autoplay failed', err);
+            });
+        }
+    }, [autoPlay]);
     var handleProgressBarChange = function (e) {
         var newTime = parseFloat(e.target.value);
         if (videoRef.current) {
@@ -153,6 +185,9 @@ function Video(_a) {
         setCurrentTime(newTime);
     };
     var handleVolumeChange = function (e) {
+        if (videoRef.current) {
+            videoRef.current.muted = false;
+        }
         var newVolume = parseFloat(e.target.value);
         setVolume(newVolume);
         if (videoRef.current)
@@ -217,18 +252,28 @@ function Video(_a) {
             pauseVideo();
         };
     }, []);
+    (0, react_1.useEffect)(function () {
+        var video = videoRef.current;
+        if (!video)
+            return;
+        var onEnd = function () {
+            setIsPlaying(false);
+        };
+        video.addEventListener('ended', onEnd);
+        return function () { return video.removeEventListener('ended', onEnd); };
+    }, []);
     return (react_1.default.createElement("div", { ref: containerRef, className: "video_container fit ".concat(className || ''), id: "fun_video_container" },
         poster && !hasStarted && !isPlaying && (react_1.default.createElement("div", { style: { backgroundImage: "url(".concat(poster, ")") }, className: "video_poster" })),
         react_1.default.createElement("video", __assign({ ref: videoRef, preload: "auto", src: src, className: "video_player fit min-w-200", onClick: handlePlayPauseToggle, onLoadedMetadata: handleLoadedMetadata, playsInline: true, controls: false }, rest)),
         react_1.default.createElement("div", { className: "video_controls ".concat(isMouseMoving ? 'show_controls' : 'hide_controls') },
             react_1.default.createElement("div", { className: "w-80-p center animated fade-in" },
-                react_1.default.createElement(RowFlex_1.default, { gap: 0.3, funcss: "padding-5", alignItems: "center" },
+                react_1.default.createElement(RowFlex_1.default, { gap: 0.3, funcss: 'mb-2', alignItems: "center" },
                     react_1.default.createElement("div", { className: 'video_time' },
                         react_1.default.createElement(Text_1.default, { text: (0, videoFunctions_1.formatTime)(currentTime), funcss: 'm-0', size: "sm" })),
                     react_1.default.createElement("div", { className: "col width-100-p" },
-                        react_1.default.createElement("input", { type: "range", min: 0, max: duration, value: currentTime, onChange: handleProgressBarChange, className: "width-100-p styled-slider m-0", "aria-label": "Progress bar", style: { '--progress': "".concat((currentTime / duration) * 100) } })),
+                        react_1.default.createElement("input", { type: "range", min: 0, max: duration, value: currentTime, onChange: handleProgressBarChange, className: "width-100-p videoSlider styled-slider m-0", "aria-label": "Progress bar", style: { '--progress': "".concat((currentTime / duration) * 100) } })),
                     react_1.default.createElement("div", { className: "video_time" },
-                        react_1.default.createElement(Text_1.default, { text: "-".concat((0, videoFunctions_1.formatTime)(duration - currentTime)), funcss: 'm-0', size: "sm" })))),
+                        react_1.default.createElement(Text_1.default, { text: "".concat((0, videoFunctions_1.formatTime)(duration - currentTime)), funcss: 'm-0', size: "sm" })))),
             react_1.default.createElement("div", { className: "center-play-icon animated fade-in", onClick: handlePlayPauseToggle },
                 react_1.default.createElement("div", { className: 'play-button' }, isPlaying ? react_1.default.createElement(pi_1.PiPause, { size: 30 }) : react_1.default.createElement(pi_1.PiPlay, { size: 30 }))),
             react_1.default.createElement(RowFlex_1.default, { funcss: 'animated slide-up', gap: 1, justify: "center" },

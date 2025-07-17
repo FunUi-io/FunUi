@@ -4,27 +4,39 @@ import * as React from 'react'
 interface AvatarProps {
   funcss?: string;
   children?: ReactNode;
-  size?: string;
+  size?: number;
   bg?: string;
+  bordered?:boolean ,
+  color?: string,
   content?: ReactNode;
 }
 
 export default function Avatar({
   funcss,
   children,
-  size,
+  size = 2,
+  bordered = true,
   bg,
   content,
+  color 
 }: AvatarProps) {
   return (
     <div
-      className={`avatar ${funcss || ''} ${bg || ''}`}
+      className={`
+        animated 
+        fade-in 
+        avatar 
+        ${funcss || ''} 
+        ${bg || 'lighter'} 
+        ${bordered ? 'border' : ''}
+      ${`text-${color}`}
+      `}
       style={{
-        width: `${size || '2.3rem'}`,
-        height: `${size || '2.3rem'}`,
+        width: `${size}rem`,
+        height: `${size}rem`,
       }}
     >
-      <>{content ? content : children}</>
+      <>{content || children}</>
     </div>
   );
 }

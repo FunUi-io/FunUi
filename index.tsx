@@ -41,3 +41,12 @@ export { default as Lines } from "./ui/chart/Line"
 export { default as ChartPie } from "./ui/chart/Pie"
 export { default as SideBar } from "./ui/sidebar/SideBar"
 export { default as Video } from "./ui/video/Video"
+export { default as Carousel } from "./ui/carousel/Carousel"
+export { default as RichText } from "./ui/richtext/RichText"
+export { default as Flex } from "./ui/flex/Flex"
+export { default as Accordion } from "./ui/accordion/Accordion"
+export { default as ScrollInView } from "./ui/ScrollInView/ScrollInView"
+
+// js 
+export { default as Cookie } from "./js/Cookie"
+export { FunGet } from "./js/Fun"

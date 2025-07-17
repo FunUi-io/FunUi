@@ -37,10 +37,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Avatar;
 var React = __importStar(require("react"));
 function Avatar(_a) {
-    var funcss = _a.funcss, children = _a.children, size = _a.size, bg = _a.bg, content = _a.content;
-    return (React.createElement("div", { className: "avatar ".concat(funcss || '', " ").concat(bg || ''), style: {
-            width: "".concat(size || '2.3rem'),
-            height: "".concat(size || '2.3rem'),
+    var funcss = _a.funcss, children = _a.children, _b = _a.size, size = _b === void 0 ? 2 : _b, _c = _a.bordered, bordered = _c === void 0 ? true : _c, bg = _a.bg, content = _a.content, color = _a.color;
+    return (React.createElement("div", { className: "\n        animated \n        fade-in \n        avatar \n        ".concat(funcss || '', " \n        ").concat(bg || 'lighter', " \n        ").concat(bordered ? 'border' : '', "\n      ").concat("text-".concat(color), "\n      "), style: {
+            width: "".concat(size, "rem"),
+            height: "".concat(size, "rem"),
         } },
-        React.createElement(React.Fragment, null, content ? content : children)));
+        React.createElement(React.Fragment, null, content || children)));
 }

@@ -4,7 +4,7 @@ import { colorVarsToDarken, themes } from './themes';
 import { getDarkenAmount, darkenToRgba } from './darkenUtils';
 
 interface ThemeProviderProps {
-  theme: 'light' | 'dark' | 'dark-blue' | 'light-gray';
+  theme: 'light' | 'dark' | 'dark-blue' | 'light-gray' | 'pastel-green' | 'warm-orange' | 'frosted-glass' | 'midnight-purple' | 'cyber-metal';
   children: React.ReactNode;
 }
 
@@ -19,7 +19,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ theme, children }) => {
     });
 
     // Apply darkened RGBA versions (for dark themes only)
-    if (theme === 'dark' || theme === 'dark-blue') {
+    if (theme === 'dark' || theme === 'dark-blue' || theme === 'midnight-purple' || theme === 'cyber-metal') {
       colorVarsToDarken.forEach((varName) => {
         const original = getComputedStyle(root).getPropertyValue(varName).trim();
         if (original) {

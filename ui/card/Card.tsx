@@ -108,9 +108,10 @@ export default function Card({
       </div>
       : ''
       }
+         {children && <CardBody>{children}</CardBody>}
 
       {footer && !horizontal ? <CardFooter>{footer}</CardFooter> : ''}
-      {children}
+   
     </div>
   );
 }

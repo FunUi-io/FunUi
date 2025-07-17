@@ -48,6 +48,6 @@ function Card(_a) {
                     " "),
                 horizontal ? react_1.default.createElement(CardFooter_1.default, null, footer) : '')
             : '',
-        footer && !horizontal ? react_1.default.createElement(CardFooter_1.default, null, footer) : '',
-        children));
+        children && react_1.default.createElement(CardBody_1.default, null, children),
+        footer && !horizontal ? react_1.default.createElement(CardFooter_1.default, null, footer) : ''));
 }

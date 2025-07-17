@@ -9,9 +9,9 @@ export declare const FunVisible: {
     toggle: (selector?: string) => void;
 };
 export declare const FunGet: {
-    text: (selector?: string, data?: string) => string;
-    html: (selector?: string, data?: string) => string;
-    val: (selector?: string, data?: string) => string;
+    text: (selector?: string, data?: string) => string | undefined;
+    html: (selector?: string, data?: string) => string | undefined;
+    val: (selector?: string, data?: string) => string | undefined;
 };
 export declare const FunStyle: {
     css: (selector?: string, css?: {}) => void;
@@ -33,6 +33,10 @@ export declare const FunRequest: {
     patch: (url: string, body?: any, headers?: HeadersInit) => Promise<unknown>;
     delete: (url: string, headers?: HeadersInit) => Promise<unknown>;
 };
+interface QueryFields {
+    [key: string]: any;
+}
 export declare const FunQuery: {
-    query: (data: any, fields?: {}) => Promise<unknown>;
+    query: (data: any, fields?: QueryFields) => Promise<unknown>;
 };
+export {};

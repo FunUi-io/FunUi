@@ -82,7 +82,7 @@ function Alert(_a) {
                 type === 'success' && react_1.default.createElement(pi_1.PiCheckCircleDuotone, null),
                 type === 'info' && react_1.default.createElement(pi_1.PiInfo, null),
                 type === 'warning' && react_1.default.createElement(pi_1.PiWarning, null),
-                type === 'error' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("span", { className: "rotate", style: { lineHeight: "0" } },
+                type === 'error' && react_1.default.createElement(pi_1.PiX, null))) : (react_1.default.createElement("div", { className: "rotate", style: { lineHeight: "0" } },
                 react_1.default.createElement(pi_1.PiSpinner, null)))),
             react_1.default.createElement("div", { className: "alert-text" }, message || children))));
 }

@@ -94,9 +94,9 @@ export default function Alert({
               {type === 'error' && <PiX />}
             </div>
           ) : (
-            <span className="rotate"  style={{lineHeight:"0"}}>
+            <div className="rotate"  style={{lineHeight:"0"}}>
               <PiSpinner />
-            </span>
+            </div>
           )}
         </div>
         <div className="alert-text">{message || children}</div>

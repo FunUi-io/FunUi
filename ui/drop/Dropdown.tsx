@@ -16,6 +16,7 @@ interface DropdownProps {
   items: DropdownItem[];
   hoverable?: boolean;
   openOnHover?: boolean;
+  closableOnlyOutside?: boolean;
   className?: string;
   width?: string;
   minWidth?: string;
@@ -23,6 +24,7 @@ interface DropdownProps {
   height?: string;
   minHeight?: string;
   maxHeight?: string;
+
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -32,6 +34,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   items,
   hoverable = true,
   openOnHover = true,
+  closableOnlyOutside = false,
   className = '',
   width,
   minWidth,
@@ -93,8 +96,11 @@ const Dropdown: React.FC<DropdownProps> = ({
             key={index}
             className="drop-item hoverable"
             onClick={() => {
-              item.onClick?.();
+          if(!closableOnlyOutside){
+         item.onClick?.();
               if (!openOnHover) setOpen(false);
+          }
+     
             }}
           >
             {item.label}

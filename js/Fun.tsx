@@ -1,17 +1,17 @@
 export const FunHide = {
-  hide: (selector?: string) => {
+  hide: (selector = "") => {
       var element: HTMLElement | null = document.querySelector(selector);
       if (element) {
           element.style.display = "none";
       }
   },
-  show: (selector?: string) => {
+  show: (selector = "") => {
       var element: HTMLElement | null = document.querySelector(selector);
       if (element) {
           element.style.display = "inline-block";
       }
   },
-  toggle: (selector?: string) => {
+  toggle: (selector = "") => {
       var element: HTMLElement | null = document.querySelector(selector);
       if (element) {
           var style = element.style.display;
@@ -20,19 +20,19 @@ export const FunHide = {
   }
 };
 export const FunVisible = {
-    hide: (selector?: string) => {
+    hide: (selector = "") => {
         var element: HTMLElement | null = document.querySelector(selector);
         if (element) {
             element.style.visibility = "hidden";
         }
     },
-    show: (selector?: string) => {
+    show: (selector = "") => {
         var element: HTMLElement | null = document.querySelector(selector);
         if (element) {
             element.style.visibility = "visible";
         }
     },
-    toggle: (selector?: string) => {
+    toggle: (selector = "") => {
         var element: HTMLElement | null = document.querySelector(selector);
         if (element) {
             var style = element.style.visibility;
@@ -41,7 +41,7 @@ export const FunVisible = {
     }
   };
 export const FunGet = {
-  text: (selector?: string, data?: string) => {
+  text: (selector = "", data?: string) => {
       var element: HTMLElement | null = document.querySelector(selector);
       if (element) {
           var text = element.textContent;
@@ -52,7 +52,7 @@ export const FunGet = {
           }
       }
   },
-  html: (selector?: string, data?: string) => {
+  html: (selector = "", data?: string) => {
       var element: HTMLElement | null = document.querySelector(selector);
       if (element) {
           var text = element.innerHTML;
@@ -63,7 +63,7 @@ export const FunGet = {
           }
       }
   },
-  val: (selector?: string, data?: string) => {
+  val: (selector = "", data?: string) => {
       var element: HTMLInputElement | null = document.querySelector(selector);
  if (element) {
   var text = element.value;
@@ -78,7 +78,7 @@ export const FunGet = {
 };
 
 export const FunStyle = {
-  css: (selector?: string, css?: {}) => {
+  css: (selector = "", css?: {}) => {
       const element: HTMLElement | null = document.querySelector(selector);
       if (element) {
           Object.assign(element.style, css);
@@ -88,7 +88,7 @@ export const FunStyle = {
 
 
 export const FunEvent = {
-  event: (selector?: string, eventType?: string, callBack?: EventListenerOrEventListenerObject | null) => {
+  event: (selector = "", eventType?: string, callBack?: EventListenerOrEventListenerObject | null) => {
       const element = document.querySelector(selector);
       if (element && eventType && callBack) {
           element.addEventListener(eventType, callBack);
@@ -97,13 +97,13 @@ export const FunEvent = {
 };
 
 export const FunClass = {
-  add: (selector?: string, newClass?: string) => {
+  add: (selector = "", newClass?: string) => {
       const element = document.querySelector(selector);
       if (element && newClass) {
           element.classList.add(newClass);
       }
   },
-  remove: (selector?: string, newClass?: string) => {
+  remove: (selector = "", newClass?: string) => {
       const element = document.querySelector(selector);
       if (element && newClass) {
           element.classList.remove(newClass);
@@ -112,13 +112,13 @@ export const FunClass = {
 };
 
 export const FunAdd = {
-  append: (selector?: string, child?: Node | null) => {
+  append: (selector = '', child?: Node | null) => {
       const element = document.querySelector(selector);
       if (element && child) {
           element.append(child);
       }
   },
-  prepend: (selector?: string, child?: Node | null) => {
+  prepend: (selector = "", child?: Node | null) => {
       const element = document.querySelector(selector);
       if (element && child) {
           element.prepend(child);
@@ -192,36 +192,48 @@ export const FunRequest = {
   },
 };
 
+interface QueryFields {
+  [key: string]: any;
+}
+
 export const FunQuery = {
-  query: (data: any, fields?: {}) => {
-      return new Promise((resolve, reject) => {
-          if (Array.isArray(data)) {
-              resolve(data.filter((item) => applyFilter(item, fields)));
-          } else if (typeof data === 'object') {
-              const filteredData = {};
-              for (let key in data) {
-                  if (applyFilter(data[key], fields)) {
-                      filteredData[key] = data[key];
-                  }
-              }
-              resolve(filteredData);
-          } else {
-              reject('Invalid data type. Expected an array or object.');
+  query: (data: any, fields: QueryFields = {}) => {
+    return new Promise((resolve, reject) => {
+      // Validate input
+      if (typeof fields !== 'object' || fields === null) {
+        return reject('Invalid filter criteria. Expected an object.');
+      }
+
+      const applyFilter = (item: any, filters: QueryFields) => {
+        for (let key in filters) {
+          if (item[key] !== filters[key]) {
+            return false;
           }
+        }
+        return true;
+      };
 
-          function applyFilter(item: any, fields: {}) {
-              if (typeof fields !== 'object') {
-                  reject('Invalid filter criteria. Expected an object.');
-              }
-
-              for (let key in fields) {
-                  if (item[key] !== fields[key]) {
-                      return false;
-                  }
-              }
-
-              return true;
+      try {
+        if (Array.isArray(data)) {
+          const result = data.filter(item => applyFilter(item, fields));
+          resolve(result);
+        } else if (typeof data === 'object' && data !== null) {
+          const filteredObject: Record<string, any> = {};
+          for (let key in data) {
+            if (applyFilter(data[key], fields)) {
+              filteredObject[key] = data[key];
+            }
           }
-      });
-  },
+          resolve(filteredObject);
+        } else {
+          reject('Invalid data type. Expected an array or object.');
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 };
+
+
+

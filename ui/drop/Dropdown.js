@@ -36,9 +36,9 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var Dropdown = function (_a) {
-    var _b = _a.direction, direction = _b === void 0 ? 'dropdown' : _b, _c = _a.position, position = _c === void 0 ? 'left' : _c, button = _a.button, items = _a.items, _d = _a.hoverable, hoverable = _d === void 0 ? true : _d, _e = _a.openOnHover, openOnHover = _e === void 0 ? true : _e, _f = _a.className, className = _f === void 0 ? '' : _f, width = _a.width, minWidth = _a.minWidth, maxWidth = _a.maxWidth, height = _a.height, minHeight = _a.minHeight, maxHeight = _a.maxHeight;
+    var _b = _a.direction, direction = _b === void 0 ? 'dropdown' : _b, _c = _a.position, position = _c === void 0 ? 'left' : _c, button = _a.button, items = _a.items, _d = _a.hoverable, hoverable = _d === void 0 ? true : _d, _e = _a.openOnHover, openOnHover = _e === void 0 ? true : _e, _f = _a.closableOnlyOutside, closableOnlyOutside = _f === void 0 ? false : _f, _g = _a.className, className = _g === void 0 ? '' : _g, width = _a.width, minWidth = _a.minWidth, maxWidth = _a.maxWidth, height = _a.height, minHeight = _a.minHeight, maxHeight = _a.maxHeight;
     var containerRef = (0, react_1.useRef)(null);
-    var _g = (0, react_1.useState)(false), open = _g[0], setOpen = _g[1];
+    var _h = (0, react_1.useState)(false), open = _h[0], setOpen = _h[1];
     var containerClass = "".concat(direction, " ").concat(position, " ").concat(className).trim();
     var menuClass = "drop-menu".concat(hoverable ? ' item-hoverable' : '');
     (0, react_1.useEffect)(function () {
@@ -65,9 +65,11 @@ var Dropdown = function (_a) {
                 maxHeight: maxHeight,
             } }, items.map(function (item, index) { return (react_1.default.createElement("div", { key: index, className: "drop-item hoverable", onClick: function () {
                 var _a;
-                (_a = item.onClick) === null || _a === void 0 ? void 0 : _a.call(item);
-                if (!openOnHover)
-                    setOpen(false);
+                if (!closableOnlyOutside) {
+                    (_a = item.onClick) === null || _a === void 0 ? void 0 : _a.call(item);
+                    if (!openOnHover)
+                        setOpen(false);
+                }
             } }, item.label)); }))));
 };
 exports.default = Dropdown;

@@ -32,7 +32,7 @@ export default function Circle({
 }: Circle_Props) {
   return (
       <div
-        className={` animated fade-in ${bordered ? "border" : ""} pointer avatar ${funcss || ''} ${`text-` + color?.trim() || ''} ${raised ? "raised" : ''} ${bg || ''} ${
+        className={` animated fade-in ${bordered ? "border" : ""} pointer avatar ${funcss || ''} ${`text-` + color?.trim() || ''} ${raised ? "raised" : ''} ${bg || 'lighter'} ${
           hoverable ? 'hoverable' : ''
         }`}
         style={{

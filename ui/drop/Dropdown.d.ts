@@ -12,6 +12,7 @@ interface DropdownProps {
     items: DropdownItem[];
     hoverable?: boolean;
     openOnHover?: boolean;
+    closableOnlyOutside?: boolean;
     className?: string;
     width?: string;
     minWidth?: string;

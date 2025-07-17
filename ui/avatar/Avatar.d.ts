@@ -3,9 +3,11 @@ import * as React from 'react';
 interface AvatarProps {
     funcss?: string;
     children?: ReactNode;
-    size?: string;
+    size?: number;
     bg?: string;
+    bordered?: boolean;
+    color?: string;
     content?: ReactNode;
 }
-export default function Avatar({ funcss, children, size, bg, content, }: AvatarProps): React.JSX.Element;
+export default function Avatar({ funcss, children, size, bordered, bg, content, color }: AvatarProps): React.JSX.Element;
 export {};

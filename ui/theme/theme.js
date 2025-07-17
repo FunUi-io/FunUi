@@ -48,7 +48,7 @@ var ThemeProvider = function (_a) {
             root.style.setProperty(key, value);
         });
         // Apply darkened RGBA versions (for dark themes only)
-        if (theme === 'dark' || theme === 'dark-blue') {
+        if (theme === 'dark' || theme === 'dark-blue' || theme === 'midnight-purple' || theme === 'cyber-metal') {
             themes_1.colorVarsToDarken.forEach(function (varName) {
                 var original = getComputedStyle(root).getPropertyValue(varName).trim();
                 if (original) {

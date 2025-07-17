@@ -58,12 +58,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RowFlex;
 var React = __importStar(require("react"));
 function RowFlex(_a) {
-    var funcss = _a.funcss, content = _a.content, justify = _a.justify, gap = _a.gap, alignItems = _a.alignItems, responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, id = _a.id, children = _a.children, rest = __rest(_a, ["funcss", "content", "justify", "gap", "alignItems", "responsiveSmall", "responsiveMedium", "id", "children"]);
-    return (React.createElement("div", __assign({ id: id ? id : '', className: "\n        row-flex ".concat(funcss ? funcss : '', "\n        ").concat(responsiveSmall ? 'responsiveSmall' : responsiveMedium ? 'responsiveMedium' : '', "\n      "), style: {
-            justifyContent: justify ? justify : '',
-            gap: gap ? gap + "rem" : '',
-            alignItems: alignItems ? alignItems : '',
-        } }, rest),
+    var className = _a.className, funcss = _a.funcss, content = _a.content, justify = _a.justify, gap = _a.gap, alignItems = _a.alignItems, align = _a.align, responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, _b = _a.wrap, wrap = _b === void 0 ? 'wrap' : _b, id = _a.id, children = _a.children, style = _a.style, rest = __rest(_a, ["className", "funcss", "content", "justify", "gap", "alignItems", "align", "responsiveSmall", "responsiveMedium", "wrap", "id", "children", "style"]);
+    return (React.createElement("div", __assign({ id: id ? id : '', className: "\n        row-flex ".concat(className ? className : '', "\n        ").concat(funcss ? funcss : '', "\n        ").concat(responsiveSmall ? 'responsiveSmall' : responsiveMedium ? 'responsiveMedium' : '', "\n      "), style: __assign({ justifyContent: justify ? justify : '', gap: gap ? gap + "rem" : '', alignItems: alignItems ? alignItems : '', flexWrap: wrap }, style) }, rest),
         children,
         " ",
         content));

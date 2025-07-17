@@ -14,18 +14,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FunQuery = exports.FunRequest = exports.FunAdd = exports.FunClass = exports.FunEvent = exports.FunStyle = exports.FunGet = exports.FunVisible = exports.FunHide = void 0;
 exports.FunHide = {
     hide: function (selector) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             element.style.display = "none";
         }
     },
     show: function (selector) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             element.style.display = "inline-block";
         }
     },
     toggle: function (selector) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             var style = element.style.display;
@@ -35,18 +38,21 @@ exports.FunHide = {
 };
 exports.FunVisible = {
     hide: function (selector) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             element.style.visibility = "hidden";
         }
     },
     show: function (selector) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             element.style.visibility = "visible";
         }
     },
     toggle: function (selector) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             var style = element.style.visibility;
@@ -56,6 +62,7 @@ exports.FunVisible = {
 };
 exports.FunGet = {
     text: function (selector, data) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             var text = element.textContent;
@@ -68,6 +75,7 @@ exports.FunGet = {
         }
     },
     html: function (selector, data) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             var text = element.innerHTML;
@@ -80,6 +88,7 @@ exports.FunGet = {
         }
     },
     val: function (selector, data) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             var text = element.value;
@@ -94,6 +103,7 @@ exports.FunGet = {
 };
 exports.FunStyle = {
     css: function (selector, css) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element) {
             Object.assign(element.style, css);
@@ -102,6 +112,7 @@ exports.FunStyle = {
 };
 exports.FunEvent = {
     event: function (selector, eventType, callBack) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element && eventType && callBack) {
             element.addEventListener(eventType, callBack);
@@ -110,12 +121,14 @@ exports.FunEvent = {
 };
 exports.FunClass = {
     add: function (selector, newClass) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element && newClass) {
             element.classList.add(newClass);
         }
     },
     remove: function (selector, newClass) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element && newClass) {
             element.classList.remove(newClass);
@@ -124,12 +137,14 @@ exports.FunClass = {
 };
 exports.FunAdd = {
     append: function (selector, child) {
+        if (selector === void 0) { selector = ''; }
         var element = document.querySelector(selector);
         if (element && child) {
             element.append(child);
         }
     },
     prepend: function (selector, child) {
+        if (selector === void 0) { selector = ""; }
         var element = document.querySelector(selector);
         if (element && child) {
             element.prepend(child);
@@ -203,33 +218,41 @@ exports.FunRequest = {
 };
 exports.FunQuery = {
     query: function (data, fields) {
+        if (fields === void 0) { fields = {}; }
         return new Promise(function (resolve, reject) {
-            if (Array.isArray(data)) {
-                resolve(data.filter(function (item) { return applyFilter(item, fields); }));
+            // Validate input
+            if (typeof fields !== 'object' || fields === null) {
+                return reject('Invalid filter criteria. Expected an object.');
             }
-            else if (typeof data === 'object') {
-                var filteredData = {};
-                for (var key in data) {
-                    if (applyFilter(data[key], fields)) {
-                        filteredData[key] = data[key];
-                    }
-                }
-                resolve(filteredData);
-            }
-            else {
-                reject('Invalid data type. Expected an array or object.');
-            }
-            function applyFilter(item, fields) {
-                if (typeof fields !== 'object') {
-                    reject('Invalid filter criteria. Expected an object.');
-                }
-                for (var key in fields) {
-                    if (item[key] !== fields[key]) {
+            var applyFilter = function (item, filters) {
+                for (var key in filters) {
+                    if (item[key] !== filters[key]) {
                         return false;
                     }
                 }
                 return true;
+            };
+            try {
+                if (Array.isArray(data)) {
+                    var result = data.filter(function (item) { return applyFilter(item, fields); });
+                    resolve(result);
+                }
+                else if (typeof data === 'object' && data !== null) {
+                    var filteredObject = {};
+                    for (var key in data) {
+                        if (applyFilter(data[key], fields)) {
+                            filteredObject[key] = data[key];
+                        }
+                    }
+                    resolve(filteredObject);
+                }
+                else {
+                    reject('Invalid data type. Expected an array or object.');
+                }
+            }
+            catch (error) {
+                reject(error);
             }
         });
-    },
+    }
 };
