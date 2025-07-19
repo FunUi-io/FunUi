@@ -3151,6 +3151,8 @@ color: var(--text-color);
 }
 
 
+
+
 .alert-container > .alert{
   box-shadow: var(--card);
   background: var(--cardBg);
@@ -3297,8 +3299,8 @@ color: var(--text-color);
   width:fit-content;
   z-index: 1;
 }
-.dropdown .drop-menu { top: 101%; }
-.dropup .drop-menu { bottom: 101%; }
+.dropdown .drop-menu { top: 105%; }
+.dropup .drop-menu { bottom: 105%; }
 .dropdown.left .drop-menu { left: 0; }
 .dropdown.right .drop-menu { right: 0; }
 .dropup.left .drop-menu { left: 0; }
@@ -3316,6 +3318,7 @@ color: var(--text-color);
   background-color: var(--raiseOpaque) !important;
   backdrop-filter: var(--raiseBackdrop) !important;
   display: none;
+  border: var(--border);
 }
 
 
@@ -4511,6 +4514,166 @@ filter: brightness(90%);
 }
 
 
+
+/* Container */
+.datepicker {
+  background-color: var(--raiseOpaque);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+/* Header */
+.datepicker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.datepicker-header button {
+  background-color: var(--lighter);
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.datepicker-header button:hover {
+  background-color: var(--lighter);
+}
+
+.datepicker-header span {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Week Days */
+.datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Dates Grid */
+.datepicker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+/* Date Cell */
+.datepicker-day {
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.datepicker-day:hover {
+  background-color: var(--primary100);
+  color: var(--primary);
+}
+
+.datepicker-day.in-range {
+  background-color: var(--lighter);
+  color: var(--text-color);
+}
+
+.datepicker-day.selected {
+  background-color: var(--primary);
+  color: var(--primary50);
+}
+
+.datepicker-day.empty {
+  cursor: default;
+  background: transparent;
+}
+
+.datepicker-selected{display: flex;justify-content: space-between;align-items: center;}
+
+
+.calendar {
+  width: 100%;
+  /* border: var(--border); */
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.calendar-title{
+  display: flex;
+  gap: 0.5rem;
+}
+.weekday-header{
+  background: var(--lighter);
+  border-radius: 0.5rem;
+  color: var(--primary);
+}
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.5rem 0;
+  margin-bottom: 0.2rem;
+  grid-gap: 0.2rem;
+  border-radius: 1rem;
+
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 0.2rem;
+}
+.calendar-cell {
+  min-height: 80px;
+  background-color: var(--lighter);
+  position: relative;
+  border-radius: 1rem;
+  padding: 5px;
+}
+
+.day-box {
+  position: relative;
+}
+.day-number {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+.activities {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.activity-tag {
+  font-size: 0.75rem;
+  background: var(--lighter);
+  font-weight: 500;
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1 !important;
+  cursor: pointer;
+}
+.add-icon {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
 
 /* Loader */
 .funLoader{

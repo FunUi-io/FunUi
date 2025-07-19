@@ -5,12 +5,12 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const animationVariants = {
-  'fade-up': { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } },
-  'fade-down': { hidden: { opacity: 0, y: -40 }, visible: { opacity: 1, y: 0 } },
+  'fade-up': { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } },
+  'fade-down': { hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } },
   'fade-in': { hidden: { opacity: 0 }, visible: { opacity: 1 } },
-  'zoom-in': { hidden: { scale: 0.9, opacity: 0 }, visible: { scale: 1, opacity: 1 } },
-  'slide-left': { hidden: { x: 40, opacity: 0 }, visible: { x: 0, opacity: 1 } },
-  'slide-right': { hidden: { x: -40, opacity: 0 }, visible: { x: 0, opacity: 1 } },
+  'zoom-in': { hidden: { scale: 0.95, opacity: 0 }, visible: { scale: 1, opacity: 1 } },
+  'slide-left': { hidden: { x: 20, opacity: 0 }, visible: { x: 0, opacity: 1 } },
+  'slide-right': { hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } },
 };
 
 interface ScrollInViewProps {
@@ -57,7 +57,7 @@ const ScrollInView: React.FC<ScrollInViewProps> = ({
       transition={{
         delay,
         duration,
-        ease: [0.25, 1, 0.5, 1], // Natural cubic bezier
+        ease: 'linear', // SMOOTH and STRAIGHT
       }}
       className={className}
     >

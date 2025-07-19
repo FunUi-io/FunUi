@@ -38,12 +38,12 @@ var react_1 = __importStar(require("react"));
 var framer_motion_1 = require("framer-motion");
 var react_intersection_observer_1 = require("react-intersection-observer");
 var animationVariants = {
-    'fade-up': { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } },
-    'fade-down': { hidden: { opacity: 0, y: -40 }, visible: { opacity: 1, y: 0 } },
+    'fade-up': { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } },
+    'fade-down': { hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } },
     'fade-in': { hidden: { opacity: 0 }, visible: { opacity: 1 } },
-    'zoom-in': { hidden: { scale: 0.9, opacity: 0 }, visible: { scale: 1, opacity: 1 } },
-    'slide-left': { hidden: { x: 40, opacity: 0 }, visible: { x: 0, opacity: 1 } },
-    'slide-right': { hidden: { x: -40, opacity: 0 }, visible: { x: 0, opacity: 1 } },
+    'zoom-in': { hidden: { scale: 0.95, opacity: 0 }, visible: { scale: 1, opacity: 1 } },
+    'slide-left': { hidden: { x: 20, opacity: 0 }, visible: { x: 0, opacity: 1 } },
+    'slide-right': { hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } },
 };
 var ScrollInView = function (_a) {
     var children = _a.children, _b = _a.animationType, animationType = _b === void 0 ? 'fade-up' : _b, _c = _a.delay, delay = _c === void 0 ? 0 : _c, _d = _a.duration, duration = _d === void 0 ? 0.6 : _d, _e = _a.threshold, threshold = _e === void 0 ? 0.2 : _e, _f = _a.once, once = _f === void 0 ? false : _f, _g = _a.className, className = _g === void 0 ? '' : _g;
@@ -64,7 +64,7 @@ var ScrollInView = function (_a) {
     return (react_1.default.createElement(framer_motion_1.motion.div, { ref: ref, variants: variants, initial: "hidden", animate: controls, transition: {
             delay: delay,
             duration: duration,
-            ease: [0.25, 1, 0.5, 1], // Natural cubic bezier
+            ease: 'linear', // SMOOTH and STRAIGHT
         }, className: className }, children));
 };
 exports.default = ScrollInView;

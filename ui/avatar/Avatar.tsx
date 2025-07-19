@@ -1,14 +1,17 @@
-'use client'; 
-import  { ReactNode } from 'react';
-import * as React from 'react'
+'use client';
+
+import { ReactNode, MouseEventHandler } from 'react';
+import * as React from 'react';
+
 interface AvatarProps {
   funcss?: string;
   children?: ReactNode;
   size?: number;
   bg?: string;
-  bordered?:boolean ,
-  color?: string,
+  bordered?: boolean;
+  color?: string;
   content?: ReactNode;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 export default function Avatar({
@@ -18,25 +21,30 @@ export default function Avatar({
   bordered = true,
   bg,
   content,
-  color 
+  color,
+  onClick,
+  ...rest
 }: AvatarProps) {
   return (
     <div
       className={`
         animated 
+        pointer
         fade-in 
         avatar 
         ${funcss || ''} 
         ${bg || 'lighter'} 
         ${bordered ? 'border' : ''}
-      ${`text-${color}`}
+        ${color ? `text-${color}` : ''}
       `}
       style={{
         width: `${size}rem`,
         height: `${size}rem`,
       }}
+      onClick={onClick}
+      {...rest}
     >
-      <>{content || children}</>
+      {content || children}
     </div>
   );
 }

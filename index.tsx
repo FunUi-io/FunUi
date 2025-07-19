@@ -46,6 +46,9 @@ export { default as RichText } from "./ui/richtext/RichText"
 export { default as Flex } from "./ui/flex/Flex"
 export { default as Accordion } from "./ui/accordion/Accordion"
 export { default as ScrollInView } from "./ui/ScrollInView/ScrollInView"
+export { default as View } from "./ui/view/View"
+export { default as DatePicker } from "./ui/datepicker/DatePicker"
+export { default as Calendar } from "./ui/calendar/Calendar"
 
 // js 
 export { default as Cookie } from "./js/Cookie"

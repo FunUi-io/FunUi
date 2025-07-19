@@ -25,7 +25,7 @@ interface InputProps {
   type?: string;
   label?: string;
   name?: string;
-  value?: string;
+  value?: any;
   defaultValue?: string;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
