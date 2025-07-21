@@ -40,7 +40,7 @@ var Dropdown = function (_a) {
     var containerRef = (0, react_1.useRef)(null);
     var _h = (0, react_1.useState)(false), open = _h[0], setOpen = _h[1];
     var containerClass = "".concat(direction, " ").concat(position, " ").concat(className).trim();
-    var menuClass = "drop-menu".concat(hoverable ? ' item-hoverable' : '');
+    var menuClass = "drop-menu ".concat(hoverable ? ' item-hoverable' : '');
     (0, react_1.useEffect)(function () {
         if (openOnHover)
             return;
@@ -55,21 +55,21 @@ var Dropdown = function (_a) {
     var showMenu = openOnHover || open;
     return (react_1.default.createElement("div", { ref: containerRef, className: containerClass, onMouseEnter: function () { return openOnHover && setOpen(true); }, onMouseLeave: function () { return openOnHover && setOpen(false); } },
         react_1.default.createElement("div", { className: "drop-button", onClick: function () { return !openOnHover && setOpen(!open); }, style: { cursor: !openOnHover ? 'pointer' : undefined } }, button),
-        react_1.default.createElement("div", { className: menuClass, style: {
-                display: showMenu ? 'block' : 'none',
-                width: width,
-                minWidth: minWidth,
-                maxWidth: maxWidth,
-                height: height,
-                minHeight: minHeight,
-                maxHeight: maxHeight,
-            } }, items.map(function (item, index) { return (react_1.default.createElement("div", { key: index, className: "drop-item hoverable", onClick: function () {
-                var _a;
-                if (!closableOnlyOutside) {
-                    (_a = item.onClick) === null || _a === void 0 ? void 0 : _a.call(item);
-                    if (!openOnHover)
-                        setOpen(false);
-                }
-            } }, item.label)); }))));
+        showMenu &&
+            react_1.default.createElement("div", { className: menuClass, style: {
+                    width: width,
+                    minWidth: minWidth,
+                    maxWidth: maxWidth,
+                    height: height,
+                    minHeight: minHeight,
+                    maxHeight: maxHeight,
+                } }, items.map(function (item, index) { return (react_1.default.createElement("div", { key: index, className: "drop-item hoverable", onClick: function () {
+                    var _a;
+                    if (!closableOnlyOutside) {
+                        (_a = item.onClick) === null || _a === void 0 ? void 0 : _a.call(item);
+                        if (!openOnHover)
+                            setOpen(false);
+                    }
+                } }, item.label)); }))));
 };
 exports.default = Dropdown;

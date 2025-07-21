@@ -1,10 +1,13 @@
 import React from 'react';
-interface Activity {
+export type Activity = {
     id: string;
     title: string;
     date: Date;
     color?: string;
-}
+    funcss?: string;
+    data?: any;
+    footer?: React.ReactNode;
+};
 interface CalendarProps {
     activities: Activity[];
     onAdd?: (date: Date) => void;

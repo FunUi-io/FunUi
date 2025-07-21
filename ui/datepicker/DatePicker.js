@@ -115,15 +115,16 @@ var DatePicker = function (_a) {
                     "Selected: ",
                     formatDate(selected))),
                 mode === 'interval' && Array.isArray(selected) && (react_1.default.createElement("div", { className: 'text-sm' }, selected[1]
-                    ? "From ".concat(formatDate(selected[0]), " to ").concat(formatDate(selected[1]))
-                    : "Start: ".concat(formatDate(selected[0]), " - Select end date")))),
+                    ? "".concat(formatDate(selected[0]), " to ").concat(formatDate(selected[1]))
+                    : " ".concat(formatDate(selected[0]), " - End date")))),
             react_1.default.createElement("div", { style: { lineHeight: "0" } },
                 react_1.default.createElement(pi_1.PiX, { className: "clear-icon", onClick: handleClear, style: { cursor: 'pointer' } })))),
         react_1.default.createElement("div", { className: "datepicker-weekdays" }, ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(function (d) { return (react_1.default.createElement("div", { key: d }, d)); })),
         react_1.default.createElement("div", { className: "datepicker-grid" }, days.map(function (date, idx) {
             var isSelectedClass = date && isSelected(date) ? 'selected' : '';
             var isInRangeClass = date && isSelected(date) && Array.isArray(selected) ? 'in-range' : '';
-            return (react_1.default.createElement("div", { key: idx, onClick: function () { return date && handleSelect(date); }, className: "datepicker-day ".concat(!date ? 'empty' : '', " ").concat(isSelectedClass, " ").concat(isInRangeClass) }, date ? (0, dayjs_1.default)(date).date() : ''));
+            return (react_1.default.createElement("div", { key: idx, onClick: function () { return date && handleSelect(date); } }, date &&
+                react_1.default.createElement(Avatar_1.default, { funcss: "borderless datepicker-day ".concat(!date ? 'empty' : '', " ").concat(isSelectedClass, " ").concat(isInRangeClass) }, date ? (0, dayjs_1.default)(date).date() : '')));
         }))));
 };
 exports.default = DatePicker;

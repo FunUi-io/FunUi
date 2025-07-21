@@ -37,7 +37,8 @@ interface ButtonProps {
   status?: 'success' | 'warning' | 'info' | 'danger' 
   children?:React.ReactNode, 
   style?:React.CSSProperties ,
-  onClick?: () => void
+  onClick?: (...args: unknown[]) => void;
+
 }
 
 export default function Button({
@@ -91,7 +92,7 @@ function hasNumber(text:any) {
 
   const classNames = [
     'button',
-    `text-${bg ? color ? color : !hasNumber(bg) && !outlined ? "white" : hasNumberAbove(bg) && !outlined ? "white" : removeNumbers(bg) : 'base'}`,
+    `text-${bg ? color ? color : !hasNumber(bg) && !outlined ? "white" : hasNumberAbove(bg) && !outlined ? "white" : removeNumbers(bg) : color}`,
     funcss || '',
     rounded ? 'roundBtn' : '',
     hoverless ? 'hoverless' : '',

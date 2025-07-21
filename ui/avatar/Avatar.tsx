@@ -26,7 +26,8 @@ export default function Avatar({
   ...rest
 }: AvatarProps) {
   return (
-    <div
+   <div>
+     <div
       className={`
         animated 
         pointer
@@ -46,5 +47,6 @@ export default function Avatar({
     >
       {content || children}
     </div>
+   </div>
   );
 }

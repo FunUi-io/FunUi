@@ -60,8 +60,9 @@ exports.default = Avatar;
 var React = __importStar(require("react"));
 function Avatar(_a) {
     var funcss = _a.funcss, children = _a.children, _b = _a.size, size = _b === void 0 ? 2 : _b, _c = _a.bordered, bordered = _c === void 0 ? true : _c, bg = _a.bg, content = _a.content, color = _a.color, onClick = _a.onClick, rest = __rest(_a, ["funcss", "children", "size", "bordered", "bg", "content", "color", "onClick"]);
-    return (React.createElement("div", __assign({ className: "\n        animated \n        pointer\n        fade-in \n        avatar \n        ".concat(funcss || '', " \n        ").concat(bg || 'lighter', " \n        ").concat(bordered ? 'border' : '', "\n        ").concat(color ? "text-".concat(color) : '', "\n      "), style: {
-            width: "".concat(size, "rem"),
-            height: "".concat(size, "rem"),
-        }, onClick: onClick }, rest), content || children));
+    return (React.createElement("div", null,
+        React.createElement("div", __assign({ className: "\n        animated \n        pointer\n        fade-in \n        avatar \n        ".concat(funcss || '', " \n        ").concat(bg || 'lighter', " \n        ").concat(bordered ? 'border' : '', "\n        ").concat(color ? "text-".concat(color) : '', "\n      "), style: {
+                width: "".concat(size, "rem"),
+                height: "".concat(size, "rem"),
+            }, onClick: onClick }, rest), content || children)));
 }

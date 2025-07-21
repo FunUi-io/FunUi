@@ -1844,6 +1844,7 @@ button:disabled {
 }
 
 
+
 /* Typography */
 .baseColor, .text-base{
   color: var(--text-color) !important;}
@@ -1854,6 +1855,9 @@ body {
   letter-spacing: normal;
   background-color: var(--page-bg) !important;
   color: var(--text-color) !important;
+}
+.bg{
+  background-color: var(--page-bg) !important;
 }
 
 /* Font utilities with matching line heights */
@@ -2596,7 +2600,7 @@ h6, .h6 {
 
 /*cards*/
 .card {
-background: var(--cardBg) !important;
+background: var(--cardBg);
 box-shadow: var(--card);
 transition: 0.3s;
 backdrop-filter: var(--raiseBackdrop) ;
@@ -2930,7 +2934,7 @@ color: var(--text-color);
 }
 
 .navline {
-  height: 3px;
+  height: 2px;
   background-color: var(--text-color);
   border-radius: 4rem !important;
   width: 100%;
@@ -2941,7 +2945,7 @@ color: var(--text-color);
 .navmiddle {
   width: 60%;
   align-self: flex-start;
-  background-color: var(--primary500);
+  background-color: var(--primary600);
 
 }
 
@@ -3310,16 +3314,17 @@ color: var(--text-color);
   position: absolute;
   box-shadow: var(--card);
   transition: 0.5s;
-  z-index: 999; /* Higher to sit above everything */
+  z-index: 10; /* Higher to sit above everything */
   width: 100%;
   min-width: max-content !important;
   overflow: visible; /* allow overflow! */
   border-radius: 0.5rem;
-  background-color: var(--raiseOpaque) !important;
-  backdrop-filter: var(--raiseBackdrop) !important;
-  display: none;
+  background-color: var(--raiseThemes);
+  backdrop-filter: blur(2px) !important; 
   border: var(--border);
 }
+
+
 
 
 
@@ -3352,6 +3357,7 @@ color: var(--text-color);
 .drop-button:hover .rotate-down {
   transform: rotate(180deg);
 }
+
 
 
 /*inputs*/
@@ -4567,13 +4573,9 @@ filter: brightness(90%);
   gap: 0.25rem;
 }
 
+
 /* Date Cell */
 .datepicker-day {
-  height: 2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -4589,7 +4591,7 @@ filter: brightness(90%);
 }
 
 .datepicker-day.selected {
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
   color: var(--primary50);
 }
 
@@ -4599,6 +4601,7 @@ filter: brightness(90%);
 }
 
 .datepicker-selected{display: flex;justify-content: space-between;align-items: center;}
+
 
 
 .calendar {
@@ -4643,29 +4646,36 @@ filter: brightness(90%);
   min-height: 80px;
   background-color: var(--lighter);
   position: relative;
-  border-radius: 1rem;
+  border-radius: 1rem !important;
   padding: 5px;
+  border: 0.1rem solid transparent;
+}
+.calendar-cell:hover{border: var(--border);}
+.calendar-cell.empty{
+  background-color: transparent !important;
+  border: none !important;
 }
 
 .day-box {
   position: relative;
 }
 .day-number {
-  font-weight: 500;
-  font-size: 1.2rem;
+  font-weight: 400;
+  opacity: 0.8;
 }
+
 .activities {
   margin-top: 4px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.2rem;
 }
 .activity-tag {
   font-size: 0.75rem;
-  background: var(--lighter);
+  background: var(--page-bg);
   font-weight: 500;
   padding: 2px 4px;
-  border-radius: 3px;
+  border-radius: 0.5rem;
   line-height: 1 !important;
   cursor: pointer;
 }
@@ -4674,6 +4684,34 @@ filter: brightness(90%);
   bottom: 4px;
   right: 4px;
 }
+
+.calendar-cell.today .day-number{
+  color: var(--primary) !important;
+}
+@media (max-width: 768px) {
+  .calendar-cell {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    min-height: 2.5rem !important;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  .calendar-cell.selected{ 
+    background-color: var(--primary) !important;
+    color: var(--primary50) !important;
+  }
+  .activity-tag{
+   margin-top: 0.5rem;
+   cursor: pointer;
+   padding: 0.5rem;
+  }
+
+}
+
 
 /* Loader */
 .funLoader{
@@ -4820,7 +4858,7 @@ background-color: rgba(0, 0, 0, 0.2);
 .w-70-p { width: 70% !important; }
 .w-80-p { width: 80% !important; }
 .w-90-p { width: 90% !important; }
-.w-100-p { width: 100% !important; }
+.w-100-p , .w-full { width: 100% !important; }
 
 
 .w-10 { width: 0.625rem !important; }
@@ -5237,7 +5275,7 @@ background-color: rgba(0, 0, 0, 0.2);
 .h-70-p { height: 70% !important; }
 .h-80-p { height: 80% !important; }
 .h-90-p { height: 90% !important; }
-.h-100-p { height: 100% !important; }
+.h-100-p , .h-full { height: 100% !important; }
 
 
 .height-10-p {

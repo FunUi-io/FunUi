@@ -1,24 +1,25 @@
 'use client';
 import React, { useState } from 'react';
-import { PiCaretDown, PiCaretUp } from 'react-icons/pi';
+import { PiCaretDown } from 'react-icons/pi';
 import RowFlex from '../specials/RowFlex';
 
-interface AccordionItemProps {
+export type AccordionItemProps = {
   title: string;
   content: React.ReactNode;
   isOpen?: boolean;
   onToggle?: () => void;
   index?: number;
   icon?: React.ReactNode;
+
   // Customization
   itemClass?: string;
   titleClass?: string;
   iconClass?: string;
   contentClass?: string;
   activeClass?: string;
-}
+};
 
-const AccordionItem: React.FC<AccordionItemProps> = ({
+export const AccordionItem: React.FC<AccordionItemProps> = ({
   icon,
   title,
   content,
@@ -32,14 +33,20 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 }) => {
   return (
     <div className={`accordion-item ${itemClass} ${isOpen ? activeClass : ''}`}>
-      <div className={`accordion-header ${titleClass}`} onClick={onToggle}>
-       <RowFlex alignItems='center' gap={0.6}>
-        {
-          icon && <div style={{lineHeight:0}}>{icon}</div>
-        }
-       <div className='col fit'>{title}</div>
-       </RowFlex>
-        <div style={{lineHeight:0}} className={`${iconClass} ${isOpen ? "accordion-rotated" : ""}`}>
+      <div
+        className={`accordion-header ${titleClass}`}
+        onClick={onToggle}
+        role="button"
+        aria-expanded={isOpen}
+      >
+        <RowFlex alignItems="center" gap={0.6}>
+          {icon && <div style={{ lineHeight: 0 }}>{icon}</div>}
+          <div className="col fit">{title}</div>
+        </RowFlex>
+        <div
+          style={{ lineHeight: 0 }}
+          className={`${iconClass} ${isOpen ? 'accordion-rotated' : ''}`}
+        >
           <PiCaretDown />
         </div>
       </div>
@@ -50,14 +57,14 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   );
 };
 
-interface AccordionProps {
+export type AccordionProps = {
   items: {
     title: string;
     content: React.ReactNode;
     icon?: React.ReactNode;
   }[];
-  allowMultiple?: boolean; // ✅ NEW
-  defaultOpenIndexes?: number[]; // optional
+  allowMultiple?: boolean;
+  defaultOpenIndexes?: number[];
 
   // Custom styles
   itemClass?: string;
@@ -65,11 +72,11 @@ interface AccordionProps {
   iconClass?: string;
   contentClass?: string;
   activeClass?: string;
-}
+};
 
 const Accordion: React.FC<AccordionProps> = ({
   items,
-  allowMultiple = false, // ❗ default is only one open
+  allowMultiple = false,
   defaultOpenIndexes = [],
   itemClass,
   titleClass,

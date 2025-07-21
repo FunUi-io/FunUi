@@ -103,8 +103,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
             {mode === 'interval' && Array.isArray(selected) && (
               <div className='text-sm'>
                 {selected[1]
-                  ? `From ${formatDate(selected[0])} to ${formatDate(selected[1])}`
-                  : `Start: ${formatDate(selected[0])} - Select end date`}
+                  ? `${formatDate(selected[0])} to ${formatDate(selected[1])}`
+                  : ` ${formatDate(selected[0])} - End date`}
               </div>
             )}
           </span>
@@ -129,9 +129,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
             <div
               key={idx}
               onClick={() => date && handleSelect(date)}
-              className={`datepicker-day ${!date ? 'empty' : ''} ${isSelectedClass} ${isInRangeClass}`}
+          
             >
+             {
+              date && 
+              <Avatar funcss={`borderless datepicker-day ${!date ? 'empty' : ''} ${isSelectedClass} ${isInRangeClass}`}>
               {date ? dayjs(date).date() : ''}
+              </Avatar>
+             }
             </div>
           );
         })}

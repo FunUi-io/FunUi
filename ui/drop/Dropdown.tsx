@@ -47,7 +47,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [open, setOpen] = useState(false);
 
   const containerClass = `${direction} ${position} ${className}`.trim();
-  const menuClass = `drop-menu${hoverable ? ' item-hoverable' : ''}`;
+  const menuClass = `drop-menu ${hoverable ? ' item-hoverable' : ''}`;
 
   useEffect(() => {
     if (openOnHover) return;
@@ -78,35 +78,37 @@ const Dropdown: React.FC<DropdownProps> = ({
       >
         {button}
       </div>
-
+      {
+        showMenu && 
+        
       <div
-        className={menuClass}
-        style={{
-          display: showMenu ? 'block' : 'none',
-          width,
-          minWidth,
-          maxWidth,
-          height,
-          minHeight,
-          maxHeight,
-        }}
-      >
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="drop-item hoverable"
-            onClick={() => {
-          if(!closableOnlyOutside){
-         item.onClick?.();
-              if (!openOnHover) setOpen(false);
-          }
-     
-            }}
-          >
-            {item.label}
-          </div>
-        ))}
-      </div>
+      className={menuClass}
+      style={{
+        width,
+        minWidth,
+        maxWidth,
+        height,
+        minHeight,
+        maxHeight,
+      }}
+    >
+      {items.map((item, index) => (
+        <div
+          key={index}
+          className="drop-item hoverable"
+          onClick={() => {
+        if(!closableOnlyOutside){
+       item.onClick?.();
+            if (!openOnHover) setOpen(false);
+        }
+   
+          }}
+        >
+          {item.label}
+        </div>
+      ))}
+    </div>
+      }
     </div>
   );
 };
