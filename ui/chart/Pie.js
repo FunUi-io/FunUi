@@ -47,10 +47,10 @@ var CustomTooltip = function (_a) {
     return null;
 };
 var ChartPie = function (_a) {
-    var data = _a.data, _b = _a.donut, donut = _b === void 0 ? false : _b, _c = _a.showLegend, showLegend = _c === void 0 ? true : _c, _d = _a.funcss, funcss = _d === void 0 ? '' : _d, width = _a.width, height = _a.height, _e = _a.outerRadius, outerRadius = _e === void 0 ? 100 : _e, innerRadius = _a.innerRadius, tooltipFormatter = _a.tooltipFormatter, _f = _a.legendProps, legendProps = _f === void 0 ? {} : _f;
+    var data = _a.data, _b = _a.donut, donut = _b === void 0 ? false : _b, _c = _a.showLegend, showLegend = _c === void 0 ? true : _c, _d = _a.funcss, funcss = _d === void 0 ? '' : _d, width = _a.width, height = _a.height, _e = _a.outerRadius, outerRadius = _e === void 0 ? 100 : _e, innerRadius = _a.innerRadius, tooltipFormatter = _a.tooltipFormatter, legendCss = _a.legendCss, _f = _a.legendProps, legendProps = _f === void 0 ? {} : _f;
     var chart = (react_1.default.createElement(recharts_1.PieChart, { width: typeof width === 'number' ? width : undefined, height: typeof height === 'number' ? height : undefined },
         react_1.default.createElement(recharts_1.Tooltip, { content: react_1.default.createElement(CustomTooltip, null), formatter: tooltipFormatter }),
-        showLegend && react_1.default.createElement(recharts_1.Legend, __assign({}, legendProps)),
+        showLegend && react_1.default.createElement(recharts_1.Legend, __assign({}, legendProps, { className: legendCss || "" })),
         react_1.default.createElement(recharts_1.Pie, { data: data, dataKey: "value", nameKey: "label", cx: "50%", cy: "50%", outerRadius: outerRadius, innerRadius: donut ? innerRadius !== null && innerRadius !== void 0 ? innerRadius : outerRadius * 0.6 : 0, label: false, labelLine: false }, data.map(function (entry, index) { return (react_1.default.createElement(recharts_1.Cell, { key: "cell-".concat(index), fill: resolveColor(entry.color), stroke: "#ffffff", strokeWidth: 1 })); }))));
     if (!width && !height) {
         return (react_1.default.createElement(recharts_1.ResponsiveContainer, { width: "100%", height: 300, className: funcss }, chart));

@@ -29,19 +29,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Flex;
 var react_1 = __importDefault(require("react"));
 function Flex(_a) {
-    var _b = _a.as, Component = _b === void 0 ? 'div' : _b, className = _a.className, funcss = _a.funcss, id = _a.id, children = _a.children, _c = _a.style, style = _c === void 0 ? {} : _c, 
+    var className = _a.className, funcss = _a.funcss, id = _a.id, children = _a.children, _b = _a.style, style = _b === void 0 ? {} : _b, 
     // Flex container
-    _d = _a.direction, 
+    _c = _a.direction, 
     // Flex container
-    direction = _d === void 0 ? 'row' : _d, _e = _a.wrap, wrap = _e === void 0 ? 'wrap' : _e, justify = _a.justify, alignItems = _a.alignItems, alignContent = _a.alignContent, 
+    direction = _c === void 0 ? 'row' : _c, _d = _a.wrap, wrap = _d === void 0 ? 'wrap' : _d, justify = _a.justify, alignItems = _a.alignItems, alignContent = _a.alignContent, 
     // Gap
-    gap = _a.gap, gapX = _a.gapX, gapY = _a.gapY, _f = _a.gapUnit, gapUnit = _f === void 0 ? 'rem' : _f, 
-    // Flex item
-    grow = _a.grow, shrink = _a.shrink, basis = _a.basis, flex = _a.flex, 
+    gap = _a.gap, gapX = _a.gapX, gapY = _a.gapY, _e = _a.gapUnit, gapUnit = _e === void 0 ? 'rem' : _e, 
     // Responsive
     responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, responsiveLarge = _a.responsiveLarge, 
     // Size
-    fullWidth = _a.fullWidth, fullHeight = _a.fullHeight, rest = __rest(_a, ["as", "className", "funcss", "id", "children", "style", "direction", "wrap", "justify", "alignItems", "alignContent", "gap", "gapX", "gapY", "gapUnit", "grow", "shrink", "basis", "flex", "responsiveSmall", "responsiveMedium", "responsiveLarge", "fullWidth", "fullHeight"]);
-    var responsiveClasses = "\n    ".concat(responsiveSmall ? 'responsiveSmall' : '', "\n    ").concat(responsiveMedium ? 'responsiveMedium' : '', "\n    ").concat(responsiveLarge ? 'responsiveLarge' : '', "\n  ").trim();
-    return (react_1.default.createElement(Component, __assign({ id: id, className: "\n        ".concat(className || '', "\n        ").concat(funcss || '', "\n        ").concat(responsiveClasses, "\n      ").trim(), style: __assign({ display: 'flex', flexDirection: direction, flexWrap: wrap, justifyContent: justify, alignItems: alignItems, alignContent: alignContent, gap: gap ? "".concat(gap).concat(gapUnit) : undefined, columnGap: gapX ? "".concat(gapX).concat(gapUnit) : undefined, rowGap: gapY ? "".concat(gapY).concat(gapUnit) : undefined, flexGrow: grow, flexShrink: shrink, flexBasis: basis, flex: flex, width: fullWidth ? '100%' : undefined, height: fullHeight ? '100%' : undefined }, style) }, rest), children));
+    width = _a.width, height = _a.height, rest = __rest(_a, ["className", "funcss", "id", "children", "style", "direction", "wrap", "justify", "alignItems", "alignContent", "gap", "gapX", "gapY", "gapUnit", "responsiveSmall", "responsiveMedium", "responsiveLarge", "width", "height"]);
+    var combinedClassName = [
+        className,
+        funcss,
+        responsiveSmall && 'responsiveSmall',
+        responsiveMedium && 'responsiveMedium',
+        responsiveLarge && 'responsiveLarge',
+    ]
+        .filter(Boolean)
+        .join(' ');
+    return (react_1.default.createElement("div", __assign({ id: id, className: combinedClassName, style: __assign({ display: 'flex', flexDirection: direction, flexWrap: wrap, justifyContent: justify, alignItems: alignItems, alignContent: alignContent, gap: gap ? "".concat(gap).concat(gapUnit) : 0, columnGap: gapX ? "".concat(gapX).concat(gapUnit) : gap ? "".concat(gap).concat(gapUnit) : 0, rowGap: gapY ? "".concat(gapY).concat(gapUnit) : gap ? "".concat(gap).concat(gapUnit) : 0, width: width ? width : 'fit-content', height: height ? height : 'fit-content' }, style) }, rest), children));
 }

@@ -10,6 +10,7 @@ interface PieChartProps {
     showLegend?: boolean;
     funcss?: string;
     width?: number | string;
+    legendCss: string;
     height?: number | string;
     outerRadius?: number;
     innerRadius?: number;

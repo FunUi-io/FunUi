@@ -25,6 +25,9 @@ interface AreaChartProps {
     showYAxis?: boolean;
     funcss?: string;
     curveType?: 'linear' | 'monotone' | 'step' | 'basis';
+    rotateLabel: string;
+    xLabelSize: string | number;
+    yLabelSize: string | number;
     height?: number | string;
     width?: number | string;
     margin?: {
@@ -33,6 +36,8 @@ interface AreaChartProps {
         left?: number;
         bottom?: number;
     };
+    xInterval: number;
+    yInterval: number;
     dy?: number;
     xAxisProps?: any;
     yAxisProps?: any;

@@ -10,8 +10,9 @@ interface ProgressBarProps {
     rounded?: boolean;
     type?: 'linear' | 'circle';
     size?: number;
+    fontSize?: number;
     strokeWidth?: number;
 }
 export default function ProgressBar({ funcss, progress, height, children, content, raised, rounded, bg, // default CSS class name
-type, size, strokeWidth, }: ProgressBarProps): React.JSX.Element;
+type, size, fontSize, strokeWidth, }: ProgressBarProps): React.JSX.Element;
 export {};

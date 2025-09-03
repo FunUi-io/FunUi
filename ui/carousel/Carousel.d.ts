@@ -4,6 +4,7 @@ interface CarouselProps {
     gap?: number;
     funcss?: string;
     children: ReactNode;
+    showDashes?: boolean;
 }
 declare const Carousel: React.FC<CarouselProps>;
 export default Carousel;

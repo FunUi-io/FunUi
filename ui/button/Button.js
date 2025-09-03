@@ -75,7 +75,7 @@ function Button(_a) {
     }
     var classNames = [
         'button',
-        "text-".concat(bg ? color ? color : !hasNumber(bg) && !outlined ? "white" : hasNumberAbove(bg) && !outlined ? "white" : removeNumbers(bg) : color),
+        "text-".concat(bg ? color ? color : !hasNumber(bg) && !outlined ? "" : hasNumberAbove(bg) && !outlined ? "white" : removeNumbers(bg) : color),
         funcss || '',
         rounded ? 'roundBtn' : '',
         hoverless ? 'hoverless' : '',

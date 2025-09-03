@@ -17,7 +17,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var recharts_1 = require("recharts");
-// Resolve CSS variables
 var getCssVar = function (varName) {
     var _a;
     if (typeof window === 'undefined')
@@ -31,13 +30,12 @@ var resolveColor = function (color) {
         return color;
     return getCssVar("--".concat(color)) || color;
 };
-// Custom Tooltip
 var CustomTooltip = function (_a) {
     var active = _a.active, payload = _a.payload, label = _a.label;
     if (active && payload && payload.length) {
         return (react_1.default.createElement("div", { className: "dark raised round-edge p-2 text-sm" },
             react_1.default.createElement("div", { className: "text-bold" }, label),
-            payload.map(function (entry, index) { return (react_1.default.createElement("div", { key: index, style: { lineHeight: 1 } },
+            payload.map(function (entry, index) { return (react_1.default.createElement("div", { key: index },
                 entry.name,
                 ": ",
                 react_1.default.createElement("span", { className: "font-semibold" }, entry.value))); })));
@@ -45,14 +43,31 @@ var CustomTooltip = function (_a) {
     return null;
 };
 var Bars = function (_a) {
-    var data = _a.data, series = _a.series, _b = _a.showGrid, showGrid = _b === void 0 ? true : _b, _c = _a.showLegend, showLegend = _c === void 0 ? true : _c, _d = _a.showXAxis, showXAxis = _d === void 0 ? true : _d, _e = _a.showYAxis, showYAxis = _e === void 0 ? false : _e, _f = _a.barRadius, barRadius = _f === void 0 ? 6 : _f, funcss = _a.funcss, _g = _a.barSize, barSize = _g === void 0 ? 30 : _g, _h = _a.width, width = _h === void 0 ? '100%' : _h, _j = _a.height, height = _j === void 0 ? "100%" : _j, _k = _a.margin, margin = _k === void 0 ? { top: 10, right: 30, left: 0, bottom: 20 } : _k, _l = _a.xAxisProps, xAxisProps = _l === void 0 ? {} : _l, _m = _a.yAxisProps, yAxisProps = _m === void 0 ? {} : _m, tooltipFormatter = _a.tooltipFormatter, _o = _a.legendProps, legendProps = _o === void 0 ? {} : _o;
-    return (react_1.default.createElement(recharts_1.ResponsiveContainer, { className: funcss || "", width: width, height: height },
-        react_1.default.createElement(recharts_1.BarChart, { data: data, margin: margin },
-            showGrid && react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: "3 3" }),
-            showXAxis && react_1.default.createElement(recharts_1.XAxis, __assign({ dataKey: "label" }, xAxisProps)),
-            showYAxis && react_1.default.createElement(recharts_1.YAxis, __assign({}, yAxisProps)),
-            react_1.default.createElement(recharts_1.Tooltip, { content: react_1.default.createElement(CustomTooltip, null), formatter: tooltipFormatter }),
+    var data = _a.data, series = _a.series, _b = _a.width, width = _b === void 0 ? '100%' : _b, height = _a.height, _c = _a.layout, layout = _c === void 0 ? 'horizontal' : _c, _d = _a.margin, margin = _d === void 0 ? {} : _d, _e = _a.barRadius, barRadius = _e === void 0 ? 6 : _e, _f = _a.barSize, barSize = _f === void 0 ? 30 : _f, _g = _a.barGap, barGap = _g === void 0 ? 4 : _g, _h = _a.barCategoryGap, barCategoryGap = _h === void 0 ? '10%' : _h, _j = _a.showXAxis, showXAxis = _j === void 0 ? true : _j, _k = _a.showYAxis, showYAxis = _k === void 0 ? true : _k, _l = _a.xAxisProps, xAxisProps = _l === void 0 ? {} : _l, _m = _a.yAxisProps, yAxisProps = _m === void 0 ? {} : _m, _o = _a.xInterval, xInterval = _o === void 0 ? 0 : _o, _p = _a.yInterval, yInterval = _p === void 0 ? 0 : _p, _q = _a.showGrid, showGrid = _q === void 0 ? true : _q, _r = _a.gridProps, gridProps = _r === void 0 ? {} : _r, _s = _a.showTooltip, showTooltip = _s === void 0 ? true : _s, tooltipFormatter = _a.tooltipFormatter, _t = _a.showLegend, showLegend = _t === void 0 ? true : _t, _u = _a.legendProps, legendProps = _u === void 0 ? {} : _u, _v = _a.isAnimationActive, isAnimationActive = _v === void 0 ? true : _v, funcss = _a.funcss;
+    var isVertical = layout === 'vertical';
+    // Smart default margins
+    var defaultMargin = {
+        top: 20,
+        right: 30,
+        bottom: isVertical ? 30 : 50,
+        left: isVertical ? 100 : 40,
+    };
+    var mergedMargin = __assign(__assign({}, defaultMargin), margin);
+    // Smart height for vertical layout based on data length
+    var autoHeight = isVertical ? Math.max(300, data.length * 45) : 300;
+    var resolvedHeight = height || autoHeight;
+    return (react_1.default.createElement(recharts_1.ResponsiveContainer, { className: funcss || '', width: width, height: resolvedHeight },
+        react_1.default.createElement(recharts_1.BarChart, { data: data, layout: layout, margin: mergedMargin, barGap: barGap, barCategoryGap: barCategoryGap },
+            showGrid && react_1.default.createElement(recharts_1.CartesianGrid, __assign({ strokeDasharray: "3 3" }, gridProps)),
+            isVertical ? (react_1.default.createElement(react_1.default.Fragment, null,
+                showYAxis && (react_1.default.createElement(recharts_1.YAxis, __assign({ type: "category", dataKey: "label", interval: 0, tick: __assign({ angle: 0, fontSize: 12, textAnchor: 'start', dx: -5, dy: 4, fill: '#555' }, (yAxisProps.tick || {})), tickMargin: 10 }, yAxisProps))),
+                showXAxis && (react_1.default.createElement(recharts_1.XAxis, __assign({ type: "number", interval: xInterval, tick: { fontSize: 12 } }, xAxisProps))))) : (react_1.default.createElement(react_1.default.Fragment, null,
+                showXAxis && (react_1.default.createElement(recharts_1.XAxis, __assign({ type: "category", dataKey: "label", interval: 0, tick: __assign({ fontSize: 12, angle: 0, fill: '#555' }, xAxisProps.tick), tickMargin: 8 }, xAxisProps))),
+                showYAxis && (react_1.default.createElement(recharts_1.YAxis, __assign({ type: "number", interval: yInterval, tick: { fontSize: 12 } }, yAxisProps))))),
+            showTooltip && (react_1.default.createElement(recharts_1.Tooltip, { content: react_1.default.createElement(CustomTooltip, null), formatter: tooltipFormatter })),
             showLegend && react_1.default.createElement(recharts_1.Legend, __assign({}, legendProps)),
-            series.map(function (s) { return (react_1.default.createElement(recharts_1.Bar, { key: s.dataKey, dataKey: s.dataKey, name: s.label || s.dataKey, fill: resolveColor(s.color), radius: [barRadius, barRadius, 0, 0], barSize: barSize })); }))));
+            series.map(function (s) { return (react_1.default.createElement(recharts_1.Bar, { key: s.dataKey, dataKey: s.dataKey, name: s.label || s.dataKey, fill: resolveColor(s.color), radius: layout === 'horizontal'
+                    ? [barRadius, barRadius, 0, 0]
+                    : [0, barRadius, barRadius, 0], barSize: barSize, isAnimationActive: isAnimationActive })); }))));
 };
 exports.default = Bars;

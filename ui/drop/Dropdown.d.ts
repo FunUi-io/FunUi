@@ -4,6 +4,8 @@ type Direction = 'dropdown' | 'dropup';
 interface DropdownItem {
     label: React.ReactNode;
     onClick?: () => void;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
 }
 interface DropdownProps {
     direction?: Direction;

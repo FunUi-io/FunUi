@@ -1,5 +1,7 @@
+
 {
   "compilerOptions": {
+     "typeRoots": ["./types", "./node_modules/@types"],
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "commonjs",
@@ -13,8 +15,37 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "composite": true
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "./"
   },
-  "include": ["ui/**/*", "types/**/*", "next-env.d.ts" , "index.tsx" , "utils/**/*" , "hooks/**/*"  ,  "js/**/*" ],
+  "include": [
+    "src"
+  ],
   "exclude": ["node_modules"]
 }
+
+
+
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "lib": ["dom", "dom.iterable", "esnext"],
+//     "module": "commonjs",
+//     "outDir": "./",
+//     "jsx": "react",
+//     "declaration": true,
+//     "esModuleInterop": true,
+//     "moduleResolution": "node",
+//     "resolveJsonModule": true,
+//     "allowJs": true,
+//     "skipLibCheck": true,
+//     "strict": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "incremental": true,
+//     "composite": true
+//   },
+//   "include": ["src/ui", "src/js" , "src/hooks" , "src/utils" ,  "src/next-env.d.ts" , "src/index.tsx" , "src/types" ],
+//   // "include": ["ui/**/*", "types/**/*", "next-env.d.ts" , "index.tsx" , "utils/**/*" , "hooks/**/*"  ,  "js/**/*" ],
+//   "exclude": ["node_modules"]
+// } 

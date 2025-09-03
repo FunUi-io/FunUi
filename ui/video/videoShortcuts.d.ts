@@ -1,1 +1,1 @@
-export declare const handleKeyDown: (e: KeyboardEvent, isPlaying: boolean, playVideo: () => void, pauseVideo: () => void) => void;
+export declare const handleKeyDown: (e: KeyboardEvent, isPlaying: boolean, playVideo: () => void, pauseVideo: () => void, spacebarPlay?: boolean) => void;

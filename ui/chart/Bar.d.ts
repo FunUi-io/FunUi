@@ -11,25 +11,33 @@ type ChartSeries = {
 interface BarsProps {
     data: DataItem[];
     series: ChartSeries[];
-    showGrid?: boolean;
-    showLegend?: boolean;
-    showXAxis?: boolean;
-    showYAxis?: boolean;
-    funcss?: string;
-    barRadius?: number;
-    barSize?: number;
     width?: number | string;
     height?: number | string;
+    layout?: 'horizontal' | 'vertical';
     margin?: {
         top?: number;
         right?: number;
-        left?: number;
         bottom?: number;
+        left?: number;
     };
+    barRadius?: number;
+    barSize?: number;
+    barGap?: number | string;
+    barCategoryGap?: number | string;
+    showXAxis?: boolean;
+    showYAxis?: boolean;
     xAxisProps?: any;
     yAxisProps?: any;
+    xInterval?: number;
+    yInterval?: number;
+    showGrid?: boolean;
+    gridProps?: any;
+    showTooltip?: boolean;
     tooltipFormatter?: (value: any, name: string, props: any) => React.ReactNode;
+    showLegend?: boolean;
     legendProps?: any;
+    isAnimationActive?: boolean;
+    funcss?: string;
 }
 declare const Bars: React.FC<BarsProps>;
 export default Bars;

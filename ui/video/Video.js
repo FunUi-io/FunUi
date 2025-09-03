@@ -71,18 +71,18 @@ var Tip_1 = __importDefault(require("../tooltip/Tip"));
 var videoFunctions_1 = require("./videoFunctions");
 var videoShortcuts_1 = require("./videoShortcuts");
 function Video(_a) {
-    var src = _a.src, poster = _a.poster, onDuration = _a.onDuration, isPause = _a.isPause, className = _a.className, autoPlay = _a.autoPlay, rest = __rest(_a, ["src", "poster", "onDuration", "isPause", "className", "autoPlay"]);
+    var src = _a.src, poster = _a.poster, onDuration = _a.onDuration, isPause = _a.isPause, className = _a.className, autoPlay = _a.autoPlay, _b = _a.spacebarPlay, spacebarPlay = _b === void 0 ? true : _b, rest = __rest(_a, ["src", "poster", "onDuration", "isPause", "className", "autoPlay", "spacebarPlay"]);
     var videoRef = (0, react_1.useRef)(null);
     var containerRef = (0, react_1.useRef)(null);
     var animationFrameRef = (0, react_1.useRef)(null);
-    var _b = (0, react_1.useState)(false), isPlaying = _b[0], setIsPlaying = _b[1];
-    var _c = (0, react_1.useState)(0), currentTime = _c[0], setCurrentTime = _c[1];
-    var _d = (0, react_1.useState)(0), duration = _d[0], setDuration = _d[1];
-    var _e = (0, react_1.useState)(1), volume = _e[0], setVolume = _e[1];
-    var _f = (0, react_1.useState)(false), isFullScreen = _f[0], setIsFullScreen = _f[1];
-    var _g = (0, react_1.useState)(false), showVolume = _g[0], setShowVolume = _g[1];
-    var _h = (0, react_1.useState)(true), isMouseMoving = _h[0], setIsMouseMoving = _h[1];
-    var _j = (0, react_1.useState)(false), hasStarted = _j[0], setHasStarted = _j[1];
+    var _c = (0, react_1.useState)(false), isPlaying = _c[0], setIsPlaying = _c[1];
+    var _d = (0, react_1.useState)(0), currentTime = _d[0], setCurrentTime = _d[1];
+    var _e = (0, react_1.useState)(0), duration = _e[0], setDuration = _e[1];
+    var _f = (0, react_1.useState)(1), volume = _f[0], setVolume = _f[1];
+    var _g = (0, react_1.useState)(false), isFullScreen = _g[0], setIsFullScreen = _g[1];
+    var _h = (0, react_1.useState)(false), showVolume = _h[0], setShowVolume = _h[1];
+    var _j = (0, react_1.useState)(true), isMouseMoving = _j[0], setIsMouseMoving = _j[1];
+    var _k = (0, react_1.useState)(false), hasStarted = _k[0], setHasStarted = _k[1];
     var handleVideoEnd = function () {
         setIsPlaying(false);
         setCurrentTime(duration); // optional
@@ -117,7 +117,7 @@ function Video(_a) {
         }
     };
     (0, react_1.useEffect)(function () {
-        var handleKey = function (e) { return (0, videoShortcuts_1.handleKeyDown)(e, isPlaying, playVideo, pauseVideo); };
+        var handleKey = function (e) { return (0, videoShortcuts_1.handleKeyDown)(e, isPlaying, playVideo, pauseVideo, spacebarPlay); };
         document.addEventListener('keydown', handleKey);
         return function () { return document.removeEventListener('keydown', handleKey); };
     }, [isPlaying]);
@@ -274,8 +274,8 @@ function Video(_a) {
                         react_1.default.createElement("input", { type: "range", min: 0, max: duration, value: currentTime, onChange: handleProgressBarChange, className: "width-100-p videoSlider styled-slider m-0", "aria-label": "Progress bar", style: { '--progress': "".concat((currentTime / duration) * 100) } })),
                     react_1.default.createElement("div", { className: "video_time" },
                         react_1.default.createElement(Text_1.default, { text: "".concat((0, videoFunctions_1.formatTime)(duration - currentTime)), funcss: 'm-0', size: "sm" })))),
-            react_1.default.createElement("div", { className: "center-play-icon animated fade-in", onClick: handlePlayPauseToggle },
-                react_1.default.createElement("div", { className: 'play-button' }, isPlaying ? react_1.default.createElement(pi_1.PiPause, { size: 30 }) : react_1.default.createElement(pi_1.PiPlay, { size: 30 }))),
+            react_1.default.createElement("div", { className: "_center-play-icon animated fade-in", onClick: handlePlayPauseToggle },
+                react_1.default.createElement("div", { className: '_play-button' }, isPlaying ? react_1.default.createElement(pi_1.PiPause, { size: 20 }) : react_1.default.createElement(pi_1.PiPlay, { size: 20 }))),
             react_1.default.createElement(RowFlex_1.default, { funcss: 'animated slide-up', gap: 1, justify: "center" },
                 react_1.default.createElement(RowFlex_1.default, { gap: 0.5 },
                     react_1.default.createElement(ToolTip_1.default, null,

@@ -59,12 +59,79 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FileInput = exports.TextareaInput = exports.SelectInput = exports.TextInput = void 0;
 var react_1 = __importStar(require("react"));
 var pi_1 = require("react-icons/pi");
 var Button_1 = __importDefault(require("../button/Button"));
-var Input = function (_a) {
-    var select = _a.select, bordered = _a.bordered, borderless = _a.borderless, multiline = _a.multiline, file = _a.file, extra = _a.extra, noBorder = _a.noBorder, icon = _a.icon, btn = _a.btn, button = _a.button, id = _a.id, status = _a.status, funcss = _a.funcss, flat = _a.flat, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, rounded = _a.rounded, fullWidth = _a.fullWidth, type = _a.type, label = _a.label, name = _a.name, value = _a.value, defaultValue = _a.defaultValue, onChange = _a.onChange, options = _a.options, rows = _a.rows, bg = _a.bg, rest = __rest(_a, ["select", "bordered", "borderless", "multiline", "file", "extra", "noBorder", "icon", "btn", "button", "id", "status", "funcss", "flat", "leftRounded", "rightRounded", "rounded", "fullWidth", "type", "label", "name", "value", "defaultValue", "onChange", "options", "rows", "bg"]);
-    var _b = (0, react_1.useState)(''), fileName = _b[0], setFileName = _b[1];
+// Utility function to generate CSS classes
+var generateInputClasses = function (_a) {
+    var status = _a.status, rounded = _a.rounded, bg = _a.bg, funcss = _a.funcss, flat = _a.flat, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, bordered = _a.bordered, borderless = _a.borderless, _b = _a.additionalClasses, additionalClasses = _b === void 0 ? '' : _b;
+    var statusClass = status ? "".concat(status, "-input") : '';
+    var roundedClass = rounded ? 'rounded' : '';
+    var bgClass = bg || '';
+    var flatClass = flat ? 'flat' : '';
+    var cornerClass = leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '';
+    var borderClass = bordered ? 'borderedInput' : borderless ? 'borderless' : '';
+    return "\n    ".concat(statusClass, "\n    ").concat(roundedClass, "\n    ").concat(bgClass, "\n    ").concat(funcss || '', "\n    ").concat(flatClass, "\n    ").concat(cornerClass, "\n    ").concat(borderClass, "\n    ").concat(additionalClasses, "\n    input\n  ").trim().replace(/\s+/g, ' ');
+};
+// Text Input Component
+var TextInput = function (_a) {
+    var id = _a.id, name = _a.name, value = _a.value, defaultValue = _a.defaultValue, onChange = _a.onChange, status = _a.status, funcss = _a.funcss, bg = _a.bg, fullWidth = _a.fullWidth, flat = _a.flat, bordered = _a.bordered, borderless = _a.borderless, rounded = _a.rounded, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, _b = _a.type, type = _b === void 0 ? 'text' : _b, label = _a.label, rest = __rest(_a, ["id", "name", "value", "defaultValue", "onChange", "status", "funcss", "bg", "fullWidth", "flat", "bordered", "borderless", "rounded", "leftRounded", "rightRounded", "type", "label"]);
+    var className = generateInputClasses({
+        status: status,
+        rounded: rounded,
+        bg: bg,
+        funcss: funcss,
+        flat: flat,
+        leftRounded: leftRounded,
+        rightRounded: rightRounded,
+        bordered: bordered,
+        borderless: borderless
+    });
+    var style = fullWidth ? { width: '100%' } : undefined;
+    return (react_1.default.createElement("input", __assign({ id: id, name: name, className: className, onChange: onChange, defaultValue: defaultValue, type: type, placeholder: label, style: style, value: value }, rest)));
+};
+exports.TextInput = TextInput;
+// Select Component
+var SelectInput = function (_a) {
+    var id = _a.id, name = _a.name, value = _a.value, defaultValue = _a.defaultValue, onChange = _a.onChange, status = _a.status, funcss = _a.funcss, bg = _a.bg, fullWidth = _a.fullWidth, flat = _a.flat, bordered = _a.bordered, borderless = _a.borderless, rounded = _a.rounded, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, _b = _a.options, options = _b === void 0 ? [] : _b, rest = __rest(_a, ["id", "name", "value", "defaultValue", "onChange", "status", "funcss", "bg", "fullWidth", "flat", "bordered", "borderless", "rounded", "leftRounded", "rightRounded", "options"]);
+    var className = generateInputClasses({
+        status: status,
+        rounded: rounded,
+        bg: bg,
+        funcss: funcss,
+        flat: flat,
+        leftRounded: leftRounded,
+        rightRounded: rightRounded,
+        bordered: bordered,
+        borderless: borderless
+    });
+    var style = fullWidth ? { width: '100%' } : undefined;
+    return (react_1.default.createElement("select", __assign({ id: id, name: name, className: className, onChange: onChange, defaultValue: defaultValue, value: value, style: style }, rest), options.map(function (option) { return (react_1.default.createElement("option", { key: option.value, value: option.value }, option.text)); })));
+};
+exports.SelectInput = SelectInput;
+// Textarea Component
+var TextareaInput = function (_a) {
+    var id = _a.id, name = _a.name, value = _a.value, defaultValue = _a.defaultValue, onChange = _a.onChange, status = _a.status, funcss = _a.funcss, bg = _a.bg, fullWidth = _a.fullWidth, flat = _a.flat, bordered = _a.bordered, borderless = _a.borderless, rounded = _a.rounded, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, label = _a.label, _b = _a.rows, rows = _b === void 0 ? 2 : _b, rest = __rest(_a, ["id", "name", "value", "defaultValue", "onChange", "status", "funcss", "bg", "fullWidth", "flat", "bordered", "borderless", "rounded", "leftRounded", "rightRounded", "label", "rows"]);
+    var className = generateInputClasses({
+        status: status,
+        rounded: rounded,
+        bg: bg,
+        funcss: funcss,
+        flat: flat,
+        leftRounded: leftRounded,
+        rightRounded: rightRounded,
+        bordered: bordered,
+        borderless: borderless
+    });
+    var style = fullWidth ? { width: '100%' } : undefined;
+    return (react_1.default.createElement("textarea", __assign({ id: id, name: name, className: className, onChange: onChange, defaultValue: defaultValue, placeholder: label, style: style, value: value, rows: rows }, rest)));
+};
+exports.TextareaInput = TextareaInput;
+// File Input Component
+var FileInput = function (_a) {
+    var _b = _a.id, id = _b === void 0 ? 'fileInput' : _b, name = _a.name, onChange = _a.onChange, status = _a.status, funcss = _a.funcss, bg = _a.bg, fullWidth = _a.fullWidth, flat = _a.flat, rounded = _a.rounded, leftRounded = _a.leftRounded, rightRounded = _a.rightRounded, _c = _a.label, label = _c === void 0 ? 'Upload File' : _c, icon = _a.icon, extra = _a.extra, button = _a.button, btn = _a.btn, value = _a.value, rest = __rest(_a, ["id", "name", "onChange", "status", "funcss", "bg", "fullWidth", "flat", "rounded", "leftRounded", "rightRounded", "label", "icon", "extra", "button", "btn", "value"]);
+    var _d = (0, react_1.useState)(''), fileName = _d[0], setFileName = _d[1];
     var handleChange = function (e) {
         var _a;
         var file = (_a = e.target.files) === null || _a === void 0 ? void 0 : _a[0];
@@ -74,83 +141,51 @@ var Input = function (_a) {
         if (onChange)
             onChange(e);
     };
+    if (btn) {
+        var className = generateInputClasses({
+            status: status,
+            rounded: rounded,
+            bg: bg,
+            funcss: funcss,
+            flat: flat,
+            leftRounded: leftRounded,
+            rightRounded: rightRounded,
+            bordered: true,
+            borderless: false,
+            additionalClasses: 'filedInput'
+        });
+        var style = fullWidth ? { width: '100%' } : undefined;
+        return (react_1.default.createElement("div", { className: "fileInput" },
+            button || (react_1.default.createElement(Button_1.default, { funcss: funcss, startIcon: icon || react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: "primary", fullWidth: true, raised: true }, fileName || label)),
+            react_1.default.createElement("input", __assign({ id: id, name: name, className: className, onChange: handleChange, type: "file", style: style, value: value }, rest))));
+    }
+    return (react_1.default.createElement("div", { className: "_upload_container" },
+        react_1.default.createElement("label", { htmlFor: id, className: "_upload_label" },
+            react_1.default.createElement("div", { className: "_upload_icon" }, icon || react_1.default.createElement(pi_1.PiCloudArrowUp, null)),
+            react_1.default.createElement("div", { className: "_upload_text", style: {
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: 'inline-block',
+                    width: '100%',
+                } }, fileName || label),
+            extra && react_1.default.createElement("div", { className: "text-small opacity-3" }, extra)),
+        react_1.default.createElement("input", __assign({ onChange: handleChange, type: "file", id: id, className: "_upload_input" }, rest))));
+};
+exports.FileInput = FileInput;
+var Input = function (_a) {
+    var select = _a.select, multiline = _a.multiline, file = _a.file, noBorder = _a.noBorder, props = __rest(_a, ["select", "multiline", "file", "noBorder"]);
+    // Handle legacy noBorder prop
+    var inputProps = __assign(__assign({}, props), { borderless: noBorder || props.borderless });
     if (select) {
-        if (bordered) {
-            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n          "), onChange: onChange, defaultValue: defaultValue, name: name, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                }, value: value }), options
-                ? options.map(function (doc) { return (react_1.default.createElement("option", { value: doc.value, key: doc.value }, doc.text)); })
-                : ''));
-        }
-        else if (borderless) {
-            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderless\n          "), onChange: onChange, defaultValue: defaultValue, name: name, value: value, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                } }), options
-                ? options.map(function (doc) { return (react_1.default.createElement("option", { value: doc.value, key: doc.value }, doc.text)); })
-                : ''));
-        }
-        else {
-            return (react_1.default.createElement("select", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n          "), onChange: onChange, defaultValue: defaultValue, name: name, value: value, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                } }), options
-                ? options.map(function (doc) { return (react_1.default.createElement("option", { value: doc.value, key: doc.value }, doc.text)); })
-                : ''));
-        }
+        return react_1.default.createElement(exports.SelectInput, __assign({}, inputProps));
     }
-    else if (multiline) {
-        if (bordered) {
-            return (react_1.default.createElement("textarea", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n          "), onChange: onChange, defaultValue: defaultValue, placeholder: label, name: name, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                }, value: value, rows: rows ? rows : 2 })));
-        }
-        else if (borderless) {
-            return (react_1.default.createElement("textarea", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderless\n          "), onChange: onChange, defaultValue: defaultValue, placeholder: label, name: name, value: value, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                }, rows: rows ? rows : 2 })));
-        }
-        else {
-            return (react_1.default.createElement("textarea", __assign({}, rest, { id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n          "), onChange: onChange, defaultValue: defaultValue, placeholder: label, name: name, value: value, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                }, rows: rows ? rows : 2 })));
-        }
+    if (multiline) {
+        return react_1.default.createElement(exports.TextareaInput, __assign({}, inputProps));
     }
-    else if (file) {
-        if (btn)
-            return (react_1.default.createElement("div", { className: "fileInput" },
-                button ? (button) : (react_1.default.createElement(Button_1.default, { funcss: " ".concat(funcss, " "), startIcon: icon ? icon : react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: "primary", fullWidth: true, raised: true }, fileName || label || 'Upload File')),
-                react_1.default.createElement("input", __assign({ name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n            filedInput\n          "), onChange: handleChange, type: 'file', style: {
-                        width: "".concat(fullWidth ? '100%' : '')
-                    }, value: value }, rest))));
-        return (react_1.default.createElement("div", { className: "_upload_container" },
-            react_1.default.createElement("label", { htmlFor: id || "fileInput", className: "_upload_label" },
-                react_1.default.createElement("div", { className: "_upload_icon" }, icon || react_1.default.createElement(react_1.default.Fragment, null,
-                    react_1.default.createElement(pi_1.PiCloudArrowUp, null))),
-                react_1.default.createElement("div", { className: "_upload_text", style: {
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        display: 'inline-block',
-                        width: '100%',
-                    } }, fileName || label || "Upload File"),
-                react_1.default.createElement("div", { className: "text-small opacity-3" }, extra || '')),
-            react_1.default.createElement("input", __assign({ onChange: handleChange, type: "file", id: id || "fileInput", className: "_upload_input" }, rest))));
+    if (file) {
+        return react_1.default.createElement(exports.FileInput, __assign({}, inputProps));
     }
-    else {
-        if (bordered) {
-            return (react_1.default.createElement("input", __assign({ name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderedInput\n          "), onChange: onChange, defaultValue: defaultValue, type: type, placeholder: label, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                }, value: value }, rest)));
-        }
-        else if (borderless) {
-            return (react_1.default.createElement("input", __assign({ name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n            borderless\n          "), onChange: onChange, defaultValue: defaultValue, type: type, placeholder: label, value: value, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                } }, rest)));
-        }
-        else {
-            return (react_1.default.createElement("input", __assign({ name: name, id: id, className: "\n            ".concat(status === 'success' ? 'success-input' : '', "\n            ").concat(status === 'warning' ? 'warning-input' : '', "\n            ").concat(status === 'danger' ? 'danger-input' : '', "\n            input \n            ").concat(rounded ? "rounded" : '', "\n            ").concat(bg ? bg : '', "\n            ").concat(funcss, " ").concat(flat ? 'flat' : '', "\n            ").concat(leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '', "\n          "), onChange: onChange, defaultValue: defaultValue, type: type, placeholder: label, value: value, style: {
-                    width: "".concat(fullWidth ? '100%' : '')
-                } }, rest)));
-        }
-    }
+    return react_1.default.createElement(exports.TextInput, __assign({}, inputProps));
 };
 exports.default = Input;

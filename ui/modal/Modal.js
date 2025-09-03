@@ -86,16 +86,16 @@ function Modal(_a) {
         return null;
     return (React.createElement("div", { className: "modal ".concat(backdrop ? 'backdrop' : '', " ").concat(position || ''), id: modalId, onClick: handleClickOutside },
         React.createElement("div", __assign({ className: "modal-content ".concat(funcss || '', " ").concat(flat ? 'flat' : ''), style: {
-                animation: "".concat(duration || 0.2, "s ").concat(animation || 'ScaleUp'),
-                maxWidth: maxWidth || undefined,
-                maxHeight: maxHeight || undefined,
+                animation: "".concat(duration || 0.3, "s ").concat(animation || 'SlideDown'),
+                maxWidth: maxWidth || "700px",
+                maxHeight: maxHeight || "fit-content",
                 width: width || '100%',
-                height: height || undefined,
+                height: height || "fit-content",
             } }, rest),
             title && (React.createElement(Header_1.default, { funcss: titlecss || '', title: title, close: !hideClose ?
                     React.createElement("div", { onClick: function () { return setOpen(false); }, className: "".concat(closecss || '', " pointer hover-text-error") }, close || React.createElement(pi_1.PiX, { size: 25 }))
                     : "" })),
             React.createElement(Content_1.default, { funcss: bodycss || '' }, body || children),
             footer ? (React.createElement(Action_1.default, { funcss: footercss || '' }, footer)) : (React.createElement(Action_1.default, { funcss: 'text-right' },
-                React.createElement(Button_1.default, { bg: 'success800', endIcon: okIcon || React.createElement(pi_1.PiPaperPlaneRight, null), raised: true, onClick: handleOkClick }, onOkText || 'OK'))))));
+                React.createElement(Button_1.default, { bg: 'success', endIcon: okIcon || React.createElement(pi_1.PiPaperPlaneRight, null), raised: true, onClick: handleOkClick }, onOkText || 'OK'))))));
 }

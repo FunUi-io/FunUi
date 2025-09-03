@@ -17,11 +17,17 @@ type TableProps = {
         "titles": string[];
         "funcss": string[];
     };
+    filterOnchange?: (filter?: any, value?: any, totals?: number) => {};
     head?: React.ReactNode;
     right?: React.ReactNode;
     body?: React.ReactNode;
     height?: number;
     pageSize?: number;
+    emptyResponse?: {
+        icon?: React.ReactNode;
+        title?: React.ReactNode;
+        subtitle: React.ReactNode;
+    };
     customColumns?: {
         title: string;
         render: (data: any) => React.ReactNode;
@@ -31,5 +37,5 @@ type TableProps = {
 };
 export default function Table({ children, funcss, bordered, noStripped, hoverable, title, showTotal, light, dark, head, body, data, isLoading, right, hideExport, height, pageSize, // Default page size,
 customColumns, filterableFields, // New prop
-...rest }: TableProps): React.JSX.Element;
+emptyResponse, filterOnchange, ...rest }: TableProps): React.JSX.Element;
 export {};

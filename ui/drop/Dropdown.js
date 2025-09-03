@@ -33,8 +33,12 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
+var Flex_1 = __importDefault(require("../flex/Flex"));
 var Dropdown = function (_a) {
     var _b = _a.direction, direction = _b === void 0 ? 'dropdown' : _b, _c = _a.position, position = _c === void 0 ? 'left' : _c, button = _a.button, items = _a.items, _d = _a.hoverable, hoverable = _d === void 0 ? true : _d, _e = _a.openOnHover, openOnHover = _e === void 0 ? true : _e, _f = _a.closableOnlyOutside, closableOnlyOutside = _f === void 0 ? false : _f, _g = _a.className, className = _g === void 0 ? '' : _g, width = _a.width, minWidth = _a.minWidth, maxWidth = _a.maxWidth, height = _a.height, minHeight = _a.minHeight, maxHeight = _a.maxHeight;
     var containerRef = (0, react_1.useRef)(null);
@@ -70,6 +74,10 @@ var Dropdown = function (_a) {
                         if (!openOnHover)
                             setOpen(false);
                     }
-                } }, item.label)); }))));
+                } },
+                react_1.default.createElement(Flex_1.default, { wrap: 'nowrap', gap: 0.2, alignItems: 'center', justify: 'flex-start' },
+                    react_1.default.createElement("span", { style: { lineHeight: 0 } }, (item === null || item === void 0 ? void 0 : item.startIcon) || ''),
+                    item.label,
+                    react_1.default.createElement("span", { style: { lineHeight: 0 } }, (item === null || item === void 0 ? void 0 : item.endIcon) || '')))); }))));
 };
 exports.default = Dropdown;

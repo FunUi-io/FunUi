@@ -46,7 +46,7 @@ var animationVariants = {
     'slide-right': { hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } },
 };
 var ScrollInView = function (_a) {
-    var children = _a.children, _b = _a.animationType, animationType = _b === void 0 ? 'fade-up' : _b, _c = _a.delay, delay = _c === void 0 ? 0 : _c, _d = _a.duration, duration = _d === void 0 ? 0.6 : _d, _e = _a.threshold, threshold = _e === void 0 ? 0.2 : _e, _f = _a.once, once = _f === void 0 ? false : _f, _g = _a.className, className = _g === void 0 ? '' : _g;
+    var children = _a.children, _b = _a.animationType, animationType = _b === void 0 ? 'fade-up' : _b, _c = _a.delay, delay = _c === void 0 ? 0 : _c, _d = _a.duration, duration = _d === void 0 ? 0.6 : _d, _e = _a.threshold, threshold = _e === void 0 ? 0.2 : _e, _f = _a.once, once = _f === void 0 ? true : _f, _g = _a.className, className = _g === void 0 ? '' : _g;
     var controls = (0, framer_motion_1.useAnimation)();
     var _h = (0, react_intersection_observer_1.useInView)({
         threshold: threshold,

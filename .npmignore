@@ -1,3 +1,27 @@
 .babelrc
 webpack.config.js
-/examples
+/src
+
+/tsconfig.json
+
+# Test files
+/tests
+/**/*.test.*
+/**/__tests__/
+
+# Configuration and meta
+/tsconfig.json
+/tsconfig.build.json
+/tslint.json
+/jest.config.js
+/vitest.config.ts
+
+# Ignore environment & local files
+.env
+*.log
+
+# Ignore Git stuff
+.gitignore
+.git
+.vscode
+.idea

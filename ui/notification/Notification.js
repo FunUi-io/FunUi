@@ -38,23 +38,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Notification;
-var React = __importStar(require("react"));
+var react_1 = __importStar(require("react"));
 var Header_1 = __importDefault(require("./Header"));
 var Content_1 = __importDefault(require("./Content"));
 var Footer_1 = __importDefault(require("./Footer"));
 function Notification(_a) {
-    var position = _a.position, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, children = _a.children, state = _a.state, width = _a.width, header = _a.header, content = _a.content, footer = _a.footer;
-    if (state) {
-        return (React.createElement("div", { className: "notification ".concat(position, " ").concat(funcss), style: { animation: " ".concat(duration ? duration : 0.2, "s ").concat(animation), width: width ? width : '450px' } },
-            header &&
-                React.createElement(Header_1.default, null, header),
-            content &&
-                React.createElement(Content_1.default, null, content),
-            footer &&
-                React.createElement(Footer_1.default, null, footer),
-            children));
-    }
-    else {
+    var position = _a.position, _b = _a.funcss, funcss = _b === void 0 ? '' : _b, _c = _a.animation, animation = _c === void 0 ? 'fadeIn' : _c, _d = _a.duration, duration = _d === void 0 ? 0.2 : _d, _e = _a.autoHide, autoHide = _e === void 0 ? false : _e, _f = _a.autoHideDuration, autoHideDuration = _f === void 0 ? 0.2 : _f, children = _a.children, state = _a.state, setOpen = _a.setOpen, // 👈 receives the setter from parent
+    _g = _a.width, // 👈 receives the setter from parent
+    width = _g === void 0 ? '450px' : _g, header = _a.header, content = _a.content, footer = _a.footer;
+    (0, react_1.useEffect)(function () {
+        if (state && autoHide) {
+            var timer_1 = setTimeout(function () {
+                setOpen(false); // 👈 close from inside
+            }, autoHideDuration * 1000);
+            return function () { return clearTimeout(timer_1); };
+        }
+    }, [state, autoHide, autoHideDuration, setOpen]);
+    if (!state)
         return null;
-    }
+    return (react_1.default.createElement("div", { className: "notification ".concat(position, " ").concat(funcss), style: { animation: "".concat(duration, "s ").concat(animation), width: width } },
+        header && react_1.default.createElement(Header_1.default, null, header),
+        content && react_1.default.createElement(Content_1.default, null, content),
+        footer && react_1.default.createElement(Footer_1.default, null, footer),
+        children));
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 interface FlexProps {
-    as?: keyof JSX.IntrinsicElements;
     className?: string;
     funcss?: string;
     id?: string;
@@ -15,15 +14,11 @@ interface FlexProps {
     gapX?: number;
     gapY?: number;
     gapUnit?: 'rem' | 'px' | 'em';
-    grow?: number;
-    shrink?: number;
-    basis?: string;
-    flex?: string;
     responsiveSmall?: boolean;
     responsiveMedium?: boolean;
     responsiveLarge?: boolean;
-    fullWidth?: boolean;
-    fullHeight?: boolean;
+    width?: string;
+    height?: string;
 }
-export default function Flex({ as: Component, className, funcss, id, children, style, direction, wrap, justify, alignItems, alignContent, gap, gapX, gapY, gapUnit, grow, shrink, basis, flex, responsiveSmall, responsiveMedium, responsiveLarge, fullWidth, fullHeight, ...rest }: FlexProps): React.JSX.Element;
+export default function Flex({ className, funcss, id, children, style, direction, wrap, justify, alignItems, alignContent, gap, gapX, gapY, gapUnit, responsiveSmall, responsiveMedium, responsiveLarge, width, height, ...rest }: FlexProps): React.JSX.Element;
 export {};
