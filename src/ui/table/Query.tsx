@@ -3,9 +3,20 @@ type SearchStrategy = (value: string, query: string, terms: string[]) => boolean
 
 interface DataConfig {
   fields: string[];
+  priorityFields?: string[]; // Optional priority fields array
 }
 
 type GetNestedValueFunction = (obj: any, path: string) => any;
+
+// Helper function to check if a nested field exists
+const fieldExists = (obj: any, path: string, getNestedValue: GetNestedValueFunction): boolean => {
+  try {
+    const value = getNestedValue(obj, path);
+    return value !== null && value !== undefined;
+  } catch (error) {
+    return false;
+  }
+};
 
 // Simple Levenshtein distance function for fuzzy matching
 const levenshteinDistance = (str1: string, str2: string): number => {
@@ -111,12 +122,13 @@ const searchStrategies: SearchStrategy[] = [
   },
 ];
 
-// MAIN FUNCTION: Direct replacement for your original code
+// MAIN FUNCTION: Enhanced with priority fields support
 export const getAdvancedFilteredData = <T = any>(
   filteredData: T[],
   searchQuery: string,
   data: DataConfig,
-  getNestedValue: GetNestedValueFunction
+  getNestedValue: GetNestedValueFunction,
+  priorityFields?: string[] // New optional parameter for priority fields
 ): T[] => {
   return filteredData.filter((mdoc, index) => {
     if (searchQuery) {
@@ -128,8 +140,42 @@ export const getAdvancedFilteredData = <T = any>(
       // Split query into multiple terms for multi-term search
       const queryTerms = query.split(/\s+/).filter((term) => term.length > 0);
       
-      // Search through all fields defined in data.fields
-      return data.fields.some(field => {
+      // Determine which fields to search and in what order
+      let fieldsToSearch: string[] = [];
+      
+      if (priorityFields && priorityFields.length > 0) {
+        // First add priority fields that exist in the data config and in the object
+        const validPriorityFields = priorityFields.filter(field => 
+          data.fields.includes(field) && fieldExists(mdoc, field, getNestedValue)
+        );
+        fieldsToSearch.push(...validPriorityFields);
+        
+        // Then add remaining fields from data.fields that aren't in priority and exist in the object
+        const remainingFields = data.fields.filter(field => 
+          !priorityFields.includes(field) && fieldExists(mdoc, field, getNestedValue)
+        );
+        fieldsToSearch.push(...remainingFields);
+      } else {
+        // Use data.priorityFields if available, otherwise use data.fields
+        const priorityFromConfig = data.priorityFields || [];
+        if (priorityFromConfig.length > 0) {
+          const validPriorityFields = priorityFromConfig.filter(field => 
+            data.fields.includes(field) && fieldExists(mdoc, field, getNestedValue)
+          );
+          fieldsToSearch.push(...validPriorityFields);
+          
+          const remainingFields = data.fields.filter(field => 
+            !priorityFromConfig.includes(field) && fieldExists(mdoc, field, getNestedValue)
+          );
+          fieldsToSearch.push(...remainingFields);
+        } else {
+          // Just use fields that exist in the object
+          fieldsToSearch = data.fields.filter(field => fieldExists(mdoc, field, getNestedValue));
+        }
+      }
+      
+      // Search through fields in priority order - return true on first match
+      for (const field of fieldsToSearch) {
         try {
           // Get the value using the same getNestedValue function used for display
           const value = getNestedValue(mdoc, field);
@@ -138,19 +184,23 @@ export const getAdvancedFilteredData = <T = any>(
           if (value !== null && value !== undefined) {
             const stringValue = String(value).toLowerCase();
             
-            // Use advanced search strategies instead of just includes
-            return searchStrategies.some((strategy) =>
+            // Use advanced search strategies
+            const foundMatch = searchStrategies.some((strategy) =>
               strategy(stringValue, query, queryTerms)
             );
+            
+            if (foundMatch) {
+              return true; // Return immediately on first match (priority order)
+            }
           }
-          
-          return false;
         } catch (error) {
           // Handle any errors in accessing nested values
           console.warn(`Error accessing field ${field}:`, error);
-          return false;
+          continue; // Continue to next field
         }
-      });
+      }
+      
+      return false; // No matches found in any field
     } else {
       return true; // If no search query, return all items
     }
@@ -164,8 +214,9 @@ export const getFilteredAndPaginatedData = <T = any>(
   data: DataConfig,
   getNestedValue: GetNestedValueFunction,
   startIndex: number = 0,
-  endIndex?: number
+  endIndex?: number,
+  priorityFields?: string[] // Added priority fields parameter
 ): T[] => {
-  const filtered = getAdvancedFilteredData(filteredData, searchQuery, data, getNestedValue);
+  const filtered = getAdvancedFilteredData(filteredData, searchQuery, data, getNestedValue, priorityFields);
   return endIndex !== undefined ? filtered.slice(startIndex, endIndex) : filtered.slice(startIndex);
 };

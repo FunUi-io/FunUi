@@ -24,6 +24,7 @@ interface CustomSelectProps {
   status?: 'success' | 'warning' | 'danger' | '';
   className?: string;
   funcss?: string;
+  label?: string;
   searchAutoFocus?: boolean;
   style?: React.CSSProperties;
 }
@@ -33,7 +34,7 @@ const Select: React.FC<CustomSelectProps> = ({
   name,
   value,
   defaultValue,
-  placeholder = 'Select an option',
+  label = 'Select an option',
   options = [],
   onChange,
   onBlur,
@@ -215,7 +216,7 @@ const Select: React.FC<CustomSelectProps> = ({
         aria-haspopup="listbox"
       >
         <span className={`select-value ${!selectedOption ? 'select-placeholder' : ''}`}>
-          {selectedOption ? selectedOption.text : placeholder}
+          {selectedOption ? selectedOption.text : label}
         </span>
         <div className={`select-arrow ${isOpen ? 'open' : ''}`}>
           <svg

@@ -7,6 +7,7 @@ export { default as Container } from "./ui/container/Container"
 export { default as Grid } from "./ui/grid/Grid"
 export { default as Col } from "./ui/grid/Col"
 export { default as Input } from "./ui/input/Input"
+export { default as SearchableInput } from "./ui/input/SearchableInput"
 export { default as Loader } from "./ui/loader/Loader"
 export { default as Modal } from "./ui/modal/Modal"
 export { default as Table } from "./ui/table/Table"
@@ -54,6 +55,7 @@ export { default as Slider } from "./ui/slider/Slider"
 export { default as FlexItem } from "./ui/flex/FlexItem"
 export { default as ScrollToTop } from "./ui/scrolltotop/ScrollToTop"
 export { default as Select } from "./ui/select/Select"
+
 
 // js 
 export { default as Cookie } from "./js/Cookie"

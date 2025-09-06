@@ -36,6 +36,7 @@ type TableProps = {
   dark?: boolean;
   data?: { "fields": string[], "data": any[], "titles": string[] , "funcss": string[]};
   filterOnchange?: (filter?:any , value?:any , totals?:number) => {} ,
+  clearSearch?: boolean,
   head?: React.ReactNode;
   right?: React.ReactNode;
   body?: React.ReactNode;
@@ -44,6 +45,7 @@ type TableProps = {
   emptyResponse?:{icon?:React.ReactNode , title?:React.ReactNode , subtitle:React.ReactNode}
   customColumns?: { title: string; render: (data: any) => React.ReactNode; onClick?: (data: any) => void }[];
   filterableFields?: string[]; // New prop for filterable fields
+  prioritizeSearchFields?: string[];
 };
 
 export default function Table({
@@ -68,6 +70,8 @@ export default function Table({
   filterableFields, // New prop
   emptyResponse,
   filterOnchange,
+  clearSearch,
+  prioritizeSearchFields = [],
   ...rest
 }: TableProps) {
    // Check if data is null or undefined before accessing its properties
@@ -86,6 +90,15 @@ const [search, setSearch] = useState<string | string[]>('');
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [showSearch, setshowSearch] = useState(true)
   const [searchQuery, setsearchQuery] = useState("")
+
+
+
+  React.useEffect(() => {
+   if(clearSearch){
+    setsearchQuery("")
+   }
+  }, [clearSearch])
+  
 
 
 
@@ -182,6 +195,8 @@ const uniqueValues = selectedField
   
 
 
+
+  
  
 
   return (
@@ -377,59 +392,35 @@ fullWidth
         {
           body && <TableBody>{body}</TableBody>
         }
-{  data &&
-  // filteredData.filter((mdoc, index) => {
-  //   if(searchQuery){
-  //     // Convert search query to lowercase for case-insensitive search
-  //     const query = searchQuery.toLowerCase().trim();
-      
-  //     if (!query) return true; // If empty query after trim, show all
-      
-  //     // Search through all fields defined in data.fields
-  //     return data.fields.some(field => {
-  //       try {
-  //         // Get the value using the same getNestedValue function used for display
-  //         const value = getNestedValue(mdoc, field);
-          
-  //         // Convert value to string and search
-  //         if (value !== null && value !== undefined) {
-  //           const stringValue = String(value).toLowerCase();
-  //           return stringValue.includes(query);
-  //         }
-          
-  //         return false;
-  //       } catch (error) {
-  //         // Handle any errors in accessing nested values
-  //         console.warn(`Error accessing field ${field}:`, error);
-  //         return false;
-  //       }
-  //     });
-  //   } else {
-  //     return true; // If no search query, return all items
-  //   }
-  // })
-  getAdvancedFilteredData(filteredData, searchQuery, data, getNestedValue).slice(startIndex, endIndex).map((mdoc, index) => (
-    <tr className='animated slide-up'  key={index} >
-      {
-        data.fields.map((fdoc , findex) => (
-          <TableData key={fdoc} funcss={data.funcss ? data?.funcss?.[findex] || '' : ''}>
-            {getNestedValue(mdoc, fdoc)}
-          </TableData>
-        ))
-      }
-      {customColumns ?
-        customColumns.map((column, columnIndex) => (
-          <td key={columnIndex}>
-            {column.render && column.render(mdoc)}
-            {column.onClick && (
-              <Button onClick={() => column.onClick && column.onClick(mdoc)}>
-                {column.title}
-              </Button>
-            )}
-          </td>
-        )) : ""}
-    </tr>
-  ))
+{data &&
+  (() => {
+    const results = getAdvancedFilteredData(filteredData, searchQuery, data, getNestedValue, prioritizeSearchFields);
+    const shouldSlice = !searchQuery || results.length > 10;
+    
+    return (shouldSlice ? results.slice(startIndex, endIndex) : results)
+      .map((mdoc, index) => (
+        <tr className='animated slide-up' key={index}>
+          {
+            data.fields.map((fdoc, findex) => (
+              <TableData key={fdoc} funcss={data.funcss ? data?.funcss?.[findex] || '' : ''}>
+                {getNestedValue(mdoc, fdoc)}
+              </TableData>
+            ))
+          }
+          {customColumns ?
+            customColumns.map((column, columnIndex) => (
+              <td key={columnIndex}>
+                {column.render && column.render(mdoc)}
+                {column.onClick && (
+                  <Button onClick={() => column.onClick && column.onClick(mdoc)}>
+                    {column.title}
+                  </Button>
+                )}
+              </td>
+            )) : ""}
+        </tr>
+      ))
+  })()
 }
         {
           isLoading &&

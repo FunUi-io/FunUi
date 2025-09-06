@@ -95,20 +95,25 @@ function Table(_a) {
     var _b, _c;
     var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, _d = _a.title, title = _d === void 0 ? "" : _d, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, _e = _a.isLoading, isLoading = _e === void 0 ? false : _e, right = _a.right, hideExport = _a.hideExport, height = _a.height, _f = _a.pageSize, pageSize = _f === void 0 ? data ? 10 : 0 : _f, // Default page size,
     customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
-    emptyResponse = _a.emptyResponse, filterOnchange = _a.filterOnchange, rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "hideExport", "height", "pageSize", "customColumns", "filterableFields", "emptyResponse", "filterOnchange"]);
+    emptyResponse = _a.emptyResponse, filterOnchange = _a.filterOnchange, clearSearch = _a.clearSearch, _g = _a.prioritizeSearchFields, prioritizeSearchFields = _g === void 0 ? [] : _g, rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "hideExport", "height", "pageSize", "customColumns", "filterableFields", "emptyResponse", "filterOnchange", "clearSearch", "prioritizeSearchFields"]);
     // Check if data is null or undefined before accessing its properties
     // Replace this in your component
-    var _g = (0, react_1.useState)(''), search = _g[0], setSearch = _g[1];
-    var _h = (0, react_1.useState)(1), currentPage = _h[0], setCurrentPage = _h[1];
+    var _h = (0, react_1.useState)(''), search = _h[0], setSearch = _h[1];
+    var _j = (0, react_1.useState)(1), currentPage = _j[0], setCurrentPage = _j[1];
     // Determine the total number of pages based on data length and page size
     var totalPages = data ? Math.ceil((((_b = data === null || data === void 0 ? void 0 : data.data) === null || _b === void 0 ? void 0 : _b.length) || 0) / pageSize) : 0;
     // Calculate start and end indices for data pagination
     var startIndex = data ? (currentPage - 1) * pageSize : 0;
     var endIndex = data ? Math.min(startIndex + pageSize, ((_c = data === null || data === void 0 ? void 0 : data.data) === null || _c === void 0 ? void 0 : _c.length) || 0) : 0;
-    var _j = (0, react_1.useState)(null), selectedField = _j[0], setSelectedField = _j[1];
-    var _k = (0, react_1.useState)(null), selectedValue = _k[0], setSelectedValue = _k[1];
-    var _l = (0, react_1.useState)(true), showSearch = _l[0], setshowSearch = _l[1];
-    var _m = (0, react_1.useState)(""), searchQuery = _m[0], setsearchQuery = _m[1];
+    var _k = (0, react_1.useState)(null), selectedField = _k[0], setSelectedField = _k[1];
+    var _l = (0, react_1.useState)(null), selectedValue = _l[0], setSelectedValue = _l[1];
+    var _m = (0, react_1.useState)(true), showSearch = _m[0], setshowSearch = _m[1];
+    var _o = (0, react_1.useState)(""), searchQuery = _o[0], setsearchQuery = _o[1];
+    React.useEffect(function () {
+        if (clearSearch) {
+            setsearchQuery("");
+        }
+    }, [clearSearch]);
     // Enhanced filter logic:
     var normalize = function (val) { return val === null || val === void 0 ? void 0 : val.toString().toLowerCase().trim(); };
     var matchesSearch = function (item) {
@@ -269,41 +274,20 @@ function Table(_a) {
                 head && React.createElement(Head_1.default, null, head),
                 body && React.createElement(Body_1.default, null, body),
                 data &&
-                    // filteredData.filter((mdoc, index) => {
-                    //   if(searchQuery){
-                    //     // Convert search query to lowercase for case-insensitive search
-                    //     const query = searchQuery.toLowerCase().trim();
-                    //     if (!query) return true; // If empty query after trim, show all
-                    //     // Search through all fields defined in data.fields
-                    //     return data.fields.some(field => {
-                    //       try {
-                    //         // Get the value using the same getNestedValue function used for display
-                    //         const value = getNestedValue(mdoc, field);
-                    //         // Convert value to string and search
-                    //         if (value !== null && value !== undefined) {
-                    //           const stringValue = String(value).toLowerCase();
-                    //           return stringValue.includes(query);
-                    //         }
-                    //         return false;
-                    //       } catch (error) {
-                    //         // Handle any errors in accessing nested values
-                    //         console.warn(`Error accessing field ${field}:`, error);
-                    //         return false;
-                    //       }
-                    //     });
-                    //   } else {
-                    //     return true; // If no search query, return all items
-                    //   }
-                    // })
-                    (0, Query_1.getAdvancedFilteredData)(filteredData, searchQuery, data, getNestedValue).slice(startIndex, endIndex).map(function (mdoc, index) { return (React.createElement("tr", { className: 'animated slide-up', key: index },
-                        data.fields.map(function (fdoc, findex) {
-                            var _a;
-                            return (React.createElement(Data_1.default, { key: fdoc, funcss: data.funcss ? ((_a = data === null || data === void 0 ? void 0 : data.funcss) === null || _a === void 0 ? void 0 : _a[findex]) || '' : '' }, getNestedValue(mdoc, fdoc)));
-                        }),
-                        customColumns ?
-                            customColumns.map(function (column, columnIndex) { return (React.createElement("td", { key: columnIndex },
-                                column.render && column.render(mdoc),
-                                column.onClick && (React.createElement(Button_1.default, { onClick: function () { return column.onClick && column.onClick(mdoc); } }, column.title)))); }) : "")); }),
+                    (function () {
+                        var results = (0, Query_1.getAdvancedFilteredData)(filteredData, searchQuery, data, getNestedValue, prioritizeSearchFields);
+                        var shouldSlice = !searchQuery || results.length > 10;
+                        return (shouldSlice ? results.slice(startIndex, endIndex) : results)
+                            .map(function (mdoc, index) { return (React.createElement("tr", { className: 'animated slide-up', key: index },
+                            data.fields.map(function (fdoc, findex) {
+                                var _a;
+                                return (React.createElement(Data_1.default, { key: fdoc, funcss: data.funcss ? ((_a = data === null || data === void 0 ? void 0 : data.funcss) === null || _a === void 0 ? void 0 : _a[findex]) || '' : '' }, getNestedValue(mdoc, fdoc)));
+                            }),
+                            customColumns ?
+                                customColumns.map(function (column, columnIndex) { return (React.createElement("td", { key: columnIndex },
+                                    column.render && column.render(mdoc),
+                                    column.onClick && (React.createElement(Button_1.default, { onClick: function () { return column.onClick && column.onClick(mdoc); } }, column.title)))); }) : "")); });
+                    })(),
                 isLoading &&
                     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function () { return (React.createElement(Row_1.default, { funcss: 'skeleton' })); }),
                 children ? children : ''),

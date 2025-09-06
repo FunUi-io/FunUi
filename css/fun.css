@@ -3630,7 +3630,7 @@ border-top: none;
 border-radius: 0 0 0.5rem 0.5rem;
 max-height: 250px;
 overflow: hidden;
-opacity: 0;
+/* opacity: 0; */
 visibility: hidden;
 transform: translateY(-10px);
 transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -3639,7 +3639,7 @@ z-index: 1000 !important;
 }
 
 .select-dropdown.open {
-opacity: 1;
+/* opacity: 1; */
 visibility: visible;
 transform: translateY(0);
 
@@ -3773,6 +3773,467 @@ padding-right: 2.5rem;
   min-width: 1.9rem;
   
 }
+
+
+/* SearchableInput.css - Matching your theme format */
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Main wrapper */
+.searchable-input-wrapper {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+}
+
+.searchable-input-wrapper.full-width {
+  display: block;
+  width: 100%;
+}
+
+/* Label styles */
+.searchable-input__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+/* Container for input and dropdown */
+.searchable-input__container {
+  position: relative;
+  display: block;
+}
+
+/* Input wrapper with icons */
+.searchable-input__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Base input styles */
+.searchable-input {
+  width: 100%;
+  height: var(--inputHeight);
+  padding: 0.6rem 0.8rem;
+  font-size: inherit;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: none;
+  border-bottom: var(--inputBorder) solid var(--border-color);
+  border-radius: 0;
+  outline: none;
+  transition: 0.1s linear;
+}
+
+.searchable-input:focus {
+  border-bottom: var(--inputBorder) solid var(--primary);
+}
+
+.searchable-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Full width modifier */
+.searchable-input.full-width {
+  width: 100%;
+}
+
+/* Status modifiers */
+.searchable-input.success-input {
+  border-bottom: var(--inputBorder) solid var(--success) !important;
+}
+
+.searchable-input.warning-input {
+  border-bottom: var(--inputBorder) solid var(--warning) !important;
+}
+
+.searchable-input.danger-input {
+  border-bottom: var(--inputBorder) solid var(--danger) !important;
+}
+
+.searchable-input.success-input:focus,
+.searchable-input.warning-input:focus,
+.searchable-input.danger-input:focus {
+  outline: none !important;
+}
+
+/* Bordered input styles */
+.searchable-input.borderedInput {
+  border: var(--border);
+  border-radius: var(--InputButtonBorderRadius);
+  transition: 0.1s linear;
+  padding: 0.6rem 0.5rem;
+}
+
+.searchable-input.borderedInput:focus {
+  outline: var(--input_outline_size) solid var(--primary);
+  box-shadow: 0 0 0 3px rgba(var(--borderRgb), 0.1);
+}
+
+.searchable-input.success-input.borderedInput {
+  border: var(--inputBorder) solid var(--success) !important;
+  outline: var(--input_outline_size) solid var(--success);
+}
+
+.searchable-input.warning-input.borderedInput {
+  border: var(--inputBorder) solid var(--warning) !important;
+  outline: var(--input_outline_size) solid var(--warning);
+}
+
+.searchable-input.danger-input.borderedInput {
+  border: var(--inputBorder) solid var(--danger) !important;
+  outline: var(--input_outline_size) solid var(--danger);
+}
+
+/* Borderless input styles */
+.searchable-input.borderless {
+  border: none !important;
+  outline: none !important;
+  background-color: var(--light);
+}
+
+.searchable-input.borderless:focus {
+  border: none !important;
+  outline: none !important;
+  background-color: rgba(var(--borderRgb), 0.3);
+}
+
+/* Flat modifier */
+.searchable-input.flat {
+  border-radius: 0;
+}
+
+/* No outline */
+.searchable-input.no-outline {
+  outline: none;
+}
+
+/* Rounded modifiers */
+.searchable-input.round,
+.searchable-input.rounded {
+  border-radius: 100rem !important;
+  padding: var(--inputRoundedPadding);
+}
+
+.searchable-input.left-rounded {
+  border-top-left-radius: 100rem !important;
+  border-bottom-left-radius: 100rem !important;
+  padding-left: var(--inputRoundedPadding);
+}
+
+.searchable-input.right-rounded {
+  border-top-right-radius: 100rem !important;
+  border-bottom-right-radius: 100rem !important;
+  padding-right: var(--inputRoundedPadding);
+}
+
+/* Icon spacing modifiers */
+.searchable-input.with-left-icon {
+  padding-left: 2.5rem;
+}
+
+.searchable-input.with-clear {
+  padding-right: 4.5rem;
+}
+
+/* Disabled state */
+.searchable-input:disabled {
+  background-color: var(--disabled-bg, var(--light));
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Left icon */
+.searchable-input__icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--text-muted);
+  z-index: 1;
+}
+
+.searchable-input__icon--left {
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Right actions container */
+.searchable-input__actions {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  z-index: 1;
+}
+
+/* Clear button */
+.searchable-input__clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: none;
+  border: none;
+  border-radius: 0.25rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: 0.1s linear;
+}
+
+.searchable-input__clear-btn:hover {
+  color: var(--text-color);
+  background-color: rgba(var(--borderRgb), 0.1);
+}
+
+.searchable-input__clear-btn:focus {
+  outline: var(--input_outline_size) solid var(--primary);
+}
+
+/* Caret container */
+.searchable-input__caret {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+/* Caret icon */
+.searchable-input__caret-icon {
+  transition: transform 0.2s ease;
+}
+
+.searchable-input__caret-icon--open {
+  transform: rotate(180deg);
+}
+
+/* Loading spinner */
+.searchable-input__spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(var(--borderRgb), 0.3);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dropdown */
+.searchable-input__dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--raiseThemes);
+  backdrop-filter: var(--raiseBackdrop);
+  border: var(--border);
+  border-radius: var(--InputButtonBorderRadius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: dropdown-appear 0.15s ease-out;
+}
+
+.searchable-input__dropdown--up {
+  bottom: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.searchable-input__dropdown--down {
+  top: 100%;
+  margin-top: 0.25rem;
+}
+
+@keyframes dropdown-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown content */
+.searchable-input__dropdown-content {
+  padding: 0.25rem 0;
+  overflow-y: auto;
+  max-height: 12.5rem;
+}
+
+.searchable-input__dropdown-content::-webkit-scrollbar {
+  width: 0.375rem;
+}
+
+.searchable-input__dropdown-content::-webkit-scrollbar-track {
+  background: rgba(var(--borderRgb), 0.1);
+}
+
+.searchable-input__dropdown-content::-webkit-scrollbar-thumb {
+  background: rgba(var(--borderRgb), 0.3);
+  border-radius: 0.1875rem;
+}
+
+.searchable-input__dropdown-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--borderRgb), 0.5);
+}
+
+/* Option item */
+.searchable-input__option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: 0.1s linear;
+  border-bottom: 1px solid rgba(var(--borderRgb), 0.1);
+  color: var(--text-color);
+}
+
+.searchable-input__option:last-child {
+  border-bottom: none;
+}
+
+.searchable-input__option:hover {
+  background-color: rgba(var(--borderRgb), 0.1);
+}
+
+.searchable-input__option--highlighted {
+  background-color: rgba(var(--primaryRgb), 0.1);
+}
+
+.searchable-input__option--selected {
+  background-color: rgba(var(--primaryRgb), 0.2);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Option text */
+.searchable-input__option-text {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: inherit;
+  margin-bottom: 0.125rem;
+}
+
+/* Option value (when different from text) */
+.searchable-input__option-value {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
+.searchable-input__option--selected .searchable-input__option-value {
+  color: var(--primary);
+}
+
+/* Highlight matching text */
+.searchable-input__highlight {
+  background-color: var(--warning);
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 0.0625rem 0.125rem;
+  border-radius: 0.125rem;
+}
+
+/* No data message */
+.searchable-input__no-data {
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* Extra content */
+.searchable-input__extra {
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .searchable-input-wrapper {
+    width: 100%;
+  }
+  
+  .searchable-input {
+    min-height: var(--inputHeight);
+    font-size: 1rem; /* Prevents zoom on iOS */
+  }
+  
+  .searchable-input__dropdown {
+    left: -0.25rem;
+    right: -0.25rem;
+  }
+}
+
+/* Focus-visible for better accessibility */
+.searchable-input:focus-visible {
+  outline: var(--input_outline_size) solid var(--primary);
+  outline-offset: 0.125rem;
+}
+
+.searchable-input__clear-btn:focus-visible {
+  outline: var(--input_outline_size) solid var(--primary);
+  outline-offset: 0.0625rem;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .searchable-input {
+    border-width: 0.1875rem;
+  }
+  
+  .searchable-input__option--highlighted {
+    background-color: var(--text-color);
+    color: var(--background-color);
+  }
+  
+  .searchable-input__highlight {
+    background-color: var(--warning);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .searchable-input,
+  .searchable-input__caret-icon,
+  .searchable-input__clear-btn,
+  .searchable-input__option {
+    transition: none;
+  }
+  
+  .searchable-input__dropdown {
+    animation: none;
+  }
+  
+  .searchable-input__spinner {
+    animation: none;
+  }
+}
+
+
 
 @media screen and (max-width: 800px){
   .input , input, textarea , .bubble-editor , .bubble-editor-container{
@@ -8764,3 +9225,6 @@ background-color: rgba(0, 0, 0, 0.2);
 .ql-container.ql-snow {
   border: 1px solid #ccc;
 }
+
+
+
