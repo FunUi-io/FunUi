@@ -26,6 +26,7 @@ export type AccordionProps = {
     iconClass?: string;
     contentClass?: string;
     activeClass?: string;
+    funcss?: string;
 };
 declare const Accordion: React.FC<AccordionProps>;
 export default Accordion;

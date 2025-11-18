@@ -36,8 +36,9 @@ type TableProps = {
     }[];
     filterableFields?: string[];
     prioritizeSearchFields?: string[];
+    onRowClick?: (data: any) => void;
 };
 export default function Table({ children, funcss, bordered, noStripped, hoverable, title, showTotal, light, dark, head, body, data, isLoading, right, hideExport, height, pageSize, // Default page size,
 customColumns, filterableFields, // New prop
-emptyResponse, filterOnchange, clearSearch, prioritizeSearchFields, ...rest }: TableProps): React.JSX.Element;
+emptyResponse, filterOnchange, clearSearch, prioritizeSearchFields, onRowClick, ...rest }: TableProps): React.JSX.Element;
 export {};

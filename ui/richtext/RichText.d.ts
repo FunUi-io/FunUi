@@ -9,7 +9,6 @@ interface RichTextProps {
     modules?: any;
     theme?: 'bubble' | 'snow';
     fontFamily?: string;
-    /** Maximum number of characters allowed */
     maxValue?: number;
 }
 declare const RichText: React.FC<RichTextProps>;

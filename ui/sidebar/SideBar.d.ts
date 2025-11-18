@@ -1,9 +1,10 @@
 import React, { ReactNode } from 'react';
 interface SideBarLink {
     uri: string;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     text: string;
     section: string;
+    onClick?: () => void;
 }
 interface SideBarProps {
     funcss?: string;

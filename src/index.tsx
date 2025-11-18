@@ -1,3 +1,4 @@
+
 export { default as Alert } from "./ui/alert/Alert"
 export { default as ThemeProvider } from "./ui/theme/theme"
 export { default as Button } from "./ui/button/Button"
@@ -59,5 +60,6 @@ export { default as Select } from "./ui/select/Select"
 
 // js 
 export { default as Cookie } from "./js/Cookie"
+export {useVariable} from "./ui/theme/theme"
 export { FunGet } from "./js/Fun"
 export { default as GoogleAnalytics } from "./js/google/analytics"

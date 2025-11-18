@@ -45,25 +45,27 @@ var pi_1 = require("react-icons/pi");
 var Avatar_1 = __importDefault(require("../avatar/Avatar"));
 var Circle_1 = __importDefault(require("../specials/Circle"));
 var RowFlex_1 = __importDefault(require("../specials/RowFlex"));
-var Input_1 = __importDefault(require("../input/Input"));
 var Button_1 = __importDefault(require("../button/Button"));
 var Text_1 = __importDefault(require("../text/Text"));
 var ActivityCard_1 = __importDefault(require("./ActivityCard"));
 var View_1 = __importDefault(require("../view/View"));
 var Dropdown_1 = __importDefault(require("../drop/Dropdown"));
 var hi_1 = require("react-icons/hi");
+var Flex_1 = __importDefault(require("../flex/Flex"));
+var Select_1 = __importDefault(require("../select/Select"));
+var Col_1 = __importDefault(require("../grid/Col"));
 dayjs_1.default.extend(isSameOrAfter_1.default);
 dayjs_1.default.extend(isSameOrBefore_1.default);
 var Calendar = function (_a) {
-    var activities = _a.activities, onAdd = _a.onAdd, onActivityClick = _a.onActivityClick, onDateClick = _a.onDateClick, _b = _a.funcss, funcss = _b === void 0 ? '' : _b, _c = _a.weekStart, weekStart = _c === void 0 ? 0 : _c, renderActivity = _a.renderActivity, _d = _a.showAdjacentMonths, showAdjacentMonths = _d === void 0 ? true : _d, minDate = _a.minDate, maxDate = _a.maxDate;
-    var _e = (0, react_1.useState)((0, dayjs_1.default)()), currentMonth = _e[0], setCurrentMonth = _e[1];
-    var _f = (0, react_1.useState)(null), hoveredDate = _f[0], setHoveredDate = _f[1];
-    var _g = (0, react_1.useState)(null), selectedDate = _g[0], setSelectedDate = _g[1];
-    var _h = (0, react_1.useState)(false), showMoreActivities = _h[0], setShowMoreActivities = _h[1];
+    var activities = _a.activities, onAdd = _a.onAdd, onActivityClick = _a.onActivityClick, onDateClick = _a.onDateClick, _b = _a.funcss, funcss = _b === void 0 ? '' : _b, _c = _a.weekStart, weekStart = _c === void 0 ? 0 : _c, renderActivity = _a.renderActivity, _d = _a.showAdjacentMonths, showAdjacentMonths = _d === void 0 ? true : _d, minDate = _a.minDate, _e = _a.readonly, readonly = _e === void 0 ? false : _e, maxDate = _a.maxDate;
+    var _f = (0, react_1.useState)((0, dayjs_1.default)()), currentMonth = _f[0], setCurrentMonth = _f[1];
+    var _g = (0, react_1.useState)(null), hoveredDate = _g[0], setHoveredDate = _g[1];
+    var _h = (0, react_1.useState)(null), selectedDate = _h[0], setSelectedDate = _h[1];
+    var _j = (0, react_1.useState)(false), showMoreActivities = _j[0], setShowMoreActivities = _j[1];
     // ✅ NEW: View mode state
-    var _j = (0, react_1.useState)('month'), viewMode = _j[0], setViewMode = _j[1];
+    var _k = (0, react_1.useState)('month'), viewMode = _k[0], setViewMode = _k[1];
     var startOfWeek = currentMonth.startOf('week').add(weekStart, 'day');
-    var _k = (0, react_1.useMemo)(function () {
+    var _l = (0, react_1.useMemo)(function () {
         var days = [];
         if (viewMode === 'month') {
             var startOfMonth = currentMonth.startOf('month');
@@ -109,7 +111,7 @@ var Calendar = function (_a) {
             }
         });
         return { days: days, monthActivities: monthActivities };
-    }, [currentMonth, activities, viewMode, weekStart, showAdjacentMonths]), days = _k.days, monthActivities = _k.monthActivities;
+    }, [currentMonth, activities, viewMode, weekStart, showAdjacentMonths]), days = _l.days, monthActivities = _l.monthActivities;
     var prevPeriod = function () {
         return setCurrentMonth(currentMonth.subtract(1, viewMode === 'month' ? 'month' : 'week'));
     };
@@ -143,7 +145,7 @@ var Calendar = function (_a) {
         }
         return days;
     }, [weekStart]);
-    var _l = (0, react_1.useState)(false), isMobile = _l[0], setIsMobile = _l[1];
+    var _m = (0, react_1.useState)(false), isMobile = _m[0], setIsMobile = _m[1];
     (0, react_1.useEffect)(function () {
         var updateViewMode = function () {
             var small = window.innerWidth < 768;
@@ -158,32 +160,33 @@ var Calendar = function (_a) {
         react_1.default.createElement("div", { className: "calendar-header" },
             react_1.default.createElement(Avatar_1.default, { funcss: "border", onClick: prevPeriod },
                 react_1.default.createElement(pi_1.PiCaretLeft, null)),
-            react_1.default.createElement("div", { className: "calendar-title" },
-                react_1.default.createElement(RowFlex_1.default, { gap: 1, align: "center" },
-                    react_1.default.createElement(Input_1.default, { type: "text", select: true, value: currentMonth.month().toString(), onChange: function (e) {
-                            return setCurrentMonth(currentMonth.month(parseInt(e.target.value)));
+            react_1.default.createElement(Flex_1.default, { width: '100%', gap: 1, alignItems: "center" },
+                react_1.default.createElement(Col_1.default, null,
+                    react_1.default.createElement(Select_1.default, { value: currentMonth.month().toString(), onChange: function (e) {
+                            return setCurrentMonth(currentMonth.month(parseInt(e)));
                         }, options: Array.from({ length: 12 }, function (_, i) { return ({
                             value: i.toString(),
                             text: (0, dayjs_1.default)().month(i).format('MMMM'),
-                        }); }), borderless: true, funcss: "round-edge" }),
-                    react_1.default.createElement(Input_1.default, { type: "text", select: true, value: currentMonth.year().toString(), onChange: function (e) {
-                            return setCurrentMonth(currentMonth.year(parseInt(e.target.value)));
+                        }); }), borderless: true, funcss: "round-edge" })),
+                react_1.default.createElement(Col_1.default, null,
+                    react_1.default.createElement(Select_1.default, { value: currentMonth.year().toString(), onChange: function (e) {
+                            return setCurrentMonth(currentMonth.year(parseInt(e)));
                         }, options: Array.from({ length: 21 }, function (_, i) {
                             var year = (0, dayjs_1.default)().year() - 10 + i;
                             return { value: year.toString(), text: year.toString() };
-                        }), borderless: true, funcss: "round-edge" }),
-                    react_1.default.createElement(Dropdown_1.default, { direction: "dropdown", position: 'right', openOnHover: false, button: react_1.default.createElement(Avatar_1.default, null,
-                            react_1.default.createElement(hi_1.HiOutlineDotsVertical, null)), items: [
-                            {
-                                label: react_1.default.createElement("span", { className: "text-sm" }, "Today"),
-                                onClick: function () { return goToToday(); },
-                            },
-                            {
-                                label: react_1.default.createElement("div", { className: "text-sm", onClick: function () {
-                                        return setViewMode(viewMode === 'month' ? 'week' : 'month');
-                                    } }, viewMode === 'month' ? 'Switch to Week' : 'Switch to Month'),
-                            },
-                        ] }))),
+                        }), borderless: true, funcss: "round-edge" })),
+                react_1.default.createElement(Dropdown_1.default, { direction: "dropdown", position: 'right', openOnHover: false, button: react_1.default.createElement(Avatar_1.default, null,
+                        react_1.default.createElement(hi_1.HiOutlineDotsVertical, null)), items: [
+                        {
+                            label: react_1.default.createElement("span", { className: "text-sm" }, "Today"),
+                            onClick: function () { return goToToday(); },
+                        },
+                        {
+                            label: react_1.default.createElement("div", { className: "text-sm", onClick: function () {
+                                    return setViewMode(viewMode === 'month' ? 'week' : 'month');
+                                } }, viewMode === 'month' ? 'Switch to Week' : 'Switch to Month'),
+                        },
+                    ] })),
             react_1.default.createElement(Avatar_1.default, { funcss: "border", onClick: nextPeriod },
                 react_1.default.createElement(pi_1.PiCaretRight, null))),
         react_1.default.createElement("div", { className: "calendar-weekdays" }, weekdays.map(function (d, i) { return (react_1.default.createElement("div", { key: i, className: "weekday-header" }, d)); })),
@@ -206,7 +209,7 @@ var Calendar = function (_a) {
                         "+",
                         activitiesToday.length - 3,
                         " more"))))),
-                hoveredDate === key && !disabled && (react_1.default.createElement("div", { className: "add-icon hide-small", onClick: function (e) { return handleAdd(e, date); } },
+                hoveredDate === key && !disabled && !readonly && (react_1.default.createElement("div", { className: "add-icon hide-small", onClick: function (e) { return handleAdd(e, date); } },
                     react_1.default.createElement(Circle_1.default, { bg: 'primary' },
                         react_1.default.createElement(pi_1.PiPlus, null))))));
         })),

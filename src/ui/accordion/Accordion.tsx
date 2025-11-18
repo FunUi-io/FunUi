@@ -50,7 +50,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
           <PiCaretDown />
         </div>
       </div>
-      <div className={`accordion-content ${contentClass} ${isOpen ? 'open' : ''}`}>
+      <div  style={{overflow:isOpen?'visible':'hidden'}} className={`accordion-content ${contentClass} ${isOpen ? 'open' : ''}`}>
         <div className="accordion-inner">{content}</div>
       </div>
     </div>
@@ -72,9 +72,12 @@ export type AccordionProps = {
   iconClass?: string;
   contentClass?: string;
   activeClass?: string;
+
+  funcss?: string;
+
 };
 
-const Accordion: React.FC<AccordionProps> = ({
+const Accordion: React.FC<AccordionProps> = ({  
   items,
   allowMultiple = false,
   defaultOpenIndexes = [],
@@ -83,6 +86,7 @@ const Accordion: React.FC<AccordionProps> = ({
   iconClass,
   contentClass,
   activeClass,
+  funcss = '',
 }) => {
   const [openIndexes, setOpenIndexes] = useState<number[]>(
     allowMultiple ? defaultOpenIndexes : [defaultOpenIndexes[0] ?? -1]
@@ -101,7 +105,7 @@ const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className="accordion">
+    <div className={`accordion ${funcss}`}>
       {items.map((item, index) => (
         <AccordionItem
           key={index}

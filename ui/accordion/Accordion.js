@@ -59,14 +59,14 @@ var AccordionItem = function (_a) {
                 react_1.default.createElement("div", { className: "col fit" }, title)),
             react_1.default.createElement("div", { style: { lineHeight: 0 }, className: "".concat(iconClass, " ").concat(isOpen ? 'accordion-rotated' : '') },
                 react_1.default.createElement(pi_1.PiCaretDown, null))),
-        react_1.default.createElement("div", { className: "accordion-content ".concat(contentClass, " ").concat(isOpen ? 'open' : '') },
+        react_1.default.createElement("div", { style: { overflow: isOpen ? 'visible' : 'hidden' }, className: "accordion-content ".concat(contentClass, " ").concat(isOpen ? 'open' : '') },
             react_1.default.createElement("div", { className: "accordion-inner" }, content))));
 };
 exports.AccordionItem = AccordionItem;
 var Accordion = function (_a) {
     var _b;
-    var items = _a.items, _c = _a.allowMultiple, allowMultiple = _c === void 0 ? false : _c, _d = _a.defaultOpenIndexes, defaultOpenIndexes = _d === void 0 ? [] : _d, itemClass = _a.itemClass, titleClass = _a.titleClass, iconClass = _a.iconClass, contentClass = _a.contentClass, activeClass = _a.activeClass;
-    var _e = (0, react_1.useState)(allowMultiple ? defaultOpenIndexes : [(_b = defaultOpenIndexes[0]) !== null && _b !== void 0 ? _b : -1]), openIndexes = _e[0], setOpenIndexes = _e[1];
+    var items = _a.items, _c = _a.allowMultiple, allowMultiple = _c === void 0 ? false : _c, _d = _a.defaultOpenIndexes, defaultOpenIndexes = _d === void 0 ? [] : _d, itemClass = _a.itemClass, titleClass = _a.titleClass, iconClass = _a.iconClass, contentClass = _a.contentClass, activeClass = _a.activeClass, _e = _a.funcss, funcss = _e === void 0 ? '' : _e;
+    var _f = (0, react_1.useState)(allowMultiple ? defaultOpenIndexes : [(_b = defaultOpenIndexes[0]) !== null && _b !== void 0 ? _b : -1]), openIndexes = _f[0], setOpenIndexes = _f[1];
     var toggleIndex = function (index) {
         if (allowMultiple) {
             if (openIndexes.includes(index)) {
@@ -80,6 +80,6 @@ var Accordion = function (_a) {
             setOpenIndexes(openIndexes.includes(index) ? [] : [index]);
         }
     };
-    return (react_1.default.createElement("div", { className: "accordion" }, items.map(function (item, index) { return (react_1.default.createElement(exports.AccordionItem, { key: index, index: index, icon: item.icon, title: item.title, content: item.content, isOpen: openIndexes.includes(index), onToggle: function () { return toggleIndex(index); }, itemClass: itemClass, titleClass: titleClass, iconClass: iconClass, contentClass: contentClass, activeClass: activeClass })); })));
+    return (react_1.default.createElement("div", { className: "accordion ".concat(funcss) }, items.map(function (item, index) { return (react_1.default.createElement(exports.AccordionItem, { key: index, index: index, icon: item.icon, title: item.title, content: item.content, isOpen: openIndexes.includes(index), onToggle: function () { return toggleIndex(index); }, itemClass: itemClass, titleClass: titleClass, iconClass: iconClass, contentClass: contentClass, activeClass: activeClass })); })));
 };
 exports.default = Accordion;

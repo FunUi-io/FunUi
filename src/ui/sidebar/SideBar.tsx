@@ -11,12 +11,15 @@ import Text from '../text/Text';
 import { usePathname } from 'next/navigation';
 import { PiX } from 'react-icons/pi';
 import Link from 'next/link';
+import { useVariant } from '../theme/theme';
+import Button from '../button/Button';
 
 interface SideBarLink {
   uri: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   text: string;
   section: string;
+  onClick?: () => void;
 }
 
 interface SideBarProps {
@@ -63,7 +66,8 @@ export default function SideBar({
   const [appBarHeight, setAppBarHeight] = useState('0px');
   const pathname = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
-
+  const { variant } = useVariant() 
+  const [selectedOption, setselectedOption] = useState("")
   const updateIsMobile = useCallback(() => {
     setIsMobile(window.innerWidth <= 992);
     
@@ -155,21 +159,35 @@ export default function SideBar({
                 {Object.entries(groupedLinks).map(([section, sectionLinks]) => (
                   <div key={section} className={`sidebar-section ${dividers ? "bt" : ""} pt-2 pb-2`}>
                     <Text size="sm" funcss="opacity-6 p-1 pl-2 pr-2">{section}</Text>
-                    {sectionLinks.map(link => {
-                      const isActive = pathname === link.uri;
+                    {sectionLinks.map((link , index) => {
+                      const isActive = link.onClick
+                        ? selectedOption === `${section}-${index}`
+                        : pathname === link.uri;
                       return (
-                        <Link onClick={() => {
+                        <div onClick={() => {
                           if(isMobile){
                             handleClose()
                           }
-                        }} key={link.uri} href={link.uri}>
-                          <div   className={`p-1 pl-2 pr-2 sidebar-link  ${
-                            isActive ? `primary50 outline-primary200 ${activeCss || ''}` : 'hoverable'
-                          }`}>
-                            <span className={`${iconCSS || '' } ${popIcon ? `p-1 border lighter central` : ""}`} style={{ lineHeight: 0  , borderRadius:"0.4rem"}}>{link.icon}</span>
+                          if(link?.onClick){
+                            link.onClick()
+                            setselectedOption(`${section}-${index}`)
+                          }else{
+                          window.location.href = link.uri
+
+                          }
+                        }} key={link.uri} >
+                          <Button fullWidth  small   funcss={`p-1 pl-2 pr-2  sidebar-link text-left  ${
+                            isActive ? `primary  ${activeCss || ''}` : 'hoverable'
+                          }`}
+                          startIcon={
+                             <span className={`${iconCSS || '' } 
+                            ${(variant === 'standard' ||  popIcon ) ? `p-1  ${isActive ? "primary" : "lighter text-primary border"} central` : (variant === "minimal" && !isActive) ? "p-1 central lighter text-primary" :  ""}`} 
+                            style={{ lineHeight: 0  , borderRadius:"0.4rem"}}>{link.icon}</span>
+                          }
+                          >
                             <Text text={link.text} size="sm" weight={400} />
-                          </div>
-                        </Link>
+                          </Button>
+                        </div>
                       );
                     })}
                   </div>

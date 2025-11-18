@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.View = exports.ScrollInView = exports.Accordion = exports.Flex = exports.RichText = exports.Carousel = exports.Video = exports.SideBar = exports.ChartPie = exports.Lines = exports.Bars = exports.FullCenteredPage = exports.CircleGroup = exports.Circle = exports.Hr = exports.Section = exports.RowFlex = exports.Tip = exports.AppBar = exports.ToolTip = exports.Notification = exports.FunLoader = exports.ProgressBar = exports.DropMenu = exports.DropItem = exports.Dropdown = exports.DropDown = exports.DropUp = exports.UnAuthorized = exports.NotFound = exports.StepLine = exports.StepHeader = exports.Step = exports.StepContainer = exports.Div = exports.Text = exports.List = exports.Table = exports.Modal = exports.Loader = exports.SearchableInput = exports.Input = exports.Col = exports.Grid = exports.Container = exports.BreadCrumb = exports.Card = exports.Button = exports.ThemeProvider = exports.Alert = void 0;
-exports.GoogleAnalytics = exports.FunGet = exports.Cookie = exports.Select = exports.ScrollToTop = exports.FlexItem = exports.Slider = exports.Vista = exports.Calendar = exports.DatePicker = void 0;
+exports.GoogleAnalytics = exports.FunGet = exports.useVariable = exports.Cookie = exports.Select = exports.ScrollToTop = exports.FlexItem = exports.Slider = exports.Vista = exports.Calendar = exports.DatePicker = void 0;
 var Alert_1 = require("./ui/alert/Alert");
 Object.defineProperty(exports, "Alert", { enumerable: true, get: function () { return __importDefault(Alert_1).default; } });
 var theme_1 = require("./ui/theme/theme");
@@ -122,6 +122,8 @@ Object.defineProperty(exports, "Select", { enumerable: true, get: function () { 
 // js 
 var Cookie_1 = require("./js/Cookie");
 Object.defineProperty(exports, "Cookie", { enumerable: true, get: function () { return __importDefault(Cookie_1).default; } });
+var theme_2 = require("./ui/theme/theme");
+Object.defineProperty(exports, "useVariable", { enumerable: true, get: function () { return theme_2.useVariable; } });
 var Fun_1 = require("./js/Fun");
 Object.defineProperty(exports, "FunGet", { enumerable: true, get: function () { return Fun_1.FunGet; } });
 var analytics_1 = require("./js/google/analytics");

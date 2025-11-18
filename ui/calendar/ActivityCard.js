@@ -12,7 +12,7 @@ var ActivityCard = function (_a) {
             e.stopPropagation();
             onClick === null || onClick === void 0 ? void 0 : onClick(activity);
         } },
-        react_1.default.createElement(Text_1.default, { text: activity.title, size: "xs", block: true, truncate: 2 }),
+        react_1.default.createElement(Text_1.default, { text: activity.title, size: "sm", block: true, truncate: 2 }),
         activity.footer && react_1.default.createElement("div", null, activity.footer)));
 };
 exports.default = ActivityCard;

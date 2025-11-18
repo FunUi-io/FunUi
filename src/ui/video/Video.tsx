@@ -3,19 +3,13 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   PiCornersOut,
-  PiFastForward,
-  PiPause,
-  PiPlay,
-  PiRewind,
-  PiSpeakerLow,
 } from 'react-icons/pi';
-import { IoCloudDownloadOutline } from 'react-icons/io5';
 import Text from '../text/Text';
 import RowFlex from '../specials/RowFlex';
 import ToolTip from '../tooltip/ToolTip';
 import Circle from '../specials/Circle';
 import Tip from '../tooltip/Tip';
-import Image from 'next/image';
+import {TfiControlBackward , TfiControlForward , TfiControlPlay , TfiControlPause , TfiDownload  , TfiVolume   } from "react-icons/tfi";
 
 import { formatTime, getBufferedPercent } from './videoFunctions';
 import { handleKeyDown } from './videoShortcuts';
@@ -267,11 +261,9 @@ useEffect(() => {
       />
 
       <div className={`video_controls ${isMouseMoving ? 'show_controls' : 'hide_controls'}`}>
-        <div className="w-80-p center animated fade-in">
+        <div className=" animated fade-in pr-5 pl-5">
           <RowFlex gap={0.3} funcss='mb-2' alignItems="center">
-           <div className='video_time'>
-             <Text text={formatTime(currentTime)} funcss='m-0' size="sm"  />
-           </div>
+         
             <div className="col width-100-p">
               <input
                 type="range"
@@ -284,33 +276,37 @@ useEffect(() => {
                 style={{ '--progress': `${(currentTime / duration) * 100}` } as React.CSSProperties}
               />
             </div>
-            <div className="video_time">
-            <Text text={`${formatTime(duration - currentTime)}`} funcss='m-0' size="sm"  />
-            </div>
+           
           </RowFlex>
         </div>
 
         <div className="_center-play-icon animated fade-in" onClick={handlePlayPauseToggle}>
           <div className='_play-button'>
-            {isPlaying ? <PiPause size={20} /> : <PiPlay size={20} />}
+            {isPlaying ? <TfiControlPause  size={50} /> : <TfiControlPlay  size={50} />}
           </div>
         </div>
 
-        <RowFlex funcss='animated slide-up' gap={1} justify="center">
+        <RowFlex funcss='animated slide-up pr-5 pl-5' gap={1} justify="space-between">
           <RowFlex gap={0.5}>
+             <div className="hide-small">
+               <Circle bordered size={2.5} onClick={handlePlayPauseToggle}>
+            {isPlaying ? <TfiControlPause  size={20} /> : <TfiControlPlay  size={20} />}
+              </Circle>
+             </div>
+           
             <ToolTip>
-              <Circle bordered size={2} onClick={handleRewind}><PiRewind /></Circle>
-              <Tip tip="top" animation="ScaleUp" duration={0.5} content="10 sec Back" />
+              <Circle bordered size={2.5} onClick={handleRewind}><TfiControlBackward  /></Circle>
+              <Tip tip="right" animation="ScaleUp" duration={0.5} content="10 sec Back" />
             </ToolTip>
 
             <ToolTip>
-              <Circle bordered size={2} onClick={handleForward}><PiFastForward /></Circle>
-              <Tip tip="top" animation="ScaleUp" duration={0.5} content="10 sec Forward" />
+              <Circle bordered size={2.5} onClick={handleForward}><TfiControlForward /></Circle>
+              <Tip tip="right" animation="ScaleUp" duration={0.5} content="10 sec Forward" />
             </ToolTip>
 
             <div onMouseEnter={() => setShowVolume(true)} onMouseLeave={() => setShowVolume(false)}>
               <RowFlex>
-                <Circle bordered size={2}><PiSpeakerLow /></Circle>
+                <Circle bordered size={2.5}><TfiVolume  /></Circle>
                 {showVolume && (
                   <input
                     type="range"
@@ -326,19 +322,24 @@ useEffect(() => {
                 )}
               </RowFlex>
             </div>
+               <div className='video_time'>
+             <Text text={formatTime(currentTime)} funcss='m-0' size="sm"  />
+             / 
+            <Text text={`${formatTime(duration - currentTime)}`} funcss='m-0' size="sm"  />
+           </div>
           </RowFlex>
 
           <RowFlex gap={0.3}>
             <ToolTip>
-              <Circle bordered size={2} onClick={handleToggleFullScreen}><PiCornersOut /></Circle>
-              <Tip tip="top" animation="ScaleUp" duration={0.5} content="Expand" />
+              <Circle bordered size={2.5} onClick={handleToggleFullScreen}><PiCornersOut /></Circle>
+              <Tip tip="left" animation="ScaleUp" duration={0.5} content="Expand" />
             </ToolTip>
 
             <ToolTip>
-              <Circle bordered size={2} onClick={() => window.open(src || '', '_blank')}>
-                <IoCloudDownloadOutline />
+              <Circle bordered size={2.5} onClick={() => window.open(src || '', '_blank')}>
+                <TfiDownload  />
               </Circle>
-              <Tip tip="top" animation="ScaleUp" duration={0.5} content="Download" />
+              <Tip tip="left" animation="ScaleUp" duration={0.5} content="Download" />
             </ToolTip>
           </RowFlex>
         </RowFlex>

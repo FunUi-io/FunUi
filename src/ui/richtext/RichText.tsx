@@ -25,8 +25,6 @@ interface RichTextProps {
   modules?: any;
   theme?: 'bubble' | 'snow';
   fontFamily?: string;
-
-  /** Maximum number of characters allowed */
   maxValue?: number;
 }
 
@@ -54,7 +52,6 @@ const RichText: React.FC<RichTextProps> = ({
     modules: modules || defaultModules,
   });
 
-
   useEffect(() => {
     if (!quill) return;
 
@@ -65,17 +62,22 @@ const RichText: React.FC<RichTextProps> = ({
     const handleTextChange = () => {
       if (!quill) return;
 
-      const plainText = quill.getText(); // Includes \n
-      const trimmedText = plainText.trim(); // Exclude trailing \n for accurate count
+      const plainText = quill.getText().trim();
 
-      if (maxValue && trimmedText.length > maxValue) {
-        const truncated = trimmedText.slice(0, maxValue);
+      // --- Enforce maxValue if needed ---
+      if (maxValue && plainText.length > maxValue) {
+        const truncated = plainText.slice(0, maxValue);
         quill.setText(truncated);
         quill.setSelection(truncated.length);
-        onChange(quill.root.innerHTML);
-      } else {
-        onChange(quill.root.innerHTML);
       }
+
+      // --- Clean the HTML output ---
+      const cleanedHTML = quill.root.innerHTML
+        ?.replace(/<p><br><\/p>/g, '') // remove empty paragraphs
+        ?.replace(/\s+/g, ' ')         // collapse multiple spaces
+        ?.trim();                      // remove leading/trailing spaces
+
+      onChange(cleanedHTML || '');
     };
 
     quill.on('selection-change', handleSelectionChange);
@@ -89,7 +91,12 @@ const RichText: React.FC<RichTextProps> = ({
 
   useEffect(() => {
     if (quill && value !== quill.root.innerHTML) {
-      quill.root.innerHTML = value;
+      // clean before setting editor value
+      const cleanedValue = value
+        ?.replace(/<p><br><\/p>/g, '')
+        ?.replace(/\s+/g, ' ')
+        ?.trim();
+      quill.root.innerHTML = cleanedValue || '';
     }
   }, [quill, value]);
 
@@ -108,7 +115,11 @@ const RichText: React.FC<RichTextProps> = ({
       <div className="mb-2 mt-2 text-sm">{title}</div>
       <RowFlex gap={0.3}>
         {emojis.map((emoji, i) => (
-          <span key={i} className="h6 pointer" onClick={() => insertEmoji(emoji)}>
+          <span
+            key={i}
+            className="h6 pointer"
+            onClick={() => insertEmoji(emoji)}
+          >
             {emoji}
           </span>
         ))}
@@ -117,7 +128,10 @@ const RichText: React.FC<RichTextProps> = ({
   );
 
   return (
-    <div className={`fit round-edge ${funcss}`} style={{position:"relative" , overflow:"visible"}}>
+    <div
+      className={`fit round-edge ${funcss}`}
+      style={{ position: 'relative', overflow: 'visible' }}
+    >
       <div id="editor-container" className="bubble-editor-container p-0">
         <div
           ref={quillRef}
@@ -128,61 +142,72 @@ const RichText: React.FC<RichTextProps> = ({
         />
       </div>
 
-      {
-        (showEmojis || maxValue) && (
-          <div className='p-1' style={{height:'fit-content' , top:`calc(100%)` , width:"100%"}}>
-            <Flex justify='space-between' gap={1} alignItems='center' width='100%'>
-              
-      
-      {(showEmojis || afterEmoji) ? (
-       <div >
-         <Flex width='100%' gap={0.5}  alignItems='center'>
-          {showEmojis && (
-            <Dropdown 
-              closableOnlyOutside
-              direction="dropdown"
-              openOnHover={false}
-              button={
-                <ToolTip>
-                  <Circle size={2} funcss="bg border">
-                    <MdOutlineEmojiEmotions />
-                  </Circle>
-                  <Tip tip="top" animation="ScaleUp" duration={0.5} content="Emojis" />
-                </ToolTip>
-              }
-              items={[
-                {
-                  label: (
-                    <div className="w-200 h-200" style={{ overflowY: 'auto' }}>
-                      {renderEmojiSection('❤️ Smileys & People', AllEmojis.Smiley)}
-                      {renderEmojiSection('👍 Gestures & Body Parts', AllEmojis.Gesture)}
-                      {renderEmojiSection('🔥 Symbols & Expressions', AllEmojis.Symbols)}
-                      {renderEmojiSection('🚀 Travel, Objects & Activities', AllEmojis.Travel)}
-                      {renderEmojiSection('👨‍👩‍👧‍👦 People & Professions', AllEmojis.People)}
-                      {renderEmojiSection('🐶 Animals & Nature', AllEmojis.Animals)}
-                    </div>
-                  ),
-                },
-              ]}
-            />
-          )}
-         {afterEmoji}
-        </Flex>
-       </div>
-      ) : (<div />)}
-            {(maxValue && quill) ? (
-        <div className="text-xs text-right">
-          <span className="text-primary">{quill.getText().trim().length}</span> /{maxValue}
+      {(showEmojis || maxValue) && (
+        <div
+          className="p-1"
+          style={{ height: 'fit-content', top: `calc(100%)`, width: '100%' }}
+        >
+          <Flex justify="space-between" gap={1} alignItems="center" width="100%">
+            {(showEmojis || afterEmoji) ? (
+              <div>
+                <Flex width="100%" gap={0.5} alignItems="center">
+                  {showEmojis && (
+                    <Dropdown
+                      closableOnlyOutside
+                      direction="dropdown"
+                      openOnHover={false}
+                      button={
+                        <ToolTip>
+                          <Circle size={2} funcss="bg border">
+                            <MdOutlineEmojiEmotions />
+                          </Circle>
+                          <Tip
+                            tip="top"
+                            animation="ScaleUp"
+                            duration={0.5}
+                            content="Emojis"
+                          />
+                        </ToolTip>
+                      }
+                      items={[
+                        {
+                          label: (
+                            <div
+                              className="w-200 h-200"
+                              style={{ overflowY: 'auto' }}
+                            >
+                              {renderEmojiSection('❤️ Smileys & People', AllEmojis.Smiley)}
+                              {renderEmojiSection('👍 Gestures & Body Parts', AllEmojis.Gesture)}
+                              {renderEmojiSection('🔥 Symbols & Expressions', AllEmojis.Symbols)}
+                              {renderEmojiSection('🚀 Travel, Objects & Activities', AllEmojis.Travel)}
+                              {renderEmojiSection('👨‍👩‍👧‍👦 People & Professions', AllEmojis.People)}
+                              {renderEmojiSection('🐶 Animals & Nature', AllEmojis.Animals)}
+                            </div>
+                          ),
+                        },
+                      ]}
+                    />
+                  )}
+                  {afterEmoji}
+                </Flex>
+              </div>
+            ) : (
+              <div />
+            )}
+
+            {maxValue && quill ? (
+              <div className="text-xs text-right">
+                <span className="text-primary">
+                  {quill.getText().trim().length}
+                </span>
+                /{maxValue}
+              </div>
+            ) : (
+              <div />
+            )}
+          </Flex>
         </div>
-      ) : (<div />)}
-
-            </Flex>
-          </div>
-          
-        )
-      }
-
-
+      )}
     </div>
   );
 };

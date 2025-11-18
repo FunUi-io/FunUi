@@ -66,19 +66,21 @@ var RichText = function (_a) {
                 savedRange.current = range;
         };
         var handleTextChange = function () {
+            var _a, _b, _c;
             if (!quill)
                 return;
-            var plainText = quill.getText(); // Includes \n
-            var trimmedText = plainText.trim(); // Exclude trailing \n for accurate count
-            if (maxValue && trimmedText.length > maxValue) {
-                var truncated = trimmedText.slice(0, maxValue);
+            var plainText = quill.getText().trim();
+            // --- Enforce maxValue if needed ---
+            if (maxValue && plainText.length > maxValue) {
+                var truncated = plainText.slice(0, maxValue);
                 quill.setText(truncated);
                 quill.setSelection(truncated.length);
-                onChange(quill.root.innerHTML);
             }
-            else {
-                onChange(quill.root.innerHTML);
-            }
+            // --- Clean the HTML output ---
+            var cleanedHTML = (_c = (_b = (_a = quill.root.innerHTML) === null || _a === void 0 ? void 0 : _a.replace(/<p><br><\/p>/g, '') // remove empty paragraphs
+            ) === null || _b === void 0 ? void 0 : _b.replace(/\s+/g, ' ') // collapse multiple spaces
+            ) === null || _c === void 0 ? void 0 : _c.trim(); // remove leading/trailing spaces
+            onChange(cleanedHTML || '');
         };
         quill.on('selection-change', handleSelectionChange);
         quill.on('text-change', handleTextChange);
@@ -88,8 +90,11 @@ var RichText = function (_a) {
         };
     }, [quill, onChange, maxValue]);
     (0, react_1.useEffect)(function () {
+        var _a, _b;
         if (quill && value !== quill.root.innerHTML) {
-            quill.root.innerHTML = value;
+            // clean before setting editor value
+            var cleanedValue = (_b = (_a = value === null || value === void 0 ? void 0 : value.replace(/<p><br><\/p>/g, '')) === null || _a === void 0 ? void 0 : _a.replace(/\s+/g, ' ')) === null || _b === void 0 ? void 0 : _b.trim();
+            quill.root.innerHTML = cleanedValue || '';
         }
     }, [quill, value]);
     var insertEmoji = function (emoji) {
@@ -104,15 +109,15 @@ var RichText = function (_a) {
     var renderEmojiSection = function (title, emojis) { return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement("div", { className: "mb-2 mt-2 text-sm" }, title),
         react_1.default.createElement(RowFlex_1.default, { gap: 0.3 }, emojis.map(function (emoji, i) { return (react_1.default.createElement("span", { key: i, className: "h6 pointer", onClick: function () { return insertEmoji(emoji); } }, emoji)); })))); };
-    return (react_1.default.createElement("div", { className: "fit round-edge ".concat(funcss), style: { position: "relative", overflow: "visible" } },
+    return (react_1.default.createElement("div", { className: "fit round-edge ".concat(funcss), style: { position: 'relative', overflow: 'visible' } },
         react_1.default.createElement("div", { id: "editor-container", className: "bubble-editor-container p-0" },
             react_1.default.createElement("div", { ref: quillRef, className: theme === 'bubble' ? 'bubble-editor' : 'snow-editor', style: {
                     fontFamily: fontFamily || 'inherit',
                 } })),
-        (showEmojis || maxValue) && (react_1.default.createElement("div", { className: 'p-1', style: { height: 'fit-content', top: "calc(100%)", width: "100%" } },
-            react_1.default.createElement(Flex_1.default, { justify: 'space-between', gap: 1, alignItems: 'center', width: '100%' },
+        (showEmojis || maxValue) && (react_1.default.createElement("div", { className: "p-1", style: { height: 'fit-content', top: "calc(100%)", width: '100%' } },
+            react_1.default.createElement(Flex_1.default, { justify: "space-between", gap: 1, alignItems: "center", width: "100%" },
                 (showEmojis || afterEmoji) ? (react_1.default.createElement("div", null,
-                    react_1.default.createElement(Flex_1.default, { width: '100%', gap: 0.5, alignItems: 'center' },
+                    react_1.default.createElement(Flex_1.default, { width: "100%", gap: 0.5, alignItems: "center" },
                         showEmojis && (react_1.default.createElement(Dropdown_1.default, { closableOnlyOutside: true, direction: "dropdown", openOnHover: false, button: react_1.default.createElement(ToolTip_1.default, null,
                                 react_1.default.createElement(Circle_1.default, { size: 2, funcss: "bg border" },
                                     react_1.default.createElement(md_1.MdOutlineEmojiEmotions, null)),
@@ -128,9 +133,9 @@ var RichText = function (_a) {
                                 },
                             ] })),
                         afterEmoji))) : (react_1.default.createElement("div", null)),
-                (maxValue && quill) ? (react_1.default.createElement("div", { className: "text-xs text-right" },
+                maxValue && quill ? (react_1.default.createElement("div", { className: "text-xs text-right" },
                     react_1.default.createElement("span", { className: "text-primary" }, quill.getText().trim().length),
-                    " /",
+                    "/",
                     maxValue)) : (react_1.default.createElement("div", null)))))));
 };
 exports.default = RichText;

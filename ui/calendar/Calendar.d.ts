@@ -14,6 +14,7 @@ interface CalendarProps {
     onActivityClick?: (activity: Activity) => void;
     onDateClick?: (date: Date) => void;
     funcss?: string;
+    readonly?: boolean;
     weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
     renderActivity?: (activity: Activity) => React.ReactNode;
     showAdjacentMonths?: boolean;

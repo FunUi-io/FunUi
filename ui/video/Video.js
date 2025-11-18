@@ -62,12 +62,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Video;
 var react_1 = __importStar(require("react"));
 var pi_1 = require("react-icons/pi");
-var io5_1 = require("react-icons/io5");
 var Text_1 = __importDefault(require("../text/Text"));
 var RowFlex_1 = __importDefault(require("../specials/RowFlex"));
 var ToolTip_1 = __importDefault(require("../tooltip/ToolTip"));
 var Circle_1 = __importDefault(require("../specials/Circle"));
 var Tip_1 = __importDefault(require("../tooltip/Tip"));
+var tfi_1 = require("react-icons/tfi");
 var videoFunctions_1 = require("./videoFunctions");
 var videoShortcuts_1 = require("./videoShortcuts");
 function Video(_a) {
@@ -266,38 +266,40 @@ function Video(_a) {
         poster && !hasStarted && !isPlaying && (react_1.default.createElement("div", { style: { backgroundImage: "url(".concat(poster, ")") }, className: "video_poster" })),
         react_1.default.createElement("video", __assign({ ref: videoRef, preload: "auto", src: src, className: "video_player fit min-w-200", onClick: handlePlayPauseToggle, onLoadedMetadata: handleLoadedMetadata, playsInline: true, controls: false }, rest)),
         react_1.default.createElement("div", { className: "video_controls ".concat(isMouseMoving ? 'show_controls' : 'hide_controls') },
-            react_1.default.createElement("div", { className: "w-80-p center animated fade-in" },
+            react_1.default.createElement("div", { className: " animated fade-in pr-5 pl-5" },
                 react_1.default.createElement(RowFlex_1.default, { gap: 0.3, funcss: 'mb-2', alignItems: "center" },
-                    react_1.default.createElement("div", { className: 'video_time' },
-                        react_1.default.createElement(Text_1.default, { text: (0, videoFunctions_1.formatTime)(currentTime), funcss: 'm-0', size: "sm" })),
                     react_1.default.createElement("div", { className: "col width-100-p" },
-                        react_1.default.createElement("input", { type: "range", min: 0, max: duration, value: currentTime, onChange: handleProgressBarChange, className: "width-100-p videoSlider styled-slider m-0", "aria-label": "Progress bar", style: { '--progress': "".concat((currentTime / duration) * 100) } })),
-                    react_1.default.createElement("div", { className: "video_time" },
-                        react_1.default.createElement(Text_1.default, { text: "".concat((0, videoFunctions_1.formatTime)(duration - currentTime)), funcss: 'm-0', size: "sm" })))),
+                        react_1.default.createElement("input", { type: "range", min: 0, max: duration, value: currentTime, onChange: handleProgressBarChange, className: "width-100-p videoSlider styled-slider m-0", "aria-label": "Progress bar", style: { '--progress': "".concat((currentTime / duration) * 100) } })))),
             react_1.default.createElement("div", { className: "_center-play-icon animated fade-in", onClick: handlePlayPauseToggle },
-                react_1.default.createElement("div", { className: '_play-button' }, isPlaying ? react_1.default.createElement(pi_1.PiPause, { size: 20 }) : react_1.default.createElement(pi_1.PiPlay, { size: 20 }))),
-            react_1.default.createElement(RowFlex_1.default, { funcss: 'animated slide-up', gap: 1, justify: "center" },
+                react_1.default.createElement("div", { className: '_play-button' }, isPlaying ? react_1.default.createElement(tfi_1.TfiControlPause, { size: 50 }) : react_1.default.createElement(tfi_1.TfiControlPlay, { size: 50 }))),
+            react_1.default.createElement(RowFlex_1.default, { funcss: 'animated slide-up pr-5 pl-5', gap: 1, justify: "space-between" },
                 react_1.default.createElement(RowFlex_1.default, { gap: 0.5 },
+                    react_1.default.createElement("div", { className: "hide-small" },
+                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2.5, onClick: handlePlayPauseToggle }, isPlaying ? react_1.default.createElement(tfi_1.TfiControlPause, { size: 20 }) : react_1.default.createElement(tfi_1.TfiControlPlay, { size: 20 }))),
                     react_1.default.createElement(ToolTip_1.default, null,
-                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2, onClick: handleRewind },
-                            react_1.default.createElement(pi_1.PiRewind, null)),
-                        react_1.default.createElement(Tip_1.default, { tip: "top", animation: "ScaleUp", duration: 0.5, content: "10 sec Back" })),
+                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2.5, onClick: handleRewind },
+                            react_1.default.createElement(tfi_1.TfiControlBackward, null)),
+                        react_1.default.createElement(Tip_1.default, { tip: "right", animation: "ScaleUp", duration: 0.5, content: "10 sec Back" })),
                     react_1.default.createElement(ToolTip_1.default, null,
-                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2, onClick: handleForward },
-                            react_1.default.createElement(pi_1.PiFastForward, null)),
-                        react_1.default.createElement(Tip_1.default, { tip: "top", animation: "ScaleUp", duration: 0.5, content: "10 sec Forward" })),
+                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2.5, onClick: handleForward },
+                            react_1.default.createElement(tfi_1.TfiControlForward, null)),
+                        react_1.default.createElement(Tip_1.default, { tip: "right", animation: "ScaleUp", duration: 0.5, content: "10 sec Forward" })),
                     react_1.default.createElement("div", { onMouseEnter: function () { return setShowVolume(true); }, onMouseLeave: function () { return setShowVolume(false); } },
                         react_1.default.createElement(RowFlex_1.default, null,
-                            react_1.default.createElement(Circle_1.default, { bordered: true, size: 2 },
-                                react_1.default.createElement(pi_1.PiSpeakerLow, null)),
-                            showVolume && (react_1.default.createElement("input", { type: "range", min: 0, max: 1, step: 0.01, value: volume, onChange: handleVolumeChange, className: "width-100 max-w-50 animated slide-right", style: { height: '3px', marginLeft: 8 }, "aria-label": "Volume" }))))),
+                            react_1.default.createElement(Circle_1.default, { bordered: true, size: 2.5 },
+                                react_1.default.createElement(tfi_1.TfiVolume, null)),
+                            showVolume && (react_1.default.createElement("input", { type: "range", min: 0, max: 1, step: 0.01, value: volume, onChange: handleVolumeChange, className: "width-100 max-w-50 animated slide-right", style: { height: '3px', marginLeft: 8 }, "aria-label": "Volume" })))),
+                    react_1.default.createElement("div", { className: 'video_time' },
+                        react_1.default.createElement(Text_1.default, { text: (0, videoFunctions_1.formatTime)(currentTime), funcss: 'm-0', size: "sm" }),
+                        "/",
+                        react_1.default.createElement(Text_1.default, { text: "".concat((0, videoFunctions_1.formatTime)(duration - currentTime)), funcss: 'm-0', size: "sm" }))),
                 react_1.default.createElement(RowFlex_1.default, { gap: 0.3 },
                     react_1.default.createElement(ToolTip_1.default, null,
-                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2, onClick: handleToggleFullScreen },
+                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2.5, onClick: handleToggleFullScreen },
                             react_1.default.createElement(pi_1.PiCornersOut, null)),
-                        react_1.default.createElement(Tip_1.default, { tip: "top", animation: "ScaleUp", duration: 0.5, content: "Expand" })),
+                        react_1.default.createElement(Tip_1.default, { tip: "left", animation: "ScaleUp", duration: 0.5, content: "Expand" })),
                     react_1.default.createElement(ToolTip_1.default, null,
-                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2, onClick: function () { return window.open(src || '', '_blank'); } },
-                            react_1.default.createElement(io5_1.IoCloudDownloadOutline, null)),
-                        react_1.default.createElement(Tip_1.default, { tip: "top", animation: "ScaleUp", duration: 0.5, content: "Download" })))))));
+                        react_1.default.createElement(Circle_1.default, { bordered: true, size: 2.5, onClick: function () { return window.open(src || '', '_blank'); } },
+                            react_1.default.createElement(tfi_1.TfiDownload, null)),
+                        react_1.default.createElement(Tip_1.default, { tip: "left", animation: "ScaleUp", duration: 0.5, content: "Download" })))))));
 }

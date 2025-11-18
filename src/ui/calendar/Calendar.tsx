@@ -14,6 +14,9 @@ import ActivityCard from './ActivityCard';
 import View from '../view/View';
 import Dropdown from '../drop/Dropdown';
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import Flex from '../flex/Flex';
+import Select from '../select/Select';
+import Col from '../grid/Col';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -34,6 +37,7 @@ interface CalendarProps {
   onActivityClick?: (activity: Activity) => void;
   onDateClick?: (date: Date) => void;
   funcss?: string;
+  readonly?: boolean;
   weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   renderActivity?: (activity: Activity) => React.ReactNode;
   showAdjacentMonths?: boolean;
@@ -51,6 +55,7 @@ const Calendar: React.FC<CalendarProps> = ({
   renderActivity,
   showAdjacentMonths = true,
   minDate,
+  readonly = false,
   maxDate,
 }) => {
   const [currentMonth, setCurrentMonth] = useState<Dayjs>(dayjs());
@@ -174,14 +179,12 @@ useEffect(() => {
           <PiCaretLeft />
         </Avatar>
 
-        <div className="calendar-title">
-          <RowFlex gap={1} align="center">
-            <Input
-              type="text"
-              select
+          <Flex width='100%' gap={1} alignItems="center">
+            <Col>
+              <Select
               value={currentMonth.month().toString()}
-              onChange={(e) =>
-                setCurrentMonth(currentMonth.month(parseInt(e.target.value)))
+              onChange={(e:string) =>
+                setCurrentMonth(currentMonth.month(parseInt(e)))
               }
               options={Array.from({ length: 12 }, (_, i) => ({
                 value: i.toString(),
@@ -191,12 +194,12 @@ useEffect(() => {
               funcss="round-edge"
             />
 
-            <Input
-              type="text"
-              select
+            </Col>
+          <Col>
+            <Select
               value={currentMonth.year().toString()}
-              onChange={(e) =>
-                setCurrentMonth(currentMonth.year(parseInt(e.target.value)))
+              onChange={(e:string) =>
+                setCurrentMonth(currentMonth.year(parseInt(e)))
               }
               options={Array.from({ length: 21 }, (_, i) => {
                 const year = dayjs().year() - 10 + i;
@@ -206,6 +209,7 @@ useEffect(() => {
               funcss="round-edge"
             />
             
+          </Col>
             <Dropdown
       direction="dropdown"
       position='right'
@@ -231,8 +235,7 @@ useEffect(() => {
     />
            
             
-          </RowFlex>
-        </div>
+          </Flex>
 
         <Avatar funcss="border" onClick={nextPeriod}>
           <PiCaretRight />
@@ -288,7 +291,7 @@ useEffect(() => {
               )
              }
 
-              {hoveredDate === key && !disabled && (
+              {hoveredDate === key && !disabled && !readonly && (
                 <div className="add-icon hide-small" onClick={(e) => handleAdd(e, date)}>
                   <Circle bg='primary'>
                     <PiPlus />

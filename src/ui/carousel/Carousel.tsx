@@ -5,12 +5,16 @@ import Circle from '../specials/Circle';
 import RowFlex from '../specials/RowFlex';
 import { isTouchDevice } from '../../utils/Functions';
 
-interface CarouselProps {
+interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   scrollNumber?: number;
   gap?: number;
   funcss?: string;
   children: ReactNode;
   showDashes?: boolean;
+  allowVerticalOverflow?: boolean;
+  itemPadding?: string;
+  controlerSize?:number
+  controlerIconSize?:number
 }
 
 const Carousel: React.FC<CarouselProps> = ({
@@ -18,7 +22,12 @@ const Carousel: React.FC<CarouselProps> = ({
   gap = 0.5,
   funcss = '',
   showDashes = true,
+  allowVerticalOverflow = false,
+  itemPadding = '0rem',
   children,
+  controlerSize = 2.5,
+  controlerIconSize = 20,
+  ...rest
 }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [scrollPosition, setScrollPosition] = useState<'start' | 'middle' | 'end'>('start');
@@ -83,12 +92,12 @@ const Carousel: React.FC<CarouselProps> = ({
   }, []);
 
   return (
-    <div className={`carousel-wrapper ${funcss}`}>
-      <RowFlex gap={1} wrap="nowrap" alignItems="center">
+    <div className={`carousel-wrapper ${funcss}`} {...rest}>
+      <>
         {!isPhone && isScrollable && (
-          <div>
-            <Circle onClick={() => scroll('left')}>
-              <PiCaretLeft size={24} />
+          <div className='carouselLeft'>
+            <Circle bordered  size={controlerSize} onClick={() => scroll('left')}>
+              <PiCaretLeft  className='text-primary' size={controlerIconSize} />
             </Circle>
           </div>
         )}
@@ -100,10 +109,12 @@ const Carousel: React.FC<CarouselProps> = ({
             width: '100%',
             gap: gap + 'rem',
             overflowX: 'auto',
+            overflowY: 'visible',
             display: 'flex',
             justifyItems: (isScrollable || isPhone) ? 'flex-start' : 'center',
             scrollSnapType: 'x mandatory',
             scrollBehavior: 'smooth',
+            padding:itemPadding || "0.5rem"
           }}
         >
           {React.Children.map(children, (child) => (
@@ -114,13 +125,13 @@ const Carousel: React.FC<CarouselProps> = ({
         </div>
 
         {!isPhone && isScrollable && (
-          <div>
-            <Circle onClick={() => scroll('right')}>
-              <PiCaretRight size={24} />
+          <div  className='carouselRight'>
+            <Circle bordered size={controlerSize} onClick={() => scroll('right')}>
+              <PiCaretRight className='text-primary' size={controlerIconSize} />
             </Circle>
           </div>
         )}
-      </RowFlex>
+      </>
 
       {/* Dashes below the carousel */}
       {

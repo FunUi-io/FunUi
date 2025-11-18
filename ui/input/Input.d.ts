@@ -5,7 +5,7 @@ interface BaseInputProps {
     value?: any;
     defaultValue?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
-    status?: 'success' | 'warning' | 'danger' | '';
+    status?: 'success' | 'warning' | 'danger' | 'info' | '';
     funcss?: string;
     bg?: string;
     fullWidth?: boolean;
@@ -15,6 +15,16 @@ interface BaseInputProps {
     rounded?: boolean;
     leftRounded?: boolean;
     rightRounded?: boolean;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    prefix?: React.ReactNode;
+    suffix?: React.ReactNode;
+    stringPrefix?: string;
+    stringSuffix?: string;
+    iconicBg?: string;
+    variant?: string;
+    label?: string;
+    helperText?: string;
 }
 interface SelectOption {
     value: string;
@@ -22,17 +32,14 @@ interface SelectOption {
 }
 interface TextInputProps extends BaseInputProps {
     type?: string;
-    label?: string;
 }
 interface SelectProps extends BaseInputProps {
     options?: SelectOption[];
 }
 interface TextareaProps extends BaseInputProps {
-    label?: string;
     rows?: number;
 }
 interface FileInputProps extends BaseInputProps {
-    label?: string;
     icon?: React.ReactNode;
     extra?: React.ReactNode;
     button?: React.ReactNode;
@@ -52,7 +59,6 @@ interface InputProps extends BaseInputProps {
     button?: React.ReactNode;
     btn?: boolean;
     type?: string;
-    label?: string;
     options?: SelectOption[];
     rows?: number;
 }

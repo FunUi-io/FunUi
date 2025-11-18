@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useVariant } from '../theme/theme';
+import Flex from '../flex/Flex';
 
 interface SelectOption {
   value: string;
   text: string;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
 }
 
 interface CustomSelectProps {
@@ -12,8 +16,8 @@ interface CustomSelectProps {
   defaultValue?: string;
   placeholder?: string;
   options: SelectOption[];
-  onChange?: (value: string, option: SelectOption) => void;
-  onBlur?: (event: React.FocusEvent) => void;
+  onChange?: (value: string, event?: { target: { value: string; name: string } }) => void;
+  onBlur?: (event: React.FocusEvent<HTMLSelectElement>) => void;
   searchable?: boolean;
   disabled?: boolean;
   bordered?: boolean;
@@ -27,6 +31,7 @@ interface CustomSelectProps {
   label?: string;
   searchAutoFocus?: boolean;
   style?: React.CSSProperties;
+  required?: boolean;
 }
 
 const Select: React.FC<CustomSelectProps> = ({
@@ -50,27 +55,22 @@ const Select: React.FC<CustomSelectProps> = ({
   funcss = '',
   style = {},
   searchAutoFocus = false,
+  required = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [filteredOptions, setFilteredOptions] = useState(options);
+  const [internalValue, setInternalValue] = useState(value || defaultValue || '');
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
+  const { variant } = useVariant();
 
-  // Initialize selected option
-  useEffect(() => {
-    const initialValue = value || defaultValue;
-    if (initialValue) {
-      const option = options.find(opt => opt.value === initialValue);
-      if (option) {
-        setSelectedOption(option);
-      }
-    }
-  }, [value, defaultValue, options]);
+  const currentValue = value !== undefined ? value : internalValue;
+  const selectedOption = options.find(opt => opt.value === currentValue) || null;
 
   // Update filtered options when search query changes
   useEffect(() => {
@@ -103,10 +103,10 @@ const Select: React.FC<CustomSelectProps> = ({
   const openDropdown = () => {
     if (disabled) return;
     setIsOpen(true);
-    if (searchable && searchInputRef.current ) {
-     if(searchAutoFocus) {
-      setTimeout(() => searchInputRef.current?.focus(), 100);
-     }
+    if (searchable && searchInputRef.current) {
+      if (searchAutoFocus) {
+        setTimeout(() => searchInputRef.current?.focus(), 100);
+      }
     } else if (selectedOption) {
       const index = filteredOptions.findIndex(opt => opt.value === selectedOption.value);
       setFocusedIndex(index >= 0 ? index : 0);
@@ -122,9 +122,37 @@ const Select: React.FC<CustomSelectProps> = ({
   };
 
   const selectOption = (option: SelectOption) => {
-    setSelectedOption(option);
+    setInternalValue(option.value);
     closeDropdown();
-    onChange?.(option.value, option);
+    
+    // Trigger native select change
+    if (selectRef.current) {
+      selectRef.current.value = option.value;
+      const nativeEvent = new Event('change', { bubbles: true });
+      selectRef.current.dispatchEvent(nativeEvent);
+    }
+
+    // Call onChange with value as first argument and event object as second
+    if (onChange) {
+      const eventObject = {
+        target: { value: option.value, name: name || '' }
+      };
+      onChange(option.value, eventObject);
+    }
+  };
+
+  const handleNativeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newValue = event.target.value;
+    const option = options.find(opt => opt.value === newValue);
+    
+    setInternalValue(newValue);
+    
+    if (onChange && option) {
+      const eventObject = {
+        target: { value: newValue, name: name || '' }
+      };
+      onChange(newValue, eventObject);
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -178,8 +206,8 @@ const Select: React.FC<CustomSelectProps> = ({
     const classes = [
       'select-trigger',
       isOpen && 'open',
-      bordered && 'bordered',
-      borderless && 'borderless',
+      variant === 'standard' ? 'bordered' : bordered && 'bordered',
+      variant === 'minimal' ? 'borderless' : borderless && 'borderless',
       flat && 'flat',
       status && status,
       disabled && 'disabled'
@@ -192,7 +220,7 @@ const Select: React.FC<CustomSelectProps> = ({
     const classes = [
       'custom-select',
       fullWidth && 'fullWidth',
-       , 
+      className,
     ].filter(Boolean);
 
     return classes.join(' ');
@@ -204,7 +232,33 @@ const Select: React.FC<CustomSelectProps> = ({
       className={`${funcss} ${rounded && 'round-edge'} ${getContainerClasses()}`}
       style={style}
     >
-   
+      {/* Native select for form compatibility */}
+      <select
+        ref={selectRef}
+        id={id}
+        name={name}
+        value={currentValue}
+        onChange={handleNativeChange}
+        onBlur={onBlur}
+        disabled={disabled}
+        required={required}
+        style={{
+          position: 'absolute',
+          opacity: 0,
+          width: 0,
+          height: 0,
+          pointerEvents: 'none'
+        }}
+        tabIndex={-1}
+      >
+        {!label && <option value="">Select an option</option>}
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.text}
+          </option>
+        ))}
+      </select>
+
       <div
         ref={triggerRef}
         className={`${funcss} ${rounded && 'round-edge'}  ${getTriggerClasses()}`}
@@ -243,6 +297,7 @@ const Select: React.FC<CustomSelectProps> = ({
             type="text"
             className="select-search"
             placeholder="Search options..."
+            style={{borderRadius:0}}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKeyDown}
@@ -255,6 +310,7 @@ const Select: React.FC<CustomSelectProps> = ({
           ) : (
             filteredOptions.map((option, index) => (
               <button
+              style={{borderRadius:0}}
                 key={option.value}
                 type="button"
                 className={`select-option ${
@@ -264,20 +320,14 @@ const Select: React.FC<CustomSelectProps> = ({
                 role="option"
                 aria-selected={selectedOption?.value === option.value}
               >
-                {option.text}
+                <Flex width='100%' gap={0.5}>
+                 {option?.prefix} {option.text} {option?.suffix}
+                </Flex>
               </button>
             ))
           )}
         </div>
       </div>
-
-      {/* Hidden input for form submission */}
-      <input
-        type="hidden"
-        id={id}
-        name={name}
-        value={selectedOption?.value || ''}
-      />
     </div>
   );
 };

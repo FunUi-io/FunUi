@@ -1,11 +1,16 @@
-import { ReactNode } from 'react';
-import * as React from 'react';
+import React, { ReactNode, MouseEvent } from 'react';
 interface ButtonProps {
     color?: string;
     bg?: string;
     funcss?: string;
     startIcon?: ReactNode;
     endIcon?: ReactNode;
+    stringPrefix?: string;
+    stringSuffix?: string;
+    prefix?: ReactNode;
+    suffix?: ReactNode;
+    iconSize?: number | string;
+    iconLineHeight?: string | number;
     text?: string;
     rounded?: boolean;
     raised?: boolean;
@@ -16,6 +21,7 @@ interface ButtonProps {
     fullWidth?: boolean;
     outlined?: boolean;
     small?: boolean;
+    hoverless?: boolean;
     smaller?: boolean;
     big?: boolean;
     bigger?: boolean;
@@ -24,16 +30,17 @@ interface ButtonProps {
     hoverNone?: boolean;
     fillAnimation?: boolean;
     bold?: boolean;
-    hoverless?: boolean;
     fillDirection?: string;
     fillTextColor?: string;
     buttonFillStyle?: React.CSSProperties;
     outlineSize?: number;
     isLoading?: boolean;
+    variant?: string;
+    url?: string;
     status?: 'success' | 'warning' | 'info' | 'danger';
     children?: React.ReactNode;
     style?: React.CSSProperties;
-    onClick?: (...args: unknown[]) => void;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
-export default function Button({ color, bg, funcss, startIcon, endIcon, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, children, bold, style, onClick, ...rest }: ButtonProps): React.JSX.Element;
+export default function Button({ variant, color, bg, funcss, startIcon, endIcon, stringPrefix, stringSuffix, prefix, suffix, iconSize, iconLineHeight, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, bold, children, style, url, onClick, ...rest }: ButtonProps): React.JSX.Element;
 export {};

@@ -18,7 +18,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onClick }) => {
         onClick?.(activity);
       }}
     >
-      <Text text={activity.title} size="xs" block truncate={2} />
+      <Text text={activity.title} size="sm" block truncate={2} />
       {activity.footer && <div>{activity.footer}</div>}
     </div>
   );

@@ -46,6 +46,7 @@ type TableProps = {
   customColumns?: { title: string; render: (data: any) => React.ReactNode; onClick?: (data: any) => void }[];
   filterableFields?: string[]; // New prop for filterable fields
   prioritizeSearchFields?: string[];
+  onRowClick?: (data: any) => void;
 };
 
 export default function Table({
@@ -72,6 +73,7 @@ export default function Table({
   filterOnchange,
   clearSearch,
   prioritizeSearchFields = [],
+  onRowClick,
   ...rest
 }: TableProps) {
    // Check if data is null or undefined before accessing its properties
@@ -250,7 +252,7 @@ const uniqueValues = selectedField
           funcss='min-w-300 w-full'
           rounded
         value={selectedField || ''}
-        onChange={(e) => handleFieldChange(e)}
+        onChange={(e:string) => handleFieldChange(e)}
         options={[
         { text: '🔍 Filter', value: '' },
         { text: 'All*', value: '' },
@@ -271,7 +273,7 @@ const uniqueValues = selectedField
             funcss='min-w-300 w-full'
 fullWidth
      value={selectedValue || ''}
-     onChange={(e) => {
+     onChange={(e:string) => {
        if (e === 'clear_all') {
          setSelectedField('');
        } else {
@@ -399,7 +401,7 @@ fullWidth
     
     return (shouldSlice ? results.slice(startIndex, endIndex) : results)
       .map((mdoc, index) => (
-        <tr className='animated slide-up' key={index}>
+        <tr className='animated slide-up' key={index} onClick={onRowClick ? () => onRowClick(mdoc) : undefined}>
           {
             data.fields.map((fdoc, findex) => (
               <TableData key={fdoc} funcss={data.funcss ? data?.funcss?.[findex] || '' : ''}>

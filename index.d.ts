@@ -56,5 +56,6 @@ export { default as FlexItem } from "./ui/flex/FlexItem";
 export { default as ScrollToTop } from "./ui/scrolltotop/ScrollToTop";
 export { default as Select } from "./ui/select/Select";
 export { default as Cookie } from "./js/Cookie";
+export { useVariable } from "./ui/theme/theme";
 export { FunGet } from "./js/Fun";
 export { default as GoogleAnalytics } from "./js/google/analytics";

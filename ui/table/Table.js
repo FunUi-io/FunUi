@@ -95,7 +95,7 @@ function Table(_a) {
     var _b, _c;
     var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, _d = _a.title, title = _d === void 0 ? "" : _d, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, _e = _a.isLoading, isLoading = _e === void 0 ? false : _e, right = _a.right, hideExport = _a.hideExport, height = _a.height, _f = _a.pageSize, pageSize = _f === void 0 ? data ? 10 : 0 : _f, // Default page size,
     customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
-    emptyResponse = _a.emptyResponse, filterOnchange = _a.filterOnchange, clearSearch = _a.clearSearch, _g = _a.prioritizeSearchFields, prioritizeSearchFields = _g === void 0 ? [] : _g, rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "hideExport", "height", "pageSize", "customColumns", "filterableFields", "emptyResponse", "filterOnchange", "clearSearch", "prioritizeSearchFields"]);
+    emptyResponse = _a.emptyResponse, filterOnchange = _a.filterOnchange, clearSearch = _a.clearSearch, _g = _a.prioritizeSearchFields, prioritizeSearchFields = _g === void 0 ? [] : _g, onRowClick = _a.onRowClick, rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "hideExport", "height", "pageSize", "customColumns", "filterableFields", "emptyResponse", "filterOnchange", "clearSearch", "prioritizeSearchFields", "onRowClick"]);
     // Check if data is null or undefined before accessing its properties
     // Replace this in your component
     var _h = (0, react_1.useState)(''), search = _h[0], setSearch = _h[1];
@@ -278,7 +278,7 @@ function Table(_a) {
                         var results = (0, Query_1.getAdvancedFilteredData)(filteredData, searchQuery, data, getNestedValue, prioritizeSearchFields);
                         var shouldSlice = !searchQuery || results.length > 10;
                         return (shouldSlice ? results.slice(startIndex, endIndex) : results)
-                            .map(function (mdoc, index) { return (React.createElement("tr", { className: 'animated slide-up', key: index },
+                            .map(function (mdoc, index) { return (React.createElement("tr", { className: 'animated slide-up', key: index, onClick: onRowClick ? function () { return onRowClick(mdoc); } : undefined },
                             data.fields.map(function (fdoc, findex) {
                                 var _a;
                                 return (React.createElement(Data_1.default, { key: fdoc, funcss: data.funcss ? ((_a = data === null || data === void 0 ? void 0 : data.funcss) === null || _a === void 0 ? void 0 : _a[findex]) || '' : '' }, getNestedValue(mdoc, fdoc)));

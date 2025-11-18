@@ -42,7 +42,8 @@ var react_1 = __importStar(require("react"));
 var RowFlex_1 = __importDefault(require("../specials/RowFlex"));
 var Text_1 = __importDefault(require("../text/Text"));
 var navigation_1 = require("next/navigation");
-var link_1 = __importDefault(require("next/link"));
+var theme_1 = require("../theme/theme");
+var Button_1 = __importDefault(require("../button/Button"));
 function SideBar(_a) {
     var _b;
     var _c = _a.funcss, funcss = _c === void 0 ? '' : _c, _d = _a.position, position = _d === void 0 ? 'left' : _d, _e = _a.open, open = _e === void 0 ? false : _e, header = _a.header, content = _a.content, footer = _a.footer, _f = _a.top, top = _f === void 0 ? 0 : _f, _g = _a.sidebarWidth, sidebarWidth = _g === void 0 ? 250 : _g, _h = _a.iconCSS, iconCSS = _h === void 0 ? '' : _h, _j = _a.sidebarCss, sidebarCss = _j === void 0 ? '' : _j, activeCss = _a.activeCss, _k = _a.bodyCss, bodyCss = _k === void 0 ? '' : _k, _l = _a.popIcon, popIcon = _l === void 0 ? false : _l, _m = _a.dividers, dividers = _m === void 0 ? false : _m, _o = _a.links, links = _o === void 0 ? [] : _o, children = _a.children, onClose = _a.onClose;
@@ -51,6 +52,8 @@ function SideBar(_a) {
     var _r = (0, react_1.useState)('0px'), appBarHeight = _r[0], setAppBarHeight = _r[1];
     var pathname = (0, navigation_1.usePathname)();
     var sidebarRef = (0, react_1.useRef)(null);
+    var variant = (0, theme_1.useVariant)().variant;
+    var _s = (0, react_1.useState)(""), selectedOption = _s[0], setselectedOption = _s[1];
     var updateIsMobile = (0, react_1.useCallback)(function () {
         setIsMobile(window.innerWidth <= 992);
     }, []);
@@ -110,15 +113,23 @@ function SideBar(_a) {
                     var section = _a[0], sectionLinks = _a[1];
                     return (react_1.default.createElement("div", { key: section, className: "sidebar-section ".concat(dividers ? "bt" : "", " pt-2 pb-2") },
                         react_1.default.createElement(Text_1.default, { size: "sm", funcss: "opacity-6 p-1 pl-2 pr-2" }, section),
-                        sectionLinks.map(function (link) {
-                            var isActive = pathname === link.uri;
-                            return (react_1.default.createElement(link_1.default, { onClick: function () {
+                        sectionLinks.map(function (link, index) {
+                            var isActive = link.onClick
+                                ? selectedOption === "".concat(section, "-").concat(index)
+                                : pathname === link.uri;
+                            return (react_1.default.createElement("div", { onClick: function () {
                                     if (isMobile) {
                                         handleClose();
                                     }
-                                }, key: link.uri, href: link.uri },
-                                react_1.default.createElement("div", { className: "p-1 pl-2 pr-2 sidebar-link  ".concat(isActive ? "primary50 outline-primary200 ".concat(activeCss || '') : 'hoverable') },
-                                    react_1.default.createElement("span", { className: "".concat(iconCSS || '', " ").concat(popIcon ? "p-1 border lighter central" : ""), style: { lineHeight: 0, borderRadius: "0.4rem" } }, link.icon),
+                                    if (link === null || link === void 0 ? void 0 : link.onClick) {
+                                        link.onClick();
+                                        setselectedOption("".concat(section, "-").concat(index));
+                                    }
+                                    else {
+                                        window.location.href = link.uri;
+                                    }
+                                }, key: link.uri },
+                                react_1.default.createElement(Button_1.default, { fullWidth: true, small: true, funcss: "p-1 pl-2 pr-2  sidebar-link text-left  ".concat(isActive ? "primary  ".concat(activeCss || '') : 'hoverable'), startIcon: react_1.default.createElement("span", { className: "".concat(iconCSS || '', " \n                            ").concat((variant === 'standard' || popIcon) ? "p-1  ".concat(isActive ? "primary" : "lighter text-primary border", " central") : (variant === "minimal" && !isActive) ? "p-1 central lighter text-primary" : ""), style: { lineHeight: 0, borderRadius: "0.4rem" } }, link.icon) },
                                     react_1.default.createElement(Text_1.default, { text: link.text, size: "sm", weight: 400 }))));
                         })));
                 }))),
