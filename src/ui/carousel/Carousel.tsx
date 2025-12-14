@@ -118,7 +118,7 @@ const Carousel: React.FC<CarouselProps> = ({
           }}
         >
           {React.Children.map(children, (child) => (
-            <div className="carousel-item" style={{ flexShrink: 0 }}>
+            <div className="carousel-item" style={{ flexShrink: 0  }}>
               <div className="carousel-card">{child}</div>
             </div>
           ))}

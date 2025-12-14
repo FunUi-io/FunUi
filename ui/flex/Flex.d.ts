@@ -19,6 +19,7 @@ interface FlexProps {
     responsiveLarge?: boolean;
     width?: string;
     height?: string;
+    fit?: Boolean;
 }
-export default function Flex({ className, funcss, id, children, style, direction, wrap, justify, alignItems, alignContent, gap, gapX, gapY, gapUnit, responsiveSmall, responsiveMedium, responsiveLarge, width, height, ...rest }: FlexProps): React.JSX.Element;
+export default function Flex({ className, funcss, id, children, style, direction, wrap, justify, alignItems, alignContent, gap, gapX, gapY, gapUnit, responsiveSmall, responsiveMedium, responsiveLarge, fit, width, height, ...rest }: FlexProps): React.JSX.Element;
 export {};

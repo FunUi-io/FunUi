@@ -13,7 +13,9 @@ type DivProps = {
   width?: string;
   padding?: string;
   margin?: string;
+  id?: string;
   fit?: boolean;
+  ref?: React.Ref<HTMLDivElement>;
   customStyle?: React.CSSProperties;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
@@ -30,7 +32,9 @@ const Div = ({
   width,
   padding,
   margin,
+  id,
   fit,
+  ref,
   customStyle,
   ...rest
 }: DivProps) => {
@@ -38,6 +42,7 @@ const Div = ({
     <div>
 
         <div
+          ref={ref}
           className={`${fit ? 'width-100-p height-100-p' : ''} ${funcss}`}
           style={{
             height: height || '',
@@ -50,6 +55,7 @@ const Div = ({
             margin: margin || '',
             ...customStyle
           }}
+          id={id}
           {...rest}
         >
           {content || children}

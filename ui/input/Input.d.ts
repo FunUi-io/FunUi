@@ -39,16 +39,9 @@ interface SelectProps extends BaseInputProps {
 interface TextareaProps extends BaseInputProps {
     rows?: number;
 }
-interface FileInputProps extends BaseInputProps {
-    icon?: React.ReactNode;
-    extra?: React.ReactNode;
-    button?: React.ReactNode;
-    btn?: boolean;
-}
 export declare const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTMLInputElement>>;
 export declare const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTMLSelectElement>>;
 export declare const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttributes<HTMLTextAreaElement>>;
-export declare const FileInput: React.FC<FileInputProps & React.InputHTMLAttributes<HTMLInputElement>>;
 interface InputProps extends BaseInputProps {
     select?: boolean;
     multiline?: boolean;

@@ -46,7 +46,6 @@ interface CardProps {
   gradient?: string;
   opacity?: number;
   border?: string;
-  hoverEffect?: 'none' | 'lift' | 'glow';
   
   // Enhanced Content Props
   heading?: ReactNode;
@@ -89,6 +88,32 @@ interface CardProps {
   ctaPrimaryText?: string;
   ctaSecondaryText?: string;
   ctaAccentText?: string;
+  
+  // NEW CTA Button Props
+  ctaPrimaryRounded?: boolean;
+  ctaPrimaryFlat?: boolean;
+  ctaPrimaryPrefix?: string;
+  ctaPrimarySuffix?: string;
+  primaryIconSize?: number;
+  primaryButtonFuncss?: string;
+  primaryButtonSmall?: boolean;
+
+  ctaSecondaryRounded?: boolean;
+  ctaSecondaryFlat?: boolean;
+  ctaSecondaryPrefix?: string;
+  ctaSecondarySuffix?: string;
+  secondaryIconSize?: number;
+  secondaryButtonFuncss?: string;
+  secondaryButtonSmall?: boolean;
+
+  ctaAccentRounded?: boolean;
+  ctaAccentFlat?: boolean;
+  ctaAccentPrefix?: string;
+  ctaAccentSuffix?: string;
+  accentIconSize?: number;
+  accentButtonFuncss?: string;
+  accentButtonSmall?: boolean;
+
   ctaGap?: number;
   ctaFlexJustify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
   ctaClass?: string;
@@ -105,194 +130,15 @@ interface CardProps {
   variant?: string;
 }
 
-export default function Card({
-  // Original Props
-  color,
-  bg,
-  width,
-  height,
-  minHeight,
-  minWidth,
-  margin,
-  padding,
-  funcss,
-  children,
-  roundEdge,
-  maxHeight,
-  maxWidth,
-  horizontal,
-  id, 
-  header,
-  body,
-  footer,
-  noGap,
-  fab,
-  image,
-  shadowless,
-  flat,
-  responsiveMedium,
-  xl,
-  responsiveSmall,
-  style,
+export default function Card(localProps: CardProps) {
+  // Use the component config hook with the variant from localProps
+  const { mergeWithLocal } = useComponentConfiguration('Card', localProps.variant);
+  
+  // Merge config with local props - local props override config
+  const { props: mergedProps } = mergeWithLocal(localProps);
 
-  // Pattern Props
-  pattern = 'none',
-  patternOpacity = 0.1,
-  gradient,
-  opacity = 1,
-  border,
-  hoverEffect = 'none',
-  
-  // Enhanced Content Props
-  heading,
-  headingSize = 'xl',
-  headingWeight = 700,
-  headingColor,
-  headingClass,
-  headingLineHeight,
-  
-  subheading,
-  subheadingSize = 'base',
-  subheadingWeight = 400,
-  subheadingColor = 'light',
-  subheadingClass,
-  subheadingLineHeight,
-  
-  content,
-  contentSize = 'base',
-  contentWeight = 400,
-  contentColor,
-  contentClass,
-  contentLineHeight,
-
-  // Image Props
-  imageUrl,
-  imageAlt = '',
-  imageClass = '',
-  imageSize = '100%',
-
-  // Enhanced Footer/CTA Props
-  showPrimaryCTA = false,
-  showSecondaryCTA = false,
-  showAccentCTA = false,
-  primaryButtonOutlined = false,
-  secondaryButtonOutlined = false,
-  accentButtonOutlined = false,
-  ctaPrimaryUrl = '',
-  ctaSecondaryUrl = '',
-  ctaAccentUrl = '',
-  ctaPrimaryText = 'Primary Action',
-  ctaSecondaryText = 'Secondary Action',
-  ctaAccentText = 'Accent Action',
-  ctaGap = 1,
-  ctaFlexJustify = 'center',
-  ctaClass = '',
-  
-  // Section Styling Props
-  headerStyle,
-  headerClass,
-  bodyStyle,
-  bodyClass,
-  footerStyle,
-  footerClass,
-  
-  // Configuration
-  variant,
-  ...rest
-}: CardProps) {
-  // Use the component config hook
-  const { mergeWithLocal } = useComponentConfiguration('Card', variant);
-  
-  // Merge config with local props
-  const { props: mergedProps } = mergeWithLocal({
-    // Original props
-    color,
-    bg,
-    width,
-    height,
-    minHeight,
-    minWidth,
-    margin,
-    padding,
-    funcss,
-    children,
-    roundEdge,
-    maxHeight,
-    maxWidth,
-    horizontal,
-    id,
-    header,
-    body,
-    footer,
-    noGap,
-    fab,
-    image,
-    shadowless,
-    flat,
-    responsiveMedium,
-    xl,
-    responsiveSmall,
-    style,
-    
-    // Pattern props
-    pattern,
-    patternOpacity,
-    gradient,
-    opacity,
-    border,
-    hoverEffect,
-    
-    // Enhanced content props
-    heading,
-    headingSize,
-    headingWeight,
-    headingColor,
-    headingClass,
-    headingLineHeight,
-    subheading,
-    subheadingSize,
-    subheadingWeight,
-    subheadingColor,
-    subheadingClass,
-    subheadingLineHeight,
-    content,
-    contentSize,
-    contentWeight,
-    contentColor,
-    contentClass,
-    contentLineHeight,
-    
-    // Image props
-    imageUrl,
-    imageAlt,
-    imageClass,
-    imageSize,
-    
-    // CTA props
-    showPrimaryCTA,
-    showSecondaryCTA,
-    showAccentCTA,
-    primaryButtonOutlined,
-    secondaryButtonOutlined,
-    accentButtonOutlined,
-    ctaPrimaryUrl,
-    ctaSecondaryUrl,
-    ctaAccentUrl,
-    ctaPrimaryText,
-    ctaSecondaryText,
-    ctaAccentText,
-    ctaGap,
-    ctaFlexJustify,
-    ctaClass,
-    
-    // Section styling props
-    headerStyle,
-    headerClass,
-    bodyStyle,
-    bodyClass,
-    footerStyle,
-    footerClass,
-  });
+  // Use mergedProps directly - they already have the correct merge logic applied
+  const final = mergedProps;
 
   const { variant: themeVariant } = useVariant();
 
@@ -304,64 +150,132 @@ export default function Card({
     return content;
   };
 
+  // CTA Buttons Component
+  const CTAButtons = () => {
+    const hasCTAs = final.showPrimaryCTA || final.showSecondaryCTA || final.showAccentCTA;
+    
+    if (!hasCTAs) return null;
+
+    return (
+      <Flex 
+        gap={final.ctaGap} 
+        justify={final.ctaFlexJustify}
+        className={`mt-4 ${final.ctaClass}`}
+        wrap="wrap"
+        width='100%'
+      >
+        {final.showPrimaryCTA && (
+          <Button
+            bg="primary"
+            outlined={final.primaryButtonOutlined}
+            onClick={() => final.ctaPrimaryUrl && (window.location.href = final.ctaPrimaryUrl)}
+            rounded={final.ctaPrimaryRounded}
+            flat={final.ctaPrimaryFlat}
+            stringPrefix={final.ctaPrimaryPrefix}
+            stringSuffix={final.ctaPrimarySuffix}
+            iconSize={final.primaryIconSize}
+            funcss={final.primaryButtonFuncss}
+            small={final.primaryButtonSmall}
+          >
+            {final.ctaPrimaryText}
+          </Button>
+        )}
+        
+        {final.showSecondaryCTA && (
+          <Button
+            bg="secondary"
+            outlined={final.secondaryButtonOutlined}
+            onClick={() => final.ctaSecondaryUrl && (window.location.href = final.ctaSecondaryUrl)}
+            rounded={final.ctaSecondaryRounded}
+            flat={final.ctaSecondaryFlat}
+            stringPrefix={final.ctaSecondaryPrefix}
+            stringSuffix={final.ctaSecondarySuffix}
+            iconSize={final.secondaryIconSize}
+            funcss={final.secondaryButtonFuncss}
+            small={final.secondaryButtonSmall}
+          >
+            {final.ctaSecondaryText}
+          </Button>
+        )}
+        
+        {final.showAccentCTA && (
+          <Button
+            bg="accent"
+            outlined={final.accentButtonOutlined}
+            onClick={() => final.ctaAccentUrl && (window.location.href = final.ctaAccentUrl)}
+            rounded={final.ctaAccentRounded}
+            flat={final.ctaAccentFlat}
+            stringPrefix={final.ctaAccentPrefix}
+            stringSuffix={final.ctaAccentSuffix}
+            iconSize={final.accentIconSize}
+            funcss={final.accentButtonFuncss}
+            small={final.accentButtonSmall}
+          >
+            {final.ctaAccentText}
+          </Button>
+        )}
+      </Flex>
+    );
+  };
+
   // Enhanced Text Content with flexible styling
   const EnhancedTextContent = (
     <div className="card-enhanced-content">
-      {mergedProps.heading && (
+      {final.heading && (
         <Text 
           block 
-          size={mergedProps.headingSize}
-          weight={mergedProps.headingWeight}
-          color={mergedProps.headingColor}
-          funcss={mergedProps.headingClass}
-          lineHeight={mergedProps.headingLineHeight}
+          size={final.headingSize}
+          weight={final.headingWeight}
+          color={final.headingColor}
+          funcss={final.headingClass}
+          lineHeight={final.headingLineHeight}
         >
-          {renderContent(mergedProps.heading)}
+          {renderContent(final.heading)}
         </Text>
       )}
       
-      {mergedProps.subheading && (
+      {final.subheading && (
         <Text 
           block 
-          size={mergedProps.subheadingSize}
-          weight={mergedProps.subheadingWeight}
-          color={mergedProps.subheadingColor}
-          funcss={`mt-1 ${mergedProps.subheadingClass}`}
-          lineHeight={mergedProps.subheadingLineHeight}
+          size={final.subheadingSize}
+          weight={final.subheadingWeight}
+          color={final.subheadingColor}
+          funcss={`mt-1 ${final.subheadingClass}`}
+          lineHeight={final.subheadingLineHeight}
         >
-          {renderContent(mergedProps.subheading)}
+          {renderContent(final.subheading)}
         </Text>
       )}
       
-      {mergedProps.content && (
+      {final.content && (
         <Text 
           block 
-          size={mergedProps.contentSize}
-          weight={mergedProps.contentWeight}
-          color={mergedProps.contentColor}
-          funcss={`mt-3 ${mergedProps.contentClass}`}
-          lineHeight={mergedProps.contentLineHeight}
+          size={final.contentSize}
+          weight={final.contentWeight}
+          color={final.contentColor}
+          funcss={`mt-3 ${final.contentClass}`}
+          lineHeight={final.contentLineHeight}
           article
         >
-          {renderContent(mergedProps.content)}
+          {renderContent(final.content)}
         </Text>
       )}
     </div>
   );
 
   // Image Content - uses imageUrl if no image component provided
-  const ImageContent = (mergedProps.image || mergedProps.imageUrl) && (
+  const ImageContent = (final.image || final.imageUrl) && (
     <div className="card-image-content">
-      {mergedProps.image ? (
-        mergedProps.image
+      {final.image ? (
+        final.image
       ) : (
-        mergedProps.imageUrl && (
+        final.imageUrl && (
           <img 
-            src={mergedProps.imageUrl} 
-            alt={mergedProps.imageAlt}
-            className={mergedProps.imageClass}
+            src={final.imageUrl} 
+            alt={final.imageAlt}
+            className={final.imageClass}
             style={{ 
-              width: mergedProps.imageSize,
+              width: final.imageSize,
               height: 'auto',
               objectFit: 'cover',
               borderRadius: 'inherit'
@@ -372,100 +286,49 @@ export default function Card({
     </div>
   );
 
-  // CTA Buttons Component
-  const CTAButtons = () => {
-    const hasCTAs = mergedProps.showPrimaryCTA || mergedProps.showSecondaryCTA || mergedProps.showAccentCTA;
-    
-    if (!hasCTAs) return null;
-
-    return (
-      <Flex 
-        gap={mergedProps.ctaGap} 
-        justify={mergedProps.ctaFlexJustify}
-        className={`mt-4 ${mergedProps.ctaClass}`}
-        wrap="wrap"
-        width='100%'
-      >
-        {mergedProps.showPrimaryCTA && (
-          <Button
-            bg="primary"
-            outlined={mergedProps.primaryButtonOutlined}
-            onClick={() => mergedProps.ctaPrimaryUrl && (window.location.href = mergedProps.ctaPrimaryUrl)}
-          >
-            {mergedProps.ctaPrimaryText}
-          </Button>
-        )}
-        
-        {mergedProps.showSecondaryCTA && (
-          <Button
-            bg="secondary"
-            outlined={mergedProps.secondaryButtonOutlined}
-            onClick={() => mergedProps.ctaSecondaryUrl && (window.location.href = mergedProps.ctaSecondaryUrl)}
-          >
-            {mergedProps.ctaSecondaryText}
-          </Button>
-        )}
-        
-        {mergedProps.showAccentCTA && (
-          <Button
-            bg="accent"
-            outlined={mergedProps.accentButtonOutlined}
-            onClick={() => mergedProps.ctaAccentUrl && (window.location.href = mergedProps.ctaAccentUrl)}
-          >
-            {mergedProps.ctaAccentText}
-          </Button>
-        )}
-      </Flex>
-    );
-  };
-
   // Determine if we should use enhanced content
-  const hasEnhancedContent = mergedProps.heading || mergedProps.subheading || mergedProps.content;
-  const hasEnhancedFooter = mergedProps.showPrimaryCTA || mergedProps.showSecondaryCTA || mergedProps.showAccentCTA;
-  const hasImageContent = mergedProps.image || mergedProps.imageUrl;
+  const hasEnhancedContent = final.heading || final.subheading || final.content;
+  const hasEnhancedFooter = final.showPrimaryCTA || final.showSecondaryCTA || final.showAccentCTA;
+  const hasImageContent = final.image || final.imageUrl;
 
   return (
     <div
-      id={mergedProps.id || ''}
+      id={final.id || ''}
       className={`
         card 
         card_flex
-        ${!image && !imageUrl ? "p" : ""}
-        ${mergedProps.noGap ? 'no-gap' : ''} 
-        ${mergedProps.xl ? 'xl' : ''} 
-        text-${mergedProps.color || ''} 
-        ${mergedProps.bg || ''} 
-        ${mergedProps.funcss || ''} 
-        ${mergedProps.roundEdge ? 'round-edge' : ''} 
-        ${mergedProps.shadowless ? 'shadowless' : ''} 
-        ${mergedProps.flat ? 'flat' : ''} 
-        ${mergedProps.horizontal ? 'horizontalCard' : ''}
-        ${mergedProps.responsiveMedium ? 'responsiveMedium' : ''}
-        ${mergedProps.responsiveSmall ? 'responsiveSmall' : ''}
-        ${mergedProps.pattern !== 'none' ? `pattern-${mergedProps.pattern}` : ''}
-        ${mergedProps.hoverEffect !== 'none' ? `hover-${mergedProps.hoverEffect}` : ''}
-        ${themeVariant === "standard" ? "border" : ""}
+        ${!final.image && !final.imageUrl ? "p" : ""}
+        ${final.noGap ? 'no-gap' : ''} 
+        ${final.xl ? 'xl' : ''} 
+        text-${final.color || ''} 
+        ${final.bg || ''} 
+        ${final.funcss || ''} 
+        ${final.roundEdge ? 'round-edge' : ''} 
+        ${final.shadowless ? 'shadowless' : ''} 
+        ${final.flat ? 'flat' : ''} 
+        ${final.horizontal ? 'horizontalCard' : ''}
+        ${final.responsiveMedium ? 'responsiveMedium' : ''}
+        ${final.responsiveSmall ? 'responsiveSmall' : ''}
+        ${final.pattern !== 'none' ? `pattern-${final.pattern}` : ''}
       `}
       style={{
-        width: `${mergedProps.width || ''}`,
-        height: `${mergedProps.height || ''}`,
-        minHeight: `${mergedProps.minHeight || ''}`,
-        minWidth: `${mergedProps.minWidth || ''}`,
-        maxHeight: mergedProps.maxHeight || '',
-        maxWidth: mergedProps.maxWidth || '',
-        margin: `${mergedProps.margin || ''}`,
-        padding: `${mergedProps.padding || ''}`,
-        background: mergedProps.gradient,
-        opacity: mergedProps.opacity,
-        border: mergedProps.border,
+        width: `${final.width || ''}`,
+        height: `${final.height || ''}`,
+        minHeight: `${final.minHeight || ''}`,
+        minWidth: `${final.minWidth || ''}`,
+        maxHeight: final.maxHeight || '',
+        maxWidth: final.maxWidth || '',
+        margin: `${final.margin || ''}`,
+        padding: `${final.padding || ''}`,
+        background: final.gradient,
+        opacity: final.opacity,
         position: 'relative',
         overflow: 'hidden',
-        ...mergedProps.style
+        ...final.style
       }} 
-      {...rest}
     >
       {/* Pattern Overlay */}
-      {mergedProps.pattern !== 'none' && (
+      {final.pattern !== 'none' && (
         <div 
           className="card-pattern-overlay"
           style={{ 
@@ -475,32 +338,32 @@ export default function Card({
             right: 0,
             bottom: 0,
             pointerEvents: 'none',
-            opacity: mergedProps.patternOpacity,
+            opacity: final.patternOpacity,
             mixBlendMode: 'multiply',
             backgroundImage: 
-              mergedProps.pattern === 'grid' ? 
+              final.pattern === 'grid' ? 
                 `linear-gradient(to right, rgba(var(--borderRgb), 1) 1px, transparent 1px),
                  linear-gradient(to bottom, rgba(var(--borderRgb), 1) 1px, transparent 1px)` :
-              mergedProps.pattern === 'dots' ? 
+              final.pattern === 'dots' ? 
                 `radial-gradient(rgba(var(--borderRgb), 1) 1px, transparent 1px)` :
-              mergedProps.pattern === 'diagonal' ? 
+              final.pattern === 'diagonal' ? 
                 `repeating-linear-gradient(45deg, rgba(var(--borderRgb), 1), rgba(var(--borderRgb), 1) 1px, transparent 1px, transparent 10px)` :
-              mergedProps.pattern === 'checkerboard' ? 
+              final.pattern === 'checkerboard' ? 
                 `linear-gradient(45deg, rgba(var(--borderRgb), 1) 25%, transparent 25%), 
                  linear-gradient(-45deg, rgba(var(--borderRgb), 1) 25%, transparent 25%), 
                  linear-gradient(45deg, transparent 75%, rgba(var(--borderRgb), 1) 75%), 
                  linear-gradient(-45deg, transparent 75%, rgba(var(--borderRgb), 1) 75%)` :
-              mergedProps.pattern === 'horizontal' ? 
+              final.pattern === 'horizontal' ? 
                 `linear-gradient(to bottom, rgba(var(--borderRgb), 1) 1px, transparent 1px)` :
-              mergedProps.pattern === 'vertical' ? 
+              final.pattern === 'vertical' ? 
                 `linear-gradient(to right, rgba(var(--borderRgb), 1) 1px, transparent 1px)` : 'none',
             backgroundSize: 
-              mergedProps.pattern === 'grid' ? '20px 20px' :
-              mergedProps.pattern === 'dots' ? '10px 10px' :
-              mergedProps.pattern === 'diagonal' ? '20px 20px' :
-              mergedProps.pattern === 'checkerboard' ? '20px 20px' :
-              mergedProps.pattern === 'horizontal' ? '100% 10px' :
-              mergedProps.pattern === 'vertical' ? '10px 100%' : 'auto'
+              final.pattern === 'grid' ? '20px 20px' :
+              final.pattern === 'dots' ? '10px 10px' :
+              final.pattern === 'diagonal' ? '20px 20px' :
+              final.pattern === 'checkerboard' ? '20px 20px' :
+              final.pattern === 'horizontal' ? '100% 10px' :
+              final.pattern === 'vertical' ? '10px 100%' : 'auto'
           }}
         />
       )}
@@ -509,7 +372,7 @@ export default function Card({
       {hasImageContent ? (
         ImageContent
       ) : (
-        mergedProps.image ? <div className={`${mergedProps.fab ? 'relative' : ''}`}>{mergedProps.image} {mergedProps.fab ? mergedProps.fab : ''}</div> : ''
+        final.image ? <div className={`${final.fab ? 'relative' : ''}`}>{final.image} {final.fab ? final.fab : ''}</div> : ''
       )}
 
       <View funcss={hasImageContent ? 'p' : ''}>
@@ -517,75 +380,75 @@ export default function Card({
       {/* Use enhanced content or original header */}
       {hasEnhancedContent ? (
         <CardHeader 
-          style={mergedProps.headerStyle} 
-          className={mergedProps.headerClass}
+          style={final.headerStyle} 
+          className={final.headerClass}
         >
           {EnhancedTextContent}
         </CardHeader>
       ) : (
-        mergedProps.header && !mergedProps.horizontal ? (
+        final.header && !final.horizontal ? (
           <CardHeader 
-            style={mergedProps.headerStyle} 
-            className={mergedProps.headerClass}
+            style={final.headerStyle} 
+            className={final.headerClass}
           >
-            {renderContent(mergedProps.header)}
+            {renderContent(final.header)}
           </CardHeader>
         ) : ''
       )}
 
       {/* Body content */}
-      {mergedProps.body ? 
+      {final.body ? 
         <div>
-          {mergedProps.horizontal && !hasEnhancedContent ? (
+          {final.horizontal && !hasEnhancedContent ? (
             <CardHeader 
-              style={mergedProps.headerStyle} 
-              className={mergedProps.headerClass}
+              style={final.headerStyle} 
+              className={final.headerClass}
             >
-              {renderContent(mergedProps.header)}
+              {renderContent(final.header)}
             </CardHeader>
           ) : ''}
           <CardBody 
-            style={mergedProps.bodyStyle} 
-            className={mergedProps.bodyClass}
+            style={final.bodyStyle} 
+            className={final.bodyClass}
           >
-            {hasEnhancedContent ? EnhancedTextContent : renderContent(mergedProps.body)}
+            {hasEnhancedContent ? EnhancedTextContent : renderContent(final.body)}
           </CardBody> 
-          {mergedProps.horizontal && !hasEnhancedFooter ? (
+          {final.horizontal && !hasEnhancedFooter ? (
             <CardFooter 
-              style={mergedProps.footerStyle} 
-              className={mergedProps.footerClass}
+              style={final.footerStyle} 
+              className={final.footerClass}
             >
-              {renderContent(mergedProps.footer)}
+              {renderContent(final.footer)}
             </CardFooter>
           ) : ''}
         </div>
       : ''}
 
       {/* Children content */}
-      {mergedProps.children && (
+      {final.children && (
         <CardBody 
-          style={mergedProps.bodyStyle} 
-          className={mergedProps.bodyClass}
+          style={final.bodyStyle} 
+          className={final.bodyClass}
         >
-          {renderContent(mergedProps.children)}
+          {renderContent(final.children)}
         </CardBody>
       )}
 
       {/* Footer - Enhanced with CTA buttons or original footer */}
       {hasEnhancedFooter ? (
         <CardFooter 
-          style={mergedProps.footerStyle} 
-          className={mergedProps.footerClass}
+          style={final.footerStyle} 
+          className={final.footerClass}
         >
           <CTAButtons />
         </CardFooter>
       ) : (
-        mergedProps.footer && !mergedProps.horizontal ? (
+        final.footer && !final.horizontal ? (
           <CardFooter 
-            style={mergedProps.footerStyle} 
-            className={mergedProps.footerClass}
+            style={final.footerStyle} 
+            className={final.footerClass}
           >
-            {renderContent(mergedProps.footer)}
+            {renderContent(final.footer)}
           </CardFooter>
         ) : ''
       )}

@@ -28,6 +28,7 @@ interface FlexProps {
 
   width?: string;
   height?: string;
+  fit?: Boolean;
 }
 
 export default function Flex({
@@ -54,6 +55,7 @@ export default function Flex({
   responsiveSmall,
   responsiveMedium,
   responsiveLarge,
+  fit,
 
   // Size
   width,
@@ -85,8 +87,8 @@ export default function Flex({
         gap: gap ? `${gap}${gapUnit}` : 0,
         columnGap: gapX  ? `${gapX}${gapUnit}` :  gap ? `${gap}${gapUnit}` : 0,
         rowGap: gapY ? `${gapY}${gapUnit}` :  gap ? `${gap}${gapUnit}` : 0,
-        width:  width ? width : 'fit-content',
-        height: height ? height : 'fit-content',
+        width: fit ? "100%" :  width ? width : 'fit-content',
+        height: fit ? "100%" : height ? height : 'fit-content',
         ...style,
       }}
       {...rest}

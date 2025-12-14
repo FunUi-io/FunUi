@@ -33,18 +33,12 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
-var Flex_1 = __importDefault(require("../flex/Flex"));
 var Dropdown = function (_a) {
-    var _b = _a.direction, direction = _b === void 0 ? 'dropdown' : _b, _c = _a.position, position = _c === void 0 ? 'left' : _c, button = _a.button, items = _a.items, _d = _a.hoverable, hoverable = _d === void 0 ? true : _d, _e = _a.openOnHover, openOnHover = _e === void 0 ? true : _e, _f = _a.closableOnlyOutside, closableOnlyOutside = _f === void 0 ? false : _f, _g = _a.className, className = _g === void 0 ? '' : _g, width = _a.width, minWidth = _a.minWidth, maxWidth = _a.maxWidth, height = _a.height, minHeight = _a.minHeight, maxHeight = _a.maxHeight;
+    var _b = _a.position, position = _b === void 0 ? 'bottom' : _b, button = _a.button, items = _a.items, _c = _a.hoverable, hoverable = _c === void 0 ? true : _c, _d = _a.openOnHover, openOnHover = _d === void 0 ? true : _d, _e = _a.closableOnlyOutside, closableOnlyOutside = _e === void 0 ? false : _e, _f = _a.className, className = _f === void 0 ? '' : _f, _g = _a.menuClassName, menuClassName = _g === void 0 ? '' : _g, width = _a.width, minWidth = _a.minWidth, maxWidth = _a.maxWidth, height = _a.height, minHeight = _a.minHeight, maxHeight = _a.maxHeight;
     var containerRef = (0, react_1.useRef)(null);
     var _h = (0, react_1.useState)(false), open = _h[0], setOpen = _h[1];
-    var containerClass = "".concat(direction, " ").concat(position, " ").concat(className).trim();
-    var menuClass = "drop-menu ".concat(hoverable ? ' item-hoverable' : '');
     (0, react_1.useEffect)(function () {
         if (openOnHover)
             return;
@@ -57,27 +51,28 @@ var Dropdown = function (_a) {
         return function () { return document.removeEventListener('mousedown', handleClickOutside); };
     }, [openOnHover]);
     var showMenu = openOnHover || open;
-    return (react_1.default.createElement("div", { ref: containerRef, className: containerClass, onMouseEnter: function () { return openOnHover && setOpen(true); }, onMouseLeave: function () { return openOnHover && setOpen(false); } },
-        react_1.default.createElement("div", { className: "drop-button", onClick: function () { return !openOnHover && setOpen(!open); }, style: { cursor: !openOnHover ? 'pointer' : undefined } }, button),
-        showMenu &&
-            react_1.default.createElement("div", { className: menuClass, style: {
-                    width: width,
-                    minWidth: minWidth,
-                    maxWidth: maxWidth,
-                    height: height,
-                    minHeight: minHeight,
-                    maxHeight: maxHeight,
-                } }, items.map(function (item, index) { return (react_1.default.createElement("div", { key: index, className: "drop-item hoverable", onClick: function () {
-                    var _a;
-                    if (!closableOnlyOutside) {
-                        (_a = item.onClick) === null || _a === void 0 ? void 0 : _a.call(item);
-                        if (!openOnHover)
-                            setOpen(false);
-                    }
-                } },
-                react_1.default.createElement(Flex_1.default, { wrap: 'nowrap', gap: 0.2, alignItems: 'center', justify: 'flex-start' },
-                    react_1.default.createElement("span", { style: { lineHeight: 0 } }, (item === null || item === void 0 ? void 0 : item.startIcon) || ''),
-                    item.label,
-                    react_1.default.createElement("span", { style: { lineHeight: 0 } }, (item === null || item === void 0 ? void 0 : item.endIcon) || '')))); }))));
+    var menuStyle = {
+        width: width,
+        minWidth: minWidth,
+        maxWidth: maxWidth,
+        height: height,
+        minHeight: minHeight,
+        maxHeight: maxHeight,
+    };
+    return (react_1.default.createElement("div", { ref: containerRef, className: "dropdown-container ".concat(className), onMouseEnter: function () { return openOnHover && setOpen(true); }, onMouseLeave: function () { return openOnHover && setOpen(false); } },
+        react_1.default.createElement("div", { onClick: function () { return !openOnHover && setOpen(!open); }, style: { cursor: !openOnHover ? 'pointer' : undefined } }, button),
+        showMenu && (react_1.default.createElement("div", { className: "dropdown-menu ".concat(position, " ").concat(menuClassName), style: menuStyle }, items.map(function (item, index) { return (react_1.default.createElement(react_1.default.Fragment, { key: index }, item.divider ? (react_1.default.createElement("div", { className: "dropdown-divider" })) : (react_1.default.createElement("div", { className: "dropdown-item ".concat(item.disabled ? 'disabled' : '', " ").concat(!hoverable ? 'no-hover' : ''), onClick: function () {
+                var _a;
+                if (item.disabled)
+                    return;
+                if (!closableOnlyOutside) {
+                    (_a = item.onClick) === null || _a === void 0 ? void 0 : _a.call(item);
+                    if (!openOnHover)
+                        setOpen(false);
+                }
+            } },
+            item.startIcon && (react_1.default.createElement("span", { className: "dropdown-item-icon" }, item.startIcon)),
+            react_1.default.createElement("span", { className: "dropdown-item-label" }, item.label),
+            item.endIcon && (react_1.default.createElement("span", { className: "dropdown-item-icon" }, item.endIcon)))))); })))));
 };
 exports.default = Dropdown;

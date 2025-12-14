@@ -32,7 +32,6 @@ interface CardProps {
     gradient?: string;
     opacity?: number;
     border?: string;
-    hoverEffect?: 'none' | 'lift' | 'glow';
     heading?: ReactNode;
     headingSize?: string;
     headingWeight?: number;
@@ -67,6 +66,27 @@ interface CardProps {
     ctaPrimaryText?: string;
     ctaSecondaryText?: string;
     ctaAccentText?: string;
+    ctaPrimaryRounded?: boolean;
+    ctaPrimaryFlat?: boolean;
+    ctaPrimaryPrefix?: string;
+    ctaPrimarySuffix?: string;
+    primaryIconSize?: number;
+    primaryButtonFuncss?: string;
+    primaryButtonSmall?: boolean;
+    ctaSecondaryRounded?: boolean;
+    ctaSecondaryFlat?: boolean;
+    ctaSecondaryPrefix?: string;
+    ctaSecondarySuffix?: string;
+    secondaryIconSize?: number;
+    secondaryButtonFuncss?: string;
+    secondaryButtonSmall?: boolean;
+    ctaAccentRounded?: boolean;
+    ctaAccentFlat?: boolean;
+    ctaAccentPrefix?: string;
+    ctaAccentSuffix?: string;
+    accentIconSize?: number;
+    accentButtonFuncss?: string;
+    accentButtonSmall?: boolean;
     ctaGap?: number;
     ctaFlexJustify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
     ctaClass?: string;
@@ -78,5 +98,5 @@ interface CardProps {
     footerClass?: string;
     variant?: string;
 }
-export default function Card({ color, bg, width, height, minHeight, minWidth, margin, padding, funcss, children, roundEdge, maxHeight, maxWidth, horizontal, id, header, body, footer, noGap, fab, image, shadowless, flat, responsiveMedium, xl, responsiveSmall, style, pattern, patternOpacity, gradient, opacity, border, hoverEffect, heading, headingSize, headingWeight, headingColor, headingClass, headingLineHeight, subheading, subheadingSize, subheadingWeight, subheadingColor, subheadingClass, subheadingLineHeight, content, contentSize, contentWeight, contentColor, contentClass, contentLineHeight, imageUrl, imageAlt, imageClass, imageSize, showPrimaryCTA, showSecondaryCTA, showAccentCTA, primaryButtonOutlined, secondaryButtonOutlined, accentButtonOutlined, ctaPrimaryUrl, ctaSecondaryUrl, ctaAccentUrl, ctaPrimaryText, ctaSecondaryText, ctaAccentText, ctaGap, ctaFlexJustify, ctaClass, headerStyle, headerClass, bodyStyle, bodyClass, footerStyle, footerClass, variant, ...rest }: CardProps): React.JSX.Element;
+export default function Card(localProps: CardProps): React.JSX.Element;
 export {};

@@ -4,7 +4,8 @@ import Flex from '../flex/Flex';
 
 interface SelectOption {
   value: string;
-  text: string;
+  text?: string;
+  label?: string;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
 }
@@ -76,7 +77,7 @@ const Select: React.FC<CustomSelectProps> = ({
   useEffect(() => {
     if (searchQuery) {
       const filtered = options.filter(option =>
-        option.text.toLowerCase().includes(searchQuery.toLowerCase())
+        (option.text || option.label || "").toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredOptions(filtered);
       setFocusedIndex(filtered.length > 0 ? 0 : -1);
@@ -254,7 +255,7 @@ const Select: React.FC<CustomSelectProps> = ({
         {!label && <option value="">Select an option</option>}
         {options.map(option => (
           <option key={option.value} value={option.value}>
-            {option.text}
+            {option.text || option.label || option.value}
           </option>
         ))}
       </select>

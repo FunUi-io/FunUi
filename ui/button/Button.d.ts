@@ -37,10 +37,11 @@ interface ButtonProps {
     isLoading?: boolean;
     variant?: string;
     url?: string;
-    status?: 'success' | 'warning' | 'info' | 'danger';
+    disabled?: boolean;
+    status?: 'success' | 'warning' | 'info' | 'error';
     children?: React.ReactNode;
     style?: React.CSSProperties;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
-export default function Button({ variant, color, bg, funcss, startIcon, endIcon, stringPrefix, stringSuffix, prefix, suffix, iconSize, iconLineHeight, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, bold, children, style, url, onClick, ...rest }: ButtonProps): React.JSX.Element;
+export default function Button({ variant, color, bg, funcss, startIcon, endIcon, stringPrefix, stringSuffix, prefix, suffix, iconSize, iconLineHeight, text, rounded, raised, height, width, float, hoverUp, fullWidth, outlined, small, hoverless, smaller, big, bigger, jumbo, flat, hoverNone, fillAnimation, fillDirection, fillTextColor, outlineSize, isLoading, status, bold, children, style, url, onClick, disabled, ...rest }: ButtonProps): React.JSX.Element;
 export {};

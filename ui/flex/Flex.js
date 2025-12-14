@@ -37,9 +37,9 @@ function Flex(_a) {
     // Gap
     gap = _a.gap, gapX = _a.gapX, gapY = _a.gapY, _e = _a.gapUnit, gapUnit = _e === void 0 ? 'rem' : _e, 
     // Responsive
-    responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, responsiveLarge = _a.responsiveLarge, 
+    responsiveSmall = _a.responsiveSmall, responsiveMedium = _a.responsiveMedium, responsiveLarge = _a.responsiveLarge, fit = _a.fit, 
     // Size
-    width = _a.width, height = _a.height, rest = __rest(_a, ["className", "funcss", "id", "children", "style", "direction", "wrap", "justify", "alignItems", "alignContent", "gap", "gapX", "gapY", "gapUnit", "responsiveSmall", "responsiveMedium", "responsiveLarge", "width", "height"]);
+    width = _a.width, height = _a.height, rest = __rest(_a, ["className", "funcss", "id", "children", "style", "direction", "wrap", "justify", "alignItems", "alignContent", "gap", "gapX", "gapY", "gapUnit", "responsiveSmall", "responsiveMedium", "responsiveLarge", "fit", "width", "height"]);
     var combinedClassName = [
         className,
         funcss,
@@ -49,5 +49,5 @@ function Flex(_a) {
     ]
         .filter(Boolean)
         .join(' ');
-    return (react_1.default.createElement("div", __assign({ id: id, className: combinedClassName, style: __assign({ display: 'flex', flexDirection: direction, flexWrap: wrap, justifyContent: justify, alignItems: alignItems, alignContent: alignContent, gap: gap ? "".concat(gap).concat(gapUnit) : 0, columnGap: gapX ? "".concat(gapX).concat(gapUnit) : gap ? "".concat(gap).concat(gapUnit) : 0, rowGap: gapY ? "".concat(gapY).concat(gapUnit) : gap ? "".concat(gap).concat(gapUnit) : 0, width: width ? width : 'fit-content', height: height ? height : 'fit-content' }, style) }, rest), children));
+    return (react_1.default.createElement("div", __assign({ id: id, className: combinedClassName, style: __assign({ display: 'flex', flexDirection: direction, flexWrap: wrap, justifyContent: justify, alignItems: alignItems, alignContent: alignContent, gap: gap ? "".concat(gap).concat(gapUnit) : 0, columnGap: gapX ? "".concat(gapX).concat(gapUnit) : gap ? "".concat(gap).concat(gapUnit) : 0, rowGap: gapY ? "".concat(gapY).concat(gapUnit) : gap ? "".concat(gap).concat(gapUnit) : 0, width: fit ? "100%" : width ? width : 'fit-content', height: fit ? "100%" : height ? height : 'fit-content' }, style) }, rest), children));
 }

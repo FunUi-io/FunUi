@@ -1,19 +1,18 @@
 'use client'; 
 import React, { useState, useRef, useEffect } from 'react';
-import Flex from '../flex/Flex';
 
-type Position = 'left' | 'right';
-type Direction = 'dropdown' | 'dropup';
+type Position = 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 interface DropdownItem {
   label: React.ReactNode;
   onClick?: () => void;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
+  disabled?: boolean;
+  divider?: boolean;
 }
 
 interface DropdownProps {
-  direction?: Direction;
   position?: Position;
   button: React.ReactNode;
   items: DropdownItem[];
@@ -21,24 +20,24 @@ interface DropdownProps {
   openOnHover?: boolean;
   closableOnlyOutside?: boolean;
   className?: string;
+  menuClassName?: string;
   width?: string;
   minWidth?: string;
   maxWidth?: string;
   height?: string;
   minHeight?: string;
   maxHeight?: string;
-
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
-  direction = 'dropdown',
-  position = 'left',
+  position = 'bottom',
   button,
   items,
   hoverable = true,
   openOnHover = true,
   closableOnlyOutside = false,
   className = '',
+  menuClassName = '',
   width,
   minWidth,
   maxWidth,
@@ -48,9 +47,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-
-  const containerClass = `${direction} ${position} ${className}`.trim();
-  const menuClass = `drop-menu ${hoverable ? ' item-hoverable' : ''}`;
 
   useEffect(() => {
     if (openOnHover) return;
@@ -67,58 +63,68 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const showMenu = openOnHover || open;
 
+  const menuStyle: React.CSSProperties = {
+    width,
+    minWidth,
+    maxWidth,
+    height,
+    minHeight,
+    maxHeight,
+  };
+
   return (
     <div
       ref={containerRef}
-      className={containerClass}
+      className={`dropdown-container ${className}`}
       onMouseEnter={() => openOnHover && setOpen(true)}
       onMouseLeave={() => openOnHover && setOpen(false)}
     >
       <div
-        className="drop-button"
         onClick={() => !openOnHover && setOpen(!open)}
         style={{ cursor: !openOnHover ? 'pointer' : undefined }}
       >
         {button}
       </div>
-      {
-        showMenu && 
-        
-      <div
-      className={menuClass}
-      style={{
-        width,
-        minWidth,
-        maxWidth,
-        height,
-        minHeight,
-        maxHeight,
-      }}
-    >
-      {items.map((item, index) => (
+      
+      {showMenu && (
         <div
-          key={index}
-          className="drop-item hoverable"
-          onClick={() => {
-        if(!closableOnlyOutside){
-       item.onClick?.();
-            if (!openOnHover) setOpen(false);
-        }
-   
-          }}
+          className={`dropdown-menu ${position} ${menuClassName}`}
+          style={menuStyle}
         >
-         <Flex wrap='nowrap' gap={0.2} alignItems='center' justify='flex-start'>
-         <span style={{lineHeight:0}}>{item?.startIcon || ''}</span>
-         {item.label}
-         <span style={{lineHeight:0}}>{item?.endIcon || ''}</span>  
-         </Flex>
+          {items.map((item, index) => (
+            <React.Fragment key={index}>
+              {item.divider ? (
+                <div className="dropdown-divider" />
+              ) : (
+                <div
+                  className={`dropdown-item ${item.disabled ? 'disabled' : ''} ${!hoverable ? 'no-hover' : ''}`}
+                  onClick={() => {
+                    if (item.disabled) return;
+                    if (!closableOnlyOutside) {
+                      item.onClick?.();
+                      if (!openOnHover) setOpen(false);
+                    }
+                  }}
+                >
+                  {item.startIcon && (
+                    <span className="dropdown-item-icon">
+                      {item.startIcon}
+                    </span>
+                  )}
+                  <span className="dropdown-item-label">{item.label}</span>
+                  {item.endIcon && (
+                    <span className="dropdown-item-icon">
+                      {item.endIcon}
+                    </span>
+                  )}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
         </div>
-      ))}
-    </div>
-      }
+      )}
     </div>
   );
 };
 
 export default Dropdown;
-

@@ -63,16 +63,14 @@ var componentUtils_1 = require("../../utils/componentUtils");
 var getDynamicIcon_1 = require("../../utils/getDynamicIcon");
 function Button(_a) {
     var _b, _c;
-    var _d = _a.variant, variant = _d === void 0 ? '' : _d, color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, stringPrefix = _a.stringPrefix, stringSuffix = _a.stringSuffix, prefix = _a.prefix, suffix = _a.suffix, iconSize = _a.iconSize, _e = _a.iconLineHeight, iconLineHeight = _e === void 0 ? 0 : _e, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, hoverless = _a.hoverless, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, isLoading = _a.isLoading, status = _a.status, bold = _a.bold, children = _a.children, style = _a.style, url = _a.url, onClick = _a.onClick, rest = __rest(_a, ["variant", "color", "bg", "funcss", "startIcon", "endIcon", "stringPrefix", "stringSuffix", "prefix", "suffix", "iconSize", "iconLineHeight", "text", "rounded", "raised", "height", "width", "float", "hoverUp", "fullWidth", "outlined", "small", "hoverless", "smaller", "big", "bigger", "jumbo", "flat", "hoverNone", "fillAnimation", "fillDirection", "fillTextColor", "outlineSize", "isLoading", "status", "bold", "children", "style", "url", "onClick"]);
+    var _d = _a.variant, variant = _d === void 0 ? '' : _d, color = _a.color, bg = _a.bg, funcss = _a.funcss, startIcon = _a.startIcon, endIcon = _a.endIcon, stringPrefix = _a.stringPrefix, stringSuffix = _a.stringSuffix, prefix = _a.prefix, suffix = _a.suffix, iconSize = _a.iconSize, _e = _a.iconLineHeight, iconLineHeight = _e === void 0 ? 0 : _e, text = _a.text, rounded = _a.rounded, raised = _a.raised, height = _a.height, width = _a.width, float = _a.float, hoverUp = _a.hoverUp, fullWidth = _a.fullWidth, outlined = _a.outlined, small = _a.small, hoverless = _a.hoverless, smaller = _a.smaller, big = _a.big, bigger = _a.bigger, jumbo = _a.jumbo, flat = _a.flat, hoverNone = _a.hoverNone, fillAnimation = _a.fillAnimation, fillDirection = _a.fillDirection, fillTextColor = _a.fillTextColor, outlineSize = _a.outlineSize, isLoading = _a.isLoading, status = _a.status, bold = _a.bold, children = _a.children, style = _a.style, url = _a.url, onClick = _a.onClick, disabled = _a.disabled, rest = __rest(_a, ["variant", "color", "bg", "funcss", "startIcon", "endIcon", "stringPrefix", "stringSuffix", "prefix", "suffix", "iconSize", "iconLineHeight", "text", "rounded", "raised", "height", "width", "float", "hoverUp", "fullWidth", "outlined", "small", "hoverless", "smaller", "big", "bigger", "jumbo", "flat", "hoverNone", "fillAnimation", "fillDirection", "fillTextColor", "outlineSize", "isLoading", "status", "bold", "children", "style", "url", "onClick", "disabled"]);
     var mergeWithLocal = (0, componentUtils_1.useComponentConfiguration)('Button', variant).mergeWithLocal;
     // Create local props object - these will override config props
-    var localProps = __assign({ color: color, bg: bg, funcss: funcss, text: text, rounded: rounded, raised: raised, height: height, width: width, float: float, hoverUp: hoverUp, fullWidth: fullWidth, outlined: outlined, small: small, hoverless: hoverless, smaller: smaller, big: big, bigger: bigger, jumbo: jumbo, flat: flat, hoverNone: hoverNone, fillAnimation: fillAnimation, fillDirection: fillDirection, fillTextColor: fillTextColor, outlineSize: outlineSize, isLoading: isLoading, status: status, bold: bold, stringPrefix: stringPrefix, // Include stringPrefix in local props
-        stringSuffix: stringSuffix }, rest);
+    var localProps = __assign({ color: color, bg: bg, funcss: funcss, text: text, rounded: rounded, raised: raised, height: height, width: width, float: float, hoverUp: hoverUp, fullWidth: fullWidth, outlined: outlined, small: small, hoverless: hoverless, smaller: smaller, big: big, bigger: bigger, jumbo: jumbo, flat: flat, hoverNone: hoverNone, fillAnimation: fillAnimation, fillDirection: fillDirection, fillTextColor: fillTextColor, disabled: disabled, outlineSize: outlineSize, isLoading: isLoading, status: status, bold: bold, stringPrefix: stringPrefix, stringSuffix: stringSuffix }, rest);
     // Merge with config - LOCAL PROPS OVERRIDE CONFIG
     var mergedProps = mergeWithLocal(localProps).props;
     // Extract final values - local props take precedence
     var final = {
-        // Use local props first, fallback to merged props
         isLoading: isLoading !== null && isLoading !== void 0 ? isLoading : mergedProps.isLoading,
         status: status !== null && status !== void 0 ? status : mergedProps.status,
         text: text !== null && text !== void 0 ? text : mergedProps.text,
@@ -97,34 +95,78 @@ function Button(_a) {
         fillTextColor: fillTextColor !== null && fillTextColor !== void 0 ? fillTextColor : mergedProps.fillTextColor,
         funcss: funcss !== null && funcss !== void 0 ? funcss : mergedProps.funcss,
         fullWidth: fullWidth !== null && fullWidth !== void 0 ? fullWidth : mergedProps.fullWidth,
-        stringPrefix: stringPrefix !== null && stringPrefix !== void 0 ? stringPrefix : mergedProps.stringPrefix, // Handle both local and config
-        stringSuffix: stringSuffix !== null && stringSuffix !== void 0 ? stringSuffix : mergedProps.stringSuffix, // Handle both local and config
+        stringPrefix: stringPrefix !== null && stringPrefix !== void 0 ? stringPrefix : mergedProps.stringPrefix,
+        stringSuffix: stringSuffix !== null && stringSuffix !== void 0 ? stringSuffix : mergedProps.stringSuffix,
     };
     var _f = (0, react_1.useState)(null), prefixNode = _f[0], setPrefixNode = _f[1];
     var _g = (0, react_1.useState)(null), suffixNode = _g[0], setSuffixNode = _g[1];
+    var _h = (0, react_1.useState)(false), hasValidStringPrefix = _h[0], setHasValidStringPrefix = _h[1];
+    var _j = (0, react_1.useState)(false), hasValidStringSuffix = _j[0], setHasValidStringSuffix = _j[1];
     function isReactElement(node) {
         return react_1.default.isValidElement(node);
     }
-    // Handle both local and config stringPrefix
+    // Handle stringPrefix - only load if we have a valid string
     (0, react_1.useEffect)(function () {
         var effectiveStringPrefix = final.stringPrefix;
-        if (effectiveStringPrefix) {
-            (0, getDynamicIcon_1.getDynamicIcon)(effectiveStringPrefix).then(function (node) { return setPrefixNode(node); });
+        if (!effectiveStringPrefix || effectiveStringPrefix.trim() === '') {
+            setPrefixNode(null);
+            setHasValidStringPrefix(false);
+            return;
         }
-        else {
-            setPrefixNode(null); // Clear when empty
-        }
+        (0, getDynamicIcon_1.getDynamicIcon)(effectiveStringPrefix).then(function (node) {
+            if (node) {
+                setPrefixNode(node);
+                setHasValidStringPrefix(true);
+            }
+            else {
+                setPrefixNode(null);
+                setHasValidStringPrefix(false);
+            }
+        });
     }, [final.stringPrefix]);
-    // Handle both local and config stringSuffix
+    // Handle stringSuffix - only load if we have a valid string
     (0, react_1.useEffect)(function () {
         var effectiveStringSuffix = final.stringSuffix;
-        if (effectiveStringSuffix) {
-            (0, getDynamicIcon_1.getDynamicIcon)(effectiveStringSuffix).then(function (node) { return setSuffixNode(node); });
+        if (!effectiveStringSuffix || effectiveStringSuffix.trim() === '') {
+            setSuffixNode(null);
+            setHasValidStringSuffix(false);
+            return;
         }
-        else {
-            setSuffixNode(null); // Clear when empty
-        }
+        (0, getDynamicIcon_1.getDynamicIcon)(effectiveStringSuffix).then(function (node) {
+            if (node) {
+                setSuffixNode(node);
+                setHasValidStringSuffix(true);
+            }
+            else {
+                setSuffixNode(null);
+                setHasValidStringSuffix(false);
+            }
+        });
     }, [final.stringSuffix]);
+    // Determine which prefix to show with proper priority
+    var showPrefix = react_1.default.useMemo(function () {
+        // Priority order: status > startIcon (local) > prefix (local) > stringPrefix (dynamic)
+        if (final.status)
+            return true;
+        if (startIcon)
+            return true;
+        if (prefix)
+            return true;
+        if (hasValidStringPrefix && prefixNode)
+            return true;
+        return false;
+    }, [final.status, startIcon, prefix, hasValidStringPrefix, prefixNode]);
+    // Determine which suffix to show with proper priority
+    var showSuffix = react_1.default.useMemo(function () {
+        // Priority order: endIcon (local) > suffix (local) > stringSuffix (dynamic)
+        if (endIcon)
+            return true;
+        if (suffix)
+            return true;
+        if (hasValidStringSuffix && suffixNode)
+            return true;
+        return false;
+    }, [endIcon, suffix, hasValidStringSuffix, suffixNode]);
     var textColorClass = final.bg
         ? final.color
             ? final.color
@@ -155,7 +197,7 @@ function Button(_a) {
         final.outlined
             ? "outlined outline-".concat(effectiveBg || '', " text-").concat(final.color ? final.color : effectiveBg === null || effectiveBg === void 0 ? void 0 : effectiveBg.replace(/[0-9]/g, ''))
             : effectiveBg || '',
-        "".concat(final.fillAnimation ? "".concat(final.fillTextColor ? "hover-text-".concat(final.fillTextColor) : '', " button-fill fill-").concat(final.fillDirection || 'left') : ''),
+        "".concat(final.fillAnimation ? "".concat(final.fillTextColor ? "hover-text-".concat(final.fillTextColor) : "hover-text-white", " button-fill fill-").concat(final.fillDirection || 'left') : ''),
     ].join(' ');
     var iconWrapperStyle = {
         lineHeight: iconLineHeight,
@@ -163,27 +205,29 @@ function Button(_a) {
         alignItems: 'center',
         justifyContent: 'center',
     };
-    // Determine which prefix to show (priority: status > local startIcon > config stringPrefix > local stringPrefix)
-    var showPrefix = final.status || prefix || startIcon || prefixNode;
-    // Determine which suffix to show
-    var showSuffix = suffix || endIcon || suffixNode;
+    // Helper function to render icon with proper size
+    var renderIcon = function (icon, className) {
+        if (className === void 0) { className = ''; }
+        if (!icon)
+            return null;
+        return (react_1.default.createElement("span", { className: className, style: iconWrapperStyle }, isReactElement(icon) ? react_1.default.cloneElement(icon, { size: iconSize }) : icon));
+    };
     return (react_1.default.createElement("span", null,
-        react_1.default.createElement("button", __assign({ className: "".concat(classNames, " ").concat((showPrefix || showSuffix || final.isLoading) ? 'iconic' : ''), style: __assign({ height: (_b = height !== null && height !== void 0 ? height : mergedProps.height) !== null && _b !== void 0 ? _b : '', width: final.fullWidth ? '100%' : (_c = width !== null && width !== void 0 ? width : mergedProps.width) !== null && _c !== void 0 ? _c : '', borderRadius: final.flat ? '0rem' : '' }, style), onClick: onClick || (url ? function () { return (window.location.href = url); } : undefined) }, mergedProps),
-            final.isLoading ? (react_1.default.createElement("span", { className: "btn_left_icon rotate", style: iconWrapperStyle },
-                react_1.default.createElement(pi_1.PiSpinner, { size: iconSize }))) : (react_1.default.createElement(react_1.default.Fragment, null, final.status ? (react_1.default.createElement("span", { className: "btn_left_icon", style: iconWrapperStyle },
-                final.status === 'success' && react_1.default.createElement(pi_1.PiCheck, { size: iconSize }),
-                final.status === 'info' && react_1.default.createElement(pi_1.PiInfo, { size: iconSize }),
-                final.status === 'warning' && react_1.default.createElement(pi_1.PiWarning, { size: iconSize }),
-                final.status === 'danger' && react_1.default.createElement(pi_1.PiX, { size: iconSize }))) : (
-            /* Otherwise show regular start icons (priority: local startIcon > config stringPrefix) */
-            showPrefix && (react_1.default.createElement("span", { className: "btn_left_icon", style: iconWrapperStyle }, isReactElement(startIcon) ? react_1.default.cloneElement(startIcon, { size: iconSize })
-                : isReactElement(prefix) ? react_1.default.cloneElement(prefix, { size: iconSize })
-                    : isReactElement(prefixNode) ? react_1.default.cloneElement(prefixNode, { size: iconSize })
-                        : prefix || startIcon || prefixNode))))),
+        react_1.default.createElement("button", __assign({ disabled: disabled || final.isLoading || false, className: "".concat(classNames, " ").concat((showPrefix || showSuffix || final.isLoading) ? 'iconic' : ''), style: __assign({ height: (_b = height !== null && height !== void 0 ? height : mergedProps.height) !== null && _b !== void 0 ? _b : '', width: final.fullWidth ? '100%' : (_c = width !== null && width !== void 0 ? width : mergedProps.width) !== null && _c !== void 0 ? _c : '', borderRadius: final.flat ? '0rem' : '' }, style), onClick: onClick || (url ? function () { return (window.location.href = url); } : undefined) }, mergedProps),
+            final.isLoading ? (renderIcon(react_1.default.createElement(pi_1.PiSpinner, { className: "rotate" }), 'btn_left_icon')) : (react_1.default.createElement(react_1.default.Fragment, null,
+                final.status && (react_1.default.createElement("span", { className: "btn_left_icon", style: iconWrapperStyle },
+                    final.status === 'success' && react_1.default.createElement(pi_1.PiCheck, { size: iconSize }),
+                    final.status === 'info' && react_1.default.createElement(pi_1.PiInfo, { size: iconSize }),
+                    final.status === 'warning' && react_1.default.createElement(pi_1.PiWarning, { size: iconSize }),
+                    final.status === 'error' && react_1.default.createElement(pi_1.PiX, { size: iconSize }))),
+                !final.status && showPrefix && (react_1.default.createElement(react_1.default.Fragment, null,
+                    startIcon && renderIcon(startIcon, 'btn_left_icon'),
+                    !startIcon && prefix && renderIcon(prefix, 'btn_left_icon'),
+                    !startIcon && !prefix && hasValidStringPrefix && renderIcon(prefixNode, 'btn_left_icon'))))),
             final.fillAnimation && react_1.default.createElement("span", { className: "button_fill_span ".concat(effectiveBg) }),
             children ? children : final.text ? final.text : "",
-            showSuffix && (react_1.default.createElement("span", { className: "btn_right_icon", style: iconWrapperStyle }, isReactElement(endIcon) ? react_1.default.cloneElement(endIcon, { size: iconSize })
-                : isReactElement(suffix) ? react_1.default.cloneElement(suffix, { size: iconSize })
-                    : isReactElement(suffixNode) ? react_1.default.cloneElement(suffixNode, { size: iconSize })
-                        : suffix || endIcon || suffixNode)))));
+            showSuffix && (react_1.default.createElement(react_1.default.Fragment, null,
+                endIcon && renderIcon(endIcon, 'btn_right_icon'),
+                !endIcon && suffix && renderIcon(suffix, 'btn_right_icon'),
+                !endIcon && !suffix && hasValidStringSuffix && renderIcon(suffixNode, 'btn_right_icon'))))));
 }

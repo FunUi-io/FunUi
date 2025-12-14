@@ -58,8 +58,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var Div = function (_a) {
-    var children = _a.children, funcss = _a.funcss, content = _a.content, minHeight = _a.minHeight, maxHeight = _a.maxHeight, maxWidth = _a.maxWidth, minWidth = _a.minWidth, height = _a.height, width = _a.width, padding = _a.padding, margin = _a.margin, fit = _a.fit, customStyle = _a.customStyle, rest = __rest(_a, ["children", "funcss", "content", "minHeight", "maxHeight", "maxWidth", "minWidth", "height", "width", "padding", "margin", "fit", "customStyle"]);
+    var children = _a.children, funcss = _a.funcss, content = _a.content, minHeight = _a.minHeight, maxHeight = _a.maxHeight, maxWidth = _a.maxWidth, minWidth = _a.minWidth, height = _a.height, width = _a.width, padding = _a.padding, margin = _a.margin, id = _a.id, fit = _a.fit, ref = _a.ref, customStyle = _a.customStyle, rest = __rest(_a, ["children", "funcss", "content", "minHeight", "maxHeight", "maxWidth", "minWidth", "height", "width", "padding", "margin", "id", "fit", "ref", "customStyle"]);
     return (React.createElement("div", null,
-        React.createElement("div", __assign({ className: "".concat(fit ? 'width-100-p height-100-p' : '', " ").concat(funcss), style: __assign({ height: height || '', maxHeight: maxHeight || '', minHeight: minHeight || '', maxWidth: maxWidth || '', minWidth: minWidth || '', width: width || '', padding: padding || '', margin: margin || '' }, customStyle) }, rest), content || children)));
+        React.createElement("div", __assign({ ref: ref, className: "".concat(fit ? 'width-100-p height-100-p' : '', " ").concat(funcss), style: __assign({ height: height || '', maxHeight: maxHeight || '', minHeight: minHeight || '', maxWidth: maxWidth || '', minWidth: minWidth || '', width: width || '', padding: padding || '', margin: margin || '' }, customStyle), id: id }, rest), content || children)));
 };
 exports.default = Div;

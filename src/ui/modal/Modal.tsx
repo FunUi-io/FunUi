@@ -12,7 +12,7 @@ interface ModalProps {
   animation?: string;
   duration?: number;
   open: boolean;
-  hideClose: boolean;
+  hideClose?: boolean;
   setOpen: (val: boolean) => void;
   maxWidth?: string;
   maxHeight?: string;

@@ -1,7 +1,8 @@
 import React from 'react';
 interface SelectOption {
     value: string;
-    text: string;
+    text?: string;
+    label?: string;
     prefix?: React.ReactNode;
     suffix?: React.ReactNode;
 }

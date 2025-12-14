@@ -118,7 +118,7 @@ var RichText = function (_a) {
             react_1.default.createElement(Flex_1.default, { justify: "space-between", gap: 1, alignItems: "center", width: "100%" },
                 (showEmojis || afterEmoji) ? (react_1.default.createElement("div", null,
                     react_1.default.createElement(Flex_1.default, { width: "100%", gap: 0.5, alignItems: "center" },
-                        showEmojis && (react_1.default.createElement(Dropdown_1.default, { closableOnlyOutside: true, direction: "dropdown", openOnHover: false, button: react_1.default.createElement(ToolTip_1.default, null,
+                        showEmojis && (react_1.default.createElement(Dropdown_1.default, { closableOnlyOutside: true, openOnHover: false, button: react_1.default.createElement(ToolTip_1.default, null,
                                 react_1.default.createElement(Circle_1.default, { size: 2, funcss: "bg border" },
                                     react_1.default.createElement(md_1.MdOutlineEmojiEmotions, null)),
                                 react_1.default.createElement(Tip_1.default, { tip: "top", animation: "ScaleUp", duration: 0.5, content: "Emojis" })), items: [

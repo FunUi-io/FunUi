@@ -8,7 +8,7 @@ import Input from '../input/Input';
 import { useState } from "react";
 import RowFlex from '../specials/RowFlex';
 import Button from '../button/Button';
-import { PiDownload, PiEmpty, PiExportThin, PiFileCsv, PiMagnifyingGlass, PiX, PiXThin} from "react-icons/pi";
+import { PiDownload, PiEmpty, PiExportThin, PiFileCsv, PiMagnifyingGlass, PiPlus, PiSpinnerGap, PiX, PiXThin} from "react-icons/pi";
 import Circle from '../specials/Circle';
 import Text from '../text/Text';
 import { exportToCSV } from 'react-easy-export';
@@ -22,9 +22,24 @@ import Flex from '../flex/Flex';
 import { CiSearch } from "react-icons/ci";
 import { IoFilterOutline } from 'react-icons/io5';
 import {  getAdvancedFilteredData } from './Query';
+import Empty from '../empty/Empty';
+
+type ColumnConfig = {
+  field: string;
+  title: string;
+  width?: string | number; // '150px', 'auto', '1fr', 150
+  minWidth?: string | number;
+  maxWidth?: string | number;
+  className?: string;
+  cellClassName?: string;
+  textWrap?: boolean; // true = wrap text, false = truncate
+  headerClassName?: string;
+};
+
 type TableProps = {
   children?: React.ReactNode;
   funcss?: string;
+  trCss?: string;
   title?: string;
   bordered?: boolean;
   noStripped?: boolean;
@@ -32,21 +47,38 @@ type TableProps = {
   showTotal?: boolean;
   light?: boolean;
   isLoading?: boolean;
+
   hideExport?: boolean;
   dark?: boolean;
-  data?: { "fields": string[], "data": any[], "titles": string[] , "funcss": string[]};
-  filterOnchange?: (filter?:any , value?:any , totals?:number) => {} ,
+  data?: { 
+    "fields": string[], 
+    "data": any[], 
+    "titles": string[], 
+    "funcss": string[],
+    "columns"?: ColumnConfig[] 
+  };
+  filterOnchange?: (filter?:any , value?:any , totals?:number) => {},
   clearSearch?: boolean,
   head?: React.ReactNode;
   right?: React.ReactNode;
   body?: React.ReactNode;
   height?: number;
   pageSize?: number; // New prop for page size
-  emptyResponse?:{icon?:React.ReactNode , title?:React.ReactNode , subtitle:React.ReactNode}
+  emptyResponse?:{
+    icon?:React.ReactNode , 
+    title?:React.ReactNode , 
+    subtitle:React.ReactNode ,  
+    ctaText?:string,
+    ctaIcon?:React.ReactNode | string,
+    showCta?:boolean,
+    ctaOnClick?:() => void
+    }
   customColumns?: { title: string; render: (data: any) => React.ReactNode; onClick?: (data: any) => void }[];
   filterableFields?: string[]; // New prop for filterable fields
   prioritizeSearchFields?: string[];
   onRowClick?: (data: any) => void;
+  // New columns prop for explicit column configuration
+  columns?: ColumnConfig[];
 };
 
 export default function Table({
@@ -74,6 +106,8 @@ export default function Table({
   clearSearch,
   prioritizeSearchFields = [],
   onRowClick,
+  trCss,
+  columns, // New columns prop
   ...rest
 }: TableProps) {
    // Check if data is null or undefined before accessing its properties
@@ -195,17 +229,84 @@ const uniqueValues = selectedField
     }
   }, [selectedField, selectedValue]);
   
+  // Helper function to get column configuration for a specific index
+  const getColumnConfig = (index: number): ColumnConfig | undefined => {
+    if (columns && columns[index]) {
+      return columns[index];
+    }
+    if (data?.columns && data.columns[index]) {
+      return data.columns[index];
+    }
+    return undefined;
+  };
 
+  // Helper function to generate grid template columns
+  const generateGridTemplateColumns = () => {
+    // First, try to use the explicit columns prop
+    if (columns && columns.length > 0) {
+      return columns.map(col => 
+        typeof col.width === 'number' ? `${col.width}px` : 
+        col.width || '1fr'
+      ).join(' ');
+    }
+    
+    // Then, try to use columns from data
+    if (data?.columns && data.columns.length > 0) {
+      return data.columns.map(col => 
+        typeof col.width === 'number' ? `${col.width}px` : 
+        col.width || '1fr'
+      ).join(' ');
+    }
+    
+    // For custom columns, we need to add their widths too
+    if (customColumns && customColumns.length > 0) {
+      const totalColumns = (data?.fields?.length || 0) + customColumns.length;
+      return Array(totalColumns).fill('1fr').join(' ');
+    }
+    
+    // Default fallback
+    if (data?.fields) {
+      return data.fields.map(() => '1fr').join(' ');
+    }
+    
+    return '1fr';
+  };
 
+  // Helper function to get column width for a specific index
+  const getColumnWidth = (index: number): string => {
+    const col = getColumnConfig(index);
+    if (col?.width) {
+      return typeof col.width === 'number' ? `${col.width}px` : col.width;
+    }
+    return 'auto';
+  };
 
-  
- 
+  // Helper function to get column min-width for a specific index
+  const getColumnMinWidth = (index: number): string => {
+    const col = getColumnConfig(index);
+    if (col?.minWidth) {
+      return typeof col.minWidth === 'number' ? `${col.minWidth}px` : col.minWidth;
+    }
+    return '80px';
+  };
+
+  // Helper function to get column max-width for a specific index
+  const getColumnMaxWidth = (index: number): string => {
+    const col = getColumnConfig(index);
+    if (col?.maxWidth) {
+      return typeof col.maxWidth === 'number' ? `${col.maxWidth}px` : col.maxWidth;
+    }
+    return 'none';
+  };
+
+  // Generate grid template columns string
+  const gridTemplateColumns = generateGridTemplateColumns();
 
   return (
     <div className={`${funcss ? funcss : ''} roundEdge`}>
       {
         data &&
-        <div className="padding bb">
+        <div className="pr-4 pl-4 pt-2 pb-2 lighter tableHeader mb-2" style={{overflow:"show"}}>
         <RowFlex gap={0.5} justify='space-between'>
         {
           title ? 
@@ -213,14 +314,13 @@ const uniqueValues = selectedField
                  {
               showTotal && data &&
               <div >
-                       <Text text='Records: ' size='sm'  />
-                        <Text text={filteredData.length} weight={600}/>
+                       <Text text={`${filteredData.length} Records`} size='sm' weight={500}/>
               </div>
             }
           {
               title &&
               <div >
-                       <Text text={title || ""} size='h6'/>
+                       <Text text={title || ""} size='h6' lineHeight='0.8'/>
               </div>
 
               
@@ -232,8 +332,7 @@ const uniqueValues = selectedField
                 {
               showTotal && data &&
               <div >
-                       <Text text='Records: ' size='sm'  />
-                        <Text text={filteredData.length} weight={600} color='primary'/>
+                        <Text text={`${filteredData.length} Records`} size='sm' weight={500}/>
               </div>
             }
            </>
@@ -249,7 +348,7 @@ const uniqueValues = selectedField
            <Select
           fullWidth
           searchable
-          funcss='min-w-300 w-full'
+          funcss='min-w-300 w-full bg'
           rounded
         value={selectedField || ''}
         onChange={(e:string) => handleFieldChange(e)}
@@ -270,7 +369,7 @@ const uniqueValues = selectedField
       <Select
      rounded
      searchable
-            funcss='min-w-300 w-full'
+            funcss='min-w-300 w-full bg'
 fullWidth
      value={selectedValue || ''}
      onChange={(e:string) => {
@@ -303,7 +402,7 @@ fullWidth
  <div className='animated slide-up'>
    <Input 
   borderless  
-  funcss='min-w-300'     
+  funcss='min-w-300 bg'     
   fullWidth
   rounded
   value={searchQuery}
@@ -311,7 +410,7 @@ fullWidth
   label="Search..."
   />
  </div>
- <div className='animated fade-in'>
+ <div>
    <div onClick={() => setshowSearch(false)}>
 <ToolTip>
   {
@@ -320,16 +419,16 @@ fullWidth
 <PiXThin className='pointer' size={23} onClick={() => setshowSearch(false)}/>
 
   }
-<Tip tip="bottom" animation="Opacity" duration={1} content={filterableFields ? "Filter" : "Close Search"}/>
+<Tip tip="top" animation="Opacity" duration={1} content={filterableFields ? "Filter" : "Close Search"}/>
 </ToolTip>
   </div>
  </div>
   </Flex>
   :   
-  <div className='animated fade-in'>
+  <div>
     <ToolTip>
   <CiSearch  className='pointer' size={23} onClick={() => setshowSearch(true)}/>
-  <Tip tip="bottom" animation="Opacity" duration={1} content="Search Data"/>
+  <Tip tip="top" animation="Opacity" duration={1} content="Search Data"/>
   </ToolTip>
   </div>
   }
@@ -342,156 +441,321 @@ fullWidth
 
     
           <>
-          <RowFlex gap={0.5}>
+        { (right || !hideExport) &&
+            <RowFlex gap={0.5}>
             {
               right && right
             }
          {
           !hideExport &&
-          <div  className='animated slide-up'>
+          <div >
   <ToolTip>
               <Circle bg='lighter' bordered  onClick={Export}>
             <PiExportThin />
               </Circle>
-            <Tip tip="bottom" animation="Opacity" duration={1} content="Export Data"/>
+            <Tip tip="top" animation="Opacity" duration={1} content="Export Data"/>
             </ToolTip>
           </div>
           
          }
           </RowFlex>
+        }
           </>
         </RowFlex>
       </div>
       }
-     <main
-     style={{overflow:"auto" , width:"100%"}}>
-       <table
-        className={`table  ${bordered ? 'border' : ''} ${
-          noStripped ? '' : 'stripped'
-          } ${hoverable ? 'hoverableTr' : ''} ${light ? 'light' : ''} ${dark ? 'dark' : ''}`}
+  <main style={{ overflow: "auto", width: "100%" }}>
+  <div
+    className={`table-grid ${bordered ? 'bordered' : ''} ${
+      noStripped ? '' : 'stripped'
+    } ${hoverable ? 'hoverableTr' : ''} ${light ? 'light' : ''} ${dark ? 'dark' : ''}`}
+    style={{
+      height: height ? height + "px" : "",
+      position: 'relative',
+      zIndex: 1,
+      // Set grid template columns on the main container for consistency
+      gridTemplateColumns: gridTemplateColumns
+    }}
+    {...rest}
+  >
+    {/* Table Head */}
+    {data && data?.titles && (
+      <div 
+        className="table-head"
         style={{
-          height: height ? height + "px" : "",
-          position: 'relative',
-          zIndex:1
+          // Match the grid template columns
+          gridTemplateColumns: gridTemplateColumns
         }}
-        {...rest}  >
-
-        { data &&
-          data?.titles &&
-          <TableHead>
-            {
-              data.titles.map(mdoc => (
-                <th key={mdoc}>
-                  <Text text={mdoc} weight={500} funcss='text-secondary'/>
-                </th>
-              ))
-            }
-          </TableHead>
-        }
-        {
-          head && <TableHead>{head}</TableHead>
-        }
-        {
-          body && <TableBody>{body}</TableBody>
-        }
-{data &&
-  (() => {
-    const results = getAdvancedFilteredData(filteredData, searchQuery, data, getNestedValue, prioritizeSearchFields);
-    const shouldSlice = !searchQuery || results.length > 10;
-    
-    return (shouldSlice ? results.slice(startIndex, endIndex) : results)
-      .map((mdoc, index) => (
-        <tr className='animated slide-up' key={index} onClick={onRowClick ? () => onRowClick(mdoc) : undefined}>
-          {
-            data.fields.map((fdoc, findex) => (
-              <TableData key={fdoc} funcss={data.funcss ? data?.funcss?.[findex] || '' : ''}>
-                {getNestedValue(mdoc, fdoc)}
-              </TableData>
-            ))
-          }
-          {customColumns ?
-            customColumns.map((column, columnIndex) => (
-              <td key={columnIndex}>
-                {column.render && column.render(mdoc)}
-                {column.onClick && (
-                  <Button onClick={() => column.onClick && column.onClick(mdoc)}>
-                    {column.title}
-                  </Button>
-                )}
-              </td>
-            )) : ""}
-        </tr>
-      ))
-  })()
-}
-        {
-          isLoading &&
-          [1,2,3,4,5,6,7,8,9,10].map(() => (
-            <TableRow funcss='skeleton'/>
-          ))
-        }
-        {children ? children : ''}
-      </table>
-
-      {
-        (filteredData.length === 0 && !isLoading && !children) &&
-       <ScrollInView>
-         <View funcss='max-w-400 p-4 text-center center'>
-          <div>{ emptyResponse?.icon || <PiEmpty size={30} className='text-error' />}</div>
-          <div>
-           {
-            emptyResponse?.title || 
-            <Text 
-            text="No Record Found!"
-            size='xl'
-            />
-           }
-          </div>
-          <div>
-            {
-              emptyResponse?.subtitle || 
-              <Text 
-            text="You can try reloading the page or check your query"
-            />
-            }
-          </div>
-        </View>
-       </ScrollInView>
-      }
-     </main>
-      {
-        data && 
-        <>
-        {
-            pageSize &&
-            <>
-            {
-              filteredData.length > pageSize &&
-              <div className="padding bt">
-              <RowFlex gap={1} justify='center'>
-             
-                <div className="pagination">
-                  {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
-                    <Circle
-                      size={2.5}
-                      key={startPage + i}
-                      onClick={() => handleChangePage(startPage + i)}
-                      funcss={currentPage === startPage + i ? 'primary pageCircle' : 'lighter pageCircle text-primary'}
-                    >
-                      <Text text={`${startPage + i}`} bold size='sm'/>
-                    </Circle>
-                  ))}
-                </div>
-            
-              </RowFlex>
+      >
+        {data.titles.map((mdoc, index) => {
+          const colConfig = getColumnConfig(index);
+          return (
+            <div
+              key={mdoc}
+              className={`table-header text-secondary ${
+                colConfig?.headerClassName || ''
+              } ${
+                index === 0 ? "first_table_data" : ""
+              } ${index === data.titles.length - 1 ? "last_table_data" : ""}`}
+              data-label={mdoc}
+              style={{
+                // Apply column-specific styles
+                minWidth: getColumnMinWidth(index),
+                maxWidth: getColumnMaxWidth(index),
+                width: getColumnWidth(index),
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              {mdoc}
             </div>
-            }
-            </>
-        }
+          );
+        })}
+      </div>
+    )}
 
-        </>
-      }
+    {head && <div className="table-head">{head}</div>}
+
+    {/* Table Body */}
+    <div 
+      className="table-body"
+      style={{
+        // Match the grid template columns
+        gridTemplateColumns: gridTemplateColumns
+      }}
+    >
+      {body && body}
+      
+      {data &&
+        (() => {
+          const results = getAdvancedFilteredData(
+            filteredData,
+            searchQuery,
+            data,
+            getNestedValue,
+            prioritizeSearchFields
+          );
+          const shouldSlice = !searchQuery || results.length > 10;
+
+          return (shouldSlice ? results.slice(startIndex, endIndex) : results).map(
+            (mdoc, index) => (
+              <div
+                className={`table-row animated slide-up ${trCss}`}
+                key={index}
+                onClick={onRowClick ? () => onRowClick(mdoc) : undefined}
+                style={{
+                  // Match the grid template columns
+                  gridTemplateColumns: gridTemplateColumns
+                }}
+              >
+                {data.fields.map((fdoc, findex) => {
+                  const colConfig = getColumnConfig(findex);
+                  const cellContent = getNestedValue(mdoc, fdoc);
+                  
+                  return (
+                    <div
+                      key={fdoc}
+                      className={`table-cell ${
+                        data.funcss ? data?.funcss?.[findex] || "" : ""
+                      } ${colConfig?.cellClassName || ''} ${
+                     'wrap' 
+                      }`}
+                      data-label={data.titles?.[findex] || fdoc}
+                      style={{
+                        overflow: "visible",
+                        // Apply column-specific styles to match header
+                        minWidth: getColumnMinWidth(findex),
+                        maxWidth: getColumnMaxWidth(findex),
+                        width: getColumnWidth(findex),
+                        // Text handling based on column config
+                        whiteSpace:  'normal' ,
+                        overflowWrap: 'break-word' ,
+                        textOverflow: 'clip'
+                      }}
+                    >
+                      {cellContent}
+                    </div>
+                  );
+                })}
+
+                {customColumns
+                  ? customColumns.map((column, columnIndex) => {
+                      // Calculate index for custom column (after regular data fields)
+                      const colIndex = (data?.fields?.length || 0) + columnIndex;
+                      return (
+                        <div
+                          key={columnIndex}
+                          className="table-cell wrap"
+                          data-label={column.title || "Action"}
+                          style={{
+                            position: "relative",
+                            overflow: "visible",
+                            // Apply column-specific styles
+                            minWidth: getColumnMinWidth(colIndex),
+                            maxWidth: getColumnMaxWidth(colIndex),
+                            width: getColumnWidth(colIndex) ,
+                        whiteSpace:  'normal' ,
+                        overflowWrap: 'break-word' ,
+                        textOverflow: 'clip'
+                          }}
+                        >
+                            {column.render && column.render(mdoc)}
+
+                          {column.onClick && (
+                            <Button
+                              onClick={() => column.onClick && column.onClick(mdoc)}
+                            >
+                              {column.title}
+                            </Button>
+                          )}
+                        </div>
+                      );
+                    })
+                  : ""}
+              </div>
+            )
+          );
+        })()}
+
+      {/* Loading Skeleton - UPDATED to match column widths */}
+      {isLoading &&
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
+          <Flex 
+            key={index} 
+            className="table-row skeleton"
+            style={{
+              // Match the grid template columns
+              gridTemplateColumns: gridTemplateColumns
+            }}
+          >
+            {data?.fields.map((_, cellIndex) => {
+              return (
+                <div 
+                  key={cellIndex} 
+                  className="table-cell"
+                  style={{
+                    // Apply column-specific styles to match headers
+                    minWidth: getColumnMinWidth(cellIndex),
+                    maxWidth: getColumnMaxWidth(cellIndex),
+                    width: getColumnWidth(cellIndex)
+                  }}
+                ></div>
+              );
+            })}
+            
+            {/* Add skeleton cells for custom columns if they exist */}
+            {customColumns && customColumns.map((_, customIndex) => {
+              const colIndex = (data?.fields?.length || 0) + customIndex;
+              return (
+                <div 
+                  key={`skeleton-custom-${customIndex}`}
+                  className="table-cell"
+                  style={{
+                    minWidth: getColumnMinWidth(colIndex),
+                    maxWidth: getColumnMaxWidth(colIndex),
+                    width: getColumnWidth(colIndex)
+                  }}
+                ></div>
+              );
+            })}
+          </Flex>
+        ))}
+
+      {children ? children : ""}
+    </div>
+
+    {/* Empty State */}
+    {filteredData.length === 0 && !isLoading && !children && (
+      <div >
+        {/* <div className="empty-icon">
+          {emptyResponse?.icon || <PiEmpty size={30} className="text-error" />}
+        </div>
+        <div>
+          {emptyResponse?.title || (
+            <Text text="No Record Found!" size="xl" />
+          )}
+        </div>
+        <div>
+          {emptyResponse?.subtitle || (
+            <Text text="You can try reloading the page or check your query" />
+          )}
+        </div> */}
+        <Empty 
+        ctaIcon={emptyResponse?.ctaIcon || <PiSpinnerGap />}
+        title={emptyResponse?.title || 'No Record Found!'}
+        description={emptyResponse?.subtitle || 'You can try reloading the page or check your query'}
+        ctaText={emptyResponse?.ctaText || 'Reload'}
+        showCta={emptyResponse?.showCta || false}
+        ctaOnClick={() => emptyResponse?.ctaOnClick ? emptyResponse?.ctaOnClick() : window.location.reload}
+        />
+      </div>
+    )}
+  </div>
+</main>
+
+{
+  data && pageSize && filteredData.length > pageSize && (
+    <div className="padding bt">
+      <RowFlex gap={1} funcss='pointer' justify="center">
+          {/* First Page Button */}
+          <div
+            className={`pagination-nav ${currentPage === 1 ? 'pagination-nav-disabled' : ''}`}
+            onClick={() => currentPage > 1 && handleChangePage(1)}
+            title="First page"
+          >
+            <Text text="««" />
+          </div>
+          
+          {/* Previous Page Button */}
+          <div
+            className={`pagination-nav p ${currentPage === 1 ? 'pagination-nav-disabled' : ''}`}
+            onClick={() => currentPage > 1 && handleChangePage(currentPage - 1)}
+            title="Previous page"
+          >
+            <Text text="‹" />
+          </div>
+
+          {/* Page Numbers */}
+          <Flex>
+            {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
+              const pageNumber = startPage + i;
+              const isActive = currentPage === pageNumber;
+              
+              return (
+               <div key={pageNumber}>
+                 <div
+                  className={`pagination-item text-xs ${isActive ? 'pagination-item-active primary' : ''}`}
+                  onClick={() => handleChangePage(pageNumber)}
+                >
+       {`${pageNumber}`}
+                </div>
+               </div>
+              );
+            })}
+          </Flex>
+
+          {/* Next Page Button */}
+          <div
+            className={`pagination-nav p ${currentPage === totalPages ? 'pagination-nav-disabled' : ''}`}
+            onClick={() => currentPage < totalPages && handleChangePage(currentPage + 1)}
+            title="Next page"
+          >
+            <Text text="›" />
+          </div>
+          
+          {/* Last Page Button */}
+          <div
+            className={`pagination-nav ${currentPage === totalPages ? 'pagination-nav-disabled' : ''}`}
+            onClick={() => currentPage < totalPages && handleChangePage(totalPages)}
+            title="Last page"
+          >
+            <Text text="»»" />
+          </div>
+      </RowFlex>
+    </div>
+  )
+}
     </div>
   );
 }
-

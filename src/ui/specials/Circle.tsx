@@ -10,9 +10,12 @@ interface Circle_Props extends HTMLProps<HTMLDivElement> {
     color?: string;
     children?: ReactNode;
     hoverable?: boolean;
+    className?:string
     raised?:boolean 
     bordered?:boolean 
     key?:React.Key
+    body?:ReactNode,
+    style?:React.CSSProperties
     onClick?: ()=> void
   }
   
@@ -27,23 +30,27 @@ export default function Circle({
   raised ,
   key , 
   onClick ,
+  className = '',
   bordered,
+  body,
+  style,
   ...rest
 }: Circle_Props) {
   return (
       <div
-        className={` animated fade-in ${bordered ? "border" : ""} pointer avatar ${funcss || ''} ${`text-` + color?.trim() || ''} ${raised ? "raised" : ''} ${bg || 'lighter'} ${
+        className={` ${className} animated fade-in ${bordered ? "border" : ""} pointer avatar ${funcss || ''} ${`text-` + color?.trim() || ''} ${raised ? "raised" : ''} ${bg || 'lighter'} ${
           hoverable ? 'hoverable' : ''
         }`}
         style={{
           width: `${size + "rem" || '2.3rem'}`,
           height: `${size + "rem" || '2.3rem'}`,
+          ...style
         }}
         key={key}
         onClick={onClick}
         {...rest}
       >
-        <>{ children}</>
+        <>{body || children}</>
       </div>
   );
 }

@@ -175,7 +175,7 @@ var Calendar = function (_a) {
                             var year = (0, dayjs_1.default)().year() - 10 + i;
                             return { value: year.toString(), text: year.toString() };
                         }), borderless: true, funcss: "round-edge" })),
-                react_1.default.createElement(Dropdown_1.default, { direction: "dropdown", position: 'right', openOnHover: false, button: react_1.default.createElement(Avatar_1.default, null,
+                react_1.default.createElement(Dropdown_1.default, { position: "bottom", openOnHover: false, button: react_1.default.createElement(Avatar_1.default, null,
                         react_1.default.createElement(hi_1.HiOutlineDotsVertical, null)), items: [
                         {
                             label: react_1.default.createElement("span", { className: "text-sm" }, "Today"),

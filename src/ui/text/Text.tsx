@@ -47,6 +47,7 @@ type TypographyProps = {
   variant?: string;
   margin?: string;
   padding?: string;
+  style?: React.CSSProperties;
   size?: 
     | "xs" 
     | "sm" 
@@ -66,7 +67,9 @@ type TypographyProps = {
     | "h3" 
     | "h4" 
     | "h5" 
-    | "h6";
+    | "h6"
+    | string
+    ;
 };
 
 const Text: React.FC<TypographyProps> = ({
@@ -107,23 +110,21 @@ const Text: React.FC<TypographyProps> = ({
   quote,
   opacity,
   variant = '',
-  size = 'base',
+  size ,
   margin,
+  style ,
   padding,
   ...rest
 }) => {
-  // Only use component config if variant is provided and not empty
-  const shouldUseConfig = variant !== undefined && variant !== '';
+  // Use component configuration (simplified - let the hook handle empty variant)
+  const { mergeWithLocal } = useComponentConfiguration('Text', variant);
   
-  // Use the component config hook only when needed
-  const { 
-    mergeWithLocal 
-  } = useComponentConfiguration('Text', shouldUseConfig ? variant : undefined);
-  
-  // Create local props object
+  // Create local props object - include ALL props
   const localProps = {
     bg,
     color,
+    hoverBg,
+    hoverText,
     funcss,
     emp,
     bold,
@@ -158,46 +159,48 @@ const Text: React.FC<TypographyProps> = ({
     ...rest
   };
 
-  // Merge config with local props - local props override config
-  const { props: mergedProps } = shouldUseConfig 
-    ? mergeWithLocal(localProps)
-    : { props: localProps };
+  // Merge with config - LOCAL PROPS OVERRIDE CONFIG (consistent with Button)
+  const { props: mergedProps } = mergeWithLocal(localProps);
 
-  // Extract final values - local props take precedence, handle empty strings properly
+  // Extract final values - use NULLISH COALESCING like Button component
   const final = {
-    bg: bg !== undefined ? bg : mergedProps.bg,
-    color: color !== undefined ? color : mergedProps.color,
-    funcss: funcss !== undefined ? funcss : mergedProps.funcss,
-    emp: emp !== undefined ? emp : mergedProps.emp,
-    bold: bold !== undefined ? bold : mergedProps.bold,
-    block: block !== undefined ? block : mergedProps.block,
-    body: body !== undefined ? body : mergedProps.body,
-    article: article !== undefined ? article : mergedProps.article,
-    light: light !== undefined ? light : mergedProps.light,
-    lighter: lighter !== undefined ? lighter : mergedProps.lighter,
-    italic: italic !== undefined ? italic : mergedProps.italic,
-    weight: weight !== undefined ? weight : mergedProps.weight,
-    underline: underline !== undefined ? underline : mergedProps.underline,
-    align: align !== undefined ? align : mergedProps.align,
-    lineHeight: lineHeight !== undefined ? lineHeight : mergedProps.lineHeight,
-    letterSpacing: letterSpacing !== undefined ? letterSpacing : mergedProps.letterSpacing,
-    uppercase: uppercase !== undefined ? uppercase : mergedProps.uppercase,
-    lowercase: lowercase !== undefined ? lowercase : mergedProps.lowercase,
-    capitalize: capitalize !== undefined ? capitalize : mergedProps.capitalize,
-    textDecoration: textDecoration !== undefined ? textDecoration : mergedProps.textDecoration,
-    textTransform: textTransform !== undefined ? textTransform : mergedProps.textTransform,
-    whiteSpace: whiteSpace !== undefined ? whiteSpace : mergedProps.whiteSpace,
-    wordBreak: wordBreak !== undefined ? wordBreak : mergedProps.wordBreak,
-    fontFamily: fontFamily !== undefined ? fontFamily : mergedProps.fontFamily,
-    truncate: truncate !== undefined ? truncate : mergedProps.truncate,
-    textShadow: textShadow !== undefined ? textShadow : mergedProps.textShadow,
-    textAlign: textAlign !== undefined ? textAlign : mergedProps.textAlign,
-    monospace: monospace !== undefined ? monospace : mergedProps.monospace,
-    quote: quote !== undefined ? quote : mergedProps.quote,
-    opacity: opacity !== undefined ? opacity : mergedProps.opacity,
-    size: size !== undefined ? size : mergedProps.size,
-    margin: margin !== undefined ? margin : mergedProps.margin,
-    padding: padding !== undefined ? padding : mergedProps.padding,
+    // Use local props first, fallback to merged props
+    bg: bg ?? mergedProps.bg,
+    color: color ?? mergedProps.color,
+    hoverBg: hoverBg ?? mergedProps.hoverBg,
+    hoverText: hoverText ?? mergedProps.hoverText,
+    funcss: funcss ?? mergedProps.funcss,
+    emp: emp ?? mergedProps.emp,
+    bold: bold ?? mergedProps.bold,
+    block: block ?? mergedProps.block,
+    body: body ?? mergedProps.body,
+    article: article ?? mergedProps.article,
+    light: light ?? mergedProps.light,
+    lighter: lighter ?? mergedProps.lighter,
+    italic: italic ?? mergedProps.italic,
+    weight: weight ?? mergedProps.weight,
+    underline: underline ?? mergedProps.underline,
+    align: align ?? mergedProps.align,
+    lineHeight: lineHeight ?? mergedProps.lineHeight,
+    letterSpacing: letterSpacing ?? mergedProps.letterSpacing,
+    uppercase: uppercase ?? mergedProps.uppercase,
+    lowercase: lowercase ?? mergedProps.lowercase,
+    capitalize: capitalize ?? mergedProps.capitalize,
+    textDecoration: textDecoration ?? mergedProps.textDecoration,
+    textTransform: textTransform ?? mergedProps.textTransform,
+    whiteSpace: whiteSpace ?? mergedProps.whiteSpace,
+    wordBreak: wordBreak ?? mergedProps.wordBreak,
+    fontFamily: fontFamily ?? mergedProps.fontFamily,
+    truncate: truncate ?? mergedProps.truncate,
+    textShadow: textShadow ?? mergedProps.textShadow,
+    textAlign: textAlign ?? mergedProps.textAlign,
+    monospace: monospace ?? mergedProps.monospace,
+    quote: quote ?? mergedProps.quote,
+    opacity: opacity ?? mergedProps.opacity,
+    size: size ?? mergedProps.size ?? 'base',
+    margin: margin ?? mergedProps.margin,
+    text: text ?? mergedProps.text,
+    padding: padding ?? mergedProps.padding,
   };
 
   // If margin is provided, force block display
@@ -227,6 +230,7 @@ const Text: React.FC<TypographyProps> = ({
     margin: final.margin,
     padding: final.padding,
     ...customStyles,
+    ...style,
     ...(final.truncate
       ? {
           display: '-webkit-box',
@@ -245,8 +249,8 @@ const Text: React.FC<TypographyProps> = ({
     final.align ? ` text-${final.align} ` : '',
     final.monospace ? 'monospace' : '',
     final.bg || '',
-    hoverText ? `hover-text-${hoverText}` : '',
-    hoverBg ? `hover-${hoverBg}` : '',
+    final.hoverText ? `hover-text-${final.hoverText}` : '',
+    final.hoverBg ? `hover-${final.hoverBg}` : '',
     final.light ? 'lightText' : final.lighter ? 'lighterText' : '',
     final.italic ? 'italicText' : '',
     final.underline ? 'underlineText' : '',
@@ -261,17 +265,22 @@ const Text: React.FC<TypographyProps> = ({
   ]
     .filter(Boolean)
     .join(' ');
-
   return (
-    <Tag id={id} className={classNames} style={mergedStyles} {...rest}>
-      {final.quote && (
-        <div>
-          <PiQuotesLight />
-        </div>
-      )}
-      {children}
-      {text}
-    </Tag>
+  <Tag
+    id={id}
+    className={classNames}
+    style={mergedStyles}
+    {...rest}    
+  >
+    {final.quote && (
+      <div>
+        <PiQuotesLight />
+      </div>
+    )}
+    {children}
+    {final?.text}
+  </Tag>
+    
   );
 };
 

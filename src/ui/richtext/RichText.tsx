@@ -154,7 +154,6 @@ const RichText: React.FC<RichTextProps> = ({
                   {showEmojis && (
                     <Dropdown
                       closableOnlyOutside
-                      direction="dropdown"
                       openOnHover={false}
                       button={
                         <ToolTip>

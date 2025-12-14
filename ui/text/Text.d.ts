@@ -42,7 +42,8 @@ type TypographyProps = {
     variant?: string;
     margin?: string;
     padding?: string;
-    size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "8xl" | "9xl" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+    style?: React.CSSProperties;
+    size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "8xl" | "9xl" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | string;
 };
 declare const Text: React.FC<TypographyProps>;
 export default Text;

@@ -211,8 +211,7 @@ useEffect(() => {
             
           </Col>
             <Dropdown
-      direction="dropdown"
-      position='right'
+      position="bottom"
       openOnHover={false}
       button={
         <Avatar>

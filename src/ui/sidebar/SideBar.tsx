@@ -9,10 +9,9 @@ import React, {
 import RowFlex from '../specials/RowFlex';
 import Text from '../text/Text';
 import { usePathname } from 'next/navigation';
-import { PiX } from 'react-icons/pi';
-import Link from 'next/link';
 import { useVariant } from '../theme/theme';
 import Button from '../button/Button';
+import  Accordion from '../accordion/Accordion';
 
 interface SideBarLink {
   uri: string;
@@ -34,12 +33,14 @@ interface SideBarProps {
   sidebarCss?: string;
   activeCss?: string;
   iconCSS?: string;
+  accordionItemCss?: string;
   bodyCss?: string;
-  popIcon?:boolean;
-  dividers?:boolean;
+  popIcon?: boolean;
+  dividers?: boolean;
   links?: SideBarLink[];
   children?: ReactNode;
   onClose?: () => void;
+  isAccordion?: boolean;
 }
 
 export default function SideBar({
@@ -57,20 +58,21 @@ export default function SideBar({
   bodyCss = '',
   popIcon = false,
   dividers = false,
+  accordionItemCss,
   links = [],
   children,
   onClose,
+  isAccordion = false,
 }: SideBarProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [internalOpen, setInternalOpen] = useState(open);
   const [appBarHeight, setAppBarHeight] = useState('0px');
   const pathname = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const { variant } = useVariant() 
-  const [selectedOption, setselectedOption] = useState("")
+  const { variant } = useVariant();
+  const [selectedOption, setselectedOption] = useState('');
   const updateIsMobile = useCallback(() => {
     setIsMobile(window.innerWidth <= 992);
-    
   }, []);
 
   useEffect(() => {
@@ -122,13 +124,70 @@ export default function SideBar({
 
   const isOverlay = isMobile;
 
+  // Prepare accordion items when isAccordion is true
+  const accordionItems = isAccordion
+    ? Object.entries(groupedLinks).map(([section, sectionLinks]) => ({
+      icon: sectionLinks[0]?.icon,
+        title: section,
+        content: (
+          <div className="sidebar-accordion-links">
+            {sectionLinks.map((link, index) => {
+              const isActive = link.onClick
+                ? selectedOption === `${section}-${index}`
+                : pathname === link.uri;
+              return (
+                <div
+                  onClick={() => {
+                    if (isMobile) {
+                      handleClose();
+                    }
+                    if (link?.onClick) {
+                      link.onClick();
+                      setselectedOption(`${section}-${index}`);
+                    } else {
+                      window.location.href = link.uri;
+                    }
+                  }}
+                  key={link.uri}
+                >
+                  <Button
+                    fullWidth
+                    small
+                    funcss={`sidebar-link ${isActive ? "" : "p-0"} text-left ${
+                      isActive ? `primary ${activeCss || ''}` : 'hoverable'
+                    }`}
+                    startIcon={
+                      <span
+                        className={`${iconCSS || ''} ${
+                          variant === 'standard' || popIcon
+                            ? `p-1 ${isActive ? 'primary' : 'lighter text-primary border'} central`
+                            : variant === 'minimal' && !isActive
+                            ? 'p-1 central lighter text-primary'
+                            : ''
+                        }`}
+                        style={{ lineHeight: 0, borderRadius: '0.4rem' }}
+                      >
+                        {link.icon}
+                      </span>
+                    }
+                  >
+                    <Text text={link.text} size="sm" weight={400} />
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        ),
+      }))
+    : [];
+
   return (
     <div className={`sidebar-container ${isOverlay ? '' : 'with-content'}`}>
       {internalOpen && (
         <aside
           role="complementary"
           ref={sidebarRef}
-          className={`sidebar ${funcss} ${sidebarCss}  ${isOverlay ? 'nav_overlay' : ''}`}
+          className={`sidebar ${funcss} ${sidebarCss} ${isOverlay ? 'nav_overlay' : ''}`}
           style={{
             width: isOverlay ? '100%' : `${sidebarWidth}px`,
             height: `calc(100vh - ${appBarHeight || top || '0px'})`,
@@ -138,60 +197,76 @@ export default function SideBar({
             padding: '1rem',
           }}
         >
-              {/* {isMobile && (
-              <div
-                className="hover-text-error pointer"
-                onClick={handleClose}
-                style={{ cursor: 'pointer' }}
-              >
-                {close || <PiX size={25}/>}
-              </div>
-            )} */}
-
           <RowFlex justify="space-between" funcss="pl-2 pr-2">
             {header && <div>{header}</div>}
-        
           </RowFlex>
 
           <section className="sidebar-body mt-3">
             {links.length > 0 && (
               <nav className="sidebar-links">
-                {Object.entries(groupedLinks).map(([section, sectionLinks]) => (
-                  <div key={section} className={`sidebar-section ${dividers ? "bt" : ""} pt-2 pb-2`}>
-                    <Text size="sm" funcss="opacity-6 p-1 pl-2 pr-2">{section}</Text>
-                    {sectionLinks.map((link , index) => {
-                      const isActive = link.onClick
-                        ? selectedOption === `${section}-${index}`
-                        : pathname === link.uri;
-                      return (
-                        <div onClick={() => {
-                          if(isMobile){
-                            handleClose()
-                          }
-                          if(link?.onClick){
-                            link.onClick()
-                            setselectedOption(`${section}-${index}`)
-                          }else{
-                          window.location.href = link.uri
-
-                          }
-                        }} key={link.uri} >
-                          <Button fullWidth  small   funcss={`p-1 pl-2 pr-2  sidebar-link text-left  ${
-                            isActive ? `primary  ${activeCss || ''}` : 'hoverable'
-                          }`}
-                          startIcon={
-                             <span className={`${iconCSS || '' } 
-                            ${(variant === 'standard' ||  popIcon ) ? `p-1  ${isActive ? "primary" : "lighter text-primary border"} central` : (variant === "minimal" && !isActive) ? "p-1 central lighter text-primary" :  ""}`} 
-                            style={{ lineHeight: 0  , borderRadius:"0.4rem"}}>{link.icon}</span>
-                          }
+                {isAccordion ? (
+                  <Accordion
+                  itemClass={accordionItemCss}
+                    items={accordionItems}
+                    allowMultiple={false}
+                    contentClass=""
+                    titleClass='text-sm'
+                    activeClass=""
+                  />
+                ) : (
+                  Object.entries(groupedLinks).map(([section, sectionLinks]) => (
+                    <div key={section} className={`sidebar-section ${dividers ? 'bt' : ''} pt-2 pb-2`}>
+                      <Text size="sm" >
+                        {section}
+                      </Text>
+                      {sectionLinks.map((link, index) => {
+                        const isActive = link.onClick
+                          ? selectedOption === `${section}-${index}`
+                          : pathname === link.uri;
+                        return (
+                          <div
+                            onClick={() => {
+                              if (isMobile) {
+                                handleClose();
+                              }
+                              if (link?.onClick) {
+                                link.onClick();
+                                setselectedOption(`${section}-${index}`);
+                              } else {
+                                window.location.href = link.uri;
+                              }
+                            }}
+                            key={link.uri}
                           >
-                            <Text text={link.text} size="sm" weight={400} />
-                          </Button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
+                            <Button
+                              fullWidth
+                              small
+                              funcss={`sidebar-link text-left ${
+                                isActive ? `primary ${activeCss || ''}` : 'hoverable'
+                              }`}
+                              startIcon={
+                                <span
+                                  className={`${iconCSS || ''} ${
+                                    variant === 'standard' || popIcon
+                                      ? `p-1 ${isActive ? 'primary' : 'lighter text-primary border'} central`
+                                      : variant === 'minimal' && !isActive
+                                      ? 'p-1 central lighter text-primary'
+                                      : ''
+                                  }`}
+                                  style={{ lineHeight: 0, borderRadius: '0.4rem' }}
+                                >
+                                  {link.icon}
+                                </span>
+                              }
+                            >
+                              <Text text={link.text} size="sm" weight={400} />
+                            </Button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))
+                )}
               </nav>
             )}
             {content}

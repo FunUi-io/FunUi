@@ -1,20 +1,50 @@
 import * as React from 'react';
+interface NavLink {
+    label: string;
+    href: string;
+    icon?: string;
+    iconPosition?: 'prefix' | 'suffix';
+    children?: NavLink[];
+    active?: boolean;
+    className?: string;
+}
 interface NavbarProps {
     fixedTop?: boolean;
     funcss?: string;
     padding?: string;
     fixedBottom?: boolean;
     justify?: string;
+    transparent?: boolean;
     children?: React.ReactNode;
     left?: React.ReactNode;
     center?: React.ReactNode;
     right?: React.ReactNode;
     sidebarTrigger?: React.ReactNode;
-    transparent?: boolean;
     sideBar?: number;
     hasSidebar?: boolean;
     sidebarOpen?: boolean;
     openSidebar?: () => void;
+    variant?: string;
+    leftLinks?: NavLink[] | string;
+    centerLinks?: NavLink[] | string;
+    rightLinks?: NavLink[] | string;
+    renderLink?: (link: NavLink, index: number) => React.ReactNode;
+    mobileMenuBreakpoint?: number;
+    logoType?: 'text' | 'image' | 'both' | 'none';
+    logoText?: string;
+    logoTextSize?: string;
+    logoTextColor?: string;
+    logoTextWeight?: string;
+    logoUrl?: string;
+    logoAlt?: string;
+    logoWidth?: string;
+    logoHeight?: string;
+    logoHref?: string;
+    onLogoClick?: () => void;
+    linkGap?: string;
+    linkPadding?: string;
+    activeLinkColor?: string;
+    dropdownArrow?: boolean;
 }
-export default function AppBar({ fixedTop, funcss, padding, fixedBottom, justify, left, center, right, sideBar, sidebarTrigger, transparent, hasSidebar, openSidebar, sidebarOpen }: NavbarProps): React.JSX.Element;
+export default function AppBar(localProps: NavbarProps): React.JSX.Element;
 export {};

@@ -1,22 +1,21 @@
 'use client';
-import React from 'react';
-import ScrollInView from '../ScrollInView/ScrollInView';
+import React, { useEffect, useRef, useState } from 'react';
 import { getCssVariableValue } from '../../utils/getCssVariable';
 import { useComponentConfiguration } from '../../utils/componentUtils';
 import Text from '../text/Text';
-import Col from '../grid/Col';
-import Button from '../button/Button'; // Import your Button component
-import Flex from '../flex/Flex'; // Import your Flex component
+import Button from '../button/Button';
+import Flex from '../flex/Flex';
+import Video from '../video/Video';
 
 type VistaProps = {
-  layout?: 'centered' | 'imageLeft' | 'imageRight' | 'stacked';
+  layout?: 'centered' | 'mediaLeft' | 'mediaRight' | 'stacked'; // Changed from imageLeft/imageRight
   pattern?: 'grid' | 'dots' | 'diagonal' | 'checkerboard' | 'horizontal' | 'vertical';
   patternOpacity?: number;
   reverse?: boolean;
   bg?: string;
   padding?: string;
   textAlign?: 'left' | 'center' | 'right';
-  imgPosition?: 'top' | 'bottom';
+  mediaPosition?: 'top' | 'bottom'; // Changed from imgPosition
   funcss?: string;
   blurry?: number;
   opacity?: number;
@@ -40,11 +39,11 @@ type VistaProps = {
   contentColor?: string;
   contentClass?: string;
   
-  image?: React.ReactNode;
-  imageUrl?: string;
-  imageAlt?: string;
-  imageClass?: string;
-  imageSize?: string;
+  media?: React.ReactNode; // Changed from image
+  mediaUrl?: string; // Changed from imageUrl
+  mediaAlt?: string; // Changed from imageAlt
+  mediaClass?: string; // Changed from imageClass
+  mediaSize?: string; // This now affects all media types
   
   cta?: React.ReactNode;
   ctaClass?: string;
@@ -53,23 +52,25 @@ type VistaProps = {
   containerClass?: string;
   gap?: string;
   textWrapperClass?: string;
-  imageWrapperClass?: string;
+  mediaWrapperClass?: string; // Changed from imageWrapperClass
   children?: React.ReactNode;
 
-  // New Props for Gradient Blob
+  // Gradient Blob Props
   showGradient?: boolean;
   gradientPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
-  gradientSize?: string; // e.g. '300px'
-  gradientColors?: string; // e.g. 'radial-gradient(circle, #ff6ec4, #7873f5)'
+  gradientSize?: string;
+  gradientColors?: string;
 
   fade?: boolean;
+  fadeColor?: string;
   fadeDirection?: 'top' | 'bottom' | 'left' | 'right';
   fadeRadial?: boolean;
-  fadeOverlayDarken?: number; // 0 to 1
-  backgroundImage?: string;
   variant?: string;
 
-  // New CTA Button Props
+  // Responsive props
+  mediaCss?: string; // CSS that affects all media components
+
+  // CTA Button Props
   showPrimaryCTA?: boolean;
   showSecondaryCTA?: boolean;
   showAccentCTA?: boolean;
@@ -82,320 +83,255 @@ type VistaProps = {
   ctaPrimaryText?: string;
   ctaSecondaryText?: string;
   ctaAccentText?: string;
+  
+  // Primary CTA Button Props
   ctaPrimaryRounded?: boolean;
   ctaPrimaryFlat?: boolean;
   ctaPrimaryPrefix?: string;
   ctaPrimarySuffix?: string;
   primaryIconSize?: number;
+  primaryButtonFuncss?: string;
+  primaryButtonSmall?: boolean;
 
-
+  // Secondary CTA Button Props
   ctaSecondaryRounded?: boolean;
   ctaSecondaryFlat?: boolean;
   ctaSecondaryPrefix?: string;
   ctaSecondarySuffix?: string;
   secondaryIconSize?: number;
+  secondaryButtonFuncss?: string;
+  secondaryButtonSmall?: boolean;
 
+  // Accent CTA Button Props
   ctaAccentRounded?: boolean;
   ctaAccentFlat?: boolean;
   ctaAccentPrefix?: string;
   ctaAccentSuffix?: string;
   accentIconSize?: number;
+  accentButtonFuncss?: string;
+  accentButtonSmall?: boolean;
 
   ctaGap?: number;
   ctaFlexJustify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
+
+  // Media Type Props
+  mediaType?: 'image' | 'video' | 'iframe' | 'custom';
+  videoUrl?: string;
+  videoAutoplay?: boolean;
+  videoLoop?: boolean;
+  videoMuted?: boolean;
+  videoPoster?: string;
+  videoControls?: boolean;
+  iframeUrl?: string;
+  iframeSize?: string;
+  customMedia?: React.ReactNode;
+
+  // Media Overlay & Effects (renamed from image*)
+  mediaOverlay?: boolean; // Changed from imageOverlay
+  mediaOverlayColor?: string; // Changed from imageOverlayColor
+  mediaOverlayOpacity?: number; // Changed from imageOverlayOpacity
+  mediaFilter?: 'grayscale' | 'sepia' | 'blur' | 'brightness' | 'contrast' | 'none'; // Changed from imageFilter
+  mediaFilterValue?: number; // Changed from imageFilterValue
+  mediaBlendMode?: 'multiply' | 'screen' | 'overlay' | 'darken' | 'lighten'; // Changed from imageBlendMode
+
+  // Hover Effects
+  hoverEffect?: 'lift' | 'scale' | 'tilt' | 'glow' | 'none';
+  parallax?: boolean;
+  parallaxSpeed?: number;
 };
 
-const Vista: React.FC<VistaProps> = ({
-  layout = 'imageRight',
-  reverse = false,
-  bg = '',
-  padding = 'padding-lg',
-  textAlign = 'left',
-  imgPosition = 'top',
-  funcss = '',
-  pattern = '',
-  patternOpacity = pattern === 'grid' ? 0.15 : pattern === 'dots' ? 0.4 : pattern === 'diagonal' ? 0.2 : pattern === 'checkerboard' ? 0.2 : pattern === 'horizontal' ? 0.2 : pattern === 'vertical' ? 0.2 : 0.1,
+const Vista: React.FC<VistaProps> = (localProps) => {
+  const { mergeWithLocal } = useComponentConfiguration('Vista', localProps.variant);
+  const { props: mergedProps } = mergeWithLocal(localProps);
+  const final = mergedProps;
 
-  // Enhanced Content
-  heading,
-  headingSize = '5xl',
-  headingWeight = 700,
-  headingColor = '',
-  headingClass = '',
-  
-  subheading,
-  subheadingSize = 'lg',
-  subheadingWeight = 400,
-  subheadingColor = 'light',
-  subheadingClass = '',
-  
-  content,
-  contentSize = 'base',
-  contentWeight = 400,
-  contentColor = '',
-  contentClass = '',
-  
-  image,
-  imageUrl = '',
-  imageAlt = '',
-  imageClass = '',
-  imageSize = '100%',
-  
-  cta,
-  ctaClass = '',
+  const [scrollY, setScrollY] = useState(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  sectionClass = '',
-  containerClass = '',
-  textWrapperClass = '',
-  gap = '2rem',
-  imageWrapperClass = '',
-  children,
+  // Parallax effect
+  useEffect(() => {
+    if (!final.parallax) return;
 
-  // Gradient Props
-  showGradient = false,
-  gradientPosition = 'bottom-right',
-  gradientSize = '300px',
-  blurry = 100,
-  opacity = 0.4,
-  gradientColors,
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const scrollProgress = -rect.top;
+        setScrollY(scrollProgress * (final.parallaxSpeed || 0.5));
+      }
+    };
 
-  fade = false,
-  fadeDirection = 'bottom',
-  fadeRadial = false,
-  fadeOverlayDarken = 0.5,
-  backgroundImage = '',
-  variant = '',
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [final.parallax, final.parallaxSpeed]);
 
-  // New CTA Button Props
-  showPrimaryCTA = false,
-  showSecondaryCTA = false,
-  showAccentCTA = false,
-  primaryButtonOutlined = false,
-  secondaryButtonOutlined = false,
-  accentButtonOutlined = false,
-  ctaPrimaryUrl = '',
-  ctaSecondaryUrl = '',
-  ctaAccentUrl = '',
-  ctaPrimaryText = 'Primary Action',
-  ctaSecondaryText = 'Secondary Action',
-  ctaAccentText = 'Accent Action',
-  ctaGap = 1,
-  ctaFlexJustify = 'center',
-  ctaPrimaryRounded = false,
-  ctaPrimaryFlat = false,
-  ctaPrimaryPrefix = '',
-  ctaPrimarySuffix = '',
-  ctaSecondaryRounded = false,
-  ctaSecondaryFlat = false,
-  ctaSecondaryPrefix = '',
-  ctaSecondarySuffix = '',
-  ctaAccentRounded = false,
-  ctaAccentFlat = false,
-  ctaAccentPrefix = '',
-  ctaAccentSuffix = '',
-  primaryIconSize ,
-  secondaryIconSize ,
-  accentIconSize,
-}) => {
-  // Use the component config hook
-  const { mergeWithLocal } = useComponentConfiguration('Vista', variant);
-  
-  // Merge config with local props - local props should override config
-  const { props: mergedProps } = mergeWithLocal({
-    layout,
-    reverse,
-    bg,
-    padding,
-    textAlign,
-    imgPosition,
-    funcss,
-    pattern,
-    patternOpacity,
-    showGradient,
-    gradientPosition,
-    gradientSize,
-    blurry,
-    opacity,
-    gradientColors,
-    fade,
-    fadeDirection,
-    fadeRadial,
-    fadeOverlayDarken,
-    backgroundImage,
-    sectionClass,
-    containerClass,
-    textWrapperClass,
-    imageWrapperClass,
-    gap,
-    // Enhanced content props
-    heading,
-    headingSize,
-    headingWeight,
-    headingColor,
-    headingClass,
-    subheading,
-    subheadingSize,
-    subheadingWeight,
-    subheadingColor,
-    subheadingClass,
-    content,
-    contentSize,
-    contentWeight,
-    contentColor,
-    contentClass,
-    image,
-    imageUrl,
-    imageSize,
-    imageAlt,
-    imageClass,
-    cta,
-    ctaClass,
-    // CTA Button props
-    showPrimaryCTA,
-    showSecondaryCTA,
-    showAccentCTA,
-    primaryButtonOutlined,
-    secondaryButtonOutlined,
-    accentButtonOutlined,
-    ctaPrimaryUrl,
-    ctaSecondaryUrl,
-    ctaAccentUrl,
-    ctaPrimaryText,
-    ctaSecondaryText,
-    ctaAccentText,
-    ctaGap,
-    ctaFlexJustify,
-    ctaPrimaryRounded,
-    ctaPrimaryFlat,
-    ctaPrimaryPrefix,
-    ctaPrimarySuffix,
-    ctaSecondaryRounded,
-    ctaSecondaryFlat,
-    ctaSecondaryPrefix,
-    ctaSecondarySuffix,
-    ctaAccentRounded,
-    ctaAccentFlat,
-    ctaAccentPrefix,
-    ctaAccentSuffix,
-    primaryIconSize,
-    secondaryIconSize,
-    accentIconSize,
-  });
+  // Get media size - updated logic for all media types
+  const getMediaSize = () => {
+    // Priority order for mediaSize:
+    // 1. If mediaSize is passed, it affects all media types
+    // 2. For backward compatibility, also check iframeSize for iframes
+    // 3. Fallback to undefined
+    
+    if (final.mediaSize) {
+      return final.mediaSize;
+    }
+    
+    // For backward compatibility with iframeSize
+    if (final.mediaType === 'iframe' && final.iframeSize) {
+      return final.iframeSize;
+    }
+    
+    return undefined;
+  };
 
   const layoutClass = [
-    mergedProps.layout,
-    mergedProps.reverse ? 'reverse' : '',
-    `text-${mergedProps.textAlign}`,
+    final.layout || 'centered',
+    final.reverse ? 'reverse' : '',
+    `text-${final.textAlign || 'left'}`,
   ]
     .filter(Boolean)
     .join(' ');
 
+  // Hover effect class
+  const getHoverClass = () => {
+    if (!final.hoverEffect || final.hoverEffect === 'none') return '';
+    return `vista-hover-${final.hoverEffect}`;
+  };
+
+  // Filter styles helper - used for all media types
+  const getFilterStyle = (
+    filter?: 'grayscale' | 'sepia' | 'blur' | 'brightness' | 'contrast' | 'none',
+    filterValue?: number
+  ) => {
+    if (!filter || filter === 'none') return '';
+    
+    const value = filterValue || 1;
+    switch (filter) {
+      case 'grayscale':
+        return `grayscale(${value})`;
+      case 'sepia':
+        return `sepia(${value})`;
+      case 'blur':
+        return `blur(${value}px)`;
+      case 'brightness':
+        return `brightness(${value})`;
+      case 'contrast':
+        return `contrast(${value})`;
+      default:
+        return '';
+    }
+  };
+
   // CTA Buttons Component
   const CTAButtons = () => {
-    const hasCTAs = mergedProps.showPrimaryCTA || mergedProps.showSecondaryCTA || mergedProps.showAccentCTA;
+    const hasCTAs = final.showPrimaryCTA || final.showSecondaryCTA || final.showAccentCTA;
     
     if (!hasCTAs) return null;
 
     return (
       <Flex 
-        gap={mergedProps.ctaGap} 
-        justify={mergedProps.ctaFlexJustify}
-        className={`mt-6 ${mergedProps.ctaClass}`}
+        gap={final.ctaGap} 
+        justify={final.ctaFlexJustify}
+        className={`mt-6 ${final.ctaClass || ''}`}
         wrap="wrap"
         width='100%'
       >
-        {mergedProps.showPrimaryCTA && (
+        {final.showPrimaryCTA && (
           <Button
             bg={"primary"}
-            outlined={mergedProps.primaryButtonOutlined}
-            onClick={() => window.location.href = mergedProps.ctaPrimaryUrl}
-            rounded={mergedProps.ctaPrimaryRounded}
-            flat={mergedProps.ctaPrimaryFlat}
-            stringPrefix={mergedProps.ctaPrimaryPrefix}
-            stringSuffix={mergedProps.ctaPrimarySuffix}
-            iconSize={mergedProps.primaryIconSize}
+            outlined={final.primaryButtonOutlined}
+            onClick={() => final.ctaPrimaryUrl && (window.location.href = final.ctaPrimaryUrl)}
+            rounded={final.ctaPrimaryRounded}
+            flat={final.ctaPrimaryFlat}
+            stringPrefix={final.ctaPrimaryPrefix}
+            stringSuffix={final.ctaPrimarySuffix}
+            iconSize={final.primaryIconSize}
+            funcss={final.primaryButtonFuncss}
+            small={final.primaryButtonSmall}
           >
-            {mergedProps.ctaPrimaryText}
+            {final.ctaPrimaryText}
           </Button>
         )}
         
-        {mergedProps.showSecondaryCTA && (
+        {final.showSecondaryCTA && (
           <Button
             bg={"secondary"}
-            outlined={mergedProps.secondaryButtonOutlined}
-            onClick={() => window.location.href = mergedProps.ctaSecondaryUrl}
-            rounded={mergedProps.ctaSecondaryRounded}
-            flat={mergedProps.ctaSecondaryFlat}
-            stringPrefix={mergedProps.ctaSecondaryPrefix}
-            stringSuffix={mergedProps.ctaSecondarySuffix}
-            iconSize={mergedProps.secondaryIconSize}
+            outlined={final.secondaryButtonOutlined}
+            onClick={() => final.ctaSecondaryUrl && (window.location.href = final.ctaSecondaryUrl)}
+            rounded={final.ctaSecondaryRounded}
+            flat={final.ctaSecondaryFlat}
+            stringPrefix={final.ctaSecondaryPrefix}
+            stringSuffix={final.ctaSecondarySuffix}
+            iconSize={final.secondaryIconSize}
+            funcss={final.secondaryButtonFuncss}
+            small={final.secondaryButtonSmall}
           >
-            {mergedProps.ctaSecondaryText}
+            {final.ctaSecondaryText}
           </Button>
         )}
         
-        {mergedProps.showAccentCTA && (
+        {final.showAccentCTA && (
           <Button
-            bg={ "accent"}
-            outlined={mergedProps.accentButtonOutlined}
-            onClick={() => window.location.href = mergedProps.ctaAccentUrl}
-            rounded={mergedProps.ctaAccentRounded}
-            flat={mergedProps.ctaAccentFlat}
-            stringPrefix={mergedProps.ctaAccentPrefix}
-            stringSuffix={mergedProps.ctaAccentSuffix}
-            iconSize={mergedProps.accentIconSize}
+            bg={"accent"}
+            outlined={final.accentButtonOutlined}
+            onClick={() => final.ctaAccentUrl && (window.location.href = final.ctaAccentUrl)}
+            rounded={final.ctaAccentRounded}
+            flat={final.ctaAccentFlat}
+            stringPrefix={final.ctaAccentPrefix}
+            stringSuffix={final.ctaAccentSuffix}
+            iconSize={final.accentIconSize}
+            funcss={final.accentButtonFuncss}
+            small={final.accentButtonSmall}
           >
-            {mergedProps.ctaAccentText}
+            {final.ctaAccentText}
           </Button>
         )}
       </Flex>
     );
   };
 
-  // Enhanced Text Content with flexible styling
+  // Enhanced Text Content
   const TextContent = (
-    <div className={`vista-text ${mergedProps.layout === 'centered' ? "text-center" : ""} ${mergedProps.textWrapperClass}`}>
-      {mergedProps.heading && (
+    <div className={`vista-text ${final.layout === 'centered' ? "text-center" : ""} ${final.textWrapperClass || ''}`}>
+      {final.heading && (
         <Text 
           block 
-          size={mergedProps.headingSize}
-          weight={mergedProps.headingWeight}
-          color={mergedProps.headingColor}
-          funcss={mergedProps.headingClass}
+          size={final.headingSize}
+          weight={final.headingWeight}
+          color={final.headingColor}
+          funcss={final.headingClass}
         >
-          {mergedProps.heading}
+          {final.heading}
         </Text>
       )}
       
-      {mergedProps.subheading && (
+      {final.subheading && (
         <Text 
           block 
-          size={mergedProps.subheadingSize}
-          weight={mergedProps.subheadingWeight}
-          color={mergedProps.subheadingColor}
-          funcss={`mt-2 ${mergedProps.subheadingClass}`}
+          size={final.subheadingSize}
+          weight={final.subheadingWeight}
+          color={final.subheadingColor}
+          funcss={`mt-2 ${final.subheadingClass || ''}`}
         >
-          {mergedProps.subheading}
+          {final.subheading}
         </Text>
       )}
       
-      {mergedProps.content && (
+      {final.content && (
         <Text 
           block 
-          size={mergedProps.contentSize}
-          weight={mergedProps.contentWeight}
-          color={mergedProps.contentColor}
-          funcss={`mt-4 ${mergedProps.contentClass}`}
+          size={final.contentSize}
+          weight={final.contentWeight}
+          color={final.contentColor}
+          funcss={`mt-4 ${final.contentClass || ''}`}
           article
         >
-          {children || (typeof mergedProps.content === 'string' ? <div dangerouslySetInnerHTML={{ __html: mergedProps.content }} /> : mergedProps.content)}
+          {localProps.children || (typeof final.content === 'string' ? <div dangerouslySetInnerHTML={{ __html: final.content }} /> : final.content)}
         </Text>
       )}
       
-      {/* Render custom CTA or the new CTA buttons */}
-      {mergedProps.cta ? (
-        <div className={`mt-6 ${mergedProps.ctaClass}`}>
-          {mergedProps.cta}
+      {final.cta ? (
+        <div className={`mt-6 ${final.ctaClass || ''}`}>
+          {final.cta}
         </div>
       ) : (
         <CTAButtons />
@@ -403,28 +339,134 @@ const Vista: React.FC<VistaProps> = ({
     </div>
   );
 
-  // Enhanced Image Content - uses imageUrl if no image component provided
-  const ImageContent = (mergedProps.image || mergedProps.imageUrl) && (
-    <div className={`vista-image ${mergedProps.imageWrapperClass}`}>
-      {mergedProps.image ? (
-        mergedProps.image
-      ) : (
-        <img 
-          src={mergedProps.imageUrl} 
-          alt={mergedProps.imageAlt || 'Vista image'}
-          className={`${mergedProps.imageClass}`}
-          style={{ 
-            objectFit: 'cover',
-            maxWidth: mergedProps.imageSize,
-            borderRadius: 'inherit'
-          }}
-        />
-      )}
-    </div>
-  );
+  // Enhanced Media Content
+  const MediaContent = () => {
+    const mediaType = final.mediaType || 'image';
+    const hasMedia = final.media || final.mediaUrl || final.videoUrl || final.iframeUrl || final.customMedia;
+    
+    if (!hasMedia) return null;
 
-  const isCentered = mergedProps.layout === 'centered';
-  const isStacked = mergedProps.layout === 'stacked';
+    const mediaSize = getMediaSize();
+    
+    const mediaWrapperStyle: React.CSSProperties = {
+      position: 'relative',
+      transform: final.parallax ? `translateY(${scrollY}px)` : undefined,
+      transition: final.parallax ? 'transform 0.1s linear' : undefined,
+      width: '100%',
+      maxWidth: mediaSize || '100%',
+      margin: '0 auto',
+    };
+
+    const mediaStyle: React.CSSProperties = {
+      objectFit: 'cover',
+      maxWidth: mediaSize,
+      width: '100%',
+      borderRadius: 'inherit',
+      filter: getFilterStyle(final.mediaFilter, final.mediaFilterValue),
+      mixBlendMode: final.mediaBlendMode as any,
+    };
+
+    const overlayStyle: React.CSSProperties = final.mediaOverlay ? {
+      position: 'absolute',
+      inset: 0,
+      backgroundColor: final.mediaOverlayColor || 'rgba(0, 0, 0, 0.3)',
+      opacity: final.mediaOverlayOpacity ?? 1,
+      pointerEvents: 'none',
+      borderRadius: 'inherit',
+      zIndex: 1,
+    } : {};
+
+    return (
+      <div 
+        className={`vista-media ${final.mediaCss || ''} ${final.mediaWrapperClass || ''}`}
+        style={mediaWrapperStyle}
+      >
+        {/* Custom Media */}
+        {mediaType === 'custom' && final.customMedia && (
+          <div style={{ position: 'relative', width: '100%' }}>
+            {final.customMedia}
+            {final.mediaOverlay && <div style={overlayStyle} />}
+          </div>
+        )}
+
+        {/* Video */}
+        {mediaType === 'video' && final.videoUrl && (
+          <div style={{ position: 'relative', maxWidth: mediaSize, width: '100%', aspectRatio: '16/9', margin: '0 auto'}}>
+            <Video
+              src={final.videoUrl}
+              autoPlay={final.videoAutoplay}
+              loop={final.videoLoop}
+              muted={final.videoMuted}
+              poster={final.videoPoster}
+              funcss={final.mediaCss || ''}
+              style={{
+                filter: getFilterStyle(final.mediaFilter, final.mediaFilterValue),
+                mixBlendMode: final.mediaBlendMode as any,
+              }}
+            />
+            {final.mediaOverlay && <div style={overlayStyle} />}
+          </div>
+        )}
+
+{/* iFrame */}
+{mediaType === 'iframe' && final.iframeUrl && (
+  <div
+    className="vista-iframe-wrapper"
+    style={{
+      position: 'relative',
+      width: '100%',
+      maxWidth: mediaSize || '100%',
+      margin: '0 auto',
+      height: 'fit-content',
+    }}
+  >
+    <iframe
+      src={final.iframeUrl}
+      className={`vista-iframe ${final.mediaCss || ''}`}
+      style={{
+        width: '100%',
+        height: 'auto', 
+        aspectRatio: '16/9',
+        border: 'none',
+        display: 'block', // Crucial for 'height: auto' to work reliably
+        filter: getFilterStyle(final.mediaFilter, final.mediaFilterValue),
+        mixBlendMode: final.mediaBlendMode as any,
+      }}
+      allowFullScreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      title="Vista media content"
+    />
+    {final.mediaOverlay && <div style={overlayStyle} />}
+  </div>
+)}
+
+        {/* Image */}
+        {mediaType === 'image' && (final.media || final.mediaUrl) && (
+          <div style={{ position: 'relative', width: '100%' }}>
+            {final.media ? (
+              <div style={{ width: '100%', maxWidth: mediaSize, margin: '0 auto' }}>
+                {final.media}
+              </div>
+            ) : (
+              <img 
+                src={final.mediaUrl} 
+                alt={final.mediaAlt || 'Vista media'}
+                className={final.mediaCss || ''}
+                style={mediaStyle}
+                loading="lazy"
+              />
+            )}
+            {final.mediaOverlay && <div style={overlayStyle} />}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const isCentered = final.layout === 'centered';
+  const isStacked = final.layout === 'stacked';
+  const isMediaLeft = final.layout === 'mediaLeft';
+  const isMediaRight = final.layout === 'mediaRight';
 
   const positionStyles: Record<string, React.CSSProperties> = {
     'top-left': { top: '-100px', left: '-100px' },
@@ -434,111 +476,160 @@ const Vista: React.FC<VistaProps> = ({
     center: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
   };
 
-  let primaryColor = getCssVariableValue('primary')
-  let secondaryColor = getCssVariableValue('secondary')
+  const primaryColor = getCssVariableValue('primary');
+  const secondaryColor = getCssVariableValue('secondary');
 
   const gradientStyle: React.CSSProperties = {
     position: 'absolute',
-    width: mergedProps.gradientSize,
-    height: mergedProps.gradientSize,
-    background: mergedProps.gradientColors || `radial-gradient(circle, ${primaryColor}, ${secondaryColor})`,
-    opacity: mergedProps.opacity,
-    filter: `blur(${mergedProps.blurry}px)`,
+    width: final.gradientSize || "200px",
+    height: final.gradientSize || "200px",
+    background: final.gradientColors || `radial-gradient(circle, ${primaryColor}, ${secondaryColor})`,
+    opacity: final.opacity || 0.7,
+    filter: `blur(${final.blurry || 4}rem)`,
     pointerEvents: 'none',
     zIndex: 0,
-    ...positionStyles[mergedProps.gradientPosition],
+    ...positionStyles[final.gradientPosition || 'center'],
+  };
+
+  // Get fade color - accepts color variable name or color string
+  const getFadeColor = (): string => {
+    if (!final.fade) return '';
+    
+    if (final.fadeColor) {
+      // Try to get CSS variable value
+      const colorValue = getCssVariableValue(final.fadeColor);
+      if (colorValue) return colorValue;
+      
+      // If not a variable, assume it's a color string
+      return final.fadeColor;
+    }
+    
+    // Default to page background
+    return getCssVariableValue('page-bg') || '#ffffff';
+  };
+
+  // Get fade style
+  const getFadeStyle = () => {
+    const fadeColor = getFadeColor();
+    if (!fadeColor) return {};
+    
+    if (final.fadeRadial) {
+      return {
+        background: `radial-gradient(circle, transparent 0%, ${fadeColor} 100%)`,
+      };
+    }
+    
+    const direction = final.fadeDirection || 'bottom';
+    const toDirectionMap: Record<string, string> = {
+      top: 'to top',
+      bottom: 'to bottom',
+      left: 'to left',
+      right: 'to right'
+    };
+    
+    return {
+      background: `linear-gradient(${toDirectionMap[direction]}, transparent 0%, ${fadeColor} 100%)`,
+    };
   };
 
   return (
-    <ScrollInView>
-      <div
-        className={`vista 
-          ${mergedProps.pattern === 'grid' ? 'grid-bg' : 
-            mergedProps.pattern === 'dots' ? 'bg-pattern-dots' : 
-            mergedProps.pattern === 'diagonal' ? 'bg-pattern-diagonal' : 
-            mergedProps.pattern === 'checkerboard' ? 'bg-pattern-checkerboard' :
-            mergedProps.pattern === 'horizontal' ? 'bg-pattern-horizontal' :
-            mergedProps.pattern === 'vertical' ? 'bg-pattern-vertical' : ''} 
-            ${mergedProps.bg} p-${mergedProps.padding} ${layoutClass} ${mergedProps.sectionClass} ${mergedProps.funcss}`}
-        style={{ 
-          position: 'relative', 
-          overflow: 'hidden',
-          minHeight:"90vh",
-          backgroundImage: mergedProps.pattern === 'grid' ? `linear-gradient(to right, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 1px, transparent 1px)` :
-          mergedProps.pattern === 'dots' ? `radial-gradient(rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 1px, transparent 1px)` :
-          mergedProps.pattern === 'diagonal' ? `repeating-linear-gradient(45deg, rgba(var(--borderRgb), ${mergedProps.patternOpacity}), rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 1px, transparent 1px, transparent 10px)` :
-          mergedProps.pattern === 'checkerboard' ? `linear-gradient(45deg, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 25%, transparent 25%), linear-gradient(-45deg, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 75%), linear-gradient(-45deg, transparent 75%, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 75%)` :
-          mergedProps.pattern === 'horizontal' ? `linear-gradient(to bottom, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 1px, transparent 1px)` :
-          mergedProps.pattern === 'vertical' ? `linear-gradient(to right, rgba(var(--borderRgb), ${mergedProps.patternOpacity}) 1px, transparent 1px)` : ''
-         }}
-      >
-        {mergedProps.showGradient && <div style={gradientStyle} />}
-        <div className={`vista-container ${mergedProps.containerClass}`} style={{ position: 'relative', zIndex: 1 , gap: mergedProps.gap || "2rem" }}>
-          {isCentered || isStacked ? (
-            <>
-              {(mergedProps.imgPosition === 'top') && ImageContent}
-              {TextContent}
-              {(mergedProps.imgPosition === 'bottom') && ImageContent}
-            </>
-          ) : mergedProps.reverse ? (
-            <>
-              {ImageContent}
-              {TextContent}
-            </>
-          ) : (
-            <>
-              {(mergedProps.layout === 'imageLeft') && <Col>{ImageContent}</Col>}
-              {TextContent}
-              {(mergedProps.layout === 'imageRight') && <Col>{ImageContent}</Col>}
-            </>
-          )}
-        </div>
+    <div
+      ref={sectionRef}
+      className={`vista 
+        ${final.pattern === 'grid' ? 'grid-bg' : 
+          final.pattern === 'dots' ? 'bg-pattern-dots' : 
+          final.pattern === 'diagonal' ? 'bg-pattern-diagonal' : 
+          final.pattern === 'checkerboard' ? 'bg-pattern-checkerboard' :
+          final.pattern === 'horizontal' ? 'bg-pattern-horizontal' :
+          final.pattern === 'vertical' ? 'bg-pattern-vertical' : ''} 
+          ${final.bg ? `bg-${final.bg}` : ''} ${final.padding ? `p-${final.padding}` : ''} ${layoutClass} ${final.sectionClass || ''} ${final.funcss || ''}
+          ${getHoverClass()}`}
+      style={{ 
+        position: 'relative', 
+        overflow: 'hidden',
+        minHeight: "90vh",
+        backgroundImage: final.pattern === 'grid' ? `linear-gradient(to right, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 1px, transparent 1px)` :
+        final.pattern === 'dots' ? `radial-gradient(rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 1px, transparent 1px)` :
+        final.pattern === 'diagonal' ? `repeating-linear-gradient(45deg, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}), rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 1px, transparent 1px, transparent 10px)` :
+        final.pattern === 'checkerboard' ? `linear-gradient(45deg, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 25%, transparent 25%), linear-gradient(-45deg, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 75%), linear-gradient(-45deg, transparent 75%, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 75%)` :
+        final.pattern === 'horizontal' ? `linear-gradient(to bottom, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 1px, transparent 1px)` :
+        final.pattern === 'vertical' ? `linear-gradient(to right, rgba(var(--borderRgb), ${final.patternOpacity || 0.1}) 1px, transparent 1px)` : '',
+        backgroundSize: final.pattern ? '40px 40px' : undefined,
+      }}
+    >
+      {/* Gradient Blob */}
+      {final.showGradient && (
+        <div
+          className="vista-gradient-blob"
+          style={gradientStyle}
+        />
+      )}
 
-        {mergedProps.fade &&(
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              background: mergedProps.fadeRadial
-                ? `radial-gradient(circle, transparent 0%, ${getCssVariableValue(mergedProps.bg || 'page-bg')} 100%)`
-                : `linear-gradient(to ${mergedProps.fadeDirection || 'bottom'}, ${getCssVariableValue(mergedProps.bg || 'page-bg')} 0%, transparent 100%)`,
-              zIndex: 0,
-              pointerEvents: 'none'
-            }}
-          />
-        )}
-        {mergedProps.backgroundImage && (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `url(${mergedProps.backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              zIndex: -1,
-              width: '100%',
-              height: '100%',
-            }}
-          />
-        )}
-
-        {mergedProps.backgroundImage && mergedProps.fadeOverlayDarken !== undefined && (
-          <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              inset: 0,
-              backgroundColor: `rgba(0, 0, 0, ${mergedProps.fadeOverlayDarken})`,
-              zIndex: -1,
-            }}
-          />
+      {/* Fade Overlay */}
+      {final.fade && (
+        <div
+          className="vista-fade-overlay"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            ...getFadeStyle(),
+            zIndex: 0,
+            pointerEvents: 'none'
+          }}
+        />
+      )}
+      
+      {/* Main Content */}
+      <div className={`vista-container ${final.containerClass || ''}`} style={{ 
+        position: 'relative', 
+        zIndex: 1,
+        gap: final.gap || "2rem",
+        display: 'flex',
+        flexDirection: isCentered || isStacked ? 'column' : 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '2rem',
+      }}>
+        {isCentered || isStacked ? (
+          <>
+            {(final.mediaPosition === 'top') && <MediaContent />}
+            {TextContent}
+            {(final.mediaPosition === 'bottom' || !final.mediaPosition) && <MediaContent />}
+          </>
+        ) : final.reverse ? (
+          <>
+            <div style={{ flex: 1 }}>
+              <MediaContent />
+            </div>
+            <div style={{ flex: 1 }}>
+              {TextContent}
+            </div>
+          </>
+        ) : (
+          <>
+            {isMediaLeft && (
+              <div style={{ flex: 1 }}>
+                <MediaContent />
+              </div>
+            )}
+            <div style={{ flex: 1 }}>
+              {TextContent}
+            </div>
+            {isMediaRight && (
+              <div style={{ flex: 1 }}>
+                <MediaContent />
+              </div>
+            )}
+          </>
         )}
       </div>
-    </ScrollInView>
+    </div>
   );
 };
 

@@ -128,35 +128,75 @@ interface AreaChartProps {
   maxWidth?: number | string;
 }
 
-// Parse string to object utility
+// Parse string to object utility with enhanced error handling
 const parseIfString = <T,>(value: T | string, fallback: T): T => {
   if (typeof value === 'string') {
     try {
-      return JSON.parse(value) as T;
+      const parsed = JSON.parse(value) as T;
+      // Additional validation for arrays
+      if (Array.isArray(fallback) && !Array.isArray(parsed)) {
+        console.warn('Parsed value is not an array, using fallback');
+        return fallback;
+      }
+      return parsed;
     } catch (error) {
       console.error('Failed to parse JSON string:', error);
       return fallback;
     }
   }
+  
+  // Handle null/undefined values
+  if (value == null) {
+    return fallback;
+  }
+  
   return value as T;
 };
 
-// CSS var resolver
-const getCssVar = (varName: string): string => {
-  if (typeof window === 'undefined') return '';
-  return getComputedStyle(document.documentElement).getPropertyValue(`--${varName}`)?.trim() || '';
+// Safe array access utility
+const getSafeArray = <T,>(value: T[] | undefined | null, fallback: T[] = []): T[] => {
+  if (!value || !Array.isArray(value)) return fallback;
+  return value;
 };
 
-// Color resolver
+// CSS var resolver with error handling
+const getCssVar = (varName: string): string => {
+  if (typeof window === 'undefined') return '';
+  try {
+    return getComputedStyle(document.documentElement).getPropertyValue(`--${varName}`)?.trim() || '';
+  } catch (error) {
+    console.warn(`Failed to get CSS variable --${varName}:`, error);
+    return '';
+  }
+};
+
+// Color resolver with fallbacks
 const resolveStrokeColor = (color?: string): string => {
   if (!color) return getCssVar('primary') || '#8884d8';
   if (color.startsWith('#')) return color;
-  return getCssVar(color) || color;
+  
+  const cssColor = getCssVar(color);
+  if (cssColor) return cssColor;
+  
+  // Fallback to common color names if CSS var not found
+  const colorMap: Record<string, string> = {
+    primary: '#8884d8',
+    secondary: '#82ca9d',
+    error: '#ff4d4f',
+    warning: '#faad14',
+    success: '#52c41a'
+  };
+  
+  return colorMap[color] || color || '#8884d8';
 };
 
-// Default Tooltip
+// Default Tooltip with error handling
 const CustomTooltip = ({ active, payload, label, formatter }: any) => {
-  if (active && payload && payload.length) {
+  if (!active || !payload || !Array.isArray(payload) || payload.length === 0) {
+    return null;
+  }
+
+  try {
     return (
       <div 
         className="card raised round-edge p-2 text-sm"
@@ -164,248 +204,135 @@ const CustomTooltip = ({ active, payload, label, formatter }: any) => {
           maxWidth: '300px'
         }}
       >
-        <div className="text-bold mb-1" >
-          {label}
+        <div className="text-bold mb-1">
+          {label || 'N/A'}
         </div>
-        {payload.map((entry: any, index: number) => (
-          <div 
-            key={index} 
-            style={{ 
-              lineHeight: 1.4,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}
-          >
+        {payload.map((entry: any, index: number) => {
+          if (!entry) return null;
+          
+          const value = formatter ? formatter(entry.value, entry.name, entry) : entry.value;
+          const displayValue = value != null ? value : 'N/A';
+          const displayName = entry.name || 'Unknown';
+          const displayColor = entry.color || '#8884d8';
+
+          return (
             <div 
-              style={{
-                width: '12px',
-                height: '12px',
-                backgroundColor: entry.color,
-                borderRadius: '2px'
+              key={index} 
+              style={{ 
+                lineHeight: 1.4,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
               }}
-            />
-            <span style={{ fontWeight: 500 }}>{entry.name}:</span>
-            <span style={{ fontWeight: 600, color: 'var(--text-color, #1a202c)' }}>
-              {formatter ? formatter(entry.value, entry.name, entry) : entry.value}
-            </span>
-          </div>
-        ))}
+            >
+              <div 
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  backgroundColor: displayColor,
+                  borderRadius: '2px'
+                }}
+              />
+              <span style={{ fontWeight: 500 }}>{displayName}:</span>
+              <span style={{ fontWeight: 600, color: 'var(--text-color, #1a202c)' }}>
+                {displayValue}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  } catch (error) {
+    console.error('Error rendering tooltip:', error);
+    return (
+      <div className="card raised round-edge p-2 text-sm">
+        <div className="text-error">Error displaying tooltip</div>
       </div>
     );
   }
-  return null;
 };
 
-const Lines: React.FC<AreaChartProps> = ({
-  data,
-  id,
-  series,
-  fromColor,
-  toColor,
-  dy,
-  showGrid = true,
-  horizontalLines = false,
-  showLegend = true,
-  showXAxis = true,
-  showYAxis = false,
-  showTooltip = true,
-  funcss,
-  curveType = 'monotone',
-  height = "100%",
-  width = '100%',
-  margin = { top: 10, right: 30, left: 0, bottom: 20 },
-  xAxisProps = {},
-  yAxisProps = {},
-  tooltipFormatter,
-  legendProps = {},
-  tooltipProps = {},
-  rotateLabel,
-  xLabelSize,
-  yLabelSize,
-  xInterval,
-  yInterval,
-  variant = '',
-  xAxisLabel,
-  yAxisLabel,
-  tickLine = true,
-  axisLine = true,
-  gridStroke,
-  gridStrokeDasharray = "3 3",
-  customTooltip,
-  animation = true,
-  animationDuration = 500,
-  isAnimationActive = true,
-  syncId,
-  chartBackground,
-  borderRadius,
-  padding,
-  shadow = false,
-  aspect,
-  minHeight,
-  maxHeight,
-  minWidth,
-  maxWidth
-}) => {
+const Lines: React.FC<AreaChartProps> = (localProps) => {
   // Use component configuration with variant support
-  const { mergeWithLocal } = useComponentConfiguration('AreaChart', variant);
-
-  // Create local props object
-  const localProps = {
-    data,
-    id,
-    series,
-    fromColor,
-    toColor,
-    dy,
-    showGrid,
-    horizontalLines,
-    showLegend,
-    showXAxis,
-    showYAxis,
-    showTooltip,
-    funcss,
-    curveType,
-    height,
-    width,
-    margin,
-    xAxisProps,
-    yAxisProps,
-    tooltipFormatter,
-    legendProps,
-    tooltipProps,
-    rotateLabel,
-    xLabelSize,
-    yLabelSize,
-    xInterval,
-    yInterval,
-    xAxisLabel,
-    yAxisLabel,
-    tickLine,
-    axisLine,
-    gridStroke,
-    gridStrokeDasharray,
-    customTooltip,
-    animation,
-    animationDuration,
-    isAnimationActive,
-    syncId,
-    chartBackground,
-    borderRadius,
-    padding,
-    shadow,
-    aspect,
-    minHeight,
-    maxHeight,
-    minWidth,
-    maxWidth
-  };
-
+  const { mergeWithLocal } = useComponentConfiguration('Lines', localProps.variant);
+  
   // Merge with config - LOCAL PROPS OVERRIDE CONFIG
   const { props: mergedProps } = mergeWithLocal(localProps);
 
-  // Parse data and series if they're strings
-  const parsedData = useMemo(
-    () => parseIfString<DataItem[]>(mergedProps.data, []),
-    [mergedProps.data]
-  );
-  
-  const parsedSeries = useMemo(
-    () => parseIfString<ChartSeries[]>(mergedProps.series, []),
-    [mergedProps.series]
-  );
+  // Debug: Log what props are actually coming through
+  React.useEffect(() => {
+    console.log('Lines merged props:', mergedProps);
+    console.log('Lines config available:', Object.keys(mergedProps).length > 0);
+  }, [mergedProps]);
 
-  // Extract final values
-  const final = useMemo(() => ({
-    data: parsedData,
-    id: mergedProps.id,
-    series: parsedSeries,
-    fromColor: mergedProps.fromColor,
-    toColor: mergedProps.toColor,
-    dy: mergedProps.dy,
-    showGrid: mergedProps.showGrid,
-    horizontalLines: mergedProps.horizontalLines,
-    showLegend: mergedProps.showLegend,
-    showXAxis: mergedProps.showXAxis,
-    showYAxis: mergedProps.showYAxis,
-    showTooltip: mergedProps.showTooltip,
-    funcss: mergedProps.funcss,
-    curveType: mergedProps.curveType,
-    height: mergedProps.height,
-    width: mergedProps.width,
-    margin: mergedProps.margin,
-    xAxisProps: mergedProps.xAxisProps,
-    yAxisProps: mergedProps.yAxisProps,
-    tooltipFormatter: mergedProps.tooltipFormatter,
-    legendProps: mergedProps.legendProps,
-    tooltipProps: mergedProps.tooltipProps,
-    rotateLabel: mergedProps.rotateLabel,
-    xLabelSize: mergedProps.xLabelSize,
-    yLabelSize: mergedProps.yLabelSize,
-    xInterval: mergedProps.xInterval,
-    yInterval: mergedProps.yInterval,
-    xAxisLabel: mergedProps.xAxisLabel,
-    yAxisLabel: mergedProps.yAxisLabel,
-    tickLine: mergedProps.tickLine,
-    axisLine: mergedProps.axisLine,
-    gridStroke: mergedProps.gridStroke,
-    gridStrokeDasharray: mergedProps.gridStrokeDasharray,
-    customTooltip: mergedProps.customTooltip,
-    animation: mergedProps.animation,
-    animationDuration: mergedProps.animationDuration,
-    isAnimationActive: mergedProps.isAnimationActive,
-    syncId: mergedProps.syncId,
-    chartBackground: mergedProps.chartBackground,
-    borderRadius: mergedProps.borderRadius,
-    padding: mergedProps.padding,
-    shadow: mergedProps.shadow,
-    aspect: mergedProps.aspect,
-    minHeight: mergedProps.minHeight,
-    maxHeight: mergedProps.maxHeight,
-    minWidth: mergedProps.minWidth,
-    maxWidth: mergedProps.maxWidth
-  }), [parsedData, parsedSeries, mergedProps]);
+  // Parse data and series if they're strings with enhanced validation
+  const parsedData = useMemo(() => {
+    const parsed = parseIfString<DataItem[]>(mergedProps.data, []);
+    return getSafeArray(parsed);
+  }, [mergedProps.data]);
+  
+  const parsedSeries = useMemo(() => {
+    const parsed = parseIfString<ChartSeries[]>(mergedProps.series, []);
+    return getSafeArray(parsed).filter(series => 
+      series && typeof series === 'object' && series.dataKey
+    );
+  }, [mergedProps.series]);
+
+  // Check if we have valid data to display
+  const hasValidData = parsedData.length > 0 && parsedSeries.length > 0;
+
+  // Use mergedProps directly - no need for complex fallback logic
+  const final = mergedProps;
 
   const baseGradientId = final.id || 'areaChartGradient';
   const TooltipComponent = final.customTooltip || CustomTooltip;
 
-  // Generate per-series gradients
+  // Generate per-series gradients with error handling
   const gradients = useMemo(() => {
-    return final.series.map((s: ChartSeries, index: number) => {
-      if (!s.fromColor && !s.toColor) return null;
+    if (!parsedSeries || !Array.isArray(parsedSeries)) return [];
+
+    return parsedSeries.map((s: ChartSeries, index: number) => {
+      if (!s || typeof s !== 'object') return null;
       
-      const gradientId = `${baseGradientId}-${index}`;
-      const startColor = resolveStrokeColor(s.fromColor || s.color || final.fromColor);
-      const endColor = resolveStrokeColor(s.toColor || final.toColor);
-      
-      return (
-        <linearGradient key={gradientId} id={gradientId} x1="0" y1="0" x2="0" y2="1">
-          <stop
-            offset="5%"
-            stopColor={startColor}
-            stopOpacity={0.8}
-          />
-          <stop
-            offset="95%"
-            stopColor={endColor}
-            stopOpacity={0}
-          />
-        </linearGradient>
-      );
-    });
-  }, [final.series, baseGradientId, final.fromColor, final.toColor]);
+      try {
+        if (!s.fromColor && !s.toColor) return null;
+        
+        const gradientId = `${baseGradientId}-${index}`;
+        const startColor = resolveStrokeColor(s.fromColor || s.color || final.fromColor);
+        const endColor = resolveStrokeColor(s.toColor || final.toColor);
+        
+        return (
+          <linearGradient key={gradientId} id={gradientId} x1="0" y1="0" x2="0" y2="1">
+            <stop
+              offset="5%"
+              stopColor={startColor}
+              stopOpacity={0.8}
+            />
+            <stop
+              offset="95%"
+              stopColor={endColor}
+              stopOpacity={0}
+            />
+          </linearGradient>
+        );
+      } catch (error) {
+        console.error('Error generating gradient for series:', error);
+        return null;
+      }
+    }).filter(Boolean);
+  }, [parsedSeries, baseGradientId, final.fromColor, final.toColor]);
 
   // Default gradient for series without custom gradients
   const defaultGradient = useMemo(() => (
     <linearGradient id={baseGradientId} x1="0" y1="0" x2="0" y2="1">
       <stop
         offset="5%"
-        stopColor={getCssVar(final.fromColor || 'primary')}
+        stopColor={getCssVar(final.fromColor || 'primary') || '#8884d8'}
         stopOpacity={0.8}
       />
       <stop
         offset="95%"
-        stopColor={getCssVar(final.toColor || 'primary200')}
+        stopColor={getCssVar(final.toColor || 'primary200') || '#8884d8'}
         stopOpacity={0}
       />
     </linearGradient>
@@ -424,16 +351,35 @@ const Lines: React.FC<AreaChartProps> = ({
     boxShadow: final.shadow ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : undefined,
   }), [final]);
 
+  // Show empty state if no data
+  if (!hasValidData) {
+    return (
+      <div 
+        className={`flex items-center justify-center ${final.funcss}`}
+        style={containerStyle}
+      >
+        <div className="text-center text-muted">
+          <div className="text-lg mb-2">📊</div>
+          <div>No chart data available</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <ResponsiveContainer 
-      width={final.width} 
-      height={final.height}
+   <div 
+   style={{
+  height:final.height || "400px" ,
+  width: final.width || "100%",
+}}
+   >
+     <ResponsiveContainer 
       aspect={final.aspect}
       className={final.funcss}
       style={containerStyle}
     >
       <AreaChart 
-        data={final.data} 
+        data={parsedData} 
         margin={final.margin}
         syncId={final.syncId}
       >
@@ -497,33 +443,44 @@ const Lines: React.FC<AreaChartProps> = ({
         )}
         {final.showLegend && <Legend {...final.legendProps} />}
 
-        {/* Area series */}
-        {final.series.map((s: ChartSeries, index: number) => {
-          const hasCustomGradient = s.fromColor || s.toColor;
-          const gradientId = hasCustomGradient 
-            ? `${baseGradientId}-${index}` 
-            : baseGradientId;
-          
-          return (
-            <Area
-              key={s.dataKey || index}
-              type={final.curveType}
-              dataKey={s.dataKey}
-              name={s.label || s.dataKey}
-              stroke={resolveStrokeColor(s.color)}
-              fill={hasCustomGradient || final.fromColor ? `url(#${gradientId})` : resolveStrokeColor(s.color)}
-              fillOpacity={s.fillOpacity !== undefined ? s.fillOpacity : 0.6}
-              strokeWidth={s.strokeWidth || 2}
-              strokeDasharray={s.strokeDasharray}
-              dot={s.dot !== false ? { r: 4 } : false}
-              activeDot={s.activeDot !== false ? (typeof s.activeDot === 'object' ? s.activeDot : { r: 6, strokeWidth: 2 }) : false}
-              isAnimationActive={final.isAnimationActive}
-              animationDuration={final.animationDuration}
-            />
-          );
+        {/* Area series with error boundary per series */}
+        {parsedSeries.map((s: ChartSeries, index: number) => {
+          if (!s || !s.dataKey) {
+            console.warn('Invalid series configuration at index:', index);
+            return null;
+          }
+
+          try {
+            const hasCustomGradient = s.fromColor || s.toColor;
+            const gradientId = hasCustomGradient 
+              ? `${baseGradientId}-${index}` 
+              : baseGradientId;
+            
+            return (
+              <Area
+                key={s.dataKey || `series-${index}`}
+                type={final.curveType}
+                dataKey={s.dataKey}
+                name={s.label || s.dataKey}
+                stroke={resolveStrokeColor(s.color)}
+                fill={hasCustomGradient || final.fromColor ? `url(#${gradientId})` : resolveStrokeColor(s.color)}
+                fillOpacity={s.fillOpacity !== undefined ? s.fillOpacity : 0.6}
+                strokeWidth={s.strokeWidth || 2}
+                strokeDasharray={s.strokeDasharray}
+                dot={s.dot !== false ? { r: 4 } : false}
+                activeDot={s.activeDot !== false ? (typeof s.activeDot === 'object' ? s.activeDot : { r: 6, strokeWidth: 2 }) : false}
+                isAnimationActive={final.isAnimationActive}
+                animationDuration={final.animationDuration}
+              />
+            );
+          } catch (error) {
+            console.error('Error rendering area series:', error);
+            return null;
+          }
         })}
       </AreaChart>
     </ResponsiveContainer>
+   </div>
   );
 };
 

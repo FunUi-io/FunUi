@@ -44,16 +44,17 @@ var Text_1 = __importDefault(require("../text/Text"));
 var navigation_1 = require("next/navigation");
 var theme_1 = require("../theme/theme");
 var Button_1 = __importDefault(require("../button/Button"));
+var Accordion_1 = __importDefault(require("../accordion/Accordion"));
 function SideBar(_a) {
     var _b;
-    var _c = _a.funcss, funcss = _c === void 0 ? '' : _c, _d = _a.position, position = _d === void 0 ? 'left' : _d, _e = _a.open, open = _e === void 0 ? false : _e, header = _a.header, content = _a.content, footer = _a.footer, _f = _a.top, top = _f === void 0 ? 0 : _f, _g = _a.sidebarWidth, sidebarWidth = _g === void 0 ? 250 : _g, _h = _a.iconCSS, iconCSS = _h === void 0 ? '' : _h, _j = _a.sidebarCss, sidebarCss = _j === void 0 ? '' : _j, activeCss = _a.activeCss, _k = _a.bodyCss, bodyCss = _k === void 0 ? '' : _k, _l = _a.popIcon, popIcon = _l === void 0 ? false : _l, _m = _a.dividers, dividers = _m === void 0 ? false : _m, _o = _a.links, links = _o === void 0 ? [] : _o, children = _a.children, onClose = _a.onClose;
-    var _p = (0, react_1.useState)(false), isMobile = _p[0], setIsMobile = _p[1];
-    var _q = (0, react_1.useState)(open), internalOpen = _q[0], setInternalOpen = _q[1];
-    var _r = (0, react_1.useState)('0px'), appBarHeight = _r[0], setAppBarHeight = _r[1];
+    var _c = _a.funcss, funcss = _c === void 0 ? '' : _c, _d = _a.position, position = _d === void 0 ? 'left' : _d, _e = _a.open, open = _e === void 0 ? false : _e, header = _a.header, content = _a.content, footer = _a.footer, _f = _a.top, top = _f === void 0 ? 0 : _f, _g = _a.sidebarWidth, sidebarWidth = _g === void 0 ? 250 : _g, _h = _a.iconCSS, iconCSS = _h === void 0 ? '' : _h, _j = _a.sidebarCss, sidebarCss = _j === void 0 ? '' : _j, activeCss = _a.activeCss, _k = _a.bodyCss, bodyCss = _k === void 0 ? '' : _k, _l = _a.popIcon, popIcon = _l === void 0 ? false : _l, _m = _a.dividers, dividers = _m === void 0 ? false : _m, accordionItemCss = _a.accordionItemCss, _o = _a.links, links = _o === void 0 ? [] : _o, children = _a.children, onClose = _a.onClose, _p = _a.isAccordion, isAccordion = _p === void 0 ? false : _p;
+    var _q = (0, react_1.useState)(false), isMobile = _q[0], setIsMobile = _q[1];
+    var _r = (0, react_1.useState)(open), internalOpen = _r[0], setInternalOpen = _r[1];
+    var _s = (0, react_1.useState)('0px'), appBarHeight = _s[0], setAppBarHeight = _s[1];
     var pathname = (0, navigation_1.usePathname)();
     var sidebarRef = (0, react_1.useRef)(null);
     var variant = (0, theme_1.useVariant)().variant;
-    var _s = (0, react_1.useState)(""), selectedOption = _s[0], setselectedOption = _s[1];
+    var _t = (0, react_1.useState)(''), selectedOption = _t[0], setselectedOption = _t[1];
     var updateIsMobile = (0, react_1.useCallback)(function () {
         setIsMobile(window.innerWidth <= 992);
     }, []);
@@ -97,8 +98,42 @@ function SideBar(_a) {
         return acc;
     }, {});
     var isOverlay = isMobile;
+    // Prepare accordion items when isAccordion is true
+    var accordionItems = isAccordion
+        ? Object.entries(groupedLinks).map(function (_a) {
+            var _b;
+            var section = _a[0], sectionLinks = _a[1];
+            return ({
+                icon: (_b = sectionLinks[0]) === null || _b === void 0 ? void 0 : _b.icon,
+                title: section,
+                content: (react_1.default.createElement("div", { className: "sidebar-accordion-links" }, sectionLinks.map(function (link, index) {
+                    var isActive = link.onClick
+                        ? selectedOption === "".concat(section, "-").concat(index)
+                        : pathname === link.uri;
+                    return (react_1.default.createElement("div", { onClick: function () {
+                            if (isMobile) {
+                                handleClose();
+                            }
+                            if (link === null || link === void 0 ? void 0 : link.onClick) {
+                                link.onClick();
+                                setselectedOption("".concat(section, "-").concat(index));
+                            }
+                            else {
+                                window.location.href = link.uri;
+                            }
+                        }, key: link.uri },
+                        react_1.default.createElement(Button_1.default, { fullWidth: true, small: true, funcss: "sidebar-link ".concat(isActive ? "" : "p-0", " text-left ").concat(isActive ? "primary ".concat(activeCss || '') : 'hoverable'), startIcon: react_1.default.createElement("span", { className: "".concat(iconCSS || '', " ").concat(variant === 'standard' || popIcon
+                                    ? "p-1 ".concat(isActive ? 'primary' : 'lighter text-primary border', " central")
+                                    : variant === 'minimal' && !isActive
+                                        ? 'p-1 central lighter text-primary'
+                                        : ''), style: { lineHeight: 0, borderRadius: '0.4rem' } }, link.icon) },
+                            react_1.default.createElement(Text_1.default, { text: link.text, size: "sm", weight: 400 }))));
+                }))),
+            });
+        })
+        : [];
     return (react_1.default.createElement("div", { className: "sidebar-container ".concat(isOverlay ? '' : 'with-content') },
-        internalOpen && (react_1.default.createElement("aside", { role: "complementary", ref: sidebarRef, className: "sidebar ".concat(funcss, " ").concat(sidebarCss, "  ").concat(isOverlay ? 'nav_overlay' : ''), style: (_b = {
+        internalOpen && (react_1.default.createElement("aside", { role: "complementary", ref: sidebarRef, className: "sidebar ".concat(funcss, " ").concat(sidebarCss, " ").concat(isOverlay ? 'nav_overlay' : ''), style: (_b = {
                     width: isOverlay ? '100%' : "".concat(sidebarWidth, "px"),
                     height: "calc(100vh - ".concat(appBarHeight || top || '0px', ")"),
                     position: 'fixed',
@@ -109,10 +144,10 @@ function SideBar(_a) {
                 _b) },
             react_1.default.createElement(RowFlex_1.default, { justify: "space-between", funcss: "pl-2 pr-2" }, header && react_1.default.createElement("div", null, header)),
             react_1.default.createElement("section", { className: "sidebar-body mt-3" },
-                links.length > 0 && (react_1.default.createElement("nav", { className: "sidebar-links" }, Object.entries(groupedLinks).map(function (_a) {
+                links.length > 0 && (react_1.default.createElement("nav", { className: "sidebar-links" }, isAccordion ? (react_1.default.createElement(Accordion_1.default, { itemClass: accordionItemCss, items: accordionItems, allowMultiple: false, contentClass: "", titleClass: 'text-sm', activeClass: "" })) : (Object.entries(groupedLinks).map(function (_a) {
                     var section = _a[0], sectionLinks = _a[1];
-                    return (react_1.default.createElement("div", { key: section, className: "sidebar-section ".concat(dividers ? "bt" : "", " pt-2 pb-2") },
-                        react_1.default.createElement(Text_1.default, { size: "sm", funcss: "opacity-6 p-1 pl-2 pr-2" }, section),
+                    return (react_1.default.createElement("div", { key: section, className: "sidebar-section ".concat(dividers ? 'bt' : '', " pt-2 pb-2") },
+                        react_1.default.createElement(Text_1.default, { size: "sm" }, section),
                         sectionLinks.map(function (link, index) {
                             var isActive = link.onClick
                                 ? selectedOption === "".concat(section, "-").concat(index)
@@ -129,10 +164,14 @@ function SideBar(_a) {
                                         window.location.href = link.uri;
                                     }
                                 }, key: link.uri },
-                                react_1.default.createElement(Button_1.default, { fullWidth: true, small: true, funcss: "p-1 pl-2 pr-2  sidebar-link text-left  ".concat(isActive ? "primary  ".concat(activeCss || '') : 'hoverable'), startIcon: react_1.default.createElement("span", { className: "".concat(iconCSS || '', " \n                            ").concat((variant === 'standard' || popIcon) ? "p-1  ".concat(isActive ? "primary" : "lighter text-primary border", " central") : (variant === "minimal" && !isActive) ? "p-1 central lighter text-primary" : ""), style: { lineHeight: 0, borderRadius: "0.4rem" } }, link.icon) },
+                                react_1.default.createElement(Button_1.default, { fullWidth: true, small: true, funcss: "sidebar-link text-left ".concat(isActive ? "primary ".concat(activeCss || '') : 'hoverable'), startIcon: react_1.default.createElement("span", { className: "".concat(iconCSS || '', " ").concat(variant === 'standard' || popIcon
+                                            ? "p-1 ".concat(isActive ? 'primary' : 'lighter text-primary border', " central")
+                                            : variant === 'minimal' && !isActive
+                                                ? 'p-1 central lighter text-primary'
+                                                : ''), style: { lineHeight: 0, borderRadius: '0.4rem' } }, link.icon) },
                                     react_1.default.createElement(Text_1.default, { text: link.text, size: "sm", weight: 400 }))));
                         })));
-                }))),
+                })))),
                 content),
             footer && react_1.default.createElement("footer", { className: "sidebar-footer mt-2" }, footer))),
         react_1.default.createElement("main", { className: "main-content ".concat(bodyCss), style: {

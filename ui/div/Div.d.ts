@@ -11,9 +11,11 @@ type DivProps = {
     width?: string;
     padding?: string;
     margin?: string;
+    id?: string;
     fit?: boolean;
+    ref?: React.Ref<HTMLDivElement>;
     customStyle?: React.CSSProperties;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
-declare const Div: ({ children, funcss, content, minHeight, maxHeight, maxWidth, minWidth, height, width, padding, margin, fit, customStyle, ...rest }: DivProps) => React.JSX.Element;
+declare const Div: ({ children, funcss, content, minHeight, maxHeight, maxWidth, minWidth, height, width, padding, margin, id, fit, ref, customStyle, ...rest }: DivProps) => React.JSX.Element;
 export default Div;

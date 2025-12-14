@@ -5,6 +5,8 @@ import Button from '../button/Button';
 import { useVariant } from '../theme/theme';
 import { useComponentConfiguration } from '../../utils/componentUtils';
 import { getDynamicIcon } from '../../utils/getDynamicIcon';
+import Text from '../text/Text';
+import { FileUpload } from './FileUpload';
 
 // Base types and interfaces
 interface BaseInputProps {
@@ -78,7 +80,9 @@ const generateInputClasses = ({
   rightRounded,
   bordered,
   borderless,
-  additionalClasses = ''
+  additionalClasses = '',
+  hasNoPrefix = false,
+  hasNoLabel = false
 }: {
   status?: string;
   rounded?: boolean;
@@ -90,6 +94,8 @@ const generateInputClasses = ({
   bordered?: boolean;
   borderless?: boolean;
   additionalClasses?: string;
+  hasNoPrefix?: boolean;
+  hasNoLabel?: boolean;
 }) => {
   const statusClass = status ? `${status}-input` : '';
   const roundedClass = rounded ? 'rounded' : '';
@@ -97,6 +103,8 @@ const generateInputClasses = ({
   const flatClass = flat ? 'flat' : '';
   const cornerClass = leftRounded ? 'leftRounded' : rightRounded ? 'rightRounded' : '';
   const borderClass = bordered ? 'borderedInput' : borderless ? 'borderless' : (!bordered && !borderless ? 'borderedInput' : '');
+  const noPrefixClass = hasNoPrefix ? 'no_prefix' : '';
+  const noLabelClass = hasNoLabel ? 'no_label' : '';
 
   return `
     ${statusClass}
@@ -107,11 +115,13 @@ const generateInputClasses = ({
     ${cornerClass}
     ${borderClass}
     ${additionalClasses}
+    ${noPrefixClass}
+    ${noLabelClass}
     input
   `.trim().replace(/\s+/g, ' ');
 };
 
-// Iconic Input Wrapper Component
+// Iconic Input Wrapper Component - UPDATED to match Button's pattern
 const IconicInputWrapper: React.FC<{
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
@@ -119,18 +129,41 @@ const IconicInputWrapper: React.FC<{
   suffix?: React.ReactNode;
   iconicBg?: string;
   funcss?: string;
+  stringPrefix?: string;
+  stringSuffix?: string;
   children: React.ReactNode;
-}> = ({ startIcon, endIcon, prefix, suffix, iconicBg, funcss, children }) => {
-  const effectiveStartIcon = prefix !== undefined ? prefix : startIcon;
-  const effectiveEndIcon = suffix !== undefined ? suffix : endIcon;
+}> = ({ 
+  startIcon, 
+  endIcon,
+  prefix,
+  suffix,
+  iconicBg, 
+  funcss,
+  stringPrefix,
+  stringSuffix,
+  children 
+}) => {
+  // Match Button's pattern exactly - use proper priority
+  const effectiveStartIcon = startIcon !== undefined ? startIcon : prefix;
+  const effectiveEndIcon = endIcon !== undefined ? endIcon : suffix;
 
-  if (!effectiveStartIcon && !effectiveEndIcon) {
+  // Determine which icons to show - MATCH BUTTON'S PATTERN EXACTLY
+  const showPrefix = effectiveStartIcon !== undefined && effectiveStartIcon !== null;
+  const showSuffix = effectiveEndIcon !== undefined && effectiveEndIcon !== null;
+
+  if (!showPrefix && !showSuffix) {
     return <>{children}</>;
   }
 
+  // Helper function to check if element is a React element
+  function isReactElement(node: any): node is React.ReactElement {
+    return React.isValidElement(node);
+  }
+
   return (
-    <div className={`icon-container ${effectiveStartIcon ? 'has-left-icon' : ''} ${funcss || ''}`}>
-      {effectiveStartIcon && (
+    <div className={`icon-container ${showPrefix ? 'has-left-icon' : ''} ${funcss || ''}`}>
+      {/* LEFT ICON - Match Button's exact conditional pattern */}
+      {showPrefix && (
         <div
           className="leftIcon"
           style={{
@@ -138,13 +171,24 @@ const IconicInputWrapper: React.FC<{
             border: iconicBg ? `0.1rem ${iconicBg} solid` : '',
           }}
         >
-          {effectiveStartIcon}
+          {isReactElement(startIcon) ? startIcon
+            : isReactElement(prefix) ? prefix
+            : isReactElement(effectiveStartIcon) ? effectiveStartIcon
+            : stringPrefix ? effectiveStartIcon : ''
+          }
         </div>
       )}
+      
       {children}
-      {effectiveEndIcon && (
+      
+      {/* RIGHT ICON - Match Button's exact conditional pattern */}
+      {showSuffix && (
         <div className="rightIcon" style={{ backgroundColor: iconicBg || '' }}>
-          {effectiveEndIcon}
+          {isReactElement(endIcon) ? endIcon
+            : isReactElement(suffix) ? suffix
+            : isReactElement(effectiveEndIcon) ? effectiveEndIcon
+            : stringSuffix ? effectiveEndIcon : ""
+          }
         </div>
       )}
     </div>
@@ -163,8 +207,9 @@ const InputContainer: React.FC<{
   id?: string;
   startIcon?: React.ReactNode;
   prefix?: React.ReactNode;
-}> = ({ label, status, helperText, children, isFocused, hasValue, fullWidth, id, startIcon, prefix }) => {
-  const showFloatingLabel = label && (isFocused || hasValue);
+  alwaysActiveLabel?: boolean;
+}> = ({ label, status, helperText, children, isFocused, hasValue, fullWidth, id, startIcon, prefix, alwaysActiveLabel = false }) => {
+  const showFloatingLabel = label && (alwaysActiveLabel || isFocused || hasValue);
 
   return (
     <div className={`input-wrapper ${fullWidth ? 'full-width' : ''}`}>
@@ -226,21 +271,22 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
   const [inputValue, setInputValue] = useState<string>(value !== undefined ? String(value) : defaultValue || '');
   const [prefixNode, setPrefixNode] = useState<React.ReactNode>(null);
   const [suffixNode, setSuffixNode] = useState<React.ReactNode>(null);
+  const [hasValidStringPrefix, setHasValidStringPrefix] = useState(false);
+  const [hasValidStringSuffix, setHasValidStringSuffix] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Handle value changes - only update if value is truly defined (not empty string)
+  const isDateTimeInput = ['date', 'time', 'month', 'week', 'datetime-local'].includes(type || '');
+
   useEffect(() => {
     if (value !== undefined && value !== '') {
       setInputValue(String(value));
     } else if (value === '') {
-      // Allow empty string to clear the input
       setInputValue('');
     }
   }, [value]);
 
   const { mergeWithLocal } = useComponentConfiguration('Input', variant);
 
-  // Create local props object including stringPrefix/stringSuffix
   const localProps = {
     status,
     funcss,
@@ -257,14 +303,12 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
     prefix,
     suffix,
     iconicBg,
-    stringPrefix, // Include in local props
-    stringSuffix, // Include in local props
+    stringPrefix,
+    stringSuffix,
   };
 
-  // Merge with config - LOCAL PROPS OVERRIDE CONFIG
   const { props: mergedProps } = mergeWithLocal(localProps);
 
-  // Extract final values - local props take precedence, but handle empty strings properly
   const final = {
     status: status !== undefined ? status : mergedProps.status,
     funcss: funcss !== undefined ? funcss : mergedProps.funcss,
@@ -281,31 +325,91 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
     prefix: prefix !== undefined ? prefix : mergedProps.prefix,
     suffix: suffix !== undefined ? suffix : mergedProps.suffix,
     iconicBg: iconicBg !== undefined ? iconicBg : mergedProps.iconicBg,
-    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix, // Handle both local and config
-    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix, // Handle both local and config
+    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix,
+    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix,
   };
 
-  // Handle stringPrefix - use final value (local or config)
+  // Handle stringPrefix - MATCH BUTTON'S PATTERN EXACTLY
   useEffect(() => {
     const effectiveStringPrefix = final.stringPrefix;
-    if (effectiveStringPrefix) {
-      getDynamicIcon(effectiveStringPrefix).then((node) => setPrefixNode(node));
-    } else {
+    
+    if (!effectiveStringPrefix || effectiveStringPrefix.trim() === '') {
       setPrefixNode(null);
+      setHasValidStringPrefix(false);
+      return;
     }
+
+    getDynamicIcon(effectiveStringPrefix).then((node) => {
+      if (node) {
+        setPrefixNode(node);
+        setHasValidStringPrefix(true);
+      } else {
+        setPrefixNode(null);
+        setHasValidStringPrefix(false);
+      }
+    });
   }, [final.stringPrefix]);
 
-  // Handle stringSuffix - use final value (local or config)
+  // Handle stringSuffix - MATCH BUTTON'S PATTERN EXACTLY
   useEffect(() => {
     const effectiveStringSuffix = final.stringSuffix;
-    if (effectiveStringSuffix) {
-      getDynamicIcon(effectiveStringSuffix).then((node) => setSuffixNode(node));
-    } else {
+    
+    if (!effectiveStringSuffix || effectiveStringSuffix.trim() === '') {
       setSuffixNode(null);
+      setHasValidStringSuffix(false);
+      return;
     }
+
+    getDynamicIcon(effectiveStringSuffix).then((node) => {
+      if (node) {
+        setSuffixNode(node);
+        setHasValidStringSuffix(true);
+      } else {
+        setSuffixNode(null);
+        setHasValidStringSuffix(false);
+      }
+    });
   }, [final.stringSuffix]);
 
   const { variant: themeVariant } = useVariant();
+
+  // Determine which prefix to show with proper priority - MATCH BUTTON'S PATTERN
+  const showPrefix = React.useMemo(() => {
+    // Priority order: startIcon (local) > prefix (local) > stringPrefix (dynamic)
+    if (final.startIcon) return true;
+    if (final.prefix) return true;
+    if (hasValidStringPrefix && prefixNode) return true;
+    return false;
+  }, [final.startIcon, final.prefix, hasValidStringPrefix, prefixNode]);
+
+  // Determine which suffix to show with proper priority - MATCH BUTTON'S PATTERN
+  const showSuffix = React.useMemo(() => {
+    // Priority order: endIcon (local) > suffix (local) > stringSuffix (dynamic)
+    if (final.endIcon) return true;
+    if (final.suffix) return true;
+    if (hasValidStringSuffix && suffixNode) return true;
+    return false;
+  }, [final.endIcon, final.suffix, hasValidStringSuffix, suffixNode]);
+
+  // Get effective icons following Button's priority pattern
+  const effectivePrefix = React.useMemo(() => {
+    // Priority: startIcon > prefix > stringPrefix
+    if (final.startIcon) return final.startIcon;
+    if (final.prefix) return final.prefix;
+    if (hasValidStringPrefix) return prefixNode;
+    return null;
+  }, [final.startIcon, final.prefix, hasValidStringPrefix, prefixNode]);
+
+  const effectiveSuffix = React.useMemo(() => {
+    // Priority: endIcon > suffix > stringSuffix
+    if (final.endIcon) return final.endIcon;
+    if (final.suffix) return final.suffix;
+    if (hasValidStringSuffix) return suffixNode;
+    return null;
+  }, [final.endIcon, final.suffix, hasValidStringSuffix, suffixNode]);
+
+  const hasNoPrefix = !effectivePrefix;
+  const hasNoLabel = !label;
 
   const className = generateInputClasses({
     status: final.status,
@@ -317,6 +421,8 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
     rightRounded: final.rightRounded,
     bordered: final.bordered,
     borderless: final.borderless,
+    hasNoPrefix,
+    hasNoLabel,
   });
 
   const style = final.fullWidth ? { width: '100%' } : undefined;
@@ -337,11 +443,6 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
     if (rest.onBlur) rest.onBlur(e);
   };
 
-  // Determine effective icons: stringPrefix/stringSuffix take priority, then local, then config
-  const effectivePrefix = prefixNode || final.prefix || final.startIcon;
-  const effectiveSuffix = suffixNode || final.suffix || final.endIcon;
-
-  // Show placeholder only when label is active (focused or has value)
   const showPlaceholder = placeholder && label && (isFocused || !!inputValue);
 
   const inputElement = (
@@ -357,20 +458,25 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
       type={type}
       placeholder={showPlaceholder ? placeholder : (!label ? placeholder : '')}
       style={style}
-      value={inputValue} // Use internal state for value
+      value={inputValue}
       {...rest}
     />
   );
 
-  const wrappedInput = (
+  // Only use iconic wrapper when we have icons, matching Button's pattern
+  const wrappedInput = showPrefix || showSuffix ? (
     <IconicInputWrapper
       startIcon={effectivePrefix}
       endIcon={effectiveSuffix}
       iconicBg={final.iconicBg}
       funcss={final.funcss}
+      stringPrefix={stringPrefix}
+      stringSuffix={stringSuffix}
     >
       {inputElement}
     </IconicInputWrapper>
+  ) : (
+    inputElement
   );
 
   return (
@@ -383,13 +489,14 @@ export const TextInput: React.FC<TextInputProps & React.InputHTMLAttributes<HTML
       hasValue={!!inputValue}
       fullWidth={final.fullWidth}
       id={id}
+      alwaysActiveLabel={isDateTimeInput}
     >
       {wrappedInput}
     </InputContainer>
   );
 };
 
-// Select Component
+// Select Component - UPDATED to match pattern
 export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTMLSelectElement>> = ({
   id,
   name,
@@ -423,20 +530,19 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
   const [selectValue, setSelectValue] = useState<string>(value !== undefined ? String(value) : defaultValue || '');
   const [prefixNode, setPrefixNode] = useState<React.ReactNode>(null);
   const [suffixNode, setSuffixNode] = useState<React.ReactNode>(null);
+  const [hasValidStringPrefix, setHasValidStringPrefix] = useState(false);
+  const [hasValidStringSuffix, setHasValidStringSuffix] = useState(false);
 
-  // Handle value changes - only update if value is truly defined (not empty string)
   useEffect(() => {
     if (value !== undefined && value !== '') {
       setSelectValue(String(value));
     } else if (value === '') {
-      // Allow empty string to clear the select
       setSelectValue('');
     }
   }, [value]);
 
   const { mergeWithLocal } = useComponentConfiguration('Input', variant);
 
-  // Create local props object including stringPrefix/stringSuffix
   const localProps = {
     status,
     funcss,
@@ -453,14 +559,12 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
     prefix,
     suffix,
     iconicBg,
-    stringPrefix, // Include in local props
-    stringSuffix, // Include in local props
+    stringPrefix,
+    stringSuffix,
   };
 
-  // Merge with config - LOCAL PROPS OVERRIDE CONFIG
   const { props: mergedProps } = mergeWithLocal(localProps);
 
-  // Extract final values - local props take precedence, but handle empty strings properly
   const final = {
     status: status !== undefined ? status : mergedProps.status,
     funcss: funcss !== undefined ? funcss : mergedProps.funcss,
@@ -477,33 +581,92 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
     prefix: prefix !== undefined ? prefix : mergedProps.prefix,
     suffix: suffix !== undefined ? suffix : mergedProps.suffix,
     iconicBg: iconicBg !== undefined ? iconicBg : mergedProps.iconicBg,
-    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix, // Handle both local and config
-    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix, // Handle both local and config
+    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix,
+    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix,
   };
 
-  // Handle stringPrefix - use final value (local or config)
+  // Handle stringPrefix - MATCH BUTTON'S PATTERN EXACTLY
   useEffect(() => {
     const effectiveStringPrefix = final.stringPrefix;
-    if (effectiveStringPrefix) {
-      getDynamicIcon(effectiveStringPrefix).then((node) => setPrefixNode(node));
-    } else {
+    
+    if (!effectiveStringPrefix || effectiveStringPrefix.trim() === '') {
       setPrefixNode(null);
+      setHasValidStringPrefix(false);
+      return;
     }
+
+    getDynamicIcon(effectiveStringPrefix).then((node) => {
+      if (node) {
+        setPrefixNode(node);
+        setHasValidStringPrefix(true);
+      } else {
+        setPrefixNode(null);
+        setHasValidStringPrefix(false);
+      }
+    });
   }, [final.stringPrefix]);
 
-  // Handle stringSuffix - use final value (local or config)
+  // Handle stringSuffix - MATCH BUTTON'S PATTERN EXACTLY
   useEffect(() => {
     const effectiveStringSuffix = final.stringSuffix;
-    if (effectiveStringSuffix) {
-      getDynamicIcon(effectiveStringSuffix).then((node) => setSuffixNode(node));
-    } else {
+    
+    if (!effectiveStringSuffix || effectiveStringSuffix.trim() === '') {
       setSuffixNode(null);
+      setHasValidStringSuffix(false);
+      return;
     }
+
+    getDynamicIcon(effectiveStringSuffix).then((node) => {
+      if (node) {
+        setSuffixNode(node);
+        setHasValidStringSuffix(true);
+      } else {
+        setSuffixNode(null);
+        setHasValidStringSuffix(false);
+      }
+    });
   }, [final.stringSuffix]);
 
   const selectHasValue = !!selectValue;
-
   const { variant: themeVariant } = useVariant();
+
+  // Determine which prefix to show with proper priority - MATCH BUTTON'S PATTERN
+  const showPrefix = React.useMemo(() => {
+    // Priority order: startIcon (local) > prefix (local) > stringPrefix (dynamic)
+    if (final.startIcon) return true;
+    if (final.prefix) return true;
+    if (hasValidStringPrefix && prefixNode) return true;
+    return false;
+  }, [final.startIcon, final.prefix, hasValidStringPrefix, prefixNode]);
+
+  // Determine which suffix to show with proper priority - MATCH BUTTON'S PATTERN
+  const showSuffix = React.useMemo(() => {
+    // Priority order: endIcon (local) > suffix (local) > stringSuffix (dynamic)
+    if (final.endIcon) return true;
+    if (final.suffix) return true;
+    if (hasValidStringSuffix && suffixNode) return true;
+    return false;
+  }, [final.endIcon, final.suffix, hasValidStringSuffix, suffixNode]);
+
+  // Get effective icons following Button's priority pattern
+  const effectivePrefix = React.useMemo(() => {
+    // Priority: startIcon > prefix > stringPrefix
+    if (final.startIcon) return final.startIcon;
+    if (final.prefix) return final.prefix;
+    if (hasValidStringPrefix) return prefixNode;
+    return null;
+  }, [final.startIcon, final.prefix, hasValidStringPrefix, prefixNode]);
+
+  const effectiveSuffix = React.useMemo(() => {
+    // Priority: endIcon > suffix > stringSuffix
+    if (final.endIcon) return final.endIcon;
+    if (final.suffix) return final.suffix;
+    if (hasValidStringSuffix) return suffixNode;
+    return null;
+  }, [final.endIcon, final.suffix, hasValidStringSuffix, suffixNode]);
+
+  const hasNoPrefix = !effectivePrefix;
+  const hasNoLabel = !label;
 
   const className = generateInputClasses({
     status: final.status,
@@ -515,6 +678,8 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
     rightRounded: final.rightRounded,
     bordered: final.bordered,
     borderless: final.borderless,
+    hasNoPrefix,
+    hasNoLabel,
   });
 
   const style = final.fullWidth ? { width: '100%' } : undefined;
@@ -535,9 +700,6 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
     if (rest.onBlur) rest.onBlur(e);
   };
 
-  const effectivePrefix = prefixNode || final.prefix || final.startIcon;
-  const effectiveSuffix = suffixNode || final.suffix || final.endIcon;
-
   const selectElement = (
     <select
       id={id}
@@ -547,7 +709,7 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
       onFocus={handleFocus}
       onBlur={handleBlur}
       defaultValue={defaultValue}
-      value={selectValue} // Use internal state for value
+      value={selectValue}
       style={style}
       {...rest}
     >
@@ -559,15 +721,20 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
     </select>
   );
 
-  const wrappedSelect = (
+  // Only use iconic wrapper when we have icons, matching Button's pattern
+  const wrappedSelect = showPrefix || showSuffix ? (
     <IconicInputWrapper
       startIcon={effectivePrefix}
       endIcon={effectiveSuffix}
       iconicBg={final.iconicBg}
       funcss={final.funcss}
+      stringPrefix={stringPrefix}
+      stringSuffix={stringSuffix}
     >
       {selectElement}
     </IconicInputWrapper>
+  ) : (
+    selectElement
   );
 
   return (
@@ -580,13 +747,14 @@ export const SelectInput: React.FC<SelectProps & React.SelectHTMLAttributes<HTML
       hasValue={selectHasValue}
       fullWidth={final.fullWidth}
       id={id}
+      alwaysActiveLabel={true}
     >
       {wrappedSelect}
     </InputContainer>
   );
 };
 
-// Textarea Component
+// Textarea Component - UPDATED to match pattern
 export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttributes<HTMLTextAreaElement>> = ({
   id,
   name,
@@ -621,20 +789,19 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
   const [textValue, setTextValue] = useState<string>(value !== undefined ? String(value) : defaultValue || '');
   const [prefixNode, setPrefixNode] = useState<React.ReactNode>(null);
   const [suffixNode, setSuffixNode] = useState<React.ReactNode>(null);
+  const [hasValidStringPrefix, setHasValidStringPrefix] = useState(false);
+  const [hasValidStringSuffix, setHasValidStringSuffix] = useState(false);
 
-  // Handle value changes - only update if value is truly defined (not empty string)
   useEffect(() => {
     if (value !== undefined && value !== '') {
       setTextValue(String(value));
     } else if (value === '') {
-      // Allow empty string to clear the textarea
       setTextValue('');
     }
   }, [value]);
 
   const { mergeWithLocal } = useComponentConfiguration('Input', variant);
 
-  // Create local props object including stringPrefix/stringSuffix
   const localProps = {
     status,
     funcss,
@@ -651,14 +818,12 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
     prefix,
     suffix,
     iconicBg,
-    stringPrefix, // Include in local props
-    stringSuffix, // Include in local props
+    stringPrefix,
+    stringSuffix,
   };
 
-  // Merge with config - LOCAL PROPS OVERRIDE CONFIG
   const { props: mergedProps } = mergeWithLocal(localProps);
 
-  // Extract final values - local props take precedence, but handle empty strings properly
   const final = {
     status: status !== undefined ? status : mergedProps.status,
     funcss: funcss !== undefined ? funcss : mergedProps.funcss,
@@ -675,31 +840,91 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
     prefix: prefix !== undefined ? prefix : mergedProps.prefix,
     suffix: suffix !== undefined ? suffix : mergedProps.suffix,
     iconicBg: iconicBg !== undefined ? iconicBg : mergedProps.iconicBg,
-    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix, // Handle both local and config
-    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix, // Handle both local and config
+    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix,
+    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix,
   };
 
-  // Handle stringPrefix - use final value (local or config)
+  // Handle stringPrefix - MATCH BUTTON'S PATTERN EXACTLY
   useEffect(() => {
     const effectiveStringPrefix = final.stringPrefix;
-    if (effectiveStringPrefix) {
-      getDynamicIcon(effectiveStringPrefix).then((node) => setPrefixNode(node));
-    } else {
+    
+    if (!effectiveStringPrefix || effectiveStringPrefix.trim() === '') {
       setPrefixNode(null);
+      setHasValidStringPrefix(false);
+      return;
     }
+
+    getDynamicIcon(effectiveStringPrefix).then((node) => {
+      if (node) {
+        setPrefixNode(node);
+        setHasValidStringPrefix(true);
+      } else {
+        setPrefixNode(null);
+        setHasValidStringPrefix(false);
+      }
+    });
   }, [final.stringPrefix]);
 
-  // Handle stringSuffix - use final value (local or config)
+  // Handle stringSuffix - MATCH BUTTON'S PATTERN EXACTLY
   useEffect(() => {
     const effectiveStringSuffix = final.stringSuffix;
-    if (effectiveStringSuffix) {
-      getDynamicIcon(effectiveStringSuffix).then((node) => setSuffixNode(node));
-    } else {
+    
+    if (!effectiveStringSuffix || effectiveStringSuffix.trim() === '') {
       setSuffixNode(null);
+      setHasValidStringSuffix(false);
+      return;
     }
+
+    getDynamicIcon(effectiveStringSuffix).then((node) => {
+      if (node) {
+        setSuffixNode(node);
+        setHasValidStringSuffix(true);
+      } else {
+        setSuffixNode(null);
+        setHasValidStringSuffix(false);
+      }
+    });
   }, [final.stringSuffix]);
 
   const { variant: themeVariant } = useVariant();
+
+  // Determine which prefix to show with proper priority - MATCH BUTTON'S PATTERN
+  const showPrefix = React.useMemo(() => {
+    // Priority order: startIcon (local) > prefix (local) > stringPrefix (dynamic)
+    if (final.startIcon) return true;
+    if (final.prefix) return true;
+    if (hasValidStringPrefix && prefixNode) return true;
+    return false;
+  }, [final.startIcon, final.prefix, hasValidStringPrefix, prefixNode]);
+
+  // Determine which suffix to show with proper priority - MATCH BUTTON'S PATTERN
+  const showSuffix = React.useMemo(() => {
+    // Priority order: endIcon (local) > suffix (local) > stringSuffix (dynamic)
+    if (final.endIcon) return true;
+    if (final.suffix) return true;
+    if (hasValidStringSuffix && suffixNode) return true;
+    return false;
+  }, [final.endIcon, final.suffix, hasValidStringSuffix, suffixNode]);
+
+  // Get effective icons following Button's priority pattern
+  const effectivePrefix = React.useMemo(() => {
+    // Priority: startIcon > prefix > stringPrefix
+    if (final.startIcon) return final.startIcon;
+    if (final.prefix) return final.prefix;
+    if (hasValidStringPrefix) return prefixNode;
+    return null;
+  }, [final.startIcon, final.prefix, hasValidStringPrefix, prefixNode]);
+
+  const effectiveSuffix = React.useMemo(() => {
+    // Priority: endIcon > suffix > stringSuffix
+    if (final.endIcon) return final.endIcon;
+    if (final.suffix) return final.suffix;
+    if (hasValidStringSuffix) return suffixNode;
+    return null;
+  }, [final.endIcon, final.suffix, hasValidStringSuffix, suffixNode]);
+
+  const hasNoPrefix = !effectivePrefix;
+  const hasNoLabel = !label;
 
   const className = generateInputClasses({
     status: final.status,
@@ -711,6 +936,8 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
     rightRounded: final.rightRounded,
     bordered: final.bordered,
     borderless: final.borderless,
+    hasNoPrefix,
+    hasNoLabel,
   });
 
   const style = final.fullWidth ? { width: '100%' } : undefined;
@@ -731,10 +958,6 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
     if (rest.onBlur) rest.onBlur(e);
   };
 
-  const effectivePrefix = prefixNode || final.prefix || final.startIcon;
-  const effectiveSuffix = suffixNode || final.suffix || final.endIcon;
-
-  // Show placeholder only when label is active (focused or has value)
   const showPlaceholder = placeholder && label && (isFocused || !!textValue);
 
   const textareaElement = (
@@ -748,21 +971,26 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
       defaultValue={defaultValue}
       placeholder={showPlaceholder ? placeholder : (!label ? placeholder : '')}
       style={style}
-      value={textValue} // Use internal state for value
+      value={textValue}
       rows={rows}
       {...rest}
     />
   );
 
-  const wrappedTextarea = (
+  // Only use iconic wrapper when we have icons, matching Button's pattern
+  const wrappedTextarea = showPrefix || showSuffix ? (
     <IconicInputWrapper
       startIcon={effectivePrefix}
       endIcon={effectiveSuffix}
       iconicBg={final.iconicBg}
       funcss={final.funcss}
+      stringPrefix={stringPrefix}
+      stringSuffix={stringSuffix}
     >
       {textareaElement}
     </IconicInputWrapper>
+  ) : (
+    textareaElement
   );
 
   return (
@@ -777,231 +1005,6 @@ export const TextareaInput: React.FC<TextareaProps & React.TextareaHTMLAttribute
       id={id}
     >
       {wrappedTextarea}
-    </InputContainer>
-  );
-};
-
-// File Input Component (unchanged as it doesn't have the same value issue)
-export const FileInput: React.FC<FileInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
-  id = 'fileInput',
-  name,
-  onChange,
-  status,
-  funcss,
-  bg,
-  fullWidth,
-  flat,
-  rounded,
-  leftRounded,
-  rightRounded,
-  startIcon,
-  endIcon,
-  prefix,
-  suffix,
-  stringPrefix,
-  stringSuffix,
-  iconicBg,
-  label = 'Upload File',
-  helperText,
-  icon,
-  extra,
-  button,
-  btn,
-  value,
-  variant = '',
-  ...rest
-}) => {
-  const [fileName, setFileName] = useState('');
-  const [prefixNode, setPrefixNode] = useState<React.ReactNode>(null);
-  const [suffixNode, setSuffixNode] = useState<React.ReactNode>(null);
-
-  const { mergeWithLocal } = useComponentConfiguration('Input', variant);
-
-  // Create local props object including stringPrefix/stringSuffix
-  const localProps = {
-    status,
-    funcss,
-    bg,
-    fullWidth,
-    flat,
-    rounded,
-    leftRounded,
-    rightRounded,
-    startIcon,
-    endIcon,
-    prefix,
-    suffix,
-    iconicBg,
-    stringPrefix, // Include in local props
-    stringSuffix, // Include in local props
-    bordered: rest.bordered,
-    borderless: rest.borderless,
-  };
-
-  // Merge with config - LOCAL PROPS OVERRIDE CONFIG
-  const { props: mergedProps } = mergeWithLocal(localProps);
-
-  // Extract final values - local props take precedence
-  const final = {
-    status: status !== undefined ? status : mergedProps.status,
-    funcss: funcss !== undefined ? funcss : mergedProps.funcss,
-    bg: bg !== undefined ? bg : mergedProps.bg,
-    fullWidth: fullWidth !== undefined ? fullWidth : mergedProps.fullWidth,
-    flat: flat !== undefined ? flat : mergedProps.flat,
-    rounded: rounded !== undefined ? rounded : mergedProps.rounded,
-    leftRounded: leftRounded !== undefined ? leftRounded : mergedProps.leftRounded,
-    rightRounded: rightRounded !== undefined ? rightRounded : mergedProps.rightRounded,
-    startIcon: startIcon !== undefined ? startIcon : mergedProps.startIcon,
-    endIcon: endIcon !== undefined ? endIcon : mergedProps.endIcon,
-    prefix: prefix !== undefined ? prefix : mergedProps.prefix,
-    suffix: suffix !== undefined ? suffix : mergedProps.suffix,
-    iconicBg: iconicBg !== undefined ? iconicBg : mergedProps.iconicBg,
-    stringPrefix: stringPrefix !== undefined ? stringPrefix : mergedProps.stringPrefix, // Handle both local and config
-    stringSuffix: stringSuffix !== undefined ? stringSuffix : mergedProps.stringSuffix, // Handle both local and config
-  };
-
-  // Handle stringPrefix - use final value (local or config)
-  useEffect(() => {
-    const effectiveStringPrefix = final.stringPrefix;
-    if (effectiveStringPrefix) {
-      getDynamicIcon(effectiveStringPrefix).then((node) => setPrefixNode(node));
-    } else {
-      setPrefixNode(null);
-    }
-  }, [final.stringPrefix]);
-
-  // Handle stringSuffix - use final value (local or config)
-  useEffect(() => {
-    const effectiveStringSuffix = final.stringSuffix;
-    if (effectiveStringSuffix) {
-      getDynamicIcon(effectiveStringSuffix).then((node) => setSuffixNode(node));
-    } else {
-      setSuffixNode(null);
-    }
-  }, [final.stringSuffix]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-    }
-    if (onChange) onChange(e);
-  };
-
-  const effectivePrefix = prefixNode || final.prefix || final.startIcon;
-  const effectiveSuffix = suffixNode || final.suffix || final.endIcon;
-
-  if (btn) {
-    const className = generateInputClasses({
-      status: final.status,
-      rounded: final.rounded,
-      bg: final.bg,
-      funcss: final.funcss,
-      flat: final.flat,
-      leftRounded: final.leftRounded,
-      rightRounded: final.rightRounded,
-      bordered: true,
-      borderless: false,
-      additionalClasses: 'filedInput'
-    });
-
-    const style = final.fullWidth ? { width: '100%' } : undefined;
-
-    const fileInputElement = (
-      <div className="fileInput">
-        {button || (
-          <Button
-            funcss={final.funcss}
-            startIcon={icon || <PiCloudArrowUp />}
-            bg="primary"
-            fullWidth
-            raised
-          >
-            {fileName || label}
-          </Button>
-        )}
-        <input
-          id={id}
-          name={name}
-          className={className}
-          onChange={handleChange}
-          type="file"
-          style={style}
-          value={value}
-          {...rest}
-        />
-      </div>
-    );
-
-    const wrappedFileInput = (
-      <IconicInputWrapper
-        startIcon={effectivePrefix}
-        endIcon={effectiveSuffix}
-        iconicBg={final.iconicBg}
-        funcss={final.funcss}
-      >
-        {fileInputElement}
-    </IconicInputWrapper>
-    );
-
-    return (
-      <InputContainer
-        startIcon={effectivePrefix}
-        label={undefined}
-        status={final.status}
-        helperText={helperText}
-        isFocused={false}
-        hasValue={!!fileName}
-        fullWidth={final.fullWidth}
-        id={id}
-      >
-        {wrappedFileInput}
-      </InputContainer>
-    );
-  }
-
-  const uploadElement = (
-    <div className="_upload_container">
-      <label htmlFor={id} className="_upload_label">
-        <div className="_upload_icon">
-          {icon || <PiCloudArrowUp />}
-        </div>
-        <div
-          className="_upload_text"
-          style={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: 'inline-block',
-            width: '100%',
-          }}
-        >
-          {fileName || label}
-        </div>
-        {extra && <div className="text-small opacity-3">{extra}</div>}
-      </label>
-      <input
-        onChange={handleChange}
-        type="file"
-        id={id}
-        className="_upload_input"
-        {...rest}
-      />
-    </div>
-  );
-
-  return (
-    <InputContainer
-      startIcon={effectivePrefix}
-      label={undefined}
-      status={final.status}
-      helperText={helperText}
-      isFocused={false}
-      hasValue={!!fileName}
-      fullWidth={final.fullWidth}
-      id={id}
-    >
-      {uploadElement}
     </InputContainer>
   );
 };
@@ -1033,12 +1036,12 @@ const Input: React.FC<InputProps> = ({
   stringPrefix,
   stringSuffix,
   iconicBg,
+  type,
   variant = '',
   ...props
 }) => {
   const { mergeWithLocal } = useComponentConfiguration('Input', variant);
   
-  // Create local props object including stringPrefix/stringSuffix
   const localProps = {
     ...props,
     startIcon,
@@ -1046,8 +1049,9 @@ const Input: React.FC<InputProps> = ({
     prefix,
     suffix,
     iconicBg,
-    stringPrefix, // Include in local props
-    stringSuffix, // Include in local props
+    stringPrefix,
+    stringSuffix,
+    type,
   };
 
   const { props: mergedProps } = mergeWithLocal(localProps);
@@ -1057,7 +1061,12 @@ const Input: React.FC<InputProps> = ({
     ...mergedProps,
     variant,
     borderless: noBorder !== undefined ? noBorder : (props.borderless !== undefined ? props.borderless : mergedProps.borderless),
+    type,
   };
+
+  if (file || type === 'file') {
+    return <FileUpload {...inputProps} />;
+  }
 
   if (select) {
     return <SelectInput {...inputProps} />;
@@ -1065,10 +1074,6 @@ const Input: React.FC<InputProps> = ({
 
   if (multiline) {
     return <TextareaInput {...inputProps} />;
-  }
-
-  if (file) {
-    return <FileInput {...inputProps} />;
   }
 
   return <TextInput {...inputProps} />;

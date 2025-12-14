@@ -7,10 +7,13 @@ interface Circle_Props extends HTMLProps<HTMLDivElement> {
     color?: string;
     children?: ReactNode;
     hoverable?: boolean;
+    className?: string;
     raised?: boolean;
     bordered?: boolean;
     key?: React.Key;
+    body?: ReactNode;
+    style?: React.CSSProperties;
     onClick?: () => void;
 }
-export default function Circle({ size, funcss, bg, color, children, hoverable, raised, key, onClick, bordered, ...rest }: Circle_Props): React.JSX.Element;
+export default function Circle({ size, funcss, bg, color, children, hoverable, raised, key, onClick, className, bordered, body, style, ...rest }: Circle_Props): React.JSX.Element;
 export {};

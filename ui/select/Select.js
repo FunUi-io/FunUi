@@ -57,7 +57,7 @@ var Select = function (_a) {
     (0, react_1.useEffect)(function () {
         if (searchQuery) {
             var filtered = options.filter(function (option) {
-                return option.text.toLowerCase().includes(searchQuery.toLowerCase());
+                return (option.text || option.label || "").toLowerCase().includes(searchQuery.toLowerCase());
             });
             setFilteredOptions(filtered);
             setFocusedIndex(filtered.length > 0 ? 0 : -1);
@@ -208,7 +208,7 @@ var Select = function (_a) {
                 pointerEvents: 'none'
             }, tabIndex: -1 },
             !label && react_1.default.createElement("option", { value: "" }, "Select an option"),
-            options.map(function (option) { return (react_1.default.createElement("option", { key: option.value, value: option.value }, option.text)); })),
+            options.map(function (option) { return (react_1.default.createElement("option", { key: option.value, value: option.value }, option.text || option.label || option.value)); })),
         react_1.default.createElement("div", { ref: triggerRef, className: "".concat(funcss, " ").concat(rounded && 'round-edge', "  ").concat(getTriggerClasses()), onClick: openDropdown, onKeyDown: handleKeyDown, tabIndex: disabled ? -1 : 0, role: "button", "aria-expanded": isOpen, "aria-haspopup": "listbox" },
             react_1.default.createElement("span", { className: "select-value ".concat(!selectedOption ? 'select-placeholder' : '') }, selectedOption ? selectedOption.text : label),
             react_1.default.createElement("div", { className: "select-arrow ".concat(isOpen ? 'open' : '') },
