@@ -5,6 +5,7 @@ import ModalContent from './Content';
 import ModalAction from './Action';
 import { PiX , PiPaperPlaneRight} from 'react-icons/pi';
 import Button from '../button/Button';
+import View from '../view/View';
 
 interface ModalProps {
   children?: React.ReactNode;
@@ -90,9 +91,9 @@ export default function Modal({
         style={{
           animation: `${duration || 0.3}s ${animation || 'SlideDown'}`,
           maxWidth: maxWidth || "700px",
-          maxHeight: maxHeight || "fit-content",
+          maxHeight: "fit-content",
           width: width || '100%',
-          height: height || "fit-content",
+          height: "fit-content",
         }}
         {...rest}
       >
@@ -113,9 +114,11 @@ export default function Modal({
           />
         )}
 
-          <ModalContent funcss={bodycss || ''}>
+          <View funcss={`modal-body ${bodycss || ''}`} height={"100%"} 
+          overflow={(height !== '100%' && maxHeight !== '100%') && (height || maxHeight) ? 'auto' : '' }
+          maxHeight={height || maxHeight || "100%"}>
             {body || children}
-          </ModalContent>
+          </View>
 
                {/* Show default Ok button if no custom footer */}
         {footer ? (

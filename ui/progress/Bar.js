@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -41,7 +41,7 @@ function ProgressBar(_a) {
     var funcss = _a.funcss, progress = _a.progress, _b = _a.height, height = _b === void 0 ? 16 : _b, children = _a.children, content = _a.content, raised = _a.raised, rounded = _a.rounded, _c = _a.bg, bg = _c === void 0 ? 'primary' : _c, // default CSS class name
     _d = _a.type, // default CSS class name
     type = _d === void 0 ? 'linear' : _d, _e = _a.size, size = _e === void 0 ? 60 : _e, fontSize = _a.fontSize, _f = _a.strokeWidth, strokeWidth = _f === void 0 ? 6 : _f;
-    var clampedProgress = Math.min(100, Math.max(0, progress));
+    var clampedProgress = Math.min(100, Math.max(0, Number(progress)));
     var isComplete = clampedProgress >= 100;
     var effectiveBg = isComplete ? 'success' : bg;
     var renderContent = function () {
@@ -51,7 +51,7 @@ function ProgressBar(_a) {
             return content(clampedProgress);
         if (typeof content === 'string')
             return content;
-        return "".concat(clampedProgress, "%");
+        return "".concat(clampedProgress.toFixed(), "%");
     };
     if (type === 'circle') {
         var radius = (size - strokeWidth) / 2;

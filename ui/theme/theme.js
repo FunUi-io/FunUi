@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -70,7 +70,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPaginatedRecords = exports.useBucketCache = exports.useAllJsonRecords = exports.usePaginatedRecords = exports.useBucketJsonFiles = exports.useBucketsByCategory = exports.useBucket = exports.useBuckets = exports.useDocumentAssets = exports.useAudioAssets = exports.useVideoAssets = exports.useImageAssets = exports.useAssetsByType = exports.useAssetInfo = exports.useAssetType = exports.useAssetValue = exports.useAsset = exports.useAssets = exports.getAssetInfo = exports.getAssetType = exports.getAssetValue = exports.getAllAssets = exports.getAsset = exports.useVariable = exports.useVariables = exports.useComponentVariant = exports.useTypographyValue = exports.useColor = exports.useProjectData = exports.useThemeConfig = exports.useTypography = exports.useColors = exports.useComponentConfig = exports.useThemeValue = exports.getAllVariables = exports.getVariable = exports.useVariant = exports.useTheme = void 0;
+exports.getPaginatedRecords = exports.useBucketCache = exports.useAllJsonRecords = exports.usePaginatedRecords = exports.useBucketJsonFiles = exports.useBucketsByCategory = exports.useBucket = exports.useBuckets = exports.useDocumentAssets = exports.useAudioAssets = exports.useVideoAssets = exports.useImageAssets = exports.useAssetsByType = exports.useAssetInfo = exports.useAssetType = exports.useAssetValue = exports.useAsset = exports.useAssets = exports.getAssetInfo = exports.getAssetType = exports.getAssetValue = exports.getAllAssets = exports.getAsset = exports.useVariable = exports.useVariables = exports.useComponentVariant = exports.useTypographyValue = exports.useColor = exports.useProjectData = exports.useThemeConfig = exports.useTypography = exports.useColors = exports.useComponentConfig = exports.useThemeValue = exports.getAllVariables = exports.getVariable = exports.clearGlobalProjectId = exports.getGlobalProjectId = exports.setGlobalProjectId = exports.useVariant = exports.useTheme = void 0;
 var react_1 = __importStar(require("react"));
 var themes_1 = require("./themes");
 var darkenUtils_1 = require("./darkenUtils");
@@ -98,6 +98,57 @@ var useVariant = function () {
 };
 exports.useVariant = useVariant;
 /* -------------------------------------------------------------------------- */
+/*                          GLOBAL PROJECT ID                                 */
+/* -------------------------------------------------------------------------- */
+// Global variable to store the project ID
+var globalProjectId = null;
+// Function to set the global project ID
+var setGlobalProjectId = function (id) {
+    globalProjectId = id;
+    console.log("\uD83C\uDF0D Global project ID set to: ".concat(id));
+};
+exports.setGlobalProjectId = setGlobalProjectId;
+// Function to get the global project ID
+var getGlobalProjectId = function () {
+    return globalProjectId;
+};
+exports.getGlobalProjectId = getGlobalProjectId;
+// Function to clear the global project ID
+var clearGlobalProjectId = function () {
+    globalProjectId = null;
+    console.log('🌍 Global project ID cleared');
+};
+exports.clearGlobalProjectId = clearGlobalProjectId;
+// Function to read project ID from a file
+var readProjectIdFromFile = function (file) { return __awaiter(void 0, void 0, void 0, function () {
+    var text, data, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, file.text()];
+            case 1:
+                text = _a.sent();
+                data = JSON.parse(text);
+                // Check for project_id field
+                if (data.project_id) {
+                    return [2 /*return*/, data.project_id];
+                }
+                // Also check for projectId (camelCase)
+                if (data.projectId) {
+                    return [2 /*return*/, data.projectId];
+                }
+                console.warn('⚠️ Project file does not contain a project_id field');
+                return [2 /*return*/, null];
+            case 2:
+                error_1 = _a.sent();
+                console.error('❌ Error reading project file:', error_1);
+                return [2 /*return*/, null];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+/* -------------------------------------------------------------------------- */
 /*                          ORIGIN VALIDATION                                 */
 /* -------------------------------------------------------------------------- */
 var getCurrentOrigin = function () {
@@ -113,7 +164,7 @@ var getCurrentOrigin = function () {
     return domain;
 };
 var validateOriginAccess = function (projectId) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentOrigin, projectData, trustedDomains, hasAccess, error_1;
+    var currentOrigin, projectData, trustedDomains, hasAccess, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -149,8 +200,8 @@ var validateOriginAccess = function (projectId) { return __awaiter(void 0, void 
                 }
                 return [2 /*return*/, true];
             case 3:
-                error_1 = _a.sent();
-                console.error('❌ Error during origin validation:', error_1);
+                error_2 = _a.sent();
+                console.error('❌ Error during origin validation:', error_2);
                 return [2 /*return*/, false];
             case 4: return [2 /*return*/];
         }
@@ -160,7 +211,7 @@ var validateOriginAccess = function (projectId) { return __awaiter(void 0, void 
 /*                          LOCAL FILE MANAGEMENT                             */
 /* -------------------------------------------------------------------------- */
 var loadLocalTheme = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var response, data, error_2;
+    var response, data, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -177,7 +228,7 @@ var loadLocalTheme = function () { return __awaiter(void 0, void 0, void 0, func
                 return [2 /*return*/, data];
             case 3: return [3 /*break*/, 5];
             case 4:
-                error_2 = _a.sent();
+                error_3 = _a.sent();
                 console.log('ℹ️ No local theme file found');
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/, null];
@@ -188,7 +239,7 @@ var loadLocalTheme = function () { return __awaiter(void 0, void 0, void 0, func
 /*                          CDN THEME LOADER                                  */
 /* -------------------------------------------------------------------------- */
 var loadThemeFromCDN = function (projectId) { return __awaiter(void 0, void 0, void 0, function () {
-    var publicUrl, response, data, error_3;
+    var publicUrl, response, data, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -215,8 +266,8 @@ var loadThemeFromCDN = function (projectId) { return __awaiter(void 0, void 0, v
                 _a.label = 5;
             case 5: return [3 /*break*/, 7];
             case 6:
-                error_3 = _a.sent();
-                console.error('❌ Error loading from Firebase Storage:', error_3);
+                error_4 = _a.sent();
+                console.error('❌ Error loading from Firebase Storage:', error_4);
                 return [3 /*break*/, 7];
             case 7: return [2 /*return*/, null];
         }
@@ -225,8 +276,27 @@ var loadThemeFromCDN = function (projectId) { return __awaiter(void 0, void 0, v
 /* -------------------------------------------------------------------------- */
 /*                          BUCKET JSON LOADER                                */
 /* -------------------------------------------------------------------------- */
+// Cache for JSON responses
+var jsonFileCache = new Map();
+var CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+// Helper function to get cache key
+var getCacheKey = function (bucketSanitizedName, projectId, page) {
+    return "".concat(projectId, ":").concat(bucketSanitizedName, ":").concat(page);
+};
+// Helper function to clean expired cache entries
+var cleanExpiredCache = function () {
+    var now = Date.now();
+    for (var _i = 0, _a = Array.from(jsonFileCache.keys()); _i < _a.length; _i++) {
+        var key = _a[_i];
+        var entry = jsonFileCache.get(key);
+        if (entry && now - entry.timestamp > CACHE_DURATION) {
+            jsonFileCache.delete(key);
+        }
+    }
+};
+// Load JSON file with caching and performance optimizations
 var loadBucketJsonFromCDN = function (bucketSanitizedName, projectId, page) { return __awaiter(void 0, void 0, void 0, function () {
-    var pageNumber, publicUrl, response, data, error_4;
+    var cacheKey, cached, pageNumber, publicUrl, controller_1, timeoutId, response, data, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -234,36 +304,84 @@ var loadBucketJsonFromCDN = function (bucketSanitizedName, projectId, page) { re
                     console.error('❌ Missing parameters for JSON loading');
                     return [2 /*return*/, null];
                 }
+                // Clean expired cache entries periodically
+                if (jsonFileCache.size > 100) { // Only clean when cache gets large
+                    cleanExpiredCache();
+                }
+                cacheKey = getCacheKey(bucketSanitizedName, projectId, page);
+                cached = jsonFileCache.get(cacheKey);
+                if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
+                    console.log("\uD83D\uDCE6 Returning cached data for page ".concat(page));
+                    return [2 /*return*/, cached.data];
+                }
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 6, , 7]);
                 pageNumber = page.toString();
                 publicUrl = "https://firebasestorage.googleapis.com/v0/b/funui-4bcd1.firebasestorage.app/o/projects%2F".concat(projectId, "%2Fbuckets%2F").concat(bucketSanitizedName, "%2F").concat(pageNumber, ".json?alt=media");
+                controller_1 = new AbortController();
+                timeoutId = setTimeout(function () { return controller_1.abort(); }, 10000) // 10 second timeout
+                ;
                 return [4 /*yield*/, fetch(publicUrl, {
                         cache: 'no-cache',
+                        signal: controller_1.signal
                     })];
             case 2:
                 response = _a.sent();
+                clearTimeout(timeoutId);
                 if (!response.ok) return [3 /*break*/, 4];
-                return [4 /*yield*/, response.json()];
+                return [4 /*yield*/, response.json()
+                    // Cache the response
+                ];
             case 3:
                 data = _a.sent();
-                console.log(data);
+                // Cache the response
+                jsonFileCache.set(cacheKey, {
+                    data: data,
+                    timestamp: Date.now()
+                });
                 return [2 /*return*/, data];
             case 4: 
             // File might not exist (e.g., page out of range)
             return [2 /*return*/, null];
             case 5: return [3 /*break*/, 7];
             case 6:
-                error_4 = _a.sent();
-                console.error("\u274C Error loading JSON file for page ".concat(page, ":"), error_4);
+                error_5 = _a.sent();
+                if (error_5 instanceof DOMException && error_5.name === 'AbortError') {
+                    console.error("\u23F0 Timeout loading JSON file for page ".concat(page));
+                }
+                else {
+                    console.error("\u274C Error loading JSON file for page ".concat(page, ":"), error_5);
+                }
                 return [2 /*return*/, null];
             case 7: return [2 /*return*/];
         }
     });
 }); };
+// Parallel loading for multiple pages
+var loadMultipleJsonPages = function (bucketSanitizedName, projectId, pages) { return __awaiter(void 0, void 0, void 0, function () {
+    var promises, results, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                promises = pages.map(function (page) {
+                    return loadBucketJsonFromCDN(bucketSanitizedName, projectId, page);
+                });
+                return [4 /*yield*/, Promise.all(promises)];
+            case 1:
+                results = _a.sent();
+                return [2 /*return*/, results.filter(Boolean)];
+            case 2:
+                error_6 = _a.sent();
+                console.error('❌ Error loading multiple JSON pages:', error_6);
+                return [2 /*return*/, []];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var listBucketJsonFiles = function (bucketSanitizedName, projectId) { return __awaiter(void 0, void 0, void 0, function () {
-    var files, page, hasMoreFiles, paddedPage, publicUrl, response, error_5;
+    var files, page, hasMoreFiles, batchSize, pageChecks, batchPromises, i, paddedPage, publicUrl, responses, i, currentPage, paddedPage, publicUrl, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -277,35 +395,47 @@ var listBucketJsonFiles = function (bucketSanitizedName, projectId) { return __a
                 files = [];
                 page = 1;
                 hasMoreFiles = true;
+                batchSize = 5;
+                pageChecks = [];
                 _a.label = 2;
             case 2:
                 if (!(hasMoreFiles && page <= 100)) return [3 /*break*/, 4];
-                paddedPage = page.toString().padStart(3, '0');
-                publicUrl = "https://firebasestorage.googleapis.com/v0/b/funui-4bcd1.firebasestorage.app/o/projects%2F".concat(projectId, "%2Fbuckets%2F").concat(bucketSanitizedName, "%2Fpage_").concat(paddedPage, ".json?alt=media");
-                return [4 /*yield*/, fetch(publicUrl, {
+                batchPromises = [];
+                for (i = 0; i < batchSize && page <= 100; i++) {
+                    paddedPage = page.toString().padStart(3, '0');
+                    publicUrl = "https://firebasestorage.googleapis.com/v0/b/funui-4bcd1.firebasestorage.app/o/projects%2F".concat(projectId, "%2Fbuckets%2F").concat(bucketSanitizedName, "%2Fpage_").concat(paddedPage, ".json?alt=media");
+                    batchPromises.push(fetch(publicUrl, {
                         method: 'HEAD',
                         cache: 'no-cache',
-                    })];
-            case 3:
-                response = _a.sent();
-                if (response.ok) {
-                    files.push({
-                        name: "page_".concat(paddedPage, ".json"),
-                        fullPath: "projects/".concat(projectId, "/buckets/").concat(bucketSanitizedName, "/page_").concat(paddedPage, ".json"),
-                        url: publicUrl,
-                        size: parseInt(response.headers.get('content-length') || '0', 10),
-                        page: page
-                    });
+                    }));
                     page++;
                 }
-                else {
-                    hasMoreFiles = false;
+                return [4 /*yield*/, Promise.all(batchPromises)];
+            case 3:
+                responses = _a.sent();
+                for (i = 0; i < responses.length; i++) {
+                    if (responses[i].ok) {
+                        currentPage = page - batchSize + i;
+                        paddedPage = currentPage.toString().padStart(3, '0');
+                        publicUrl = "https://firebasestorage.googleapis.com/v0/b/funui-4bcd1.firebasestorage.app/o/projects%2F".concat(projectId, "%2Fbuckets%2F").concat(bucketSanitizedName, "%2Fpage_").concat(paddedPage, ".json?alt=media");
+                        files.push({
+                            name: "page_".concat(paddedPage, ".json"),
+                            fullPath: "projects/".concat(projectId, "/buckets/").concat(bucketSanitizedName, "/page_").concat(paddedPage, ".json"),
+                            url: publicUrl,
+                            size: parseInt(responses[i].headers.get('content-length') || '0', 10),
+                            page: currentPage
+                        });
+                    }
+                    else {
+                        hasMoreFiles = false;
+                        break;
+                    }
                 }
                 return [3 /*break*/, 2];
             case 4: return [2 /*return*/, files];
             case 5:
-                error_5 = _a.sent();
-                console.error('❌ Error listing JSON files:', error_5);
+                error_7 = _a.sent();
+                console.error('❌ Error listing JSON files:', error_7);
                 return [2 /*return*/, []];
             case 6: return [2 /*return*/];
         }
@@ -383,7 +513,6 @@ var sanitizeBucketName = function (name) {
 var transformProjectBucket = function (bucket, projectId) {
     return {
         id: bucket.id || bucket._id || '',
-        // projectId: bucket.projectId || projectId || '',
         name: bucket.name || '',
         displayName: bucket.displayName || bucket.name || '',
         category: bucket.category || 'uncategorized',
@@ -405,7 +534,7 @@ var transformProjectBucket = function (bucket, projectId) {
 /*                                COMPONENT                                   */
 /* -------------------------------------------------------------------------- */
 var ThemeProvider = function (_a) {
-    var theme = _a.theme, children = _a.children, _b = _a.funcss, funcss = _b === void 0 ? '' : _b, _c = _a.minHeight, minHeight = _c === void 0 ? '100vh' : _c, projectId = _a.projectId, providedProject = _a.project;
+    var theme = _a.theme, children = _a.children, _b = _a.funcss, funcss = _b === void 0 ? '' : _b, _c = _a.minHeight, minHeight = _c === void 0 ? '100vh' : _c, propProjectId = _a.projectId, providedProject = _a.project, projectFile = _a.projectFile;
     var _d = (0, react_1.useState)('standard'), variant = _d[0], setVariant = _d[1];
     var _e = (0, react_1.useState)({}), themeConfig = _e[0], setThemeConfig = _e[1];
     var _f = (0, react_1.useState)(null), projectData = _f[0], setProjectData = _f[1];
@@ -413,6 +542,8 @@ var ThemeProvider = function (_a) {
     var _h = (0, react_1.useState)(true), isInitialLoad = _h[0], setIsInitialLoad = _h[1];
     var _j = (0, react_1.useState)(null), error = _j[0], setError = _j[1];
     var _k = (0, react_1.useState)(null), currentVersion = _k[0], setCurrentVersion = _k[1];
+    // Determine the actual project ID to use
+    var _l = (0, react_1.useState)(propProjectId), actualProjectId = _l[0], setActualProjectId = _l[1];
     /* -------------------------- Apply base theme --------------------------- */
     (0, react_1.useEffect)(function () {
         var root = document.documentElement;
@@ -444,29 +575,74 @@ var ThemeProvider = function (_a) {
         var root = document.documentElement;
         var pollTimer;
         var loadTheme = function () { return __awaiter(void 0, void 0, void 0, function () {
-            var finalTheme, finalVersion, localTheme, localVersion, hasAccess, cdnTheme, cdnVersion, err_1;
+            var finalTheme, finalVersion, finalProjectId, fileProjectId, text, fileData, localTheme, localVersion, projectIdToUse, hasAccess, cdnTheme, cdnVersion, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 9, 10, 11]);
+                        _a.trys.push([0, 12, 13, 14]);
                         finalTheme = null;
                         finalVersion = null;
-                        if (!providedProject) return [3 /*break*/, 1];
-                        console.log('✅ Using provided project data directly');
-                        finalTheme = providedProject;
-                        finalVersion = providedProject.version || 0;
-                        return [3 /*break*/, 8];
-                    case 1: return [4 /*yield*/, loadLocalTheme()];
+                        finalProjectId = actualProjectId;
+                        if (!projectFile) return [3 /*break*/, 4];
+                        console.log('📁 Processing project file...');
+                        return [4 /*yield*/, readProjectIdFromFile(projectFile)];
+                    case 1:
+                        fileProjectId = _a.sent();
+                        if (!fileProjectId) return [3 /*break*/, 3];
+                        // Set global project ID
+                        (0, exports.setGlobalProjectId)(fileProjectId);
+                        setActualProjectId(fileProjectId);
+                        finalProjectId = fileProjectId;
+                        console.log("\u2705 Project ID from file: ".concat(fileProjectId));
+                        return [4 /*yield*/, projectFile.text()];
                     case 2:
+                        text = _a.sent();
+                        fileData = JSON.parse(text);
+                        // Use the file data as the project data
+                        finalTheme = fileData;
+                        finalVersion = fileData.version || 0;
+                        // Apply theme immediately - fileData is guaranteed to be ProjectData here
+                        applyThemeData(fileData, root);
+                        setCurrentVersion(finalVersion);
+                        setError(null);
+                        setIsLoading(false);
+                        setIsInitialLoad(false);
+                        return [2 /*return*/]; // Skip all other loading logic
+                    case 3:
+                        console.warn('⚠️ Project file does not contain a project_id');
+                        _a.label = 4;
+                    case 4:
+                        // If project data is provided directly, use it
+                        if (providedProject) {
+                            console.log('✅ Using provided project data directly');
+                            finalTheme = providedProject;
+                            finalVersion = providedProject.version || 0;
+                            finalProjectId = providedProject.project_id || propProjectId;
+                            // Set global project ID if available
+                            if (finalProjectId) {
+                                (0, exports.setGlobalProjectId)(finalProjectId);
+                                setActualProjectId(finalProjectId);
+                            }
+                            // Apply theme immediately - providedProject is guaranteed to be ProjectData here
+                            applyThemeData(providedProject, root);
+                            setCurrentVersion(finalVersion);
+                            setError(null);
+                            setIsLoading(false);
+                            setIsInitialLoad(false);
+                            return [2 /*return*/]; // Skip all other loading logic
+                        }
+                        return [4 /*yield*/, loadLocalTheme()];
+                    case 5:
                         localTheme = _a.sent();
                         localVersion = (localTheme === null || localTheme === void 0 ? void 0 : localTheme.version) || 0;
-                        if (!projectId) return [3 /*break*/, 7];
-                        return [4 /*yield*/, validateOriginAccess(projectId)];
-                    case 3:
+                        projectIdToUse = finalProjectId || (0, exports.getGlobalProjectId)() || propProjectId;
+                        if (!projectIdToUse) return [3 /*break*/, 10];
+                        return [4 /*yield*/, validateOriginAccess(projectIdToUse)];
+                    case 6:
                         hasAccess = _a.sent();
-                        if (!hasAccess) return [3 /*break*/, 5];
-                        return [4 /*yield*/, loadThemeFromCDN(projectId)];
-                    case 4:
+                        if (!hasAccess) return [3 /*break*/, 8];
+                        return [4 /*yield*/, loadThemeFromCDN(projectIdToUse)];
+                    case 7:
                         cdnTheme = _a.sent();
                         cdnVersion = (cdnTheme === null || cdnTheme === void 0 ? void 0 : cdnTheme.version) || 0;
                         if (cdnTheme) {
@@ -489,8 +665,8 @@ var ThemeProvider = function (_a) {
                             console.warn('⚠️ No theme found (CDN unavailable and no local theme)');
                             setError('Theme not found');
                         }
-                        return [3 /*break*/, 6];
-                    case 5:
+                        return [3 /*break*/, 9];
+                    case 8:
                         // Origin validation failed
                         if (localTheme) {
                             console.log('⚠️ Origin validation failed, using local theme');
@@ -501,9 +677,9 @@ var ThemeProvider = function (_a) {
                             console.error('❌ Origin validation failed and no local theme available');
                             setError('Access denied and no local theme available');
                         }
-                        _a.label = 6;
-                    case 6: return [3 /*break*/, 8];
-                    case 7:
+                        _a.label = 9;
+                    case 9: return [3 /*break*/, 11];
+                    case 10:
                         // No project ID provided - only use local theme
                         console.log('ℹ️ No project ID provided, using local theme only');
                         if (localTheme) {
@@ -515,10 +691,12 @@ var ThemeProvider = function (_a) {
                             console.log('ℹ️ No local theme file found - using base theme only');
                             // No error here - it's valid to use only base theme
                         }
-                        _a.label = 8;
-                    case 8:
+                        _a.label = 11;
+                    case 11:
                         // Apply the theme if we have one
+                        // Check if finalTheme is not null before calling applyThemeData
                         if (finalTheme && (!currentVersion || finalVersion !== currentVersion)) {
+                            // finalTheme is guaranteed to be ProjectData here because we checked it's not null
                             applyThemeData(finalTheme, root);
                             setCurrentVersion(finalVersion);
                             setError(null);
@@ -526,38 +704,52 @@ var ThemeProvider = function (_a) {
                         else if (finalTheme) {
                             console.log('✓ Theme up to date');
                         }
-                        return [3 /*break*/, 11];
-                    case 9:
+                        return [3 /*break*/, 14];
+                    case 12:
                         err_1 = _a.sent();
                         console.error('❌ Error loading theme:', err_1);
                         setError('Failed to load theme');
-                        return [3 /*break*/, 11];
-                    case 10:
+                        return [3 /*break*/, 14];
+                    case 13:
                         setIsLoading(false);
                         setIsInitialLoad(false);
                         return [7 /*endfinally*/];
-                    case 11: return [2 /*return*/];
+                    case 14: return [2 /*return*/];
                 }
             });
         }); };
-        // Initial load
-        loadTheme();
-        // Only poll for updates if we have a project ID AND no provided project
-        if (projectId && !providedProject) {
-            pollTimer = setInterval(function () {
-                loadTheme();
-            }, 5 * 60 * 1000);
-        }
-        return function () {
-            if (pollTimer) {
-                clearInterval(pollTimer);
+        // Only load theme if no project is provided
+        if (!providedProject && !projectFile) {
+            // Initial load
+            loadTheme();
+            // Only poll for updates if we have a project ID
+            if (actualProjectId) {
+                pollTimer = setInterval(function () {
+                    loadTheme();
+                }, 5 * 60 * 1000);
             }
-        };
-    }, [projectId, currentVersion, theme, providedProject]); // Added providedProject to dependencies
+            return function () {
+                if (pollTimer) {
+                    clearInterval(pollTimer);
+                }
+            };
+        }
+        else {
+            // If project or file is provided, skip loading and set state directly
+            console.log('✅ Using provided project data/file, skipping theme loading');
+            if (providedProject) {
+                applyThemeData(providedProject, document.documentElement);
+                setCurrentVersion(providedProject.version || 0);
+            }
+            setIsLoading(false);
+            setIsInitialLoad(false);
+        }
+    }, [propProjectId, actualProjectId, currentVersion, theme, providedProject, projectFile]);
     var applyThemeData = function (data, root) {
         var _a;
         var themeConfig = (_a = data.theme_config) !== null && _a !== void 0 ? _a : {};
         var newVariant = data.default_variation || 'standard';
+        var projectId = data.project_id || actualProjectId;
         setVariant(newVariant);
         setThemeConfig(themeConfig);
         setProjectData(data);
@@ -568,10 +760,15 @@ var ThemeProvider = function (_a) {
         // Cache for bucket access
         var projectBuckets = data.buckets || [];
         cachedBuckets = projectBuckets.map(function (bucket) {
-            return transformProjectBucket(bucket, data.project_id || '');
+            return transformProjectBucket(bucket, projectId || '');
         });
         // Apply all theme config to CSS variables
         applyThemeConfig(themeConfig, root);
+        // Update global project ID if available
+        if (projectId) {
+            (0, exports.setGlobalProjectId)(projectId);
+            setActualProjectId(projectId);
+        }
     };
     var contextValue = (0, react_1.useMemo)(function () { return ({
         variant: variant,
@@ -581,8 +778,8 @@ var ThemeProvider = function (_a) {
         isLoading: isLoading,
         isInitialLoad: isInitialLoad,
         error: error,
-        projectId: projectId,
-    }); }, [variant, themeConfig, projectData, isLoading, isInitialLoad, error, projectId]);
+        projectId: actualProjectId, // Use actual project ID in context
+    }); }, [variant, themeConfig, projectData, isLoading, isInitialLoad, error, actualProjectId]);
     return (react_1.default.createElement(ThemeContext.Provider, { value: contextValue },
         react_1.default.createElement("div", { className: "theme-".concat(theme, " ").concat(funcss), style: {
                 backgroundColor: 'var(--page-bg)',
@@ -660,7 +857,7 @@ exports.useVariable = useVariable;
 var cachedAssets = [];
 var getAsset = function (name) {
     if (!cachedAssets.length) {
-        console.warn('No assets available. Make sure ThemeProvider is mounted and assets are loaded.');
+        console.warn('No assets available. Make sure ThemeProvider is mounted.');
         return undefined;
     }
     var asset = cachedAssets.find(function (a) { return a.name === name; });
@@ -777,8 +974,9 @@ var useBuckets = function () {
     var _a = (0, react_1.useState)([]), buckets = _a[0], setBuckets = _a[1];
     (0, react_1.useEffect)(function () {
         if (projectData === null || projectData === void 0 ? void 0 : projectData.buckets) {
+            var projectId_1 = projectData.project_id || (0, exports.getGlobalProjectId)() || '';
             var transformedBuckets = projectData.buckets.map(function (bucket) {
-                return transformProjectBucket(bucket, projectData.project_id || '');
+                return transformProjectBucket(bucket, projectId_1);
             });
             setBuckets(transformedBuckets);
             cachedBuckets = transformedBuckets;
@@ -943,7 +1141,7 @@ var useAllJsonRecords = function (bucketIdOrName) {
     var projectId = (0, exports.useTheme)().projectId;
     var _d = (0, exports.useBucketJsonFiles)(bucketIdOrName), files = _d.files, filesLoading = _d.loading;
     var loadAllRecords = (0, react_1.useCallback)(function () { return __awaiter(void 0, void 0, void 0, function () {
-        var allRecords, _i, files_1, file, bucketSanitizedName, jsonData, err_4;
+        var pageNumbers, jsonDataArray, allRecords_1, err_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -952,38 +1150,30 @@ var useAllJsonRecords = function (bucketIdOrName) {
                     }
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 6, 7, 8]);
+                    _a.trys.push([1, 3, 4, 5]);
                     setLoading(true);
                     setError(null);
-                    allRecords = [];
-                    _i = 0, files_1 = files;
-                    _a.label = 2;
+                    pageNumbers = files.map(function (file) { return file.page; });
+                    return [4 /*yield*/, loadMultipleJsonPages(sanitizeBucketName(bucket.displayName || bucket.name), projectId, pageNumbers)];
                 case 2:
-                    if (!(_i < files_1.length)) return [3 /*break*/, 5];
-                    file = files_1[_i];
-                    bucketSanitizedName = sanitizeBucketName(bucket.displayName || bucket.name);
-                    return [4 /*yield*/, loadBucketJsonFromCDN(bucketSanitizedName, projectId, file.page)];
+                    jsonDataArray = _a.sent();
+                    allRecords_1 = [];
+                    jsonDataArray.forEach(function (jsonData) {
+                        if (jsonData && jsonData.records) {
+                            allRecords_1.push.apply(allRecords_1, jsonData.records);
+                        }
+                    });
+                    setRecords(allRecords_1);
+                    return [3 /*break*/, 5];
                 case 3:
-                    jsonData = _a.sent();
-                    if (jsonData && jsonData.records) {
-                        allRecords.push.apply(allRecords, jsonData.records);
-                    }
-                    _a.label = 4;
-                case 4:
-                    _i++;
-                    return [3 /*break*/, 2];
-                case 5:
-                    setRecords(allRecords);
-                    return [3 /*break*/, 8];
-                case 6:
                     err_4 = _a.sent();
                     console.error('Error loading all records:', err_4);
                     setError(err_4 instanceof Error ? err_4.message : 'Failed to load records');
-                    return [3 /*break*/, 8];
-                case 7:
+                    return [3 /*break*/, 5];
+                case 4:
                     setLoading(false);
                     return [7 /*endfinally*/];
-                case 8: return [2 /*return*/];
+                case 5: return [2 /*return*/];
             }
         });
     }); }, [bucket, projectId, files, filesLoading]);
@@ -1011,12 +1201,21 @@ var useBucketCache = function () {
                     var cacheKey = "".concat(bucket.id, "_").concat(projectId);
                     delete cachedJsonFiles[cacheKey];
                     delete cachedJsonData[cacheKey];
+                    // Also clear JSON file cache
+                    var bucketSanitizedName = sanitizeBucketName(bucket.displayName || bucket.name);
+                    for (var _i = 0, _a = Array.from(jsonFileCache.keys()); _i < _a.length; _i++) {
+                        var key = _a[_i];
+                        if (key.startsWith("".concat(projectId, ":").concat(bucketSanitizedName))) {
+                            jsonFileCache.delete(key);
+                        }
+                    }
                 }
             }
         }
         else {
             cachedJsonFiles = {};
             cachedJsonData = {};
+            jsonFileCache.clear();
         }
     }, []);
     var refresh = (0, react_1.useCallback)(function () {

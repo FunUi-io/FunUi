@@ -2,6 +2,7 @@
 export { default as Alert } from "./ui/alert/Alert"
 export { default as ThemeProvider } from "./ui/theme/theme"
 export { default as Button } from "./ui/button/Button"
+export { default as Badge } from "./ui/button/Button"
 export { default as Card } from "./ui/card/Card"
 export { default as BreadCrumb } from "./ui/breadcrumb/BreadCrumb"
 export { default as Container } from "./ui/container/Container"
@@ -35,6 +36,7 @@ export { default as Tip } from "./ui/tooltip/Tip"
 export { default as RowFlex } from "./ui/specials/RowFlex"
 export { default as Section } from "./ui/specials/Section"
 export { default as Hr } from "./ui/specials/Hr"
+export { default as Divider } from "./ui/specials/Hr"
 export { default as Circle } from "./ui/specials/Circle"
 export { default as CircleGroup } from "./ui/specials/CircleGroup"
 export { default as FullCenteredPage } from "./ui/specials/FullCenteredPage"
@@ -61,6 +63,7 @@ export { default as Footer } from "./ui/footer/Footer"
 export { default as Feature } from "./ui/feature/Feature"
 export { default as Store } from "./ui/products/Store"
 export { default as Empty } from "./ui/empty/Empty"
+export { default as Form } from "./ui/form/Form"
 
 
 // js 

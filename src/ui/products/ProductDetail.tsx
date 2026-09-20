@@ -1,7 +1,7 @@
 // components/products/ProductDetail.tsx
 'use client';
-import React, { useState } from 'react';
-import { PiMinus, PiPlus, PiCaretDown, PiCaretUp, PiChecks, PiScales, PiShieldCheck, PiUser, PiGlobe, PiUsers } from 'react-icons/pi';
+import React, { useState, useEffect } from 'react';
+import { PiMinus, PiPlus, PiCaretDown, PiCaretUp, PiChecks, PiScales, PiShieldCheck, PiUser, PiGlobe, PiUsers, PiStorefront, PiTag, PiBag } from 'react-icons/pi';
 import { TfiComments } from "react-icons/tfi";
 import { SiBlackmagicdesign } from "react-icons/si";
 import Modal from '../modal/Modal';
@@ -39,13 +39,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
-  const [quantity, setQuantity] = useState(1);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [canAddToCart, setCanAddToCart] = useState(false);
 
   const hasDiscount = product.comparePrice && product.comparePrice > product.price;
   const discountPercent = hasDiscount 
     ? Math.round(((product.comparePrice! - product.price) / product.comparePrice!) * 100)
     : 0;
+
+  // Stock information logic
+  const stockAvailable = product.stock === undefined || product.stock > 0;
+  const lowStock = product.stock !== undefined && product.stock > 0 && product.stock < 10;
 
   const getDisplayPrice = () => {
     const price = product.price || 0;
@@ -54,14 +58,33 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   };
 
   const handleAddToCart = () => {
-    onAddToCart?.(product, quantity, {
+    // Always add with quantity 1
+    onAddToCart?.(product, 1, {
       color: selectedColor,
       size: selectedSize,
     });
     setOpen(false);
   };
 
-  const totalPrice = ((product.price || 0) * quantity).toFixed(2);
+  // Validate if all required selections are made
+  useEffect(() => {
+    let isValid = true;
+    
+    // Check if color selection is required and selected
+    if (product.colors && product.colors.length > 0) {
+      isValid = isValid && selectedColor !== '';
+    }
+    
+    // Check if size selection is required and selected
+    if (product.sizes && product.sizes.length > 0) {
+      isValid = isValid && selectedSize !== '';
+    }
+    
+    // Also check stock availability
+    isValid = isValid && stockAvailable;
+    
+    setCanAddToCart(isValid);
+  }, [selectedColor, selectedSize, stockAvailable, product.colors, product.sizes]);
 
   // Function to safely process description
   const processDescription = (description: string) => {
@@ -137,16 +160,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
             {product.images && product.images.length > 0 && (
               <Div funcss="margin-bottom-20">
                 <Div funcss="funui_products_main_image_container mb-3">
-                  {/* <img
-                    src={product.images[selectedImageIndex]}
-                    alt={product.name}
-                    className="funui_products_main_image round-edge"
-                    loading="lazy"
-                    width={"100%"}
-                  /> */}
                   <ImageScaler 
-                  src={product.images[selectedImageIndex]}
-                  size={"100%"}
+                    src={product.images[selectedImageIndex]}
+                    size={"400px"}
+                    funcss='round-edge'
                   />
                 </Div>
                 
@@ -158,16 +175,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                         funcss={`funui_products_thumbnail rounde-edge ${selectedImageIndex === index ? 'funui_products_thumbnail-active' : ''}`}
                         onClick={() => setSelectedImageIndex(index)}
                       >
-                        {/* <img
+                        <ImageScaler 
                           src={image}
-                          alt={`${product.name} ${index + 1}`}
-                          loading="lazy"
-                          className="pointer h-80 round-edge"
-                        /> */}
-                            <ImageScaler 
-                  src={image}
-                  size={"100px"}
-                  />
+                          size={"100px"}
+                          funcss='round-edge'
+                        />
                       </Div>
                     ))}
                   </Carousel>
@@ -177,71 +189,173 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           </div>
 
           <div className="col">
-            <Flex direction='column' gap={2} alignItems='flex-start' justify='flex-start'>
-           <div>
-               <Text text={product.name} size="2xl" block />
-              <Flex justify="space-between" alignItems="center" width='100%'>
-                <Text 
-                  text={getDisplayPrice()} 
-                  size="xl" 
+            <Flex direction='column' gap={2} alignItems='flex-start' justify='flex-start' width='100%'>
+              {/* Product Header Section */}
+              <div className="w-full">
+                <Flex justify="space-between" alignItems="center" width='100%'>
+                  {/* Category & Badges */}
+                  <Flex gap={1} alignItems="center">
+                    {product.category && (
+                      <Text size='xs' opacity={4} uppercase weight={500} color="text-muted">
+                        {product.category}
+                      </Text>
+                    )}
+                    
+                    {/* New Badge */}
+                    {product.isNew && (
+                      <Div funcss="badge-new">
+                        <Text size='xs' color='white' weight={600}>
+                          NEW
+                        </Text>
+                      </Div>
+                    )}
+                    
+                    {/* Sale Badge */}
+                    {product.isSale && (
+                      <Div funcss="badge-sale">
+                        <Text size='xs' color='white' weight={600}>
+                          SALE
+                        </Text>
+                      </Div>
+                    )}
+                  </Flex>
                   
-                />
-                {(hasDiscount || product.comparePrice) && (
-                  <Text 
-                    text={`${product.currency || currency}${product.comparePrice!.toFixed(2)}`} 
-                    textDecoration='line-through'
-                  />
-                )}
-              </Flex>
-           </div>
+                  {/* Stock Status */}
+                  {!stockAvailable ? (
+                    <Text size='xs' color='error' weight={600}>
+                      Out of Stock
+                    </Text>
+                  ) : lowStock ? (
+                    <Text size='xs' color='warning' weight={600}>
+                      Only {product.stock} left
+                    </Text>
+                  ) : (
+                    <Text size='xs' color='success' weight={600}>
+                      In Stock
+                    </Text>
+                  )}
+                </Flex>
+                
+                {/* Product Name */}
+                <Text text={product.name} size="2xl" block weight={600} funcss="mb-3" />
+                
+                {/* Price Section */}
+                <Flex justify="space-between" alignItems="center" width='100%' funcss="mb-3">
+                  <Flex gap={1} alignItems="baseline">
+                    <Text 
+                      text={getDisplayPrice()} 
+                      size="xl" 
+                      weight={700}
+                      color="primary"
+                    />
+                    {hasDiscount && (
+                      <Div funcss="discount-percent">
+                        <Text size='sm' color='white' weight={600}>
+                          -{discountPercent}%
+                        </Text>
+                      </Div>
+                    )}
+                  </Flex>
+                  
+                  {/* Original Price */}
+                  {(hasDiscount || product.comparePrice) && (
+                    <Text 
+                      text={`${product.currency || currency}${product.comparePrice!.toFixed(2)}`} 
+                      textDecoration='line-through'
+                      size="sm"
+                      color="text-muted"
+                    />
+                  )}
+                </Flex>
+              </div>
 
-           {
-           ( (product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0 ) ) &&
-             <Flex width='100%' gap={1}>
-                 {/* Color Selection */}
-              {product.colors && product.colors.length > 0 && (
-                <div className="col">
-                  <Select
-                  fullWidth
-                    options={[
-                      { text: 'Select Color', value: ''  },
-                      ...product.colors.map(color => ({ 
-                        text: color.name, 
-                        value: color.name , 
-                        prefix: <div className='circle'
-                          style={{width:"20px", height:'20px', backgroundColor:color.code}}
-                        />
-                      }))
-                    ]}
-                    value={selectedColor}
-                    onChange={(e) => setSelectedColor(e)}
-                    bordered
-                  />
-                </div>
+              {/* Stock Quantity Display */}
+              {product.stock !== undefined && (
+                <Div>
+                  <Text size='xs' opacity={4}>
+                    {product.stock} units available
+                  </Text>
+                </Div>
               )}
 
-              {/* Size Selection */}
-              {product.sizes && product.sizes.length > 0 && (
-                <div className="col">
-                  <Select
-                  fullWidth
-                    options={[
-                      { text: 'Select Size', value: '' },
-                      ...product.sizes.map(size => ({ text: size, value: size }))
-                    ]}
-                    value={selectedSize}
-                    onChange={(e) => setSelectedSize(e)}
-                    bordered
-                  />
-                </div>
-              )}
-             </Flex>
+              {/* Color & Size Selection */}
+              {((product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0)) && (
+                <Flex width='100%' gap={1} >
+                  {/* Color Selection */}
+                  {product.colors && product.colors.length > 0 && (
+                    <div className="col">
+                      <Text size="sm" weight={500} funcss="mb-1">
+                        Color
+                        <Text size="xs" color="error" funcss="margin-left-1">
+                          *
+                        </Text>
+                      </Text>
+                      <Select
+                        fullWidth
+                        options={[
+                          { text: 'Select Color', value: '' },
+                          ...product.colors.map(color => ({ 
+                            text: color.name, 
+                            value: color.name, 
+                            prefix: (
+                              <Div 
+                                funcss="color-preview"
+                                customStyle={{
+                                  width: "20px", 
+                                  height: "20px", 
+                                  borderRadius: "50%",
+                                  backgroundColor: color.code,
+                                  border: selectedColor === color.name ? '2px solid var(--primary)' : '1px solid var(--border)'
+                                }}
+                              />
+                            )
+                          }))
+                        ]}
+                        value={selectedColor}
+                        onChange={(e) => setSelectedColor(e)}
+                        bordered
+                      />
+                      {selectedColor === '' && (
+                        <Text size="xs" color="error" funcss="margin-top-1">
+                          Please select a color
+                        </Text>
+                      )}
+                    </div>
+                  )}
 
-           }
+                  {/* Size Selection */}
+                  {product.sizes && product.sizes.length > 0 && (
+                    <div className="col">
+                      <Text size="sm" weight={500} funcss="mb-1">
+                        Size
+                        <Text size="xs" color="error" funcss="margin-left-1">
+                          *
+                        </Text>
+                      </Text>
+                      <Select
+                        fullWidth
+                        options={[
+                          { text: 'Select Size', value: '' },
+                          ...product.sizes.map(size => ({ text: size, value: size }))
+                        ]}
+                        value={selectedSize}
+                        onChange={(e) => setSelectedSize(e)}
+                        bordered
+                      />
+                      {selectedSize === '' && (
+                        <Text size="xs" color="error" funcss="margin-top-1">
+                          Please select a size
+                        </Text>
+                      )}
+                    </div>
+                  )}
+                </Flex>
+              )}
+
               {/* Description Section */}
               {processedDescription && (
-                <div >
-                  <Text text="Description" size="lg"  funcss="margin-bottom-1" />
+                <Div >
+                  <Text text="Description" size="lg" weight={600} funcss="margin-bottom-1" />
                   <div 
                     className={`article text-sm ${hasHTML ? '' : 'whitespace-pre-wrap'}`}
                     dangerouslySetInnerHTML={{__html: displayDescription}}
@@ -254,184 +368,163 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                       small
                       bg='lighter'
                       startIcon={showFullDescription ? <PiCaretUp /> : <PiCaretDown />}
+                      funcss="mt-2"
                     />
                   )}
-                </div>
+                </Div>
               )}
 
-              {/* no border incase nothing of these are there */}
-              <div >
-              <Flex gap={3} width='100%'>
-                  {
-                product.warranty && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiShieldCheck  className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Warranty"} size="xs" opacity={4} block />
-                         <Text text={product.warranty} size="sm" block lineHeight='1' />
-                   </div>
+              {/* Product Details Grid */}
+              <Div funcss="product-details-grid">
+                <Flex gap={3} width='100%' >
+                  {/* Brand */}
+                  {product.brand && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <SiBlackmagicdesign className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Brand"} size="xs" opacity={4} block />
+                        <Text text={product.brand} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* SKU */}
+                  {product.sku && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiTag className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"SKU"} size="xs" opacity={4} block />
+                        <Text text={product.sku} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Rating */}
+                  {product.rating && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <TfiComments className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Rating"} size="xs" opacity={4} block />
+                        <Text text={product.rating.toString()} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Weight */}
+                  {product.weight && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiScales className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Weight"} size="xs" opacity={4} block />
+                        <Text text={`${product.weight} ${product.weightUnit || ''}`} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Manufacturer */}
+                  {product.manufacturer && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiUser className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Manufacturer"} size="xs" opacity={4} block />
+                        <Text text={product.manufacturer} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Country of Origin */}
+                  {product.countryOfOrigin && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiGlobe className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Country of Origin"} size="xs" opacity={4} block />
+                        <Text text={product.countryOfOrigin} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Warranty */}
+                  {product.warranty && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiShieldCheck className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Warranty"} size="xs" opacity={4} block />
+                        <Text text={product.warranty} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Category */}
+                  {product.category && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <IoLayersOutline className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Category"} size="xs" opacity={4} block />
+                        <Text text={product.category} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Store/Vendor */}
+                  {product.brand && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiStorefront className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Store"} size="xs" opacity={4} block />
+                        <Text text={product.brand} size="sm" block lineHeight='1' weight={500} />
+                      </Div>
+                    </Flex>
+                  )}
+
+                  {/* Tags */}
+                  {product.tags && product.tags.length > 0 && (
+                    <Flex gap={0.3} funcss="detail-item">
+                      <Div>
+                        <PiTag className='text-primary' />
+                      </Div>
+                      <Div>
+                        <Text text={"Tags"} size="xs" opacity={4} block />
+                        <Text text={product.tags.join(', ')} size="sm" block lineHeight='1' truncate={1} />
+                      </Div>
+                    </Flex>
+                  )}
                 </Flex>
-                )
-               }
-                  {
-                product.manufacturer && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiUser  className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Manufacturer"} size="xs" opacity={4} block />
-                         <Text text={product.manufacturer} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.countryOfOrigin && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiGlobe  className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Country of Origin"} size="xs" opacity={4} block />
-                         <Text text={product.countryOfOrigin} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.isFeatured && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiUsers  className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Featured"} size="xs" opacity={4} block />
-                         <Text text={"Yes"} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.rating && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <TfiComments  className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Rating"} size="xs" opacity={4} block />
-                         <Text text={product.rating} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.brand && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <SiBlackmagicdesign  className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Brand"} size="xs" opacity={4} block />
-                         <Text text={product.brand} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.category && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <IoLayersOutline   className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Category"} size="xs" opacity={4} block />
-                         <Text text={product.category} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.isNew && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiChecks   className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"New"} size="xs" opacity={4} block />
-                         <Text text={"Yes"} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.isSale && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiChecks   className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"On Sale"} size="xs" opacity={4} block />
-                         <Text text={"Yes"} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-                  {
-                product.weight && (
-                     <Flex gap={0.3}>
-                   <div>
-                     <PiScales   className='text-primary' />
-                   </div>
-                   <div>
-                         <Text text={"Weight"} size="xs" opacity={4} block />
-                         <Text text={product.weight + " " + product.weightUnit} size="sm" block lineHeight='1' />
-                   </div>
-                </Flex>
-                )
-               }
-              </Flex>
-              </div>
-              
-            
+              </Div>
             </Flex>
           </div>
         </Flex>
       }
-      footer={  <RowFlex gap={1}  justify='flex-end' funcss='pt'>
-                <RowFlex gap={0.5} alignItems="center">
-                  <Circle
-                    body={<PiMinus />}
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    funcss={quantity <= 1 ? "disabled" : ""}
-                  />
-                  <div className="w-90">
-                    <Input
-                      type="number"
-                      value={quantity}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (!isNaN(value)) {
-                          setQuantity(Math.max(1, value));
-                        }
-                      }}
-                      funcss="text-center"
-                      bordered
-                    />
-                  </div>
-                  <Circle onClick={() => setQuantity(quantity + 1)} bg='lighter'>
-                    <PiPlus />
-                  </Circle>
-                </RowFlex>
-                <Button
-                  text={`Add to Cart - ${currency}${totalPrice}`}
-                  bg="primary"
-                  raised
-                  onClick={handleAddToCart}
-                />
-              </RowFlex>}
+      footer={
+        <RowFlex gap={1} justify='flex-end' funcss='pt'>
+          <Button
+            text={`Add to Cart`}
+            startIcon={<PiBag />}
+            bg="primary"
+            raised
+            onClick={handleAddToCart}
+            disabled={!canAddToCart}
+            funcss={!canAddToCart ? "opacity-6" : ""}
+          />
+        </RowFlex>
+      }
     />
   );
 };

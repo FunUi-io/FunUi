@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -50,6 +50,16 @@ var Flex_1 = __importDefault(require("../flex/Flex"));
 var RichText = function (_a) {
     var value = _a.value, onChange = _a.onChange, _b = _a.showEmojis, showEmojis = _b === void 0 ? false : _b, _c = _a.placeholder, placeholder = _c === void 0 ? 'Write something...' : _c, afterEmoji = _a.afterEmoji, _d = _a.funcss, funcss = _d === void 0 ? '' : _d, modules = _a.modules, _e = _a.theme, theme = _e === void 0 ? 'bubble' : _e, fontFamily = _a.fontFamily, maxValue = _a.maxValue;
     var savedRange = (0, react_1.useRef)(null);
+    var isInitialized = (0, react_1.useRef)(false);
+    // Keep a ref to latest onChange to avoid stale closures without re-binding events
+    var onChangeRef = (0, react_1.useRef)(onChange);
+    var maxValueRef = (0, react_1.useRef)(maxValue);
+    (0, react_1.useEffect)(function () {
+        onChangeRef.current = onChange;
+    }, [onChange]);
+    (0, react_1.useEffect)(function () {
+        maxValueRef.current = maxValue;
+    }, [maxValue]);
     var defaultModules = {
         toolbar: [['bold', 'italic', 'underline'], [{ list: 'bullet' }]],
     };
@@ -58,6 +68,17 @@ var RichText = function (_a) {
         placeholder: placeholder,
         modules: modules || defaultModules,
     }), quill = _f.quill, quillRef = _f.quillRef;
+    // Seed the editor with the initial value only once on mount
+    (0, react_1.useEffect)(function () {
+        var _a, _b;
+        if (quill && !isInitialized.current) {
+            isInitialized.current = true;
+            var cleanedValue = (_b = (_a = value === null || value === void 0 ? void 0 : value.replace(/<p><br><\/p>/g, '')) === null || _a === void 0 ? void 0 : _a.replace(/\s+/g, ' ')) === null || _b === void 0 ? void 0 : _b.trim();
+            quill.root.innerHTML = cleanedValue || '';
+        }
+    }, [quill]); // eslint-disable-line react-hooks/exhaustive-deps
+    // ↑ `value` intentionally omitted — we only want to seed once, not sync on every change
+    // Bind Quill event listeners once after quill is ready
     (0, react_1.useEffect)(function () {
         if (!quill)
             return;
@@ -67,20 +88,21 @@ var RichText = function (_a) {
         };
         var handleTextChange = function () {
             var _a, _b, _c;
-            if (!quill)
-                return;
+            var currentMax = maxValueRef.current;
             var plainText = quill.getText().trim();
-            // --- Enforce maxValue if needed ---
-            if (maxValue && plainText.length > maxValue) {
-                var truncated = plainText.slice(0, maxValue);
-                quill.setText(truncated);
-                quill.setSelection(truncated.length);
+            // Enforce maxValue character limit
+            if (currentMax && plainText.length > currentMax) {
+                // Preserve cursor position when truncating
+                var currentSelection = quill.getSelection();
+                quill.setText(plainText.slice(0, currentMax));
+                if (currentSelection) {
+                    var newIndex = Math.min(currentSelection.index, currentMax);
+                    quill.setSelection(newIndex, 0);
+                }
+                // After setText, re-read the HTML so the onChange value is accurate
             }
-            // --- Clean the HTML output ---
-            var cleanedHTML = (_c = (_b = (_a = quill.root.innerHTML) === null || _a === void 0 ? void 0 : _a.replace(/<p><br><\/p>/g, '') // remove empty paragraphs
-            ) === null || _b === void 0 ? void 0 : _b.replace(/\s+/g, ' ') // collapse multiple spaces
-            ) === null || _c === void 0 ? void 0 : _c.trim(); // remove leading/trailing spaces
-            onChange(cleanedHTML || '');
+            var cleanedHTML = (_c = (_b = (_a = quill.root.innerHTML) === null || _a === void 0 ? void 0 : _a.replace(/<p><br><\/p>/g, '')) === null || _b === void 0 ? void 0 : _b.replace(/\s+/g, ' ')) === null || _c === void 0 ? void 0 : _c.trim();
+            onChangeRef.current(cleanedHTML || '');
         };
         quill.on('selection-change', handleSelectionChange);
         quill.on('text-change', handleTextChange);
@@ -88,37 +110,36 @@ var RichText = function (_a) {
             quill.off('selection-change', handleSelectionChange);
             quill.off('text-change', handleTextChange);
         };
-    }, [quill, onChange, maxValue]);
-    (0, react_1.useEffect)(function () {
-        var _a, _b;
-        if (quill && value !== quill.root.innerHTML) {
-            // clean before setting editor value
-            var cleanedValue = (_b = (_a = value === null || value === void 0 ? void 0 : value.replace(/<p><br><\/p>/g, '')) === null || _a === void 0 ? void 0 : _a.replace(/\s+/g, ' ')) === null || _b === void 0 ? void 0 : _b.trim();
-            quill.root.innerHTML = cleanedValue || '';
-        }
-    }, [quill, value]);
+    }, [quill]); // bind once; use refs for latest values
     var insertEmoji = function (emoji) {
-        if (quill && savedRange.current) {
-            var plainText = quill.getText().trim();
-            if (!maxValue || plainText.length + emoji.length <= maxValue) {
-                quill.insertText(savedRange.current.index, emoji);
-                quill.setSelection(savedRange.current.index + emoji.length);
-            }
+        var _a;
+        if (!quill)
+            return;
+        // If no saved range yet, default to end of document
+        var range = (_a = savedRange.current) !== null && _a !== void 0 ? _a : { index: quill.getLength() - 1, length: 0 };
+        var plainText = quill.getText().trim();
+        var currentMax = maxValueRef.current;
+        if (!currentMax || plainText.length + emoji.length <= currentMax) {
+            quill.insertText(range.index, emoji);
+            var newIndex = range.index + emoji.length;
+            quill.setSelection(newIndex, 0);
+            savedRange.current = { index: newIndex, length: 0 };
         }
     };
     var renderEmojiSection = function (title, emojis) { return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement("div", { className: "mb-2 mt-2 text-sm" }, title),
         react_1.default.createElement(RowFlex_1.default, { gap: 0.3 }, emojis.map(function (emoji, i) { return (react_1.default.createElement("span", { key: i, className: "h6 pointer", onClick: function () { return insertEmoji(emoji); } }, emoji)); })))); };
+    var charCount = quill ? quill.getText().trim().length : 0;
     return (react_1.default.createElement("div", { className: "fit round-edge ".concat(funcss), style: { position: 'relative', overflow: 'visible' } },
         react_1.default.createElement("div", { id: "editor-container", className: "bubble-editor-container p-0" },
             react_1.default.createElement("div", { ref: quillRef, className: theme === 'bubble' ? 'bubble-editor' : 'snow-editor', style: {
                     fontFamily: fontFamily || 'inherit',
                 } })),
-        (showEmojis || maxValue) && (react_1.default.createElement("div", { className: "p-1", style: { height: 'fit-content', top: "calc(100%)", width: '100%' } },
+        (showEmojis || afterEmoji || maxValue) && (react_1.default.createElement("div", { className: "p-1", style: { height: 'fit-content', top: "calc(100%)", width: '100%' } },
             react_1.default.createElement(Flex_1.default, { justify: "space-between", gap: 1, alignItems: "center", width: "100%" },
                 (showEmojis || afterEmoji) ? (react_1.default.createElement("div", null,
                     react_1.default.createElement(Flex_1.default, { width: "100%", gap: 0.5, alignItems: "center" },
-                        showEmojis && (react_1.default.createElement(Dropdown_1.default, { closableOnlyOutside: true, openOnHover: false, button: react_1.default.createElement(ToolTip_1.default, null,
+                        showEmojis && (react_1.default.createElement(Dropdown_1.default, { closableOnlyOutside: true, button: react_1.default.createElement(ToolTip_1.default, null,
                                 react_1.default.createElement(Circle_1.default, { size: 2, funcss: "bg border" },
                                     react_1.default.createElement(md_1.MdOutlineEmojiEmotions, null)),
                                 react_1.default.createElement(Tip_1.default, { tip: "top", animation: "ScaleUp", duration: 0.5, content: "Emojis" })), items: [
@@ -133,8 +154,8 @@ var RichText = function (_a) {
                                 },
                             ] })),
                         afterEmoji))) : (react_1.default.createElement("div", null)),
-                maxValue && quill ? (react_1.default.createElement("div", { className: "text-xs text-right" },
-                    react_1.default.createElement("span", { className: "text-primary" }, quill.getText().trim().length),
+                maxValue ? (react_1.default.createElement("div", { className: "text-xs text-right" },
+                    react_1.default.createElement("span", { className: charCount >= maxValue ? 'text-danger' : 'text-primary' }, charCount),
                     "/",
                     maxValue)) : (react_1.default.createElement("div", null)))))));
 };

@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -208,12 +208,12 @@ var Lines = function (localProps) {
         react_1.default.createElement("stop", { offset: "5%", stopColor: getCssVar(final.fromColor || 'primary') || '#8884d8', stopOpacity: 0.8 }),
         react_1.default.createElement("stop", { offset: "95%", stopColor: getCssVar(final.toColor || 'primary200') || '#8884d8', stopOpacity: 0 }))); }, [baseGradientId, final.fromColor, final.toColor]);
     var containerStyle = (0, react_1.useMemo)(function () { return ({
-        height: final.height,
-        width: final.width,
-        minHeight: final.minHeight,
-        maxHeight: final.maxHeight,
-        minWidth: final.minWidth,
-        maxWidth: final.maxWidth,
+        height: final.height || '400px', // Default height
+        width: final.width || '100%', // Default width
+        minHeight: final.minHeight || '300px', // Minimum height
+        maxHeight: final.maxHeight || '100%',
+        minWidth: final.minWidth || '100%',
+        maxWidth: final.maxWidth || '100%',
         background: final.chartBackground,
         borderRadius: final.borderRadius,
         padding: final.padding,
@@ -226,20 +226,27 @@ var Lines = function (localProps) {
                 react_1.default.createElement("div", { className: "text-lg mb-2" }, "\uD83D\uDCCA"),
                 react_1.default.createElement("div", null, "No chart data available"))));
     }
-    return (react_1.default.createElement("div", { style: {
-            height: final.height || "400px",
-            width: final.width || "100%",
-        } },
-        react_1.default.createElement(recharts_1.ResponsiveContainer, { aspect: final.aspect, className: final.funcss, style: containerStyle },
-            react_1.default.createElement(recharts_1.AreaChart, { data: parsedData, margin: final.margin, syncId: final.syncId },
+    return (react_1.default.createElement("div", { className: final.funcss, style: containerStyle, id: final.id },
+        react_1.default.createElement(recharts_1.ResponsiveContainer, { width: "100%" // Must be set for responsive behavior
+            , height: "100%" // Must be set for responsive behavior
+            , aspect: final.aspect, minHeight: final.minHeight ? String(final.minHeight) : undefined, minWidth: final.minWidth ? String(final.minWidth) : undefined },
+            react_1.default.createElement(recharts_1.AreaChart, { data: parsedData, margin: final.margin || { top: 10, right: 30, left: 0, bottom: 20 }, syncId: final.syncId },
                 react_1.default.createElement("defs", null,
                     defaultGradient,
                     gradients),
-                final.showGrid && (react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: final.gridStrokeDasharray, stroke: final.gridStroke || getCssVar('border-color') || '#e2e8f0' })),
-                !final.showGrid && final.horizontalLines && (react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: final.gridStrokeDasharray, horizontal: true, vertical: false, stroke: final.gridStroke || getCssVar('border-color') || '#e2e8f0' })),
-                final.showXAxis && (react_1.default.createElement(recharts_1.XAxis, __assign({ interval: final.xInterval, padding: { left: 10, right: 10 }, fontSize: final.xLabelSize || "0.8rem", strokeWidth: final.horizontalLines ? 0 : 0.2, dataKey: "label", angle: final.rotateLabel || -35, dy: (_a = final.dy) !== null && _a !== void 0 ? _a : 10, tickLine: final.tickLine, axisLine: final.axisLine, label: final.xAxisLabel ? { value: final.xAxisLabel, position: 'insideBottom', offset: -10 } : undefined }, final.xAxisProps))),
-                final.showYAxis && (react_1.default.createElement(recharts_1.YAxis, __assign({ interval: final.yInterval, strokeWidth: final.horizontalLines ? 0 : 0.2, fontSize: final.yLabelSize || "0.8rem", tickLine: final.tickLine, axisLine: final.axisLine, label: final.yAxisLabel ? { value: final.yAxisLabel, angle: -90, position: 'insideLeft' } : undefined }, final.yAxisProps))),
-                final.showTooltip && (react_1.default.createElement(recharts_1.Tooltip, __assign({ content: react_1.default.createElement(TooltipComponent, { formatter: final.tooltipFormatter }), formatter: final.tooltipFormatter }, final.tooltipProps))),
+                final.showGrid && (react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: final.gridStrokeDasharray || '3 3', stroke: final.gridStroke || getCssVar('border-color') || '#e2e8f0' })),
+                !final.showGrid && final.horizontalLines && (react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: final.gridStrokeDasharray || '3 3', horizontal: true, vertical: false, stroke: final.gridStroke || getCssVar('border-color') || '#e2e8f0' })),
+                final.showXAxis !== false && (react_1.default.createElement(recharts_1.XAxis, __assign({ interval: final.xInterval, padding: { left: 10, right: 10 }, fontSize: final.xLabelSize || "0.8rem", strokeWidth: final.horizontalLines ? 0 : 0.2, dataKey: "label", angle: final.rotateLabel || -35, dy: (_a = final.dy) !== null && _a !== void 0 ? _a : 10, tickLine: final.tickLine !== false, axisLine: final.axisLine !== false, label: final.xAxisLabel ? {
+                        value: final.xAxisLabel,
+                        position: 'insideBottom',
+                        offset: -10
+                    } : undefined }, final.xAxisProps))),
+                final.showYAxis !== false && (react_1.default.createElement(recharts_1.YAxis, __assign({ interval: final.yInterval, strokeWidth: final.horizontalLines ? 0 : 0.2, fontSize: final.yLabelSize || "0.8rem", tickLine: final.tickLine !== false, axisLine: final.axisLine !== false, label: final.yAxisLabel ? {
+                        value: final.yAxisLabel,
+                        angle: -90,
+                        position: 'insideLeft'
+                    } : undefined }, final.yAxisProps))),
+                final.showTooltip !== false && (react_1.default.createElement(recharts_1.Tooltip, __assign({ content: react_1.default.createElement(TooltipComponent, { formatter: final.tooltipFormatter }), formatter: final.tooltipFormatter }, final.tooltipProps))),
                 final.showLegend && react_1.default.createElement(recharts_1.Legend, __assign({}, final.legendProps)),
                 parsedSeries.map(function (s, index) {
                     if (!s || !s.dataKey) {
@@ -251,7 +258,7 @@ var Lines = function (localProps) {
                         var gradientId = hasCustomGradient
                             ? "".concat(baseGradientId, "-").concat(index)
                             : baseGradientId;
-                        return (react_1.default.createElement(recharts_1.Area, { key: s.dataKey || "series-".concat(index), type: final.curveType, dataKey: s.dataKey, name: s.label || s.dataKey, stroke: resolveStrokeColor(s.color), fill: hasCustomGradient || final.fromColor ? "url(#".concat(gradientId, ")") : resolveStrokeColor(s.color), fillOpacity: s.fillOpacity !== undefined ? s.fillOpacity : 0.6, strokeWidth: s.strokeWidth || 2, strokeDasharray: s.strokeDasharray, dot: s.dot !== false ? { r: 4 } : false, activeDot: s.activeDot !== false ? (typeof s.activeDot === 'object' ? s.activeDot : { r: 6, strokeWidth: 2 }) : false, isAnimationActive: final.isAnimationActive, animationDuration: final.animationDuration }));
+                        return (react_1.default.createElement(recharts_1.Area, { key: s.dataKey || "series-".concat(index), type: final.curveType || "monotone", dataKey: s.dataKey, name: s.label || s.dataKey, stroke: resolveStrokeColor(s.color), fill: hasCustomGradient || final.fromColor ? "url(#".concat(gradientId, ")") : resolveStrokeColor(s.color), fillOpacity: s.fillOpacity !== undefined ? s.fillOpacity : 0.6, strokeWidth: s.strokeWidth || 2, strokeDasharray: s.strokeDasharray, dot: s.dot !== false ? { r: 4 } : false, activeDot: s.activeDot !== false ? (typeof s.activeDot === 'object' ? s.activeDot : { r: 6, strokeWidth: 2 }) : false, isAnimationActive: final.isAnimationActive !== false, animationDuration: final.animationDuration || 400 }));
                     }
                     catch (error) {
                         console.error('Error rendering area series:', error);

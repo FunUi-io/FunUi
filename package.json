@@ -1,5 +1,5 @@
 {
-  "version": "3.8.2",
+  "version": "3.10.5",
   "name": "funuicss",
   "description": "React and Next.js component UI Library for creating Easy and good looking websites with fewer lines of code. Elevate your web development experience with our cutting-edge React/Next.js component UI Library. Craft stunning websites effortlessly, boasting both seamless functionality and aesthetic appeal—all achieved with minimal lines of code. Unleash the power of simplicity and style in your projects!",
   "main": "index.js",
@@ -42,11 +42,13 @@
   "author": "FunInc",
   "license": "MIT",
   "dependencies": {
+    "@videojs/themes": "^1.0.1",
     "aos": "^2.3.4",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.23.6",
     "hls.js": "^1.6.5",
     "next": "^13.4.4",
+    "next-video": "^2.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-easy-export": "^1.0.1",
@@ -54,7 +56,8 @@
     "react-intersection-observer": "^9.16.0",
     "react-quilljs": "^2.0.5",
     "recharts": "^2.15.3",
-    "tinycolor2": "^1.6.0"
+    "tinycolor2": "^1.6.0",
+    "video.js": "^8.23.4"
   },
   "devDependencies": {
     "@babel/core": "^7.22.11",

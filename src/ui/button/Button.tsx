@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, MouseEvent, useEffect, useState } from 'react';
+import React, { ReactNode, MouseEvent, useEffect, useState, useMemo } from 'react';
 import { PiInfo, PiCheck, PiWarning, PiX, PiSpinner } from 'react-icons/pi';
 import { useComponentConfiguration } from '../../utils/componentUtils';
 import { getDynamicIcon } from '../../utils/getDynamicIcon';
@@ -8,12 +8,12 @@ interface ButtonProps {
   color?: string;
   bg?: string;
   funcss?: string;
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
+  startIcon?: ReactNode | string;
+  endIcon?: ReactNode | string;
   stringPrefix?: string;
   stringSuffix?: string;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
+  prefix?: ReactNode | string;
+  suffix?: ReactNode | string;
   iconSize?: number | string;
   iconLineHeight?: string | number;
   text?: string;
@@ -42,6 +42,7 @@ interface ButtonProps {
   isLoading?: boolean;
   variant?: string;
   url?: string;
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   status?: 'success' | 'warning' | 'info' | 'error';
   children?: React.ReactNode;
@@ -82,6 +83,7 @@ export default function Button({
   fillAnimation,
   fillDirection,
   fillTextColor,
+  type = 'button',
   outlineSize,
   isLoading,
   status,
@@ -124,6 +126,7 @@ export default function Button({
     outlineSize,
     isLoading,
     status,
+    type,
     bold,
     stringPrefix,
     stringSuffix,
@@ -154,6 +157,7 @@ export default function Button({
     big: big ?? mergedProps.big,
     bigger: bigger ?? mergedProps.bigger,
     jumbo: jumbo ?? mergedProps.jumbo,
+    type: type ?? mergedProps.type,
     fillAnimation: fillAnimation ?? mergedProps.fillAnimation,
     fillDirection: fillDirection ?? mergedProps.fillDirection,
     fillTextColor: fillTextColor ?? mergedProps.fillTextColor,
@@ -163,75 +167,179 @@ export default function Button({
     stringSuffix: stringSuffix ?? mergedProps.stringSuffix,
   };
 
-  const [prefixNode, setPrefixNode] = useState<ReactNode>(null);
-  const [suffixNode, setSuffixNode] = useState<ReactNode>(null);
-  const [hasValidStringPrefix, setHasValidStringPrefix] = useState(false);
-  const [hasValidStringSuffix, setHasValidStringSuffix] = useState(false);
+  // State for dynamic icons
+  const [dynamicStartIcon, setDynamicStartIcon] = useState<ReactNode>(null);
+  const [dynamicEndIcon, setDynamicEndIcon] = useState<ReactNode>(null);
+  const [dynamicPrefix, setDynamicPrefix] = useState<ReactNode>(null);
+  const [dynamicSuffix, setDynamicSuffix] = useState<ReactNode>(null);
+  const [dynamicStringPrefix, setDynamicStringPrefix] = useState<ReactNode>(null);
+  const [dynamicStringSuffix, setDynamicStringSuffix] = useState<ReactNode>(null);
 
-  function isReactElement(node: any): node is React.ReactElement {
-    return React.isValidElement(node);
-  }
+  // Function to check if a value is a string (dynamic icon)
+  const isStringIcon = (icon: ReactNode | string | undefined): icon is string => {
+    return typeof icon === 'string' && icon.trim() !== '';
+  };
 
-  // Handle stringPrefix - only load if we have a valid string
+  // Function to check if a value is a ReactNode (static icon)
+  const isReactNodeIcon = (icon: ReactNode | string | undefined): icon is ReactNode => {
+    return icon !== undefined && !isStringIcon(icon) && React.isValidElement(icon as ReactNode);
+  };
+
+  // Load dynamic icons from string props
   useEffect(() => {
-    const effectiveStringPrefix = final.stringPrefix;
-    
-    if (!effectiveStringPrefix || effectiveStringPrefix.trim() === '') {
-      setPrefixNode(null);
-      setHasValidStringPrefix(false);
-      return;
+    // Handle startIcon if it's a string
+    if (isStringIcon(startIcon)) {
+      getDynamicIcon(startIcon).then((node) => {
+        if (node) {
+          setDynamicStartIcon(node);
+        } else {
+          setDynamicStartIcon(null);
+        }
+      });
+    } else {
+      setDynamicStartIcon(null);
     }
 
-    getDynamicIcon(effectiveStringPrefix).then((node) => {
-      if (node) {
-        setPrefixNode(node);
-        setHasValidStringPrefix(true);
-      } else {
-        setPrefixNode(null);
-        setHasValidStringPrefix(false);
-      }
-    });
-  }, [final.stringPrefix]);
-
-  // Handle stringSuffix - only load if we have a valid string
-  useEffect(() => {
-    const effectiveStringSuffix = final.stringSuffix;
-    
-    if (!effectiveStringSuffix || effectiveStringSuffix.trim() === '') {
-      setSuffixNode(null);
-      setHasValidStringSuffix(false);
-      return;
+    // Handle endIcon if it's a string
+    if (isStringIcon(endIcon)) {
+      getDynamicIcon(endIcon).then((node) => {
+        if (node) {
+          setDynamicEndIcon(node);
+        } else {
+          setDynamicEndIcon(null);
+        }
+      });
+    } else {
+      setDynamicEndIcon(null);
     }
 
-    getDynamicIcon(effectiveStringSuffix).then((node) => {
-      if (node) {
-        setSuffixNode(node);
-        setHasValidStringSuffix(true);
-      } else {
-        setSuffixNode(null);
-        setHasValidStringSuffix(false);
+    // Handle prefix if it's a string
+    if (isStringIcon(prefix)) {
+      getDynamicIcon(prefix).then((node) => {
+        if (node) {
+          setDynamicPrefix(node);
+        } else {
+          setDynamicPrefix(null);
+        }
+      });
+    } else {
+      setDynamicPrefix(null);
+    }
+
+    // Handle suffix if it's a string
+    if (isStringIcon(suffix)) {
+      getDynamicIcon(suffix).then((node) => {
+        if (node) {
+          setDynamicSuffix(node);
+        } else {
+          setDynamicSuffix(null);
+        }
+      });
+    } else {
+      setDynamicSuffix(null);
+    }
+  }, [startIcon, endIcon, prefix, suffix]);
+
+  // Load dynamic icons from stringPrefix and stringSuffix (backward compatibility)
+  useEffect(() => {
+    if (final.stringPrefix && final.stringPrefix.trim() !== '') {
+      getDynamicIcon(final.stringPrefix).then((node) => {
+        if (node) {
+          setDynamicStringPrefix(node);
+        } else {
+          setDynamicStringPrefix(null);
+        }
+      });
+    } else {
+      setDynamicStringPrefix(null);
+    }
+
+    if (final.stringSuffix && final.stringSuffix.trim() !== '') {
+      getDynamicIcon(final.stringSuffix).then((node) => {
+        if (node) {
+          setDynamicStringSuffix(node);
+        } else {
+          setDynamicStringSuffix(null);
+        }
+      });
+    } else {
+      setDynamicStringSuffix(null);
+    }
+  }, [final.stringPrefix, final.stringSuffix]);
+
+  // Determine which start icon to show with proper priority
+  const actualStartIcon = useMemo(() => {
+    if (final.status) {
+      // Status icons have highest priority for start position
+      switch (final.status) {
+        case 'success':
+          return <PiCheck size={iconSize as any} />;
+        case 'info':
+          return <PiInfo size={iconSize as any} />;
+        case 'warning':
+          return <PiWarning size={iconSize as any} />;
+        case 'error':
+          return <PiX size={iconSize as any} />;
+        default:
+          return null;
       }
-    });
-  }, [final.stringSuffix]);
+    }
 
-  // Determine which prefix to show with proper priority
-  const showPrefix = React.useMemo(() => {
-    // Priority order: status > startIcon (local) > prefix (local) > stringPrefix (dynamic)
-    if (final.status) return true;
-    if (startIcon) return true;
-    if (prefix) return true;
-    if (hasValidStringPrefix && prefixNode) return true;
-    return false;
-  }, [final.status, startIcon, prefix, hasValidStringPrefix, prefixNode]);
+    if (isStringIcon(startIcon)) {
+      return dynamicStartIcon;
+    }
 
-  // Determine which suffix to show with proper priority
-  const showSuffix = React.useMemo(() => {
-    // Priority order: endIcon (local) > suffix (local) > stringSuffix (dynamic)
-    if (endIcon) return true;
-    if (suffix) return true;
-    if (hasValidStringSuffix && suffixNode) return true;
-    return false;
-  }, [endIcon, suffix, hasValidStringSuffix, suffixNode]);
+    if (isReactNodeIcon(startIcon)) {
+      return startIcon;
+    }
+
+    if (isStringIcon(prefix)) {
+      return dynamicPrefix;
+    }
+
+    if (isReactNodeIcon(prefix)) {
+      return prefix;
+    }
+
+    if (dynamicStringPrefix) {
+      return dynamicStringPrefix;
+    }
+
+    return null;
+  }, [
+    final.status,
+    startIcon,
+    prefix,
+    dynamicStartIcon,
+    dynamicPrefix,
+    dynamicStringPrefix,
+    iconSize,
+  ]);
+
+  // Determine which end icon to show with proper priority
+  const actualEndIcon = useMemo(() => {
+    if (isStringIcon(endIcon)) {
+      return dynamicEndIcon;
+    }
+
+    if (isReactNodeIcon(endIcon)) {
+      return endIcon;
+    }
+
+    if (isStringIcon(suffix)) {
+      return dynamicSuffix;
+    }
+
+    if (isReactNodeIcon(suffix)) {
+      return suffix;
+    }
+
+    if (dynamicStringSuffix) {
+      return dynamicStringSuffix;
+    }
+
+    return null;
+  }, [endIcon, suffix, dynamicEndIcon, dynamicSuffix, dynamicStringSuffix]);
 
   const textColorClass = final.bg
     ? final.color
@@ -279,18 +387,51 @@ export default function Button({
   const renderIcon = (icon: ReactNode, className: string = '') => {
     if (!icon) return null;
     
+    // If it's a React element that we know accepts size prop
+    if (React.isValidElement(icon)) {
+      // Create a wrapper span and clone the icon with size prop if needed
+      const iconProps: any = {};
+      
+      // Only add size prop if iconSize is provided and not already set
+      if (iconSize && !(icon.props as any)?.size) {
+        iconProps.size = iconSize;
+      }
+      
+      // Only clone with props if we have props to add
+      if (Object.keys(iconProps).length > 0) {
+        return (
+          <span className={className} style={iconWrapperStyle}>
+            {React.cloneElement(icon, iconProps)}
+          </span>
+        );
+      } else {
+        // Otherwise just render the icon in a span
+        return (
+          <span className={className} style={iconWrapperStyle}>
+            {icon}
+          </span>
+        );
+      }
+    }
+    
+    // If it's not a valid React element, just render it as is
     return (
       <span className={className} style={iconWrapperStyle}>
-        {isReactElement(icon) ? React.cloneElement(icon, { size: iconSize }) : icon}
+        {icon}
       </span>
     );
   };
 
+  // Determine if we should show icons on left or right
+  const hasStartIcon = Boolean(actualStartIcon);
+  const hasEndIcon = Boolean(actualEndIcon);
+
   return (
     <span>
       <button
-      disabled={disabled || final.isLoading || false}
-        className={`${classNames} ${(showPrefix || showSuffix || final.isLoading) ? 'iconic' : ''}`}
+        type={final.type || 'button'}
+        disabled={disabled || final.isLoading || false}
+        className={`${classNames} ${(hasStartIcon || hasEndIcon || final.isLoading) ? 'iconic' : ''}`}
         style={{
           height: height ?? mergedProps.height ?? '',
           width: final.fullWidth ? '100%' : width ?? mergedProps.width ?? '',
@@ -305,40 +446,16 @@ export default function Button({
           renderIcon(<PiSpinner className="rotate" />, 'btn_left_icon')
         ) : (
           <>
-            {/* Status icons have highest priority */}
-            {final.status && (
-              <span className="btn_left_icon" style={iconWrapperStyle}>
-                {final.status === 'success' && <PiCheck size={iconSize} />}
-                {final.status === 'info' && <PiInfo size={iconSize} />}
-                {final.status === 'warning' && <PiWarning size={iconSize} />}
-                {final.status === 'error' && <PiX size={iconSize} />}
-              </span>
-            )}
-            
-            {/* Regular prefix icons (only show if no status) */}
-            {!final.status && showPrefix && (
-              <>
-                {/* Priority: startIcon > prefix > stringPrefix */}
-                {startIcon && renderIcon(startIcon, 'btn_left_icon')}
-                {!startIcon && prefix && renderIcon(prefix, 'btn_left_icon')}
-                {!startIcon && !prefix && hasValidStringPrefix && renderIcon(prefixNode, 'btn_left_icon')}
-              </>
-            )}
+            {/* Start icon (includes status icons) */}
+            {hasStartIcon && renderIcon(actualStartIcon, 'btn_left_icon')}
           </>
         )}
 
         {final.fillAnimation && <span className={`button_fill_span ${effectiveBg}`}></span>}
         {children ? children : final.text ? final.text : ""}
 
-        {/* Suffix icons */}
-        {showSuffix && (
-          <>
-            {/* Priority: endIcon > suffix > stringSuffix */}
-            {endIcon && renderIcon(endIcon, 'btn_right_icon')}
-            {!endIcon && suffix && renderIcon(suffix, 'btn_right_icon')}
-            {!endIcon && !suffix && hasValidStringSuffix && renderIcon(suffixNode, 'btn_right_icon')}
-          </>
-        )}
+        {/* End icon */}
+        {hasEndIcon && !final.isLoading && renderIcon(actualEndIcon, 'btn_right_icon')}
       </button>
     </span>
   );

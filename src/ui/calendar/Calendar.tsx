@@ -212,7 +212,6 @@ useEffect(() => {
           </Col>
             <Dropdown
       position="bottom"
-      openOnHover={false}
       button={
         <Avatar>
           <HiOutlineDotsVertical />

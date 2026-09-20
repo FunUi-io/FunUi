@@ -6,6 +6,7 @@ interface AvatarGroupProps {
   size?: number;
   overlap?: number; // how much they overlap in rem
   maxVisible?: number; // optional limit
+  funcss?: string;
 }
 
 export default function CircleGroup({
@@ -13,12 +14,13 @@ export default function CircleGroup({
   size = 2,
   overlap = 0.8,
   maxVisible = avatars.length,
+  funcss = '',
 }: AvatarGroupProps) {
   const displayed = avatars.slice(0, maxVisible);
   const extra = avatars.length - maxVisible;
 
   return (
-    <div className="flex" style={{ direction: 'ltr' }}>
+    <div className={`flex ${funcss}`} style={{ direction: 'ltr' }}>
       {displayed.map((avatar, i) => (
         <div
           key={i}
@@ -32,7 +34,7 @@ export default function CircleGroup({
       ))}
       {extra > 0 && (
         <div
-          className="avatar lighter text-small flex "
+          className="avatar lighter  flex "
           style={{
             width: `${size}rem`,
             height: `${size}rem`,

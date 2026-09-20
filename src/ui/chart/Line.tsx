@@ -339,12 +339,12 @@ const Lines: React.FC<AreaChartProps> = (localProps) => {
   ), [baseGradientId, final.fromColor, final.toColor]);
 
   const containerStyle = useMemo(() => ({
-    height: final.height,
-    width: final.width,
-    minHeight: final.minHeight,
-    maxHeight: final.maxHeight,
-    minWidth: final.minWidth,
-    maxWidth: final.maxWidth,
+    height: final.height || '400px', // Default height
+    width: final.width || '100%',    // Default width
+    minHeight: final.minHeight || '300px', // Minimum height
+    maxHeight: final.maxHeight || '100%',
+    minWidth: final.minWidth || '100%',
+    maxWidth: final.maxWidth || '100%',
     background: final.chartBackground,
     borderRadius: final.borderRadius,
     padding: final.padding,
@@ -367,120 +367,130 @@ const Lines: React.FC<AreaChartProps> = (localProps) => {
   }
 
   return (
-   <div 
-   style={{
-  height:final.height || "400px" ,
-  width: final.width || "100%",
-}}
-   >
-     <ResponsiveContainer 
-      aspect={final.aspect}
+    <div 
       className={final.funcss}
       style={containerStyle}
+      id={final.id}
     >
-      <AreaChart 
-        data={parsedData} 
-        margin={final.margin}
-        syncId={final.syncId}
+      {/* ResponsiveContainer with proper dimensions */}
+      <ResponsiveContainer 
+        width="100%"      // Must be set for responsive behavior
+        height="100%"     // Must be set for responsive behavior
+        aspect={final.aspect}
+        minHeight={final.minHeight ? String(final.minHeight) : undefined}
+        minWidth={final.minWidth ? String(final.minWidth) : undefined}
       >
-        {/* Gradient Fills */}
-        <defs>
-          {defaultGradient}
-          {gradients}
-        </defs>
+        <AreaChart 
+          data={parsedData} 
+          margin={final.margin || { top: 10, right: 30, left: 0, bottom: 20 }}
+          syncId={final.syncId}
+        >
+          {/* Gradient Fills */}
+          <defs>
+            {defaultGradient}
+            {gradients}
+          </defs>
 
-        {/* Grid */}
-        {final.showGrid && (
-          <CartesianGrid 
-            strokeDasharray={final.gridStrokeDasharray}
-            stroke={final.gridStroke || getCssVar('border-color') || '#e2e8f0'}
-          />
-        )}
-        {!final.showGrid && final.horizontalLines && (
-          <CartesianGrid 
-            strokeDasharray={final.gridStrokeDasharray}
-            horizontal={true} 
-            vertical={false}
-            stroke={final.gridStroke || getCssVar('border-color') || '#e2e8f0'}
-          />
-        )}
+          {/* Grid */}
+          {final.showGrid && (
+            <CartesianGrid 
+              strokeDasharray={final.gridStrokeDasharray || '3 3'}
+              stroke={final.gridStroke || getCssVar('border-color') || '#e2e8f0'}
+            />
+          )}
+          {!final.showGrid && final.horizontalLines && (
+            <CartesianGrid 
+              strokeDasharray={final.gridStrokeDasharray || '3 3'}
+              horizontal={true} 
+              vertical={false}
+              stroke={final.gridStroke || getCssVar('border-color') || '#e2e8f0'}
+            />
+          )}
 
-        {/* Axes */}
-        {final.showXAxis && (
-          <XAxis
-            interval={final.xInterval}
-            padding={{ left: 10, right: 10 }}
-            fontSize={final.xLabelSize || "0.8rem"}
-            strokeWidth={final.horizontalLines ? 0 : 0.2}
-            dataKey="label"
-            angle={final.rotateLabel || -35}
-            dy={final.dy ?? 10}
-            tickLine={final.tickLine}
-            axisLine={final.axisLine}
-            label={final.xAxisLabel ? { value: final.xAxisLabel, position: 'insideBottom', offset: -10 } : undefined}
-            {...final.xAxisProps}
-          />
-        )}
-        {final.showYAxis && (
-          <YAxis
-            interval={final.yInterval}
-            strokeWidth={final.horizontalLines ? 0 : 0.2}
-            fontSize={final.yLabelSize || "0.8rem"}
-            tickLine={final.tickLine}
-            axisLine={final.axisLine}
-            label={final.yAxisLabel ? { value: final.yAxisLabel, angle: -90, position: 'insideLeft' } : undefined}
-            {...final.yAxisProps}
-          />
-        )}
+          {/* Axes */}
+          {final.showXAxis !== false && (
+            <XAxis
+              interval={final.xInterval}
+              padding={{ left: 10, right: 10 }}
+              fontSize={final.xLabelSize || "0.8rem"}
+              strokeWidth={final.horizontalLines ? 0 : 0.2}
+              dataKey="label"
+              angle={final.rotateLabel || -35}
+              dy={final.dy ?? 10}
+              tickLine={final.tickLine !== false}
+              axisLine={final.axisLine !== false}
+              label={final.xAxisLabel ? { 
+                value: final.xAxisLabel, 
+                position: 'insideBottom', 
+                offset: -10 
+              } : undefined}
+              {...final.xAxisProps}
+            />
+          )}
+          {final.showYAxis !== false && (
+            <YAxis
+              interval={final.yInterval}
+              strokeWidth={final.horizontalLines ? 0 : 0.2}
+              fontSize={final.yLabelSize || "0.8rem"}
+              tickLine={final.tickLine !== false}
+              axisLine={final.axisLine !== false}
+              label={final.yAxisLabel ? { 
+                value: final.yAxisLabel, 
+                angle: -90, 
+                position: 'insideLeft' 
+              } : undefined}
+              {...final.yAxisProps}
+            />
+          )}
 
-        {/* Tooltip & Legend */}
-        {final.showTooltip && (
-          <Tooltip 
-            content={<TooltipComponent formatter={final.tooltipFormatter} />} 
-            formatter={final.tooltipFormatter}
-            {...final.tooltipProps}
-          />
-        )}
-        {final.showLegend && <Legend {...final.legendProps} />}
+          {/* Tooltip & Legend */}
+          {final.showTooltip !== false && (
+            <Tooltip 
+              content={<TooltipComponent formatter={final.tooltipFormatter} />} 
+              formatter={final.tooltipFormatter}
+              {...final.tooltipProps}
+            />
+          )}
+          {final.showLegend && <Legend {...final.legendProps} />}
 
-        {/* Area series with error boundary per series */}
-        {parsedSeries.map((s: ChartSeries, index: number) => {
-          if (!s || !s.dataKey) {
-            console.warn('Invalid series configuration at index:', index);
-            return null;
-          }
+          {/* Area series with error boundary per series */}
+          {parsedSeries.map((s: ChartSeries, index: number) => {
+            if (!s || !s.dataKey) {
+              console.warn('Invalid series configuration at index:', index);
+              return null;
+            }
 
-          try {
-            const hasCustomGradient = s.fromColor || s.toColor;
-            const gradientId = hasCustomGradient 
-              ? `${baseGradientId}-${index}` 
-              : baseGradientId;
-            
-            return (
-              <Area
-                key={s.dataKey || `series-${index}`}
-                type={final.curveType}
-                dataKey={s.dataKey}
-                name={s.label || s.dataKey}
-                stroke={resolveStrokeColor(s.color)}
-                fill={hasCustomGradient || final.fromColor ? `url(#${gradientId})` : resolveStrokeColor(s.color)}
-                fillOpacity={s.fillOpacity !== undefined ? s.fillOpacity : 0.6}
-                strokeWidth={s.strokeWidth || 2}
-                strokeDasharray={s.strokeDasharray}
-                dot={s.dot !== false ? { r: 4 } : false}
-                activeDot={s.activeDot !== false ? (typeof s.activeDot === 'object' ? s.activeDot : { r: 6, strokeWidth: 2 }) : false}
-                isAnimationActive={final.isAnimationActive}
-                animationDuration={final.animationDuration}
-              />
-            );
-          } catch (error) {
-            console.error('Error rendering area series:', error);
-            return null;
-          }
-        })}
-      </AreaChart>
-    </ResponsiveContainer>
-   </div>
+            try {
+              const hasCustomGradient = s.fromColor || s.toColor;
+              const gradientId = hasCustomGradient 
+                ? `${baseGradientId}-${index}` 
+                : baseGradientId;
+              
+              return (
+                <Area
+                  key={s.dataKey || `series-${index}`}
+                  type={final.curveType || "monotone"}
+                  dataKey={s.dataKey}
+                  name={s.label || s.dataKey}
+                  stroke={resolveStrokeColor(s.color)}
+                  fill={hasCustomGradient || final.fromColor ? `url(#${gradientId})` : resolveStrokeColor(s.color)}
+                  fillOpacity={s.fillOpacity !== undefined ? s.fillOpacity : 0.6}
+                  strokeWidth={s.strokeWidth || 2}
+                  strokeDasharray={s.strokeDasharray}
+                  dot={s.dot !== false ? { r: 4 } : false}
+                  activeDot={s.activeDot !== false ? (typeof s.activeDot === 'object' ? s.activeDot : { r: 6, strokeWidth: 2 }) : false}
+                  isAnimationActive={final.isAnimationActive !== false}
+                  animationDuration={final.animationDuration || 400}
+                />
+              );
+            } catch (error) {
+              console.error('Error rendering area series:', error);
+              return null;
+            }
+          })}
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

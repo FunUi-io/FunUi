@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -66,15 +66,19 @@ var Button_1 = __importDefault(require("../button/Button"));
 var Text_1 = __importDefault(require("../text/Text"));
 var FileUpload = function (_a) {
     var _b = _a.id, id = _b === void 0 ? 'fileInput' : _b, name = _a.name, onChange = _a.onChange, onDrop = _a.onDrop, status = _a.status, _c = _a.label, label = _c === void 0 ? 'Upload File' : _c, helperText = _a.helperText, icon = _a.icon, extra = _a.extra, button = _a.button, btn = _a.btn, value = _a.value, _d = _a.fullWidth, fullWidth = _d === void 0 ? true : _d, accept = _a.accept, multiple = _a.multiple, rest = __rest(_a, ["id", "name", "onChange", "onDrop", "status", "label", "helperText", "icon", "extra", "button", "btn", "value", "fullWidth", "accept", "multiple"]);
-    var _e = (0, react_1.useState)(''), fileName = _e[0], setFileName = _e[1];
+    var _e = (0, react_1.useState)([]), fileNames = _e[0], setFileNames = _e[1];
     var _f = (0, react_1.useState)(false), isDragging = _f[0], setIsDragging = _f[1];
     var _g = (0, react_1.useState)(false), isDragOver = _g[0], setIsDragOver = _g[1];
     var inputRef = (0, react_1.useRef)(null);
     var handleChange = function (e) {
         var files = e.target.files;
         if (files && files.length > 0) {
-            var file = files[0];
-            setFileName(file.name);
+            // Store all file names
+            var names = Array.from(files).map(function (file) { return file.name; });
+            setFileNames(names);
+        }
+        else {
+            setFileNames([]);
         }
         if (onChange)
             onChange(e);
@@ -89,7 +93,6 @@ var FileUpload = function (_a) {
         e.preventDefault();
         e.stopPropagation();
         setIsDragOver(false);
-        // Only set dragging to false if we're leaving the actual drop zone
         if (!e.currentTarget.contains(e.relatedTarget)) {
             setIsDragging(false);
         }
@@ -106,8 +109,8 @@ var FileUpload = function (_a) {
         setIsDragOver(false);
         var files = e.dataTransfer.files;
         if (files && files.length > 0) {
-            var file = files[0];
-            setFileName(file.name);
+            var names = Array.from(files).map(function (file) { return file.name; });
+            setFileNames(names);
             // Update the input element's files
             if (inputRef.current) {
                 var dataTransfer = new DataTransfer();
@@ -124,7 +127,6 @@ var FileUpload = function (_a) {
                     onChange(event_1);
                 }
             }
-            // Call onDrop callback if provided
             if (onDrop) {
                 onDrop(files);
             }
@@ -167,9 +169,9 @@ var FileUpload = function (_a) {
         }
         return {};
     };
-    // Render file info when file is selected
+    // Render file info when files are selected
     var renderFileInfo = function () {
-        if (!fileName)
+        if (fileNames.length === 0)
             return null;
         return (react_1.default.createElement("div", { className: "file-info", style: {
                 marginTop: 'var(--space-3)',
@@ -178,18 +180,56 @@ var FileUpload = function (_a) {
                 borderRadius: '8px',
                 border: '1px solid var(--borderColor)',
                 display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-3)',
-                justifyContent: 'center'
+                flexDirection: 'column',
+                gap: 'var(--space-2)',
+                alignItems: 'center'
             } },
-            react_1.default.createElement(pi_1.PiFile, { style: { color: 'var(--primary)', fontSize: '1.2rem' } }),
-            react_1.default.createElement(Text_1.default, { text: fileName, truncate: 1, block: true, size: 'sm' })));
+            react_1.default.createElement("div", { style: { display: 'flex', alignItems: 'center', gap: 'var(--space-2)' } },
+                react_1.default.createElement(pi_1.PiFiles, { style: { color: 'var(--primary)', fontSize: '1.2rem' } }),
+                react_1.default.createElement(Text_1.default, { text: "".concat(fileNames.length, " file").concat(fileNames.length !== 1 ? 's' : '', " selected"), truncate: 1, block: true, size: 'sm', bold: true })),
+            fileNames.length > 0 && (react_1.default.createElement("div", { style: {
+                    maxHeight: '100px',
+                    overflowY: 'auto',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '0 var(--space-2)'
+                } }, fileNames.map(function (name, index) { return (react_1.default.createElement("div", { key: index, style: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-2)',
+                    padding: 'var(--space-1) 0',
+                    borderBottom: index < fileNames.length - 1 ? '1px solid var(--borderColor)' : 'none'
+                } },
+                react_1.default.createElement(pi_1.PiFile, { style: { color: 'var(--secondary)', fontSize: '0.9rem' } }),
+                react_1.default.createElement(Text_1.default, { text: name, truncate: 1, block: true, size: 'xs', color: 'secondary' }))); })))));
+    };
+    // Get display text based on number of files
+    var getDisplayText = function () {
+        if (isDragOver)
+            return 'Drop files to upload';
+        if (fileNames.length === 0)
+            return label;
+        if (fileNames.length === 1)
+            return fileNames[0];
+        return "".concat(fileNames.length, " files selected");
     };
     if (btn) {
-        return (react_1.default.createElement("div", { className: "fileInput", style: { width: fullWidth ? '100%' : 'fit-content' } },
+        return (react_1.default.createElement("div", { className: "fileInput", style: {
+                width: fullWidth ? '100%' : 'fit-content',
+                position: 'relative'
+            } },
             button || (react_1.default.createElement("div", { onDragEnter: handleDragEnter, onDragLeave: handleDragLeave, onDragOver: handleDragOver, onDrop: handleDrop, onClick: handleClick, style: { position: 'relative' } },
-                react_1.default.createElement(Button_1.default, { startIcon: icon || react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: isDragOver ? "primary600" : "primary", fullWidth: fullWidth, raised: true, style: getButtonStyles() }, isDragOver ? 'Drop files here' : fileName || label))),
-            react_1.default.createElement("input", __assign({ ref: inputRef, id: id, name: name, onChange: handleChange, type: "file", value: value, accept: accept, multiple: multiple, className: "filedInput" }, rest)),
+                react_1.default.createElement(Button_1.default, { startIcon: icon || react_1.default.createElement(pi_1.PiCloudArrowUp, null), bg: isDragOver ? "primary600" : "primary", fullWidth: fullWidth, raised: true, style: getButtonStyles() }, isDragOver ? 'Drop files here' : getDisplayText()))),
+            react_1.default.createElement("input", __assign({ ref: inputRef, id: id, name: name, onChange: handleChange, type: "file", accept: accept, multiple: multiple, className: "filedInput", style: {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    opacity: 0,
+                    cursor: 'pointer',
+                    zIndex: 1
+                } }, rest)),
             renderFileInfo(),
             helperText && (react_1.default.createElement("div", { className: "input-helper-text ".concat(status ? "helper-".concat(status) : ''), style: { marginTop: 'var(--space-3)' } },
                 react_1.default.createElement("span", null, helperText)))));
@@ -204,7 +244,7 @@ var FileUpload = function (_a) {
                     transform: isDragOver ? 'translateY(-2px)' : 'none'
                 } }, icon || react_1.default.createElement(pi_1.PiCloudArrowUp, null)),
             react_1.default.createElement("div", { className: "_upload_text fit" },
-                react_1.default.createElement(Text_1.default, { text: isDragOver ? 'Drop files to upload' : fileName || label, truncate: 1, block: true, style: {
+                react_1.default.createElement(Text_1.default, { text: isDragOver ? 'Drop files to upload' : getDisplayText(), truncate: 1, block: true, style: {
                         color: isDragOver ? 'var(--primary600)' : 'var(--text-color)',
                         fontWeight: isDragOver ? '600' : '400'
                     } })),
@@ -219,14 +259,23 @@ var FileUpload = function (_a) {
                     borderRadius: '14px',
                     pointerEvents: 'none'
                 } })),
-            !fileName && !isDragOver && (react_1.default.createElement("div", { style: {
+            !fileNames.length && !isDragOver && (react_1.default.createElement("div", { style: {
                     marginTop: 'var(--space-3)',
                     fontSize: '0.8rem',
                     color: 'var(--text-muted)',
                     opacity: 0.7
-                } }, "Click or drag files to upload")),
+                } }, multiple ? 'Click or drag multiple files to upload' : 'Click or drag a file to upload')),
             extra && react_1.default.createElement("div", { className: "text-small opacity-3", style: { marginTop: 'var(--space-2)' } }, extra)),
-        react_1.default.createElement("input", __assign({ ref: inputRef, onChange: handleChange, type: "file", id: id, name: name, className: "_upload_input", value: value, accept: accept, multiple: multiple }, rest)),
+        react_1.default.createElement("input", __assign({ ref: inputRef, onChange: handleChange, type: "file", id: id, name: name, className: "_upload_input", accept: accept, multiple: multiple, style: {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+                cursor: 'pointer',
+                zIndex: 1
+            } }, rest)),
         renderFileInfo(),
         helperText && (react_1.default.createElement("div", { className: "input-helper-text ".concat(status ? "helper-".concat(status) : ''), style: { marginTop: 'var(--space-3)' } },
             react_1.default.createElement("span", null, helperText)))));

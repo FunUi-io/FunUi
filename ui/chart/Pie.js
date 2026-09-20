@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -191,12 +191,12 @@ var ChartPie = function (localProps) {
     var TooltipComponent = final.customTooltip || CustomTooltip;
     var LabelComponent = final.customLabel || (final.showLabels ? CustomLabel : undefined);
     var containerStyle = (0, react_1.useMemo)(function () { return ({
-        width: final.width,
-        height: final.height,
-        minHeight: final.minHeight,
-        maxHeight: final.maxHeight,
-        minWidth: final.minWidth,
-        maxWidth: final.maxWidth,
+        height: final.height || '300px', // Default height for pie chart
+        width: final.width || '100%', // Default width
+        minHeight: final.minHeight || '250px', // Minimum height
+        maxHeight: final.maxHeight || '100%',
+        minWidth: final.minWidth || '100%',
+        maxWidth: final.maxWidth || '100%',
         background: final.chartBackground,
         borderRadius: final.borderRadius,
         padding: final.padding,
@@ -216,15 +216,13 @@ var ChartPie = function (localProps) {
                 react_1.default.createElement("div", { className: "text-lg mb-2" }, "\uD83E\uDD67"),
                 react_1.default.createElement("div", null, "No chart data available"))));
     }
-    var chartContent = (react_1.default.createElement(recharts_1.PieChart, null,
-        final.showTooltip && (react_1.default.createElement(recharts_1.Tooltip, __assign({ content: react_1.default.createElement(TooltipComponent, { formatter: final.tooltipFormatter }), formatter: final.tooltipFormatter }, final.tooltipProps))),
-        final.showLegend && (react_1.default.createElement(recharts_1.Legend, __assign({}, legendConfig, { className: final.legendCss }))),
-        react_1.default.createElement(recharts_1.Pie, { data: parsedData, dataKey: "value", nameKey: "label", cx: "50%", cy: "50%", outerRadius: final.outerRadius, innerRadius: innerRadius, paddingAngle: final.paddingAngle, cornerRadius: final.cornerRadius, startAngle: final.startAngle, endAngle: final.endAngle, minAngle: final.minAngle, label: LabelComponent ? react_1.default.createElement(LabelComponent, null) : final.showLabels, labelLine: final.showLabelLine, isAnimationActive: final.isAnimationActive, animationDuration: final.animationDuration, onClick: final.onPieClick, onMouseEnter: final.onPieEnter, onMouseLeave: final.onPieLeave, activeShape: final.activeShape, inactiveShape: final.inactiveShape }, parsedData.map(function (entry, index) { return (react_1.default.createElement(recharts_1.Cell, { key: "cell-".concat(index), fill: resolveColor(entry.color) || defaultColors[index % defaultColors.length], stroke: resolveColor(final.strokeColor), strokeWidth: final.strokeWidth })); }))));
-    // Use ResponsiveContainer for automatic sizing
-    return (react_1.default.createElement("div", { style: {
-            height: final.height || "300px",
-            width: final.width || "300px"
-        } },
-        react_1.default.createElement(recharts_1.ResponsiveContainer, { width: final.width, height: final.height, aspect: final.aspect, className: final.funcss, style: containerStyle }, chartContent)));
+    return (react_1.default.createElement("div", { className: final.funcss, style: containerStyle, id: final.id },
+        react_1.default.createElement(recharts_1.ResponsiveContainer, { width: "100%" // Must be set for responsive behavior
+            , height: "100%" // Must be set for responsive behavior
+            , aspect: final.aspect, minHeight: final.minHeight ? String(final.minHeight) : '250px', minWidth: final.minWidth ? String(final.minWidth) : '100%' },
+            react_1.default.createElement(recharts_1.PieChart, null,
+                final.showTooltip !== false && (react_1.default.createElement(recharts_1.Tooltip, __assign({ content: react_1.default.createElement(TooltipComponent, { formatter: final.tooltipFormatter }), formatter: final.tooltipFormatter }, final.tooltipProps))),
+                final.showLegend && (react_1.default.createElement(recharts_1.Legend, __assign({}, legendConfig, { className: final.legendCss }))),
+                react_1.default.createElement(recharts_1.Pie, { data: parsedData, dataKey: "value", nameKey: "label", cx: "50%", cy: "50%", outerRadius: final.outerRadius || '80%', innerRadius: innerRadius, paddingAngle: final.paddingAngle, cornerRadius: final.cornerRadius, startAngle: final.startAngle, endAngle: final.endAngle, minAngle: final.minAngle || 0, label: LabelComponent ? react_1.default.createElement(LabelComponent, null) : final.showLabels, labelLine: final.showLabelLine !== false, isAnimationActive: final.isAnimationActive !== false, animationDuration: final.animationDuration || 400, onClick: final.onPieClick, onMouseEnter: final.onPieEnter, onMouseLeave: final.onPieLeave, activeShape: final.activeShape, inactiveShape: final.inactiveShape }, parsedData.map(function (entry, index) { return (react_1.default.createElement(recharts_1.Cell, { key: "cell-".concat(index), fill: resolveColor(entry.color) || defaultColors[index % defaultColors.length], stroke: resolveColor(final.strokeColor) || '#fff', strokeWidth: final.strokeWidth || 1 })); }))))));
 };
 exports.default = ChartPie;

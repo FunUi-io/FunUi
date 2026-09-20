@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -62,10 +62,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Modal;
 var React = __importStar(require("react"));
 var Header_1 = __importDefault(require("./Header"));
-var Content_1 = __importDefault(require("./Content"));
 var Action_1 = __importDefault(require("./Action"));
 var pi_1 = require("react-icons/pi");
 var Button_1 = __importDefault(require("../button/Button"));
+var View_1 = __importDefault(require("../view/View"));
 function Modal(_a) {
     var children = _a.children, funcss = _a.funcss, animation = _a.animation, duration = _a.duration, open = _a.open, setOpen = _a.setOpen, maxWidth = _a.maxWidth, maxHeight = _a.maxHeight, okIcon = _a.okIcon, height = _a.height, _b = _a.hideClose, hideClose = _b === void 0 ? false : _b, width = _a.width, _c = _a.backdrop, backdrop = _c === void 0 ? false : _c, title = _a.title, titlecss = _a.titlecss, body = _a.body, bodycss = _a.bodycss, footer = _a.footer, footercss = _a.footercss, close = _a.close, closecss = _a.closecss, position = _a.position, id = _a.id, flat = _a.flat, onOk = _a.onOk, // 👈 added
     onOkText = _a.onOkText, // 👈 added
@@ -88,14 +88,14 @@ function Modal(_a) {
         React.createElement("div", __assign({ className: "modal-content ".concat(funcss || '', " ").concat(flat ? 'flat' : ''), style: {
                 animation: "".concat(duration || 0.3, "s ").concat(animation || 'SlideDown'),
                 maxWidth: maxWidth || "700px",
-                maxHeight: maxHeight || "fit-content",
+                maxHeight: "fit-content",
                 width: width || '100%',
-                height: height || "fit-content",
+                height: "fit-content",
             } }, rest),
             title && (React.createElement(Header_1.default, { funcss: titlecss || '', title: title, close: !hideClose ?
                     React.createElement("div", { onClick: function () { return setOpen(false); }, className: "".concat(closecss || '', " pointer hover-text-error") }, close || React.createElement(pi_1.PiX, { size: 25 }))
                     : "" })),
-            React.createElement(Content_1.default, { funcss: bodycss || '' }, body || children),
+            React.createElement(View_1.default, { funcss: "modal-body ".concat(bodycss || ''), height: "100%", overflow: (height !== '100%' && maxHeight !== '100%') && (height || maxHeight) ? 'auto' : '', maxHeight: height || maxHeight || "100%" }, body || children),
             footer ? (React.createElement(Action_1.default, { funcss: footercss || '' }, footer)) : (React.createElement(Action_1.default, { funcss: 'text-right' },
                 React.createElement(Button_1.default, { bg: 'success', endIcon: okIcon || React.createElement(pi_1.PiPaperPlaneRight, null), raised: true, onClick: handleOkClick }, onOkText || 'OK'))))));
 }

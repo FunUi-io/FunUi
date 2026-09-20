@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -80,32 +80,125 @@ var Text_1 = __importDefault(require("../text/Text"));
 var Select_1 = __importDefault(require("../select/Select"));
 var Export_1 = require("./Export");
 var ToolTip_1 = __importDefault(require("../tooltip/ToolTip"));
-var Tip_1 = __importDefault(require("../tooltip/Tip"));
 var Flex_1 = __importDefault(require("../flex/Flex"));
 var ci_1 = require("react-icons/ci");
 var io5_1 = require("react-icons/io5");
 var Query_1 = require("./Query");
 var Empty_1 = __importDefault(require("../empty/Empty"));
+// Helper function to normalize data structure
+var normalizeData = function (data) {
+    if (!data)
+        return null;
+    // Old format
+    if ('fields' in data && 'titles' in data) {
+        return {
+            fields: data.fields || [],
+            data: data.data || [],
+            titles: data.titles || [],
+            funcss: data.funcss || [],
+            columns: (data.columns || []).map(function (col) { return typeof col === 'string' ? { title: col, field: col } : col; })
+        };
+    }
+    // New format with data property
+    if ('data' in data) {
+        var dataObj_1 = data;
+        var rawData = dataObj_1.data || [];
+        var fields = [];
+        var titles = [];
+        var funcss = dataObj_1.funcss || [];
+        var columns = [];
+        // If we have columns array (like in Staff example)
+        if (dataObj_1.columns && Array.isArray(dataObj_1.columns)) {
+            // Convert string columns to ColumnConfig objects
+            columns = dataObj_1.columns.map(function (col, index) {
+                var _a;
+                if (typeof col === 'string') {
+                    return {
+                        field: ((_a = dataObj_1.fields) === null || _a === void 0 ? void 0 : _a[index]) || "field".concat(index),
+                        title: col
+                    };
+                }
+                return col;
+            });
+            titles = columns.map(function (col) { return col.title; });
+            // Use provided fields or extract from columns
+            if (dataObj_1.fields && dataObj_1.fields.length > 0) {
+                fields = dataObj_1.fields;
+            }
+            else {
+                // Extract fields from columns that have real fields
+                fields = columns
+                    .map(function (col) { return col.field; })
+                    .filter(function (field) { return field && !field.startsWith('field'); });
+            }
+        }
+        // If we have both fields and titles
+        else if (dataObj_1.fields && dataObj_1.titles) {
+            fields = dataObj_1.fields;
+            titles = dataObj_1.titles;
+        }
+        // Auto-detect
+        else if (rawData.length > 0) {
+            var firstItem = rawData[0];
+            fields = Object.keys(firstItem);
+            titles = fields.map(function (field) {
+                return field.charAt(0).toUpperCase() + field.slice(1).replace(/_/g, ' ');
+            });
+        }
+        return {
+            fields: fields,
+            data: rawData,
+            titles: titles,
+            funcss: funcss,
+            columns: columns.length > 0 ? columns : undefined
+        };
+    }
+    return null;
+};
 function Table(_a) {
-    var _b, _c;
-    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, _d = _a.title, title = _d === void 0 ? "" : _d, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, data = _a.data, _e = _a.isLoading, isLoading = _e === void 0 ? false : _e, right = _a.right, hideExport = _a.hideExport, height = _a.height, _f = _a.pageSize, pageSize = _f === void 0 ? data ? 10 : 0 : _f, // Default page size,
-    customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
+    var _b, _c, _d;
+    var children = _a.children, funcss = _a.funcss, bordered = _a.bordered, noStripped = _a.noStripped, hoverable = _a.hoverable, _e = _a.title, title = _e === void 0 ? "" : _e, showTotal = _a.showTotal, light = _a.light, dark = _a.dark, head = _a.head, body = _a.body, propData = _a.data, _f = _a.isLoading, isLoading = _f === void 0 ? false : _f, right = _a.right, hideExport = _a.hideExport, height = _a.height, pageSize = _a.pageSize, customColumns = _a.customColumns, filterableFields = _a.filterableFields, // New prop
     emptyResponse = _a.emptyResponse, filterOnchange = _a.filterOnchange, clearSearch = _a.clearSearch, _g = _a.prioritizeSearchFields, prioritizeSearchFields = _g === void 0 ? [] : _g, onRowClick = _a.onRowClick, trCss = _a.trCss, columns = _a.columns, // New columns prop
     rest = __rest(_a, ["children", "funcss", "bordered", "noStripped", "hoverable", "title", "showTotal", "light", "dark", "head", "body", "data", "isLoading", "right", "hideExport", "height", "pageSize", "customColumns", "filterableFields", "emptyResponse", "filterOnchange", "clearSearch", "prioritizeSearchFields", "onRowClick", "trCss", "columns"]);
-    // Check if data is null or undefined before accessing its properties
-    // Replace this in your component
+    // Normalize data
+    var normalizedData = (0, react_1.useMemo)(function () { return normalizeData(propData); }, [propData]);
     var _h = (0, react_1.useState)(''), search = _h[0], setSearch = _h[1];
     var _j = (0, react_1.useState)(1), currentPage = _j[0], setCurrentPage = _j[1];
+    // Calculate total columns including custom columns
+    var totalDataColumns = ((_b = normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.fields) === null || _b === void 0 ? void 0 : _b.length) || 0;
+    var totalCustomColumns = (customColumns === null || customColumns === void 0 ? void 0 : customColumns.length) || 0;
+    var totalColumns = totalDataColumns + totalCustomColumns;
+    // Use the titles array if it has enough items (includes custom columns)
+    // Otherwise, combine data titles with custom column titles
+    var allTitles = (0, react_1.useMemo)(function () {
+        var titles = [];
+        if (normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.titles) {
+            // If titles array is longer than fields, it might already include custom columns
+            if (normalizedData.titles.length >= totalColumns) {
+                return normalizedData.titles.slice(0, totalColumns);
+            }
+            // Otherwise, start with data titles
+            titles.push.apply(titles, normalizedData.titles.slice(0, totalDataColumns));
+        }
+        // Add custom column titles
+        if (customColumns) {
+            customColumns.forEach(function (col) {
+                titles.push(col.title);
+            });
+        }
+        return titles;
+    }, [normalizedData, customColumns, totalDataColumns, totalColumns]);
     // Determine the total number of pages based on data length and page size
-    var totalPages = data ? Math.ceil((((_b = data === null || data === void 0 ? void 0 : data.data) === null || _b === void 0 ? void 0 : _b.length) || 0) / pageSize) : 0;
+    var pageSizeValue = pageSize || (normalizedData ? 10 : 0);
+    var totalPages = normalizedData ? Math.ceil((((_c = normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.data) === null || _c === void 0 ? void 0 : _c.length) || 0) / pageSizeValue) : 0;
     // Calculate start and end indices for data pagination
-    var startIndex = data ? (currentPage - 1) * pageSize : 0;
-    var endIndex = data ? Math.min(startIndex + pageSize, ((_c = data === null || data === void 0 ? void 0 : data.data) === null || _c === void 0 ? void 0 : _c.length) || 0) : 0;
+    var startIndex = normalizedData ? (currentPage - 1) * pageSizeValue : 0;
+    var endIndex = normalizedData ? Math.min(startIndex + pageSizeValue, ((_d = normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.data) === null || _d === void 0 ? void 0 : _d.length) || 0) : 0;
     var _k = (0, react_1.useState)(null), selectedField = _k[0], setSelectedField = _k[1];
     var _l = (0, react_1.useState)(null), selectedValue = _l[0], setSelectedValue = _l[1];
     var _m = (0, react_1.useState)(true), showSearch = _m[0], setshowSearch = _m[1];
     var _o = (0, react_1.useState)(""), searchQuery = _o[0], setsearchQuery = _o[1];
-    React.useEffect(function () {
+    (0, react_1.useEffect)(function () {
         if (clearSearch) {
             setsearchQuery("");
         }
@@ -122,7 +215,7 @@ function Table(_a) {
     };
     // Function to handle page change
     var handleChangePage = function (page) {
-        if (data) {
+        if (normalizedData) {
             setCurrentPage(page);
         }
     };
@@ -136,7 +229,7 @@ function Table(_a) {
     var getNestedValue = function (obj, path) {
         return path.split('.').reduce(function (acc, part) { return acc && acc[part]; }, obj);
     };
-    var filteredData = data ? data === null || data === void 0 ? void 0 : data.data.filter(function (item) {
+    var filteredData = normalizedData ? normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.data.filter(function (item) {
         if (!search && !selectedField && !selectedValue)
             return true;
         if (selectedField && selectedValue) {
@@ -161,8 +254,8 @@ function Table(_a) {
     // Maximum number of visible pages for pagination
     var maxVisiblePages = 5;
     // Determine which pages to display
-    var startPage = data ? Math.max(1, currentPage - Math.floor(maxVisiblePages / 2)) : 0;
-    var endPage = data ? Math.min(startPage + maxVisiblePages - 1, totalPages) : 0;
+    var startPage = normalizedData ? Math.max(1, currentPage - Math.floor(maxVisiblePages / 2)) : 0;
+    var endPage = normalizedData ? Math.min(startPage + maxVisiblePages - 1, totalPages) : 0;
     // Adjust startPage and endPage if there are not enough pages to fill maxVisiblePages
     if (endPage - startPage + 1 < maxVisiblePages) {
         startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -172,12 +265,12 @@ function Table(_a) {
         (0, Export_1.ExportData)(filteredData, title, selectedField);
     };
     // Extract the data array
-    var dataArray = data ? data.data : [];
+    var dataArray = normalizedData ? normalizedData.data : [];
     // Remove duplicate values
     var uniqueValues = selectedField
         ? Array.from(new Set(dataArray.map(function (item) { return getNestedValue(item, selectedField); })))
         : [];
-    React.useEffect(function () {
+    (0, react_1.useEffect)(function () {
         if (filterOnchange) {
             filterOnchange(selectedField, selectedValue, filteredData.length);
         }
@@ -187,38 +280,25 @@ function Table(_a) {
         if (columns && columns[index]) {
             return columns[index];
         }
-        if ((data === null || data === void 0 ? void 0 : data.columns) && data.columns[index]) {
-            return data.columns[index];
+        if ((normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.columns) && normalizedData.columns[index]) {
+            return normalizedData.columns[index];
         }
         return undefined;
     };
     // Helper function to generate grid template columns
     var generateGridTemplateColumns = function () {
-        var _a;
-        // First, try to use the explicit columns prop
-        if (columns && columns.length > 0) {
-            return columns.map(function (col) {
-                return typeof col.width === 'number' ? "".concat(col.width, "px") :
-                    col.width || '1fr';
-            }).join(' ');
+        var widths = [];
+        // Generate widths for all columns (data + custom)
+        for (var i = 0; i < totalColumns; i++) {
+            var col = getColumnConfig(i);
+            if (col === null || col === void 0 ? void 0 : col.width) {
+                widths.push(typeof col.width === 'number' ? "".concat(col.width, "px") : col.width);
+            }
+            else {
+                widths.push('1fr');
+            }
         }
-        // Then, try to use columns from data
-        if ((data === null || data === void 0 ? void 0 : data.columns) && data.columns.length > 0) {
-            return data.columns.map(function (col) {
-                return typeof col.width === 'number' ? "".concat(col.width, "px") :
-                    col.width || '1fr';
-            }).join(' ');
-        }
-        // For custom columns, we need to add their widths too
-        if (customColumns && customColumns.length > 0) {
-            var totalColumns = (((_a = data === null || data === void 0 ? void 0 : data.fields) === null || _a === void 0 ? void 0 : _a.length) || 0) + customColumns.length;
-            return Array(totalColumns).fill('1fr').join(' ');
-        }
-        // Default fallback
-        if (data === null || data === void 0 ? void 0 : data.fields) {
-            return data.fields.map(function () { return '1fr'; }).join(' ');
-        }
-        return '1fr';
+        return widths.join(' ');
     };
     // Helper function to get column width for a specific index
     var getColumnWidth = function (index) {
@@ -247,22 +327,22 @@ function Table(_a) {
     // Generate grid template columns string
     var gridTemplateColumns = generateGridTemplateColumns();
     return (React.createElement("div", { className: "".concat(funcss ? funcss : '', " roundEdge") },
-        data &&
+        normalizedData &&
             React.createElement("div", { className: "pr-4 pl-4 pt-2 pb-2 lighter tableHeader mb-2", style: { overflow: "show" } },
                 React.createElement(RowFlex_1.default, { gap: 0.5, justify: 'space-between' },
                     title ?
                         React.createElement("div", null,
-                            showTotal && data &&
+                            showTotal && normalizedData &&
                                 React.createElement("div", null,
                                     React.createElement(Text_1.default, { text: "".concat(filteredData.length, " Records"), size: 'sm', weight: 500 })),
                             title &&
                                 React.createElement("div", null,
                                     React.createElement(Text_1.default, { text: title || "", size: 'h6', lineHeight: '0.8' })))
                         :
-                            React.createElement(React.Fragment, null, showTotal && data &&
+                            React.createElement(React.Fragment, null, showTotal && normalizedData &&
                                 React.createElement("div", null,
                                     React.createElement(Text_1.default, { text: "".concat(filteredData.length, " Records"), size: 'sm', weight: 500 }))),
-                    data ?
+                    normalizedData ?
                         React.createElement("div", null,
                             React.createElement(Flex_1.default, { width: '100%', wrap: 'nowrap', alignItems: 'center', gap: 0.7 },
                                 !selectedField && !showSearch && filterableFields &&
@@ -299,26 +379,22 @@ function Table(_a) {
                                             React.createElement(Input_1.default, { borderless: true, funcss: 'min-w-300 bg', fullWidth: true, rounded: true, value: searchQuery, onChange: function (e) { return setsearchQuery(e.target.value); }, label: "Search..." })),
                                         React.createElement("div", null,
                                             React.createElement("div", { onClick: function () { return setshowSearch(false); } },
-                                                React.createElement(ToolTip_1.default, null,
-                                                    filterableFields ? React.createElement(io5_1.IoFilterOutline, { className: 'pointer' })
-                                                        :
-                                                            React.createElement(pi_1.PiXThin, { className: 'pointer', size: 23, onClick: function () { return setshowSearch(false); } }),
-                                                    React.createElement(Tip_1.default, { tip: "top", animation: "Opacity", duration: 1, content: filterableFields ? "Filter" : "Close Search" })))))
+                                                React.createElement(ToolTip_1.default, { tip: 'top', message: filterableFields ? "Filter" : "Close Search" }, filterableFields ? React.createElement(io5_1.IoFilterOutline, { className: 'pointer' })
+                                                    :
+                                                        React.createElement(pi_1.PiXThin, { className: 'pointer', size: 23, onClick: function () { return setshowSearch(false); } })))))
                                     :
                                         React.createElement("div", null,
-                                            React.createElement(ToolTip_1.default, null,
-                                                React.createElement(ci_1.CiSearch, { className: 'pointer', size: 23, onClick: function () { return setshowSearch(true); } }),
-                                                React.createElement(Tip_1.default, { tip: "top", animation: "Opacity", duration: 1, content: "Search Data" })))))
+                                            React.createElement(ToolTip_1.default, { tip: 'top', message: "Search" },
+                                                React.createElement(ci_1.CiSearch, { className: 'pointer', size: 23, onClick: function () { return setshowSearch(true); } })))))
                         : '',
                     React.createElement(React.Fragment, null, (right || !hideExport) &&
                         React.createElement(RowFlex_1.default, { gap: 0.5 },
-                            right && right,
+                            right && React.createElement("div", { style: { display: 'flex', alignItems: 'center' } }, right),
                             !hideExport &&
                                 React.createElement("div", null,
-                                    React.createElement(ToolTip_1.default, null,
+                                    React.createElement(ToolTip_1.default, { tip: 'top', message: "Export Data" },
                                         React.createElement(Circle_1.default, { bg: 'lighter', bordered: true, onClick: Export },
-                                            React.createElement(pi_1.PiExportThin, null)),
-                                        React.createElement(Tip_1.default, { tip: "top", animation: "Opacity", duration: 1, content: "Export Data" }))))))),
+                                            React.createElement(pi_1.PiExportThin, null)))))))),
         React.createElement("main", { style: { overflow: "auto", width: "100%" } },
             React.createElement("div", __assign({ className: "table-grid ".concat(bordered ? 'bordered' : '', " ").concat(noStripped ? '' : 'stripped', " ").concat(hoverable ? 'hoverableTr' : '', " ").concat(light ? 'light' : '', " ").concat(dark ? 'dark' : ''), style: {
                     height: height ? height + "px" : "",
@@ -327,20 +403,23 @@ function Table(_a) {
                     // Set grid template columns on the main container for consistency
                     gridTemplateColumns: gridTemplateColumns
                 } }, rest),
-                data && (data === null || data === void 0 ? void 0 : data.titles) && (React.createElement("div", { className: "table-head", style: {
+                allTitles.length > 0 && (React.createElement("div", { className: "table-head", style: {
                         // Match the grid template columns
                         gridTemplateColumns: gridTemplateColumns
-                    } }, data.titles.map(function (mdoc, index) {
+                    } }, allTitles.map(function (title, index) {
                     var colConfig = getColumnConfig(index);
-                    return (React.createElement("div", { key: mdoc, className: "table-header text-secondary ".concat((colConfig === null || colConfig === void 0 ? void 0 : colConfig.headerClassName) || '', " ").concat(index === 0 ? "first_table_data" : "", " ").concat(index === data.titles.length - 1 ? "last_table_data" : ""), "data-label": mdoc, style: {
+                    var isFirst = index === 0;
+                    var isLast = index === allTitles.length - 1;
+                    var isCustomColumn = index >= totalDataColumns;
+                    return (React.createElement("div", { key: title + index, className: "table-header text-secondary ".concat((colConfig === null || colConfig === void 0 ? void 0 : colConfig.headerClassName) || '', " ").concat(isFirst ? "first_table_data" : "", " ").concat(isLast ? "last_table_data" : ""), "data-label": title, style: {
                             // Apply column-specific styles
-                            minWidth: getColumnMinWidth(index),
-                            maxWidth: getColumnMaxWidth(index),
-                            width: getColumnWidth(index),
+                            minWidth: isCustomColumn ? '100px' : getColumnMinWidth(index),
+                            maxWidth: isCustomColumn ? 'none' : getColumnMaxWidth(index),
+                            width: isCustomColumn ? 'auto' : getColumnWidth(index),
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
                             textOverflow: 'ellipsis'
-                        } }, mdoc));
+                        } }, title));
                 }))),
                 head && React.createElement("div", { className: "table-head" }, head),
                 React.createElement("div", { className: "table-body", style: {
@@ -348,77 +427,88 @@ function Table(_a) {
                         gridTemplateColumns: gridTemplateColumns
                     } },
                     body && body,
-                    data &&
+                    normalizedData &&
                         (function () {
-                            var results = (0, Query_1.getAdvancedFilteredData)(filteredData, searchQuery, data, getNestedValue, prioritizeSearchFields);
+                            var results = (0, Query_1.getAdvancedFilteredData)(filteredData, searchQuery, normalizedData, getNestedValue, prioritizeSearchFields);
                             var shouldSlice = !searchQuery || results.length > 10;
-                            return (shouldSlice ? results.slice(startIndex, endIndex) : results).map(function (mdoc, index) { return (React.createElement("div", { className: "table-row animated slide-up ".concat(trCss), key: index, onClick: onRowClick ? function () { return onRowClick(mdoc); } : undefined, style: {
+                            return (shouldSlice ? results.slice(startIndex, endIndex) : results).map(function (mdoc, rowIndex) { return (React.createElement("div", { className: "table-row animated slide-up ".concat(trCss), key: rowIndex, onClick: onRowClick ? function () { return onRowClick(mdoc); } : undefined, style: {
                                     // Match the grid template columns
-                                    gridTemplateColumns: gridTemplateColumns
-                                } },
-                                data.fields.map(function (fdoc, findex) {
-                                    var _a, _b;
-                                    var colConfig = getColumnConfig(findex);
-                                    var cellContent = getNestedValue(mdoc, fdoc);
-                                    return (React.createElement("div", { key: fdoc, className: "table-cell ".concat(data.funcss ? ((_a = data === null || data === void 0 ? void 0 : data.funcss) === null || _a === void 0 ? void 0 : _a[findex]) || "" : "", " ").concat((colConfig === null || colConfig === void 0 ? void 0 : colConfig.cellClassName) || '', " ").concat('wrap'), "data-label": ((_b = data.titles) === null || _b === void 0 ? void 0 : _b[findex]) || fdoc, style: {
+                                    gridTemplateColumns: gridTemplateColumns,
+                                    position: 'relative', zIndex: ((shouldSlice ? results.slice(startIndex, endIndex) : results).length + 2) - (rowIndex)
+                                } }, Array.from({ length: totalColumns }).map(function (_, index) {
+                                var _a;
+                                var colConfig = getColumnConfig(index);
+                                var isFirst = index === 0;
+                                var isLast = index === totalColumns - 1;
+                                var isDataColumn = index < totalDataColumns;
+                                var isCustomColumn = index >= totalDataColumns;
+                                var customColumnIndex = index - totalDataColumns;
+                                // For data columns
+                                if (isDataColumn && normalizedData.fields[index]) {
+                                    var field = normalizedData.fields[index];
+                                    var cellContent = getNestedValue(mdoc, field);
+                                    return (React.createElement("div", { key: "data-".concat(index), className: "table-cell ".concat(normalizedData.funcss ? ((_a = normalizedData === null || normalizedData === void 0 ? void 0 : normalizedData.funcss) === null || _a === void 0 ? void 0 : _a[index]) || "" : "", " ").concat((colConfig === null || colConfig === void 0 ? void 0 : colConfig.cellClassName) || '', " ").concat('wrap'), "data-label": allTitles[index] || field, style: {
                                             overflow: "visible",
                                             // Apply column-specific styles to match header
-                                            minWidth: getColumnMinWidth(findex),
-                                            maxWidth: getColumnMaxWidth(findex),
-                                            width: getColumnWidth(findex),
+                                            minWidth: getColumnMinWidth(index),
+                                            maxWidth: getColumnMaxWidth(index),
+                                            width: getColumnWidth(index),
                                             // Text handling based on column config
                                             whiteSpace: 'normal',
                                             overflowWrap: 'break-word',
                                             textOverflow: 'clip'
                                         } }, cellContent));
-                                }),
-                                customColumns
-                                    ? customColumns.map(function (column, columnIndex) {
-                                        var _a;
-                                        // Calculate index for custom column (after regular data fields)
-                                        var colIndex = (((_a = data === null || data === void 0 ? void 0 : data.fields) === null || _a === void 0 ? void 0 : _a.length) || 0) + columnIndex;
-                                        return (React.createElement("div", { key: columnIndex, className: "table-cell wrap", "data-label": column.title || "Action", style: {
-                                                position: "relative",
-                                                overflow: "visible",
-                                                // Apply column-specific styles
-                                                minWidth: getColumnMinWidth(colIndex),
-                                                maxWidth: getColumnMaxWidth(colIndex),
-                                                width: getColumnWidth(colIndex),
-                                                whiteSpace: 'normal',
-                                                overflowWrap: 'break-word',
-                                                textOverflow: 'clip'
-                                            } },
-                                            column.render && column.render(mdoc),
-                                            column.onClick && (React.createElement(Button_1.default, { onClick: function () { return column.onClick && column.onClick(mdoc); } }, column.title))));
-                                    })
-                                    : "")); });
+                                }
+                                // For custom columns
+                                if (isCustomColumn && customColumns && customColumns[customColumnIndex]) {
+                                    var column_1 = customColumns[customColumnIndex];
+                                    return (React.createElement("div", { key: "custom-".concat(index), className: "table-cell wrap", "data-label": column_1.title || "Action", style: {
+                                            position: "relative",
+                                            overflow: "visible",
+                                            // Apply column-specific styles
+                                            minWidth: '100px',
+                                            whiteSpace: 'normal',
+                                            overflowWrap: 'break-word',
+                                            textOverflow: 'clip'
+                                        } },
+                                        column_1.render && column_1.render(mdoc),
+                                        column_1.onClick && (React.createElement(Button_1.default, { onClick: function () { return column_1.onClick && column_1.onClick(mdoc); } }, column_1.title))));
+                                }
+                                return null;
+                            }))); });
                         })(),
                     isLoading &&
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (_, index) { return (React.createElement(Flex_1.default, { key: index, className: "table-row skeleton", style: {
+                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (_, rowIndex) { return (React.createElement(Flex_1.default, { key: rowIndex, className: "table-row skeleton", style: {
                                 // Match the grid template columns
                                 gridTemplateColumns: gridTemplateColumns
-                            } }, data === null || data === void 0 ? void 0 :
-                            data.fields.map(function (_, cellIndex) {
-                                return (React.createElement("div", { key: cellIndex, className: "table-cell", style: {
-                                        // Apply column-specific styles to match headers
-                                        minWidth: getColumnMinWidth(cellIndex),
-                                        maxWidth: getColumnMaxWidth(cellIndex),
-                                        width: getColumnWidth(cellIndex)
-                                    } }));
-                            }),
-                            customColumns && customColumns.map(function (_, customIndex) {
-                                var _a;
-                                var colIndex = (((_a = data === null || data === void 0 ? void 0 : data.fields) === null || _a === void 0 ? void 0 : _a.length) || 0) + customIndex;
-                                return (React.createElement("div", { key: "skeleton-custom-".concat(customIndex), className: "table-cell", style: {
-                                        minWidth: getColumnMinWidth(colIndex),
-                                        maxWidth: getColumnMaxWidth(colIndex),
-                                        width: getColumnWidth(colIndex)
-                                    } }));
-                            }))); }),
+                            } }, Array.from({ length: totalColumns }).map(function (_, cellIndex) {
+                            var isCustomColumn = cellIndex >= totalDataColumns;
+                            return (React.createElement("div", { key: cellIndex, className: "table-cell", style: {
+                                    // Apply column-specific styles to match headers
+                                    minWidth: isCustomColumn ? '100px' : getColumnMinWidth(cellIndex),
+                                    maxWidth: isCustomColumn ? 'none' : getColumnMaxWidth(cellIndex),
+                                    width: isCustomColumn ? 'auto' : getColumnWidth(cellIndex)
+                                } }));
+                        }))); }),
                     children ? children : ""),
-                filteredData.length === 0 && !isLoading && !children && (React.createElement("div", null,
-                    React.createElement(Empty_1.default, { ctaIcon: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaIcon) || React.createElement(pi_1.PiSpinnerGap, null), title: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.title) || 'No Record Found!', description: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.subtitle) || 'You can try reloading the page or check your query', ctaText: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaText) || 'Reload', showCta: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.showCta) || false, ctaOnClick: function () { return (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaOnClick) ? emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaOnClick() : window.location.reload; } }))))),
-        data && pageSize && filteredData.length > pageSize && (React.createElement("div", { className: "padding bt" },
+                filteredData.length === 0 && !isLoading && !children && (React.createElement("div", { className: "table-empty-state", style: {
+                        gridColumn: "1 / span ".concat(totalColumns),
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minHeight: '300px',
+                        width: '100%',
+                        padding: '40px 20px'
+                    } },
+                    React.createElement(Empty_1.default, { ctaIcon: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaIcon) || React.createElement(pi_1.PiSpinnerGap, null), title: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.title) || 'No Record Found!', description: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.subtitle) || 'You can try reloading the page or check your query', ctaText: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaText) || 'Reload', showCta: (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.showCta) || false, ctaOnClick: function () {
+                            if (emptyResponse === null || emptyResponse === void 0 ? void 0 : emptyResponse.ctaOnClick) {
+                                emptyResponse.ctaOnClick();
+                            }
+                            else {
+                                window.location.reload();
+                            }
+                        } }))))),
+        normalizedData && pageSizeValue && filteredData.length > pageSizeValue && (React.createElement("div", { className: "padding bt" },
             React.createElement(RowFlex_1.default, { gap: 1, funcss: 'pointer', justify: "center" },
                 React.createElement("div", { className: "pagination-nav ".concat(currentPage === 1 ? 'pagination-nav-disabled' : ''), onClick: function () { return currentPage > 1 && handleChangePage(1); }, title: "First page" },
                     React.createElement(Text_1.default, { text: "\u00AB\u00AB" })),

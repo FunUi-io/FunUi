@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -66,25 +66,58 @@ var Input_1 = __importDefault(require("../input/Input"));
 var Div_1 = __importDefault(require("../div/Div"));
 var sl_1 = require("react-icons/sl");
 var Flex_1 = __importDefault(require("../flex/Flex"));
-var Select_1 = __importDefault(require("../select/Select"));
 var ProductCard_1 = __importDefault(require("./ProductCard"));
 var CartModal_1 = __importDefault(require("./CartModal"));
 var ProductDetail_1 = __importDefault(require("./ProductDetail"));
 var theme_1 = require("../theme/theme");
 var componentUtils_1 = require("../../utils/componentUtils");
 var Empty_1 = __importDefault(require("../empty/Empty"));
-var ri_1 = require("react-icons/ri");
+var Modal_1 = __importDefault(require("../modal/Modal"));
+var Accordion_1 = __importDefault(require("../accordion/Accordion"));
+var View_1 = __importDefault(require("../view/View"));
+var getCssVariable_1 = require("../../utils/getCssVariable");
+var ProductLoader_1 = __importDefault(require("./ProductLoader"));
 var Store = function (localProps) {
     // Use component configuration with variant
     var mergeWithLocal = (0, componentUtils_1.useComponentConfiguration)('Store', localProps.variant).mergeWithLocal;
     var final = mergeWithLocal(localProps).props;
     // Destructure props from final merged configuration
-    var _a = final.products, products = _a === void 0 ? [] : _a, bucket = final.bucket, _b = final.bucketPage, bucketPage = _b === void 0 ? 1 : _b, _c = final.bucketSize, bucketSize = _c === void 0 ? 50 : _c, _d = final.title, title = _d === void 0 ? 'Products' : _d, _e = final.showHeader, showHeader = _e === void 0 ? true : _e, _f = final.showSearch, showSearch = _f === void 0 ? true : _f, _g = final.showFilters, showFilters = _g === void 0 ? true : _g, _h = final.showCart, showCart = _h === void 0 ? true : _h, _j = final.cartBadgeColor, cartBadgeColor = _j === void 0 ? 'error' : _j, cartBadgeText = final.cartBadgeText, _k = final.checkoutText, checkoutText = _k === void 0 ? 'Checkout' : _k, checkoutIcon = final.checkoutIcon, _l = final.currency, currency = _l === void 0 ? '$' : _l, _m = final.persistCart, persistCart = _m === void 0 ? true : _m, _o = final.storageKey, storageKey = _o === void 0 ? 'funui_cart' : _o, onAddToCart = final.onAddToCart, onRemoveFromCart = final.onRemoveFromCart, onUpdateQuantity = final.onUpdateQuantity, onCheckout = final.onCheckout, onProductClick = final.onProductClick, _p = final.className, className = _p === void 0 ? '' : _p, _q = final.gridClassName, gridClassName = _q === void 0 ? '' : _q, children = final.children, id = final.id, _r = final.funcss, funcss = _r === void 0 ? '' : _r, _s = final.fullWidth, fullWidth = _s === void 0 ? false : _s, _t = final.small, small = _t === void 0 ? false : _t, _u = final.big, big = _u === void 0 ? false : _u, _v = final.itemsPerPage, itemsPerPage = _v === void 0 ? 10 : _v;
+    var _a = final.products, products = _a === void 0 ? [] : _a, bucket = final.bucket, _b = final.bucketPage, bucketPage = _b === void 0 ? 1 : _b, _c = final.bucketSize, bucketSize = _c === void 0 ? 50 : _c, _d = final.title, title = _d === void 0 ? 'Products' : _d, _e = final.heroTitle, heroTitle = _e === void 0 ? 'Our Products' : _e, _f = final.heroDescription, heroDescription = _f === void 0 ? 'Discover our amazing collection of products' : _f, _g = final.heroBackgroundImage, heroBackgroundImage = _g === void 0 ? '' : _g, _h = final.overlayColor, overlayColor = _h === void 0 ? 'primary' : _h, _j = final.overlayOpacity, overlayOpacity = _j === void 0 ? 0.6 : _j, _k = final.overlayGradient, overlayGradient = _k === void 0 ? false : _k, _l = final.gradientDirection, gradientDirection = _l === void 0 ? 'to-bottom' : _l, _m = final.invertGradient, invertGradient = _m === void 0 ? false : _m, _o = final.showHeader, showHeader = _o === void 0 ? true : _o, _p = final.showSearch, showSearch = _p === void 0 ? true : _p, _q = final.showFilters, showFilters = _q === void 0 ? true : _q, _r = final.showCart, showCart = _r === void 0 ? true : _r, _s = final.showHero, showHero = _s === void 0 ? true : _s, _t = final.titleSize, titleSize = _t === void 0 ? 'big' : _t, _u = final.titleColor, titleColor = _u === void 0 ? 'white' : _u, _v = final.descriptionSize, descriptionSize = _v === void 0 ? 'lg' : _v, _w = final.descriptionColor, descriptionColor = _w === void 0 ? 'white' : _w, _x = final.descriptionOpacity, descriptionOpacity = _x === void 0 ? 0.8 : _x, _y = final.cartBadgeColor, cartBadgeColor = _y === void 0 ? 'error' : _y, cartBadgeText = final.cartBadgeText, _z = final.checkoutText, checkoutText = _z === void 0 ? 'Checkout' : _z, checkoutIcon = final.checkoutIcon, _0 = final.currency, currency = _0 === void 0 ? '$' : _0, _1 = final.persistCart, persistCart = _1 === void 0 ? true : _1, _2 = final.storageKey, storageKey = _2 === void 0 ? 'funui_cart' : _2, whatsappOrderNumber = final.whatsappOrderNumber, otherInfo = final.otherInfo, onAddToCart = final.onAddToCart, onRemoveFromCart = final.onRemoveFromCart, onUpdateQuantity = final.onUpdateQuantity, onCheckout = final.onCheckout, onProductClick = final.onProductClick, _3 = final.className, className = _3 === void 0 ? '' : _3, _4 = final.gridClassName, gridClassName = _4 === void 0 ? '' : _4, children = final.children, id = final.id, _5 = final.heroAlign, heroAlign = _5 === void 0 ? 'center' : _5, _6 = final.funcss, funcss = _6 === void 0 ? '' : _6, _7 = final.heroHeight, heroHeight = _7 === void 0 ? '400px' : _7, _8 = final.fullWidth, fullWidth = _8 === void 0 ? false : _8, _9 = final.itemsPerPage, itemsPerPage = _9 === void 0 ? 10 : _9;
+    // Mobile state
+    var _10 = (0, react_1.useState)(false), isMobile = _10[0], setIsMobile = _10[1];
+    var _11 = (0, react_1.useState)(false), showMobileFilters = _11[0], setShowMobileFilters = _11[1];
+    // Check screen size
+    (0, react_1.useEffect)(function () {
+        var checkMobile = function () {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return function () { return window.removeEventListener('resize', checkMobile); };
+    }, []);
+    // Parse otherInfo
+    var parsedOtherInfo = (0, react_1.useMemo)(function () {
+        if (!otherInfo)
+            return [];
+        try {
+            if (typeof otherInfo === 'string') {
+                return JSON.parse(otherInfo);
+            }
+            return otherInfo;
+        }
+        catch (error) {
+            console.error('Error parsing otherInfo:', error);
+            return [];
+        }
+    }, [otherInfo]);
+    // Checkout state
+    var _12 = (0, react_1.useState)(false), showCheckoutModal = _12[0], setShowCheckoutModal = _12[1];
+    var _13 = (0, react_1.useState)({}), userInfoData = _13[0], setUserInfoData = _13[1];
+    var _14 = (0, react_1.useState)(false), checkoutLoading = _14[0], setCheckoutLoading = _14[1];
     // Loading state - track bucket loading and initial load
-    var _w = (0, react_1.useState)(true), isInitialLoading = _w[0], setIsInitialLoading = _w[1];
+    var _15 = (0, react_1.useState)(true), isInitialLoading = _15[0], setIsInitialLoading = _15[1];
     // Use bucket data if bucket prop is provided
-    var _x = (0, theme_1.usePaginatedRecords)(bucket || '', // Use bucket name if provided
-    bucketPage, bucketSize), bucketRecords = _x.records, bucketLoading = _x.loading;
+    var _16 = (0, theme_1.usePaginatedRecords)(bucket || '', bucketPage, bucketSize), bucketRecords = _16.records, bucketLoading = _16.loading;
     // Function to calculate discount price
     var calculateDiscountedPrice = (0, react_1.useCallback)(function (price, discount) {
         if (discount && discount > 0 && discount <= 100) {
@@ -103,18 +136,14 @@ var Store = function (localProps) {
     var applyDiscounts = (0, react_1.useCallback)(function (products) {
         return products.map(function (product) {
             var _a, _b;
-            // Check if product has variants
             if (product.variants && product.variants.length > 0) {
                 var discountedVariants = product.variants.map(function (variant) {
                     var _a = calculateDiscountedPrice(variant.price, variant.discount), finalPrice = _a.finalPrice, originalPrice = _a.originalPrice;
                     return __assign(__assign({}, variant), { price: finalPrice, comparePrice: originalPrice });
                 });
-                return __assign(__assign({}, product), { variants: discountedVariants, 
-                    // Use the first variant's price as the main product price
-                    price: ((_a = discountedVariants[0]) === null || _a === void 0 ? void 0 : _a.price) || product.price, comparePrice: ((_b = discountedVariants[0]) === null || _b === void 0 ? void 0 : _b.comparePrice) || product.comparePrice });
+                return __assign(__assign({}, product), { variants: discountedVariants, price: ((_a = discountedVariants[0]) === null || _a === void 0 ? void 0 : _a.price) || product.price, comparePrice: ((_b = discountedVariants[0]) === null || _b === void 0 ? void 0 : _b.comparePrice) || product.comparePrice });
             }
             else {
-                // Apply discount to main product
                 var _c = calculateDiscountedPrice(product.price, product.discount), finalPrice = _c.finalPrice, originalPrice = _c.originalPrice;
                 return __assign(__assign({}, product), { price: finalPrice, comparePrice: originalPrice !== finalPrice ? originalPrice : product.comparePrice });
             }
@@ -126,7 +155,6 @@ var Store = function (localProps) {
             return null;
         var mappedProducts = bucketRecords.map(function (record) {
             var values = record.values || record;
-            // Extract discount from record - could be in various fields
             var discount = values.discount || values.salePercentage || values.discountPercentage;
             return {
                 id: values.id || record.id || "bucket_".concat(Math.random().toString(36).substr(2, 9)),
@@ -150,8 +178,7 @@ var Store = function (localProps) {
                 rating: parseFloat(values.rating) || undefined,
                 isNew: values.isNew || values.newArrival || false,
                 isSale: values.isSale || values.onSale || false,
-                variants: values.variants ? values.variants.map(function (variant) { return (__assign(__assign({}, variant), { discount: variant.discount || discount // Pass discount to variants
-                 })); }) : [],
+                variants: values.variants ? values.variants.map(function (variant) { return (__assign(__assign({}, variant), { discount: variant.discount || discount })); }) : [],
                 manufacturer: values.manufacturer || '',
                 countryOfOrigin: values.countryOfOrigin || '',
                 warranty: values.warranty || '',
@@ -161,16 +188,14 @@ var Store = function (localProps) {
         });
         return applyDiscounts(mappedProducts);
     }, [bucketRecords, bucket, currency, applyDiscounts]);
-    // Parse and process products - FIXED: No setState calls inside useMemo
+    // Parse and process products
     var parsedProducts = react_1.default.useMemo(function () {
         var productList;
-        // Use bucket products if bucket prop is provided and we have bucket data
         if (bucket && bucketProducts) {
             console.log("Using ".concat(bucketProducts.length, " products from bucket: ").concat(bucket));
             productList = bucketProducts.map(function (product, index) { return (__assign(__assign({}, product), { id: product.id || "bucket_product_".concat(index, "_").concat(Date.now()) })); });
         }
         else {
-            // Fall back to local products prop
             if (typeof products === 'string') {
                 try {
                     var parsed = JSON.parse(products);
@@ -184,18 +209,14 @@ var Store = function (localProps) {
             else {
                 productList = products || [];
             }
-            // Apply discounts to locally provided products
             productList = applyDiscounts(productList);
         }
-        // Ensure each product has a unique ID
         return productList.map(function (product, index) { return (__assign(__assign({}, product), { id: product.id || "product_".concat(index, "_").concat(Date.now(), "_").concat(Math.random().toString(36).substr(2, 9)) })); });
     }, [products, bucket, bucketProducts, applyDiscounts]);
     // Handle loading state separately
     (0, react_1.useEffect)(function () {
         if (bucket) {
-            // For bucket data, loading is based on bucketLoading state
             if (!bucketLoading && bucketProducts !== undefined) {
-                // Small delay for better UX
                 var timer_1 = setTimeout(function () {
                     setIsInitialLoading(false);
                 }, 300);
@@ -203,14 +224,13 @@ var Store = function (localProps) {
             }
         }
         else {
-            // For local data, loading is immediate after parsing
             setIsInitialLoading(false);
         }
     }, [bucket, bucketLoading, bucketProducts]);
     // Combined loading state
     var showLoading = isInitialLoading || (bucket && bucketLoading);
     // Initialize cart from localStorage with discount handling
-    var _y = (0, react_1.useState)(function () {
+    var _17 = (0, react_1.useState)(function () {
         if (!persistCart)
             return [];
         try {
@@ -218,9 +238,7 @@ var Store = function (localProps) {
             if (stored) {
                 var parsed = JSON.parse(stored);
                 if (parsed.items && Array.isArray(parsed.items)) {
-                    return parsed.items.map(function (item) { return (__assign(__assign({}, item), { product: __assign(__assign({}, item.product), { id: item.product.id || "restored_".concat(Date.now()) }), 
-                        // Ensure original price is preserved
-                        originalPrice: item.originalPrice || item.product.comparePrice || item.product.price })); });
+                    return parsed.items.map(function (item) { return (__assign(__assign({}, item), { product: __assign(__assign({}, item.product), { id: item.product.id || "restored_".concat(Date.now()) }), originalPrice: item.originalPrice || item.product.comparePrice || item.product.price })); });
                 }
             }
         }
@@ -228,7 +246,7 @@ var Store = function (localProps) {
             console.error('Error loading cart from localStorage:', error);
         }
         return [];
-    }), cart = _y[0], setCart = _y[1];
+    }), cart = _17[0], setCart = _17[1];
     // Save cart to localStorage
     (0, react_1.useEffect)(function () {
         if (persistCart) {
@@ -244,14 +262,14 @@ var Store = function (localProps) {
             }
         }
     }, [cart, persistCart, storageKey]);
-    var _z = (0, react_1.useState)(false), isCartOpen = _z[0], setIsCartOpen = _z[1];
-    var _0 = (0, react_1.useState)(false), isProductModalOpen = _0[0], setIsProductModalOpen = _0[1];
-    var _1 = (0, react_1.useState)(null), selectedProduct = _1[0], setSelectedProduct = _1[1];
-    var _2 = (0, react_1.useState)(''), searchQuery = _2[0], setSearchQuery = _2[1];
-    var _3 = (0, react_1.useState)('all'), selectedCategory = _3[0], setSelectedCategory = _3[1];
-    var _4 = (0, react_1.useState)('all'), selectedColor = _4[0], setSelectedColor = _4[1];
-    var _5 = (0, react_1.useState)('all'), selectedBrand = _5[0], setSelectedBrand = _5[1];
-    var _6 = (0, react_1.useState)(1), currentPage = _6[0], setCurrentPage = _6[1];
+    var _18 = (0, react_1.useState)(false), isCartOpen = _18[0], setIsCartOpen = _18[1];
+    var _19 = (0, react_1.useState)(false), isProductModalOpen = _19[0], setIsProductModalOpen = _19[1];
+    var _20 = (0, react_1.useState)(null), selectedProduct = _20[0], setSelectedProduct = _20[1];
+    var _21 = (0, react_1.useState)(''), searchQuery = _21[0], setSearchQuery = _21[1];
+    var _22 = (0, react_1.useState)('all'), selectedCategory = _22[0], setSelectedCategory = _22[1];
+    var _23 = (0, react_1.useState)('all'), selectedColor = _23[0], setSelectedColor = _23[1];
+    var _24 = (0, react_1.useState)('all'), selectedBrand = _24[0], setSelectedBrand = _24[1];
+    var _25 = (0, react_1.useState)(1), currentPage = _25[0], setCurrentPage = _25[1];
     // Get unique categories
     var categories = (0, react_1.useMemo)(function () {
         if (showLoading)
@@ -262,21 +280,35 @@ var Store = function (localProps) {
         var uniqueCategories = Array.from(new Set(allCategories));
         return __spreadArray(['all'], uniqueCategories, true);
     }, [parsedProducts, showLoading]);
-    // Get unique brands
+    // Get brands based on selected category
     var brands = (0, react_1.useMemo)(function () {
         if (showLoading)
             return ['all'];
-        var allBrands = parsedProducts
+        var filteredProducts = parsedProducts;
+        // If a category is selected, filter by it
+        if (selectedCategory !== 'all') {
+            filteredProducts = parsedProducts.filter(function (p) { return p.category === selectedCategory; });
+        }
+        var allBrands = filteredProducts
             .map(function (p) { return p.brand; })
             .filter(function (brand) { return typeof brand === 'string' && brand.trim() !== ''; });
         return __spreadArray(['all'], Array.from(new Set(allBrands)), true);
-    }, [parsedProducts, showLoading]);
-    // Get unique colors
+    }, [parsedProducts, selectedCategory, showLoading]);
+    // Get colors based on selected category and brand
     var colors = (0, react_1.useMemo)(function () {
         if (showLoading)
             return ['all'];
+        var filteredProducts = parsedProducts;
+        // If a category is selected, filter by it
+        if (selectedCategory !== 'all') {
+            filteredProducts = filteredProducts.filter(function (p) { return p.category === selectedCategory; });
+        }
+        // If a brand is selected, filter by it
+        if (selectedBrand !== 'all') {
+            filteredProducts = filteredProducts.filter(function (p) { return p.brand === selectedBrand; });
+        }
         var allColors = [];
-        parsedProducts.forEach(function (product) {
+        filteredProducts.forEach(function (product) {
             var _a;
             (_a = product.colors) === null || _a === void 0 ? void 0 : _a.forEach(function (color) {
                 if (!allColors.includes(color.name)) {
@@ -285,7 +317,7 @@ var Store = function (localProps) {
             });
         });
         return __spreadArray(['all'], allColors, true);
-    }, [parsedProducts, showLoading]);
+    }, [parsedProducts, selectedCategory, selectedBrand, showLoading]);
     // Filter products
     var filteredProducts = (0, react_1.useMemo)(function () {
         if (showLoading)
@@ -314,6 +346,18 @@ var Store = function (localProps) {
         }
         return filtered;
     }, [parsedProducts, searchQuery, selectedCategory, selectedBrand, selectedColor, showLoading]);
+    // Reset dependent filters when parent filter changes
+    (0, react_1.useEffect)(function () {
+        if (selectedCategory === 'all') {
+            setSelectedBrand('all');
+            setSelectedColor('all');
+        }
+    }, [selectedCategory]);
+    (0, react_1.useEffect)(function () {
+        if (selectedBrand === 'all') {
+            setSelectedColor('all');
+        }
+    }, [selectedBrand]);
     // Pagination
     var totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
     var startIndex = (currentPage - 1) * itemsPerPage;
@@ -429,15 +473,121 @@ var Store = function (localProps) {
             localStorage.removeItem(storageKey);
         }
     }, [persistCart, storageKey]);
-    var handleCheckout = (0, react_1.useCallback)(function () {
-        if (onCheckout) {
-            onCheckout(cart, subtotal);
+    // Create WhatsApp message
+    var createWhatsAppMessage = (0, react_1.useCallback)(function (cartItems, userInfo) {
+        if (userInfo === void 0) { userInfo = {}; }
+        var lines = [];
+        // Order summary header
+        lines.push('🛒 *ORDER SUMMARY*');
+        lines.push('');
+        // List products
+        cartItems.forEach(function (item, index) {
+            var _a;
+            var productName = item.product.name;
+            var variantInfo = item.variant ? " (".concat(item.variant.name, ")") : '';
+            var options = [];
+            if (item.selectedColor)
+                options.push("Color: ".concat(item.selectedColor));
+            if (item.selectedSize)
+                options.push("Size: ".concat(item.selectedSize));
+            var optionsText = options.length > 0 ? " [".concat(options.join(', '), "]") : '';
+            var price = ((_a = item.variant) === null || _a === void 0 ? void 0 : _a.price) || item.product.price;
+            var total = price * item.quantity;
+            lines.push("".concat(index + 1, ". ").concat(productName).concat(variantInfo).concat(optionsText));
+            lines.push("   Quantity: ".concat(item.quantity));
+            lines.push("   Price: ".concat(currency).concat(price.toFixed(2), " each"));
+            lines.push("   Total: ".concat(currency).concat(total.toFixed(2)));
+            lines.push('');
+        });
+        // Cart totals
+        var subtotal = cartItems.reduce(function (sum, item) {
+            var _a;
+            var price = ((_a = item.variant) === null || _a === void 0 ? void 0 : _a.price) || item.product.price;
+            return sum + (price * item.quantity);
+        }, 0);
+        lines.push('---');
+        lines.push("*Subtotal:* ".concat(currency).concat(subtotal.toFixed(2)));
+        lines.push("*Total Items:* ".concat(cartItems.reduce(function (sum, item) { return sum + item.quantity; }, 0)));
+        lines.push('');
+        // User information
+        if (Object.keys(userInfo).length > 0) {
+            lines.push('👤 *CUSTOMER INFORMATION*');
+            lines.push('');
+            Object.entries(userInfo).forEach(function (_a) {
+                var key = _a[0], value = _a[1];
+                if (value.trim()) {
+                    var label = key.charAt(0).toUpperCase() + key.slice(1);
+                    lines.push("*".concat(label, ":* ").concat(value));
+                }
+            });
+            lines.push('');
         }
+        // Footer
+        lines.push('Thank you for your order!');
+        return encodeURIComponent(lines.join('\n'));
+    }, [currency]);
+    // Handle checkout
+    var handleCheckout = (0, react_1.useCallback)(function () {
+        if (cart.length === 0)
+            return;
+        // If there's otherInfo to collect, show modal
+        if (parsedOtherInfo.length > 0) {
+            setShowCheckoutModal(true);
+        }
+        else {
+            // No additional info needed, proceed directly
+            proceedToWhatsAppOrCallback({});
+        }
+    }, [cart, parsedOtherInfo]);
+    // Proceed with checkout (either to WhatsApp or callback)
+    var proceedToWhatsAppOrCallback = (0, react_1.useCallback)(function (userInfo) {
+        var checkoutData = {
+            cartItems: cart,
+            totalAmount: subtotal,
+            userInfo: userInfo
+        };
+        // Call the onCheckout callback if provided
+        if (onCheckout) {
+            onCheckout(checkoutData);
+        }
+        // If WhatsApp number is provided, create WhatsApp message
+        if (whatsappOrderNumber) {
+            var message = createWhatsAppMessage(cart, userInfo);
+            var whatsappUrl = "https://wa.me/".concat(whatsappOrderNumber, "?text=").concat(message);
+            window.open(whatsappUrl, '_blank');
+        }
+        // Clear cart and close modals
         if (persistCart) {
             clearCart();
         }
+        setShowCheckoutModal(false);
         setIsCartOpen(false);
-    }, [onCheckout, cart, subtotal, persistCart, clearCart]);
+        setUserInfoData({});
+    }, [cart, subtotal, onCheckout, whatsappOrderNumber, createWhatsAppMessage, persistCart, clearCart]);
+    // Handle user info form submission
+    var handleUserInfoSubmit = (0, react_1.useCallback)(function () {
+        setCheckoutLoading(true);
+        // Validate required fields
+        var missingFields = parsedOtherInfo
+            .filter(function (field) { var _a; return field.required && !((_a = userInfoData[field.infoName]) === null || _a === void 0 ? void 0 : _a.trim()); })
+            .map(function (field) { return field.label || field.infoName; });
+        if (missingFields.length > 0) {
+            alert("Please fill in the following required fields: ".concat(missingFields.join(', ')));
+            setCheckoutLoading(false);
+            return;
+        }
+        setTimeout(function () {
+            proceedToWhatsAppOrCallback(userInfoData);
+            setCheckoutLoading(false);
+        }, 500);
+    }, [parsedOtherInfo, userInfoData, proceedToWhatsAppOrCallback]);
+    // Update user info
+    var handleUserInfoChange = (0, react_1.useCallback)(function (fieldName, value) {
+        setUserInfoData(function (prev) {
+            var _a;
+            return (__assign(__assign({}, prev), (_a = {}, _a[fieldName] = value, _a)));
+        });
+    }, []);
     // Product modal
     var openProductModal = (0, react_1.useCallback)(function (product) {
         if (onProductClick) {
@@ -459,57 +609,206 @@ var Store = function (localProps) {
             setCurrentPage(page);
         }
     }, [totalPages]);
-    return (react_1.default.createElement(Div_1.default, { funcss: "funui_products_classname ".concat(className, " ").concat(funcss), id: id, customStyle: {
-            backgroundColor: final.bg,
-            color: final.color,
-        } },
-        showHeader && (react_1.default.createElement(RowFlex_1.default, { justify: "space-between", alignItems: "center", funcss: "mb-5" },
-            react_1.default.createElement(Text_1.default, { text: title, size: "h1" }),
-            showCart && (react_1.default.createElement("button", { onClick: function () { return setIsCartOpen(true); }, className: "cart-icon relative", type: "button", "aria-label": "Shopping cart (".concat(totalItems, " items)"), disabled: showLoading },
-                react_1.default.createElement(sl_1.SlHandbag, { size: 30 }),
-                totalItems > 0 && (react_1.default.createElement("div", { className: "cart-badge", style: { backgroundColor: cartBadgeColor } }, cartBadgeText || (totalItems > 99 ? '99+' : totalItems))))))),
-        (showSearch || showFilters) && (react_1.default.createElement(RowFlex_1.default, { gap: 1, alignItems: "center", justify: 'space-between' },
-            showSearch && (react_1.default.createElement(Input_1.default, { label: "Search products...", value: searchQuery, onChange: function (e) { return setSearchQuery(e.target.value); }, bordered: true, fullWidth: fullWidth, startIcon: react_1.default.createElement(pi_1.PiMagnifyingGlass, null) })),
-            showFilters && (react_1.default.createElement("div", { className: "col" },
-                react_1.default.createElement(Flex_1.default, { gap: 0.5, width: '100%', justify: 'flex-end' },
-                    categories && categories.length > 0 && (react_1.default.createElement("div", { className: "w-150" },
-                        react_1.default.createElement(Select_1.default, { options: categories.map(function (cat) { return ({ text: cat === 'all' ? 'All Categories' : cat, value: cat }); }), value: selectedCategory, onChange: function (e) { return setSelectedCategory(e); }, bordered: true, funcss: 'text-sm', disabled: showLoading }))),
-                    brands && brands.length > 0 && (react_1.default.createElement("div", { className: "w-150" },
-                        react_1.default.createElement(Select_1.default, { options: brands.map(function (brand) { return ({ text: brand === 'all' ? 'All Brands' : brand, value: brand }); }), value: selectedBrand, onChange: function (e) { return setSelectedBrand(e); }, bordered: true, funcss: 'text-sm', disabled: showLoading }))),
-                    colors && colors.length > 0 && (react_1.default.createElement("div", { className: "w-150" },
-                        react_1.default.createElement(Select_1.default, { options: colors.map(function (color) { return ({ text: color === 'all' ? 'All Colors' : color, value: color }); }), value: selectedColor, onChange: function (e) { return setSelectedColor(e); }, bordered: true, funcss: 'text-sm', disabled: showLoading })))))))),
-        showLoading ? (react_1.default.createElement(Div_1.default, { funcss: "funui_products_loading flex-center padding-40" },
-            react_1.default.createElement(Flex_1.default, { direction: "column", alignItems: "center", gap: 2 },
-                react_1.default.createElement(ri_1.RiLoader4Line, { size: 40, className: "spin" }),
-                react_1.default.createElement(Text_1.default, { text: "Loading products...", size: "large", color: "text-light" })))) : (react_1.default.createElement(react_1.default.Fragment, null,
-            currentProducts.length === 0 ? (react_1.default.createElement(Div_1.default, { funcss: "funui_products_empty flex-center padding-40" },
-                react_1.default.createElement(Empty_1.default, { title: 'No products found', ctaIcon: react_1.default.createElement(pi_1.PiSpinnerGap, null), ctaText: 'Reload Page!', ctaOnClick: function () { return window.location.reload(); } }))) : (react_1.default.createElement(react_1.default.Fragment, null,
-                react_1.default.createElement(Div_1.default, { funcss: "funui_products_grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  ".concat(gridClassName) }, currentProducts.map(function (product) { return (react_1.default.createElement(ProductCard_1.default, { key: product.id, product: product, currency: currency, onClick: function () { return openProductModal(product); }, onAddToCart: function () { return addToCart(product); }, showBadges: true })); })),
-                totalPages > 1 && (react_1.default.createElement(Flex_1.default, { width: '100%', justify: 'center', gap: 0.5 },
-                    react_1.default.createElement(Button_1.default, { startIcon: react_1.default.createElement(pi_1.PiCaretLeft, null), onClick: function () { return goToPage(currentPage - 1); }, disabled: currentPage === 1, small: true, text: "Prev" }),
-                    react_1.default.createElement(Div_1.default, { funcss: "pagination-numbers" },
-                        Array.from({ length: Math.min(5, totalPages) }, function (_, i) {
-                            var pageNum;
-                            if (totalPages <= 5) {
-                                pageNum = i + 1;
-                            }
-                            else if (currentPage <= 3) {
-                                pageNum = i + 1;
-                            }
-                            else if (currentPage >= totalPages - 2) {
-                                pageNum = totalPages - 4 + i;
-                            }
-                            else {
-                                pageNum = currentPage - 2 + i;
-                            }
-                            return (react_1.default.createElement(Button_1.default, { key: pageNum, text: pageNum.toString(), onClick: function () { return goToPage(pageNum); }, bg: currentPage === pageNum ? 'primary' : undefined, color: currentPage === pageNum ? 'white' : 'text', small: true }));
-                        }),
-                        totalPages > 5 && currentPage < totalPages - 2 && (react_1.default.createElement(react_1.default.Fragment, null,
-                            react_1.default.createElement(Text_1.default, { text: "...", color: "text-light" }),
-                            react_1.default.createElement(Button_1.default, { text: totalPages.toString(), onClick: function () { return goToPage(totalPages); }, small: true })))),
-                    react_1.default.createElement(Button_1.default, { endIcon: react_1.default.createElement(pi_1.PiCaretRight, null), onClick: function () { return goToPage(currentPage + 1); }, disabled: currentPage === totalPages, small: true, text: "Next" }))))),
-            children)),
-        showCart && (react_1.default.createElement(CartModal_1.default, { cart: cart, isOpen: isCartOpen, setIsOpen: setIsCartOpen, currency: currency, updateQuantity: updateQuantity, removeFromCart: removeFromCart, clearCart: clearCart, handleCheckout: handleCheckout, cartBadgeColor: cartBadgeColor, checkoutText: checkoutText, checkoutIcon: checkoutIcon, small: small, big: big, persistCart: persistCart })),
+    // Helper function to get color with opacity
+    var getColorWithOpacity = (0, react_1.useCallback)(function (color, opacity) {
+        // Try to get CSS variable value first
+        var cssVariableValue = (0, getCssVariable_1.getCssVariableValue)(color);
+        // If getCssVariableValue returns a different value than input, 
+        // it means the color was a CSS variable (like "primary", "dark", etc.)
+        var colorValue = cssVariableValue && cssVariableValue !== color ? cssVariableValue : color;
+        // Check if color is already in rgba format
+        var rgbaMatch = colorValue.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+        if (rgbaMatch) {
+            var r = rgbaMatch[1], g = rgbaMatch[2], b = rgbaMatch[3];
+            return "rgba(".concat(r, ", ").concat(g, ", ").concat(b, ", ").concat(opacity, ")");
+        }
+        // Check if color is in rgb format
+        var rgbMatch = colorValue.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (rgbMatch) {
+            var r = rgbMatch[1], g = rgbMatch[2], b = rgbMatch[3];
+            return "rgba(".concat(r, ", ").concat(g, ", ").concat(b, ", ").concat(opacity, ")");
+        }
+        // Check if color is hex format
+        if (colorValue.startsWith('#')) {
+            var hex = colorValue.replace('#', '');
+            var r = void 0, g = void 0, b = void 0;
+            if (hex.length === 3) {
+                r = parseInt(hex[0] + hex[0], 16);
+                g = parseInt(hex[1] + hex[1], 16);
+                b = parseInt(hex[2] + hex[2], 16);
+            }
+            else if (hex.length === 6) {
+                r = parseInt(hex.substring(0, 2), 16);
+                g = parseInt(hex.substring(2, 4), 16);
+                b = parseInt(hex.substring(4, 6), 16);
+            }
+            if (r !== undefined && g !== undefined && b !== undefined) {
+                return "rgba(".concat(r, ", ").concat(g, ", ").concat(b, ", ").concat(opacity, ")");
+            }
+        }
+        // For named colors that don't match patterns above, return as-is
+        // CSS will handle the opacity via the opacity property
+        return colorValue;
+    }, []);
+    // Create overlay style based on gradient settings
+    // Create overlay style based on gradient settings
+    var getOverlayStyle = (0, react_1.useCallback)(function () {
+        // Get the actual color value (resolve CSS variables)
+        var cssVariableValue = (0, getCssVariable_1.getCssVariableValue)(overlayColor);
+        var resolvedColor = cssVariableValue && cssVariableValue !== overlayColor
+            ? cssVariableValue
+            : overlayColor;
+        if (!overlayGradient) {
+            // Solid overlay
+            return {
+                backgroundColor: resolvedColor,
+                opacity: overlayOpacity,
+            };
+        }
+        // For gradient overlay, create color with opacity
+        var colorWithOpacity = getColorWithOpacity(resolvedColor, overlayOpacity);
+        // Build gradient direction
+        var direction = gradientDirection.replace('to-', 'to ');
+        if (invertGradient) {
+            // From transparent to color
+            return {
+                background: "linear-gradient(".concat(direction, ", transparent 0%, ").concat(colorWithOpacity, " 100%)"),
+            };
+        }
+        else {
+            // From color to transparent
+            return {
+                background: "linear-gradient(".concat(direction, ", ").concat(colorWithOpacity, " 0%, transparent 100%)"),
+            };
+        }
+    }, [overlayGradient, gradientDirection, invertGradient, overlayColor, overlayOpacity, getColorWithOpacity]);
+    // Create accordion items for filters
+    var filterAccordionItems = (0, react_1.useMemo)(function () { return [
+        {
+            icon: react_1.default.createElement(pi_1.PiList, { className: 'text-primary', size: 20 }),
+            title: 'Categories',
+            content: (react_1.default.createElement(Div_1.default, { funcss: "filter-options" }, categories.map(function (cat) { return (react_1.default.createElement("div", { key: cat, className: "filter-option ".concat(selectedCategory === cat ? 'primary100 text-primary' : ''), onClick: function () {
+                    setSelectedCategory(cat);
+                    if (cat === 'all') {
+                        setSelectedBrand('all');
+                        setSelectedColor('all');
+                    }
+                } }, cat === 'all' ? 'All Categories' : cat)); }))),
+        },
+        {
+            icon: react_1.default.createElement(pi_1.PiUserCircle, { className: 'text-primary', size: 20 }),
+            title: 'Brands',
+            content: (react_1.default.createElement(Div_1.default, { funcss: "filter-options" }, brands.map(function (brand) { return (react_1.default.createElement("div", { key: brand, className: "filter-option ".concat(selectedBrand === brand ? 'primary100 text-primary' : ''), onClick: function () {
+                    setSelectedBrand(brand);
+                    if (brand === 'all') {
+                        setSelectedColor('all');
+                    }
+                }, style: {
+                    opacity: selectedCategory === 'all' && brand !== 'all' ? 0.5 : 1,
+                    pointerEvents: selectedCategory === 'all' && brand !== 'all' ? 'none' : 'auto'
+                } },
+                brand === 'all' ? 'All Brands' : brand,
+                selectedCategory === 'all' && brand !== 'all' && (react_1.default.createElement("small", { className: "text-muted", style: { fontSize: '0.7rem', display: 'block' } }, "(Select category first)")))); }))),
+        },
+        {
+            icon: react_1.default.createElement(pi_1.PiHandTap, { className: 'text-primary', size: 20 }),
+            title: 'Colors',
+            content: (react_1.default.createElement(Div_1.default, { funcss: "filter-options" }, colors.map(function (color) { return (react_1.default.createElement("div", { key: color, className: "filter-option ".concat(selectedColor === color ? 'primary100 text-primary' : ''), onClick: function () { return setSelectedColor(color); }, style: {
+                    opacity: (selectedCategory === 'all' || selectedBrand === 'all') && color !== 'all' ? 0.5 : 1,
+                    pointerEvents: (selectedCategory === 'all' || selectedBrand === 'all') && color !== 'all' ? 'none' : 'auto'
+                } },
+                color === 'all' ? 'All Colors' : color,
+                (selectedCategory === 'all' || selectedBrand === 'all') && color !== 'all' && (react_1.default.createElement("small", { className: "text-muted", style: { fontSize: '0.7rem', display: 'block' } }, "(Select category & brand first)")))); }))),
+        },
+    ]; }, [categories, brands, colors, selectedCategory, selectedBrand, selectedColor]);
+    // Clear all filters
+    var clearFilters = (0, react_1.useCallback)(function () {
+        setSelectedCategory('all');
+        setSelectedBrand('all');
+        setSelectedColor('all');
+        setSearchQuery('');
+    }, []);
+    return (react_1.default.createElement(Div_1.default, { funcss: "".concat(className, " ").concat(funcss), id: id },
+        showHero && (react_1.default.createElement(Div_1.default, { funcss: "store-hero-section", customStyle: {
+                backgroundImage: heroBackgroundImage ? "url(".concat(heroBackgroundImage, ")") : 'none',
+                backgroundColor: heroBackgroundImage ? undefined : 'var(--lighter)',
+                height: heroHeight,
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+            } },
+            react_1.default.createElement("div", { className: "hero-overlay fit", style: __assign({ position: 'absolute', top: 0, left: 0 }, getOverlayStyle()) }),
+            react_1.default.createElement("div", { className: "hero-content text-".concat(heroAlign || 'center', " relative z-10"), style: {
+                    padding: '2rem',
+                    width: '100%',
+                } },
+                react_1.default.createElement(Text_1.default, { text: heroTitle || title, size: titleSize, color: titleColor, block: true, bold: true }),
+                react_1.default.createElement(Text_1.default, { text: heroDescription, size: descriptionSize, color: descriptionColor, opacity: descriptionOpacity })))),
+        react_1.default.createElement(View_1.default, { funcss: "pt-10  pl-5 pr-5 center", fit: true, style: {
+                maxWidth: "1500px"
+            } },
+            react_1.default.createElement(Flex_1.default, { width: '100%', justify: 'center', gap: 2 },
+                showFilters && !isMobile && (react_1.default.createElement(View_1.default, { funcss: "w-200" },
+                    react_1.default.createElement(RowFlex_1.default, { justify: "space-between", funcss: 'bb mb', alignItems: "center" },
+                        react_1.default.createElement(Text_1.default, { text: "Filters", size: "h5" }),
+                        react_1.default.createElement(Button_1.default, { text: "Clear", onClick: clearFilters, small: true, bg: "lighter", startIcon: react_1.default.createElement(pi_1.PiX, null) })),
+                    react_1.default.createElement(Accordion_1.default, { border: false, funcss: 'bg borderless', items: filterAccordionItems, allowMultiple: true, titleClass: "text-sm", contentClass: "text-sm" }))),
+                react_1.default.createElement("div", { className: 'col fit' },
+                    showFilters && isMobile && (react_1.default.createElement(Div_1.default, { funcss: "mobile-filters-button mb-4" },
+                        react_1.default.createElement(Button_1.default, { startIcon: react_1.default.createElement(pi_1.PiFunnel, null), text: "Filters", onClick: function () { return setShowMobileFilters(true); }, bg: "light", color: "text", raised: true, funcss: "w-full" }))),
+                    react_1.default.createElement(Flex_1.default, { gap: 1, width: '100%', funcss: 'mb-4', justify: 'space-between' },
+                        showSearch && (react_1.default.createElement("div", { className: "w-400" },
+                            react_1.default.createElement(Input_1.default, { label: "Search products...", value: searchQuery, onChange: function (e) { return setSearchQuery(e.target.value); }, startIcon: react_1.default.createElement(pi_1.PiMagnifyingGlass, null), borderless: true }))),
+                        showCart && (react_1.default.createElement("button", { onClick: function () { return setIsCartOpen(true); }, className: "cart-icon relative", type: "button", "aria-label": "Shopping cart (".concat(totalItems, " items)"), disabled: showLoading },
+                            react_1.default.createElement(sl_1.SlHandbag, { size: 30 }),
+                            totalItems > 0 && (react_1.default.createElement("div", { className: "cart-badge error", style: { backgroundColor: cartBadgeColor } }, cartBadgeText || (totalItems > 99 ? '99+' : totalItems)))))),
+                    showLoading ? (react_1.default.createElement(Div_1.default, { funcss: "\r\n              funui_products_grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4\r\n              " }, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (index) { return (react_1.default.createElement("div", { key: index },
+                        react_1.default.createElement(ProductLoader_1.default, null))); }))) : (react_1.default.createElement(react_1.default.Fragment, null,
+                        currentProducts.length === 0 ? (react_1.default.createElement(Div_1.default, { funcss: "" },
+                            react_1.default.createElement(Empty_1.default, { title: 'No products found', ctaIcon: react_1.default.createElement(pi_1.PiSpinnerGap, null), ctaText: 'Reset Filters', ctaOnClick: clearFilters }))) : (react_1.default.createElement(react_1.default.Fragment, null,
+                            react_1.default.createElement(Div_1.default, { margin: '2rem 0', funcss: "funui_products_grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ".concat(gridClassName) }, currentProducts.map(function (product) { return (react_1.default.createElement(ProductCard_1.default, { key: product.id, product: product, currency: currency, onClick: function () { return openProductModal(product); }, onAddToCart: function () { return addToCart(product); }, showBadges: true })); })),
+                            totalPages > 1 && (react_1.default.createElement(Flex_1.default, { width: '100%', justify: 'center', gap: 0.5, funcss: "mt-8" },
+                                react_1.default.createElement(Button_1.default, { startIcon: react_1.default.createElement(pi_1.PiCaretLeft, null), onClick: function () { return goToPage(currentPage - 1); }, disabled: currentPage === 1, text: "Prev", small: true }),
+                                react_1.default.createElement(Div_1.default, { funcss: "pagination-numbers" },
+                                    Array.from({ length: Math.min(5, totalPages) }, function (_, i) {
+                                        var pageNum;
+                                        if (totalPages <= 5) {
+                                            pageNum = i + 1;
+                                        }
+                                        else if (currentPage <= 3) {
+                                            pageNum = i + 1;
+                                        }
+                                        else if (currentPage >= totalPages - 2) {
+                                            pageNum = totalPages - 4 + i;
+                                        }
+                                        else {
+                                            pageNum = currentPage - 2 + i;
+                                        }
+                                        return (react_1.default.createElement(Button_1.default, { key: pageNum, text: pageNum.toString(), onClick: function () { return goToPage(pageNum); }, bg: currentPage === pageNum ? 'primary' : undefined, color: currentPage === pageNum ? 'white' : 'text', small: true }));
+                                    }),
+                                    totalPages > 5 && currentPage < totalPages - 2 && (react_1.default.createElement(react_1.default.Fragment, null,
+                                        react_1.default.createElement(Text_1.default, { text: "...", color: "text-light" }),
+                                        react_1.default.createElement(Button_1.default, { text: totalPages.toString(), onClick: function () { return goToPage(totalPages); }, small: true })))),
+                                react_1.default.createElement(Button_1.default, { endIcon: react_1.default.createElement(pi_1.PiCaretRight, null), onClick: function () { return goToPage(currentPage + 1); }, disabled: currentPage === totalPages, text: "Next", small: true }))))),
+                        children))))),
+        showFilters && isMobile && (react_1.default.createElement(Modal_1.default, { animation: "slideUp", open: showMobileFilters, setOpen: setShowMobileFilters, title: react_1.default.createElement(RowFlex_1.default, { justify: "space-between", alignItems: "center" },
+                react_1.default.createElement(Text_1.default, { text: "Filters", size: "h5" }),
+                react_1.default.createElement(Button_1.default, { text: "Clear All", onClick: clearFilters, small: true, bg: "transparent", color: "text-light" })), body: react_1.default.createElement(Div_1.default, { funcss: "p-4" },
+                react_1.default.createElement(Accordion_1.default, { items: filterAccordionItems, allowMultiple: true, titleClass: "text-sm", contentClass: "text-xs", activeClass: "", funcss: 'card' })), footer: react_1.default.createElement(Div_1.default, { funcss: "p-4" },
+                react_1.default.createElement(Button_1.default, { text: "Apply Filters", onClick: function () { return setShowMobileFilters(false); }, bg: "primary", color: "white", raised: true, funcss: "w-full" })) })),
+        showCart && (react_1.default.createElement(CartModal_1.default, { cart: cart, isOpen: isCartOpen, setIsOpen: setIsCartOpen, currency: currency, updateQuantity: updateQuantity, removeFromCart: removeFromCart, clearCart: clearCart, handleCheckout: handleCheckout, cartBadgeColor: cartBadgeColor, checkoutText: checkoutText, checkoutIcon: checkoutIcon, persistCart: persistCart })),
+        showCheckoutModal && (react_1.default.createElement(Modal_1.default, { animation: "fadeIn", open: showCheckoutModal, setOpen: setShowCheckoutModal, maxWidth: '550px', title: react_1.default.createElement(react_1.default.Fragment, null, whatsappOrderNumber ? (react_1.default.createElement(react_1.default.Fragment, null,
+                react_1.default.createElement(Text_1.default, { text: "Complete Your Order", size: "xl", block: true }),
+                react_1.default.createElement(Text_1.default, { text: "Please provide the following information to complete your order:", size: "sm" }))) : (react_1.default.createElement(Text_1.default, { text: "Order Information", size: "xkl" }))), body: react_1.default.createElement(Div_1.default, { funcss: "p-8" }, parsedOtherInfo.map(function (field, index) { return (react_1.default.createElement(Div_1.default, { key: index, funcss: "section" },
+                react_1.default.createElement(Input_1.default, { label: "".concat(field.label || field.infoName).concat(field.required ? ' *' : ''), type: field.type === 'textarea' ? 'text' : field.type, multiline: field.type === 'textarea', rows: field.type === 'textarea' ? 3 : undefined, value: userInfoData[field.infoName] || '', onChange: function (e) { return handleUserInfoChange(field.infoName, e.target.value); }, bordered: true, fullWidth: true }))); })), footer: react_1.default.createElement(Div_1.default, { funcss: "" },
+                react_1.default.createElement(RowFlex_1.default, { justify: "center", alignItems: "center" },
+                    react_1.default.createElement(Button_1.default, { prefix: react_1.default.createElement(pi_1.PiX, null), text: "Cancel", onClick: function () {
+                            setShowCheckoutModal(false);
+                            setUserInfoData({});
+                        }, bg: "error-light", color: "error" }),
+                    react_1.default.createElement(Button_1.default, { text: whatsappOrderNumber ? "Send via WhatsApp" : "Complete Order", bg: "primary", raised: true, onClick: handleUserInfoSubmit, funcss: "padding-x-30", startIcon: whatsappOrderNumber ? react_1.default.createElement(pi_1.PiWhatsappLogo, null) : checkoutIcon, isLoading: checkoutLoading, disabled: checkoutLoading }))) })),
         selectedProduct && (react_1.default.createElement(ProductDetail_1.default, { product: selectedProduct, open: isProductModalOpen, setOpen: setIsProductModalOpen, currency: currency, onAddToCart: handleAddFromModal }))));
 };
 exports.default = Store;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  PiSpinner , PiSpinnerDuotone , PiCircleNotch } from "react-icons/pi";
+import {  PiSpinner , PiSpinnerDuotone , PiCircleNotch, PiSpinnerGap } from "react-icons/pi";
 
 interface FunLoaderProps {
   funcss?: string;
@@ -20,12 +20,12 @@ export default function FunLoader({
   ...rest
 }: FunLoaderProps) {
   return (
-    <div style={{lineHeight:"0"}} className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`} {...rest}>
+    <div style={{lineHeight:"0" , isolation:"isolate", top:0 , left:0}} className={`${fixed ? 'fixedLoader' : ''} ${backdrop && fixed ? 'backdropLoader' : ''}`} {...rest}>
       
      {
         variant === 'simple'?
         <span className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>
-            <PiSpinnerDuotone  style={{fontSize:size + "px" , display:'block'}}  />
+            <PiSpinnerGap  style={{fontSize:size + "px" , display:'block'}}  />
           </span>
         : variant === 'duotone'?
         <span   className={`rotate ${funcss ? funcss : ''}  text-${color ? color : ''}`}>

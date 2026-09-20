@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Div from '../div/Div';
 import Text from '../text/Text';
 import Flex from '../flex/Flex';
@@ -29,15 +29,51 @@ const ProductCard: React.FC<ProductCardProps> = ({
     ? Math.round(((product.comparePrice! - product.price) / product.comparePrice!) * 100)
     : 0;
   
-  const stockAvailable = product.stock === undefined || product.stock > 0;
-
+  // Track which image is currently displayed
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>([]);
+  
+  // Check if product has multiple images
+  const hasMultipleImages = product.images && product.images.length > 1;
+  
+  // Handle image preloading
+  useEffect(() => {
+    if (!product.images || product.images.length === 0) return;
+    
+    // Track loaded images
+    const loadedStatus = new Array(product.images.length).fill(false);
+    setImagesLoaded(loadedStatus);
+    
+    // Preload all images
+    product.images.forEach((src, index) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        setImagesLoaded(prev => {
+          const updated = [...prev];
+          updated[index] = true;
+          return updated;
+        });
+      };
+    });
+  }, [product.images]);
+  
   const handleClick = () => {
     onClick?.(product);
   };
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onAddToCart?.(product);
+  const handleMouseEnter = () => {
+    if (hasMultipleImages && product.images && product.images.length > 1) {
+      // Switch to next image (or first if at the end)
+      setCurrentImageIndex(prev => 
+        prev === product.images!.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Reset to first image when mouse leaves
+    setCurrentImageIndex(0);
   };
 
   const getDisplayPrice = () => {
@@ -53,69 +89,96 @@ const ProductCard: React.FC<ProductCardProps> = ({
       customStyle={{ cursor: 'pointer' }}
     >
       {/* Product Image Container */}
-      <Div funcss="funui_store_image-container">
-        {product.images?.[0] ? (
-          <img 
-            src={product.images[0]} 
-            alt={product.name}
-            loading="lazy"
-            className="funui_store_product-image"
-          />
+      <Div 
+        funcss="funui_store_image-container round-edge"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        customStyle={{ position: 'relative', overflow: 'hidden' }}
+      >
+        {product.images && product.images.length > 0 ? (
+          <>
+            {/* First image - always visible as base */}
+            <img 
+              src={product.images[0]} 
+              alt={product.name}
+              loading="lazy"
+              className="funui_store_product-image"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: currentImageIndex === 0 ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
+                zIndex: 1
+              }}
+            />
+            
+            {/* Preload all other images */}
+            {product.images.slice(1).map((imageSrc, index) => (
+              <img 
+                key={`preload-${index + 1}`}
+                src={imageSrc}
+                alt={`${product.name} - View ${index + 2}`}
+                loading="lazy"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: currentImageIndex === index + 1 ? 1 : 0,
+                  transition: 'opacity 0.3s ease-in-out',
+                  zIndex: 2
+                }}
+              />
+            ))}
+            
+            {/* Fallback for no image */}
+            {(!product.images[0] || imagesLoaded[0] === false) && (
+              <Div funcss="funui_store_no-image">
+                <Text text="No Image" color="text-muted" size="sm" />
+              </Div>
+            )}
+          </>
         ) : (
           <Div funcss="funui_store_no-image">
             <Text text="No Image" color="text-muted" size="sm" />
           </Div>
         )}
-        
-        {/* Badges */}
-        {showBadges && (
-          <Div funcss="funui_store_product-badges">
-          
-            {product.isSale && (
-              <span className="funui_store_badge sale">Sale</span>
-            )}
-         
-          </Div>
-        )}
       </Div>
 
       {/* Product Info */}
-      <Div funcss="funui_store_product-info">
-      <Flex fit justify='space-between' alignItems='center' gap={1}>
-          {product.category && (
-          <span className="funui_store_product-category">{product.category}</span>
+      <Div funcss="funui_store_product-info ">
+        {/* Category */}
+        {product.category && (
+          <Text size='xs' opacity={4} uppercase>{product.category}</Text>
         )}
-          {product.isNew && (
-        <Text size='xs' color='success' weight={600}>New</Text>
-            )}
-      </Flex>
         
-       <Flex gap={0.5} direction='column' width='100%'>
-         <Text block size='lg' truncate={2} >{product.name}</Text>
+      <Flex width='100%' gap={0.5} direction='column'>
+          {/* Name */}
+        <Text block weight={500} truncate={2}>{product.name}</Text>
         
-        <Flex  width='100%' gap={1} justify='space-between'>
-       <Flex gap={0.5} alignItems='center'>
-          <span className="text-lg block">{getDisplayPrice()}</span>
-                {hasDiscount && (
+        {/* Price Section */}
+        <Flex width='100%' gap={1} justify='space-between' alignItems='center'>
+          <Flex gap={0.5} alignItems='center'>
+            <span className="block">{getDisplayPrice()}</span>
+            {hasDiscount && (
               <Text size='xs' color='info' weight={600}>{discountPercent}% Off</Text>
             )}
-       </Flex>
-            {hasDiscount && (
+          </Flex>
+          
+          {/* Original Price if Discount */}
+          {hasDiscount && (
             <Text size="sm" opacity={4} textDecoration='line-through'>
               {product.currency || currency}{product.comparePrice!.toFixed(2)}
             </Text>
           )}
-       
         </Flex>
-        
-        {!stockAvailable ? (
-          <span className="funui_store_stock-info out text-xs">Out of Stock</span>
-        ) : product.stock !== undefined && product.stock > 0 && product.stock < 10 ? (
-          <span className="funui_store_stock-info low text-xs">Only {product.stock} left</span>
-        ) : stockAvailable && (
-          <span className="funui_store_stock-info in text-xs">In Stock</span>
-        )}
-       </Flex>
+      </Flex>
       </Div>
     </Div>
   );

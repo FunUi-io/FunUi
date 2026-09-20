@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -111,7 +111,7 @@ var resolveColor = function (color) {
     };
     return colorMap[color] || color || '#8884d8';
 };
-// Default Tooltip with error handling
+// Your original CustomTooltip component (unchanged)
 var CustomTooltip = function (_a) {
     var active = _a.active, payload = _a.payload, label = _a.label, formatter = _a.formatter;
     if (!active || !payload || !Array.isArray(payload) || payload.length === 0) {
@@ -120,8 +120,6 @@ var CustomTooltip = function (_a) {
     try {
         return (react_1.default.createElement("div", { className: "card raised round-edge p-2 text-sm", style: {
                 maxWidth: '300px',
-                backgroundColor: 'var(--background, #fff)',
-                border: '1px solid var(--border-color, #e2e8f0)'
             } },
             react_1.default.createElement("div", { className: "text-bold mb-1", style: { color: 'var(--text-color, #1a202c)' } }, label || 'N/A'),
             payload.map(function (entry, index) {
@@ -201,27 +199,17 @@ var Bars = function (localProps) {
     }, [final.height, isVertical, parsedData.length]);
     var TooltipComponent = final.customTooltip || CustomTooltip;
     var containerStyle = (0, react_1.useMemo)(function () { return ({
-        height: smartHeight,
-        width: final.width,
-        minHeight: final.minHeight,
-        maxHeight: final.maxHeight,
-        minWidth: final.minWidth,
-        maxWidth: final.maxWidth,
+        height: final.height || '400px', // Default height
+        width: final.width || '100%', // Default width
+        minHeight: final.minHeight || '300px', // Minimum height
+        maxHeight: final.maxHeight || '100%',
+        minWidth: final.minWidth || '100%',
+        maxWidth: final.maxWidth || '100%',
         background: final.chartBackground,
         borderRadius: final.borderRadius,
         padding: final.padding,
         boxShadow: final.shadow ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : undefined,
-    }); }, [smartHeight, final]);
-    // Handle bar radius based on layout
-    var getBarRadius = function (seriesRadius) {
-        if (seriesRadius !== undefined) {
-            return Array.isArray(seriesRadius) ? seriesRadius : [seriesRadius, seriesRadius, seriesRadius, seriesRadius];
-        }
-        if (isVertical) {
-            return [0, final.barRadius, final.barRadius, 0];
-        }
-        return [final.barRadius, final.barRadius, 0, 0];
-    };
+    }); }, [final]);
     // Show empty state if no data
     if (!hasValidData) {
         return (react_1.default.createElement("div", { className: "flex items-center justify-center ".concat(final.funcss), style: containerStyle },
@@ -229,13 +217,12 @@ var Bars = function (localProps) {
                 react_1.default.createElement("div", { className: "text-lg mb-2" }, "\uD83D\uDCCA"),
                 react_1.default.createElement("div", null, "No chart data available"))));
     }
-    return (react_1.default.createElement("div", { style: {
-            height: final.height || "400px",
-            width: final.width || "100%"
-        } },
-        react_1.default.createElement(recharts_1.ResponsiveContainer, { aspect: final.aspect, className: final.funcss, style: containerStyle },
+    return (react_1.default.createElement("div", { className: final.funcss, style: containerStyle, id: final.id },
+        react_1.default.createElement(recharts_1.ResponsiveContainer, { width: "100%" // Must be set for responsive behavior
+            , height: "100%" // Must be set for responsive behavior
+            , aspect: final.aspect, minHeight: final.minHeight ? String(final.minHeight) : undefined, minWidth: final.minWidth ? String(final.minWidth) : undefined },
             react_1.default.createElement(recharts_1.BarChart, { data: parsedData, layout: final.layout, margin: smartMargin, barGap: final.barGap, barCategoryGap: final.barCategoryGap, stackOffset: final.stackOffset, syncId: final.syncId },
-                final.showGrid && (react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: final.gridStrokeDasharray, stroke: final.gridStroke || getCssVar('border-color') || '#e2e8f0', horizontal: final.horizontalLines !== false, vertical: final.verticalLines !== false })),
+                final.showGrid && (react_1.default.createElement(recharts_1.CartesianGrid, { strokeDasharray: final.gridStrokeDasharray, stroke: final.gridStroke || getCssVar('borderColor') || '#e2e8f0', horizontal: final.horizontalLines !== false, vertical: final.verticalLines !== false })),
                 final.showXAxis && (react_1.default.createElement(recharts_1.XAxis, __assign({ type: isVertical ? 'number' : 'category', dataKey: isVertical ? undefined : 'label', interval: final.xInterval, padding: { left: 10, right: 10 }, fontSize: final.xLabelSize, strokeWidth: 0.2, angle: final.rotateLabel || (isVertical ? 0 : -35), dy: (_a = final.dy) !== null && _a !== void 0 ? _a : (isVertical ? 0 : 10), tickLine: final.tickLine, axisLine: final.axisLine, label: final.xAxisLabel ? {
                         value: final.xAxisLabel,
                         position: isVertical ? 'insideBottom' : 'insideBottom',
@@ -254,12 +241,12 @@ var Bars = function (localProps) {
                         return null;
                     }
                     try {
-                        return (react_1.default.createElement(recharts_1.Bar, { key: s.dataKey || "series-".concat(index), dataKey: s.dataKey, name: s.label || s.dataKey, fill: resolveColor(s.color), stroke: s.stroke ? resolveColor(s.stroke) : undefined, strokeWidth: s.strokeWidth || 0, fillOpacity: s.fillOpacity !== undefined ? s.fillOpacity : 0.8, barSize: s.barSize || final.barSize, maxBarSize: s.maxBarSize || final.maxBarSize, stackId: s.stackId, background: s.background || false, minPointSize: s.minPointSize, isAnimationActive: final.isAnimationActive, animationDuration: final.animationDuration, onClick: final.onBarClick, onMouseEnter: final.onBarMouseEnter, onMouseLeave: final.onBarMouseLeave, activeBar: s.activeBar !== false ? (typeof s.activeBar === 'object' ? s.activeBar : {
+                        return (react_1.default.createElement(recharts_1.Bar, { key: s.dataKey || "series-".concat(index), dataKey: s.dataKey, name: s.label || s.dataKey, fill: resolveColor(s.color), stroke: s.stroke ? resolveColor(s.stroke) : undefined, strokeWidth: s.strokeWidth || 0, fillOpacity: s.fillOpacity !== undefined ? s.fillOpacity : 0.8, barSize: s.barSize || final.barSize, maxBarSize: s.maxBarSize || final.maxBarSize, stackId: s.stackId, background: s.background || false, minPointSize: s.minPointSize, isAnimationActive: final.isAnimationActive !== false, animationDuration: final.animationDuration || 400, onClick: final.onBarClick, onMouseEnter: final.onBarMouseEnter, onMouseLeave: final.onBarMouseLeave, activeBar: s.activeBar !== false ? (typeof s.activeBar === 'object' ? s.activeBar : {
                                 fill: resolveColor(s.color),
                                 stroke: resolveColor(s.stroke),
                                 strokeWidth: 2,
                                 fillOpacity: 1
-                            }) : false }));
+                            }) : false, radius: s.radius || final.barRadius }));
                     }
                     catch (error) {
                         console.error('Error rendering bar series:', error);

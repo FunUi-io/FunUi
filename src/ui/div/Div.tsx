@@ -14,10 +14,16 @@ type DivProps = {
   padding?: string;
   margin?: string;
   id?: string;
+  className?: string;
+  style?: React.CSSProperties;
   fit?: boolean;
   ref?: React.Ref<HTMLDivElement>;
   customStyle?: React.CSSProperties;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseOver?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseOut?: React.MouseEventHandler<HTMLDivElement>;
 };
 
 const Div = ({
@@ -31,37 +37,51 @@ const Div = ({
   height,
   width,
   padding,
+  className,
+  style,
   margin,
   id,
   fit,
   ref,
   customStyle,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseOver,
+  onMouseOut,
   ...rest
 }: DivProps) => {
   return (
-    <div>
-
-        <div
-          ref={ref}
-          className={`${fit ? 'width-100-p height-100-p' : ''} ${funcss}`}
-          style={{
-            height: height || '',
-            maxHeight: maxHeight || '',
-            minHeight: minHeight || '',
-            maxWidth: maxWidth || '',
-            minWidth: minWidth || '',
-            width: width || '',
-            padding: padding || '',
-            margin: margin || '',
-            ...customStyle
-          }}
-          id={id}
-          {...rest}
-        >
-          {content || children}
-        </div>
+    <div
+      ref={ref}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+      onClick={onClick}
+    >
+      <div
+        className={`${fit ? 'width-100-p height-100-p' : ''} ${funcss} ${className || ''}`}
+        style={{
+          height: height || '',
+          maxHeight: maxHeight || '',
+          minHeight: minHeight || '',
+          maxWidth: maxWidth || '',
+          minWidth: minWidth || '',
+          width: width || '',
+          padding: padding || '',
+          margin: margin || '',
+          ...style,
+          ...customStyle
+        }}
+        id={id}
+        {...rest}
+      >
+        {content || children}
+      </div>
     </div>
   );
 };
 
 export default Div;
+

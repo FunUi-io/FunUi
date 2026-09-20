@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -54,6 +54,9 @@ var componentUtils_1 = require("../../utils/componentUtils");
 var Text_1 = __importDefault(require("../text/Text"));
 var Button_1 = __importDefault(require("../button/Button"));
 var getDynamicIcon_1 = require("../../utils/getDynamicIcon");
+var Carousel_1 = __importDefault(require("../carousel/Carousel"));
+var theme_1 = require("../theme/theme");
+var pi_1 = require("react-icons/pi");
 var useDynamicIcon = function (iconString) {
     var _a = (0, react_1.useState)(null), iconNode = _a[0], setIconNode = _a[1];
     var _b = (0, react_1.useState)(false), hasValidIcon = _b[0], setHasValidIcon = _b[1];
@@ -76,305 +79,347 @@ var useDynamicIcon = function (iconString) {
     }, [iconString]);
     return { iconNode: iconNode, hasValidIcon: hasValidIcon };
 };
-var FeatureIcon = function (_a) {
-    var icon = _a.icon, iconColor = _a.iconColor, _b = _a.iconSize, iconSize = _b === void 0 ? 24 : _b, _c = _a.iconClassName, iconClassName = _c === void 0 ? '' : _c, layout = _a.layout, _d = _a.checklistIcon, checklistIcon = _d === void 0 ? 'PiCheck' : _d, _e = _a.checklistColor, checklistColor = _e === void 0 ? 'success' : _e, _f = _a.checklistSize, checklistSize = _f === void 0 ? 20 : _f, _g = _a.checklistClassName, checklistClassName = _g === void 0 ? '' : _g;
+// Dynamic Icon Component with proper typing
+var DynamicIcon = function (_a) {
+    var icon = _a.icon, color = _a.color, _b = _a.size, size = _b === void 0 ? 24 : _b;
     var isStringIcon = icon && typeof icon === 'string';
-    var _h = useDynamicIcon(isStringIcon ? icon : undefined), dynamicIconNode = _h.iconNode, hasValidDynamicIcon = _h.hasValidIcon;
-    var _j = useDynamicIcon(layout === 'checklist' ? checklistIcon : undefined), checkmarkIconNode = _j.iconNode, hasValidCheckmarkIcon = _j.hasValidIcon;
-    var getIconColorStyle = function (color) {
+    var _c = useDynamicIcon(isStringIcon ? icon : undefined), iconNode = _c.iconNode, hasValidIcon = _c.hasValidIcon;
+    var getIconColorStyle = function () {
         if (!color)
             return {};
-        if (color.startsWith('text-') || color.startsWith('bg-') || color.startsWith('border-')) {
-            return {};
-        }
-        var colorNames = ['primary', 'secondary', 'accent', 'success', 'warning', 'error', 'info', 'dark', 'light'];
-        if (colorNames.includes(color)) {
-            var cssValue = (0, getCssVariable_1.getCssVariableValue)(color);
-            if (cssValue) {
-                return { color: cssValue };
-            }
+        var cssValue = (0, getCssVariable_1.getCssVariableValue)(color);
+        if (cssValue && cssValue !== color) {
+            return { color: cssValue };
         }
         return { color: color };
     };
-    var iconColorStyle = getIconColorStyle(iconColor);
-    var checklistColorStyle = getIconColorStyle(checklistColor);
-    var renderIconWithProps = function (iconElement, className, style, size) {
-        if (!react_1.default.isValidElement(iconElement))
-            return iconElement;
-        var props = {
-            className: className,
-            style: __assign(__assign({}, style), iconElement.props.style),
-        };
-        if (size !== undefined) {
-            props.size = size;
-        }
-        return react_1.default.cloneElement(iconElement, props);
-    };
     if (icon && typeof icon !== 'string' && react_1.default.isValidElement(icon)) {
-        return renderIconWithProps(icon, "feature-section__icon ".concat(iconClassName), iconColorStyle, iconSize);
+        // Handle React element icons
+        var iconElement = icon;
+        return react_1.default.cloneElement(iconElement, {
+            size: size,
+            style: __assign(__assign({}, getIconColorStyle()), iconElement.props.style),
+        });
     }
-    if (isStringIcon && hasValidDynamicIcon && dynamicIconNode) {
-        return renderIconWithProps(dynamicIconNode, "feature-section__icon ".concat(iconClassName), iconColorStyle, iconSize);
-    }
-    if (layout === 'checklist' && hasValidCheckmarkIcon && checkmarkIconNode) {
-        return renderIconWithProps(checkmarkIconNode, "feature-section__checkmark ".concat(checklistClassName), checklistColorStyle, checklistSize);
+    if (isStringIcon && hasValidIcon && iconNode && react_1.default.isValidElement(iconNode)) {
+        // Handle dynamically loaded icons
+        var dynamicIconElement = iconNode;
+        var newProps = {
+            size: size,
+            style: getIconColorStyle(),
+        };
+        // Preserve existing props
+        if (dynamicIconElement.props.className) {
+            newProps.className = dynamicIconElement.props.className;
+        }
+        return react_1.default.cloneElement(dynamicIconElement, newProps);
     }
     return null;
+};
+// Star Rating Component with dynamic icon
+var StarRating = function (_a) {
+    var rating = _a.rating, _b = _a.icon, icon = _b === void 0 ? 'PiStar' : _b, _c = _a.color, color = _c === void 0 ? 'warning' : _c, _d = _a.size, size = _d === void 0 ? 16 : _d;
+    var _e = (0, react_1.useState)(null), ratingIconNode = _e[0], setRatingIconNode = _e[1];
+    var iconNode = useDynamicIcon(icon).iconNode;
+    (0, react_1.useEffect)(function () {
+        if (iconNode) {
+            setRatingIconNode(iconNode);
+        }
+    }, [iconNode]);
+    var renderIcon = function (type, index) {
+        var colorValue = (0, getCssVariable_1.getCssVariableValue)(color) || color;
+        var emptyColor = 'var(--muted)';
+        // If we have a dynamic icon and it's not empty
+        if (ratingIconNode && react_1.default.isValidElement(ratingIconNode) && type !== 'empty') {
+            var iconElement = ratingIconNode;
+            // Create a new props object
+            var newProps = {
+                key: index,
+                style: __assign({ color: colorValue }, iconElement.props.style)
+            };
+            // Add size prop if it exists
+            if (size !== undefined) {
+                newProps.size = size;
+            }
+            return react_1.default.cloneElement(iconElement, newProps);
+        }
+        // For empty stars or fallback, use PiStar icons
+        if (type === 'full') {
+            return react_1.default.createElement(pi_1.PiStarFill, { key: index, size: size, style: { color: colorValue } });
+        }
+        else if (type === 'half') {
+            return react_1.default.createElement(pi_1.PiStarHalf, { key: index, size: size, style: { color: colorValue } });
+        }
+        else {
+            return react_1.default.createElement(pi_1.PiStar, { key: index, size: size, style: { color: emptyColor } });
+        }
+    };
+    var stars = [];
+    var fullStars = Math.floor(rating);
+    var hasHalfStar = rating % 1 >= 0.5;
+    for (var i = 1; i <= 5; i++) {
+        if (i <= fullStars) {
+            stars.push(renderIcon('full', i));
+        }
+        else if (hasHalfStar && i === fullStars + 1) {
+            stars.push(renderIcon('half', i));
+        }
+        else {
+            stars.push(renderIcon('empty', i));
+        }
+    }
+    return (react_1.default.createElement("div", { className: "star-rating", style: { display: 'flex', gap: '2px', alignItems: 'center' } }, stars));
+};
+// Helper function to convert shorthand flex values
+var convertFlexValue = function (value) {
+    if (!value)
+        return undefined;
+    var flexMap = {
+        'start': 'flex-start',
+        'end': 'flex-end',
+        'center': 'center',
+        'between': 'space-between',
+        'around': 'space-around',
+    };
+    return flexMap[value] || value;
+};
+// Format date
+var formatDate = function (dateString) {
+    if (!dateString)
+        return '';
+    try {
+        var date = new Date(dateString);
+        if (isNaN(date.getTime()))
+            return '';
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    }
+    catch (_a) {
+        return dateString;
+    }
+};
+// Truncate HTML content safely
+var truncateHtml = function (html, maxLength) {
+    if (!html)
+        return { truncated: '', isTruncated: false };
+    // Strip HTML tags for length calculation
+    var text = html.replace(/<[^>]*>/g, '');
+    if (text.length <= maxLength) {
+        return { truncated: html, isTruncated: false };
+    }
+    // Truncate text
+    var truncatedText = text.substring(0, maxLength) + '...';
+    return { truncated: truncatedText, isTruncated: true };
 };
 var Feature = function (localProps) {
     var mergeWithLocal = (0, componentUtils_1.useComponentConfiguration)('Feature', localProps.variant).mergeWithLocal;
     var mergedProps = mergeWithLocal(localProps).props;
     var final = mergedProps;
-    var _a = (0, react_1.useState)([]), featuresArray = _a[0], setFeaturesArray = _a[1];
-    var _b = (0, react_1.useState)({}), responsiveColumns = _b[0], setResponsiveColumns = _b[1];
-    // Parse features
+    var _a = (0, react_1.useState)([]), itemsArray = _a[0], setItemsArray = _a[1];
+    var _b = (0, react_1.useState)(new Set()), expandedItems = _b[0], setExpandedItems = _b[1];
+    // Use bucket data if bucket is provided
+    var _c = (0, theme_1.usePaginatedRecords)(final.bucket || '', final.bucketPage || 1, final.bucketSize || 50), bucketRecords = _c.records, bucketLoading = _c.loading;
+    // Parse items from props or bucket
     (0, react_1.useEffect)(function () {
-        if (typeof final.features === 'string') {
-            try {
-                var parsed = JSON.parse(final.features);
-                setFeaturesArray(Array.isArray(parsed) ? parsed : [parsed]);
+        var parseItems = function () {
+            if (final.bucket && bucketRecords) {
+                // Map bucket records to content format
+                var mappedItems = bucketRecords.map(function (record) {
+                    var _a, _b;
+                    var values = record.values || record;
+                    if (final.isTestimonial) {
+                        return {
+                            customerName: values.customerName || values.name || values.customer,
+                            company: values.company || values.organization,
+                            avatar: ((_a = values === null || values === void 0 ? void 0 : values.avatar) === null || _a === void 0 ? void 0 : _a.url) || values.imageUrl || values.photo,
+                            content: values.content || values.testimonial || values.description,
+                            rating: values.rating || values.stars || 5,
+                            role: values.role || values.position,
+                            project: values.project || values.service,
+                            date: values.date || values.createdAt,
+                            featured: values.featured || values.highlighted || false,
+                            title: values.customerName || values.name,
+                            description: values.content || values.testimonial,
+                            imageUrl: values.avatar || values.imageUrl,
+                            icon: final.quoteIcon || 'PiQuotes',
+                            iconColor: final.quoteColor || 'primary'
+                        };
+                    }
+                    else {
+                        return __assign({ title: values.title || values.name, description: values.description || values.content, icon: values.icon, iconColor: values.iconColor, imageUrl: values.imageUrl || ((_b = values.avatar) === null || _b === void 0 ? void 0 : _b.url) }, values);
+                    }
+                });
+                setItemsArray(mappedItems);
             }
-            catch (error) {
-                console.error('Error parsing features JSON:', error);
-                setFeaturesArray([]);
-            }
-        }
-        else if (Array.isArray(final.features)) {
-            setFeaturesArray(final.features);
-        }
-        else {
-            setFeaturesArray([]);
-        }
-    }, [final.features]);
-    // Parse responsive columns
-    (0, react_1.useEffect)(function () {
-        if (final.responsiveColumns) {
-            try {
-                var parsed = JSON.parse(final.responsiveColumns);
-                if (parsed && typeof parsed === 'object') {
-                    setResponsiveColumns(parsed);
+            else if (typeof final.items === 'string') {
+                try {
+                    var parsed = JSON.parse(final.items);
+                    setItemsArray(Array.isArray(parsed) ? parsed : [parsed]);
+                }
+                catch (error) {
+                    console.error('Error parsing items JSON:', error);
+                    setItemsArray([]);
                 }
             }
-            catch (error) {
-                console.error('Error parsing responsive columns:', error);
-                setResponsiveColumns({});
+            else if (Array.isArray(final.items)) {
+                setItemsArray(final.items);
             }
-        }
-    }, [final.responsiveColumns]);
-    var getSpacingValue = function (value, defaultValue) {
-        if (defaultValue === void 0) { defaultValue = '0'; }
-        if (!value)
-            return defaultValue;
-        if (/^\d+$/.test(value)) {
-            return "".concat(parseInt(value) * 0.25, "rem");
-        }
-        return value;
-    };
-    var getButtonVariantClass = function (variant) {
-        if (!variant)
-            return '';
-        var variantClasses = {
-            'primary': 'btn-primary',
-            'secondary': 'btn-secondary',
-            'accent': 'btn-accent',
-            'text': 'btn-text',
-            'outline': 'btn-outline',
+            else {
+                setItemsArray([]);
+            }
         };
-        return variantClasses[variant] || "btn-".concat(variant);
+        parseItems();
+    }, [final.items, final.isTestimonial, final.bucket, bucketRecords, final.quoteIcon, final.quoteColor]);
+    // Toggle expanded state for an item
+    var toggleExpand = function (index) {
+        setExpandedItems(function (prev) {
+            var newSet = new Set(prev);
+            if (newSet.has(index)) {
+                newSet.delete(index);
+            }
+            else {
+                newSet.add(index);
+            }
+            return newSet;
+        });
     };
-    var renderItemCTA = function (item) {
-        if (!item.ctaText)
+    var renderItem = function (item, index) {
+        var isExpanded = expandedItems.has(index);
+        var contentLimit = final.contentLimit || 150;
+        // Get content to display
+        var displayContent = item.description || item.content || '';
+        var isTruncated = false;
+        if (typeof displayContent === 'string' && displayContent.length > contentLimit && !isExpanded) {
+            var _a = truncateHtml(displayContent, contentLimit), truncated = _a.truncated, truncatedFlag = _a.isTruncated;
+            displayContent = truncated;
+            isTruncated = truncatedFlag;
+        }
+        // Item content
+        var itemContent = (react_1.default.createElement(react_1.default.Fragment, null,
+            final.isTestimonial && final.showQuote && (react_1.default.createElement("div", { className: "feature__quote-icon", style: { marginBottom: '1rem' } }, react_1.default.isValidElement(final.quoteIcon) ? final.quoteIcon : (react_1.default.createElement(DynamicIcon, { icon: final.quoteIcon || 'PiQuotes', color: final.quoteColor, size: final.iconSize })))),
+            (item.icon || item.imageUrl) && !final.isTestimonial && (react_1.default.createElement("div", { className: "feature__icon-container", style: { marginBottom: '1rem' } }, item.imageUrl ? (react_1.default.createElement("img", { src: item.imageUrl, alt: item.imageAlt || '', className: "feature__image", style: {
+                    width: "".concat(final.iconSize || 24, "px"),
+                    height: "".concat(final.iconSize || 24, "px"),
+                    objectFit: 'cover',
+                    borderRadius: '50%',
+                } })) : (react_1.default.createElement(DynamicIcon, { icon: item.icon, color: item.iconColor || final.iconColor, size: final.iconSize })))),
+            item.title && (react_1.default.createElement(Text_1.default, { block: true, size: final.itemTitleSize || 'lg', weight: 600, color: "default", style: { marginBottom: '0.75rem' } }, item.title)),
+            (item.description || item.content) && (react_1.default.createElement(react_1.default.Fragment, null,
+                react_1.default.createElement(Text_1.default, { block: true, size: final.itemDescriptionSize || 'base', weight: 400, color: "muted", dangerouslySetInnerHTML: true, text: displayContent }),
+                isTruncated && final.showExpand && (react_1.default.createElement("button", { onClick: function () { return toggleExpand(index); }, className: "feature__expand-btn", style: {
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--primary)',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem',
+                        marginTop: '0.5rem',
+                        padding: 0,
+                        textDecoration: 'underline'
+                    } }, isExpanded ? (final.collapseText || 'Show less') : (final.expandText || 'Read more'))))),
+            final.isTestimonial && (react_1.default.createElement("div", { className: "feature__testimonial-info", style: { marginTop: '1rem' } },
+                final.showStars && item.rating && (react_1.default.createElement("div", { style: { marginBottom: '0.5rem' } },
+                    react_1.default.createElement(StarRating, { rating: item.rating, icon: final.ratingIcon, color: final.starColor, size: 16 }))),
+                react_1.default.createElement("div", { style: { display: 'flex', alignItems: 'center', gap: '0.75rem' } },
+                    item.avatar && (react_1.default.createElement("img", { src: item.avatar, alt: item.customerName || 'Customer', style: {
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover'
+                        } })),
+                    react_1.default.createElement("div", null,
+                        item.customerName && (react_1.default.createElement(Text_1.default, { block: true, size: "sm", weight: 600, style: { marginBottom: '0.25rem' } }, item.customerName)),
+                        react_1.default.createElement("div", { style: { fontSize: '0.75rem', color: 'var(--text-muted)' } },
+                            item.role && final.showRole && react_1.default.createElement("span", null, item.role),
+                            item.company && final.showCompany && (react_1.default.createElement("span", null,
+                                item.role ? ' at ' : '',
+                                item.company)),
+                            item.date && final.showDate && react_1.default.createElement("span", null,
+                                " \u2022 ",
+                                formatDate(item.date))))))),
+            !final.isTestimonial && final.showCTA && final.ctaText && (react_1.default.createElement("div", { style: { marginTop: '1rem' } },
+                react_1.default.createElement(Button_1.default, { url: final.ctaUrl, color: "primary", text: final.ctaText, funcss: 'p-0' })))));
+        // Apply card styling if enabled
+        if (final.card) {
+            var shadowValue = final.cardShadow !== 'none' ?
+                (0, getCssVariable_1.getCssVariableValue)("shadow-".concat(final.cardShadow)) || undefined :
+                undefined;
+            return (react_1.default.createElement("div", { key: index, className: "feature__card ".concat(final.cardClassName || ''), style: __assign({ padding: final.cardPadding || '1.5rem', borderRadius: final.cardRounded || '0.5rem', boxShadow: shadowValue, border: '1px solid var(--borderRgb)', height: '100%', maxWidth: final.itemMaxWidth || '100%' }, item.style) }, itemContent));
+        }
+        // Regular item without card
+        return (react_1.default.createElement("div", { key: index, className: "feature__item", style: __assign({ maxWidth: final.itemMaxWidth || '100%' }, item.style) }, itemContent));
+    };
+    var renderFlexItems = function () {
+        if (itemsArray.length === 0)
             return null;
-        var ctaVariant = item.ctaVariant || 'text';
-        var ctaClassName = item.ctaClassName || '';
-        var ctaCss = item.ctaCss || '';
-        var buttonClass = getButtonVariantClass(ctaVariant);
-        return (react_1.default.createElement("a", { href: item.ctaUrl, onClick: item.ctaOnClick, className: "btn ".concat(buttonClass, " ").concat(ctaClassName, " ").concat(ctaCss, " feature-section__item-cta text-sm"), style: {
-                marginTop: '1rem',
-                display: 'inline-block',
-                textDecoration: 'none',
-            } }, item.ctaText));
-    };
-    var renderFeatureItem = function (item, index) {
-        var _a, _b;
-        if (item.customRender) {
-            return item.customRender();
-        }
-        var iconColor = item.iconColor || final.iconColor;
-        var iconSize = item.iconSize || final.iconSize || 24;
-        var iconClassName = item.iconClassName || final.iconClassName || '';
-        var checkmarkIcon = final.checkmarkIcon || 'PiCheck';
-        var checkmarkColor = final.checkmarkColor || 'success';
-        var checkmarkSize = final.checkmarkSize || 20;
-        var checkmarkClassName = final.checkmarkClassName || '';
-        var cardBg = item.cardBg || final.cardBg;
-        var cardPadding = item.cardPadding || final.cardPadding || '1.5rem';
-        var cardRounded = item.cardRounded || final.cardRounded || '0.5rem';
-        var cardShadow = item.cardShadow || final.cardShadow || 'md';
-        var cardBorder = (_b = (_a = item.cardBorder) !== null && _a !== void 0 ? _a : final.cardBorder) !== null && _b !== void 0 ? _b : true;
-        var cardBorderColor = item.cardBorderColor || final.cardBorderColor || 'var(--borderRgb)';
-        var cardHoverEffect = item.cardHoverEffect || final.cardHoverEffect || 'none';
-        var titleSize = item.titleSize || final.itemTitleSize || '1.125rem';
-        var titleWeight = item.titleWeight || final.itemTitleWeight || 600;
-        var titleColor = item.titleColor || final.itemTitleColor || 'var(--text-color)';
-        var titleClassName = item.titleClassName || '';
-        var titleVariant = item.titleVariant || final.itemTitleVariant; // Updated
-        var descriptionSize = item.descriptionSize || final.itemDescriptionSize || '0.875rem';
-        var descriptionWeight = item.descriptionWeight || final.itemDescriptionWeight || 400;
-        var descriptionColor = item.descriptionColor || final.itemDescriptionColor || 'var(--text-muted)';
-        var descriptionClassName = item.descriptionClassName || '';
-        var descriptionVariant = item.descriptionVariant || final.itemDescriptionVariant; // Updated
-        var isGridLayout = final.layout === 'grid';
-        var featureContent = (react_1.default.createElement("div", { className: "feature-section__item ".concat(item.className || ''), style: item.style },
-            (item.icon || item.imageUrl || final.layout === 'checklist') && (react_1.default.createElement("div", { className: "feature-section__icon-container", style: { marginBottom: '1rem' } }, item.imageUrl ? (react_1.default.createElement("img", { src: item.imageUrl, alt: item.imageAlt || '', className: "feature-section__image ".concat(item.imageClassName || final.imageClassName || ''), style: __assign(__assign({ width: "".concat(iconSize, "px"), height: "".concat(iconSize, "px"), objectFit: 'cover', borderRadius: '50%' }, item.imageStyle), final.imageStyle) })) : (react_1.default.createElement("div", { className: "feature-section__icon-wrapper" },
-                react_1.default.createElement(FeatureIcon, { icon: item.icon, iconColor: iconColor, iconSize: iconSize, iconClassName: iconClassName, layout: final.layout, checklistIcon: checkmarkIcon, checklistColor: checkmarkColor, checklistSize: checkmarkSize, checklistClassName: checkmarkClassName }))))),
-            item.title && (react_1.default.createElement(Text_1.default, { variant: titleVariant, block: true, size: titleSize, weight: titleWeight, color: titleColor, funcss: "feature-section__title ".concat(titleClassName), style: { marginBottom: '0.75rem' } }, item.title)),
-            item.description && (react_1.default.createElement(Text_1.default, { variant: descriptionVariant, block: true, size: descriptionSize, weight: descriptionWeight, color: descriptionColor, funcss: "feature-section__description ".concat(descriptionClassName) }, item.description)),
-            item.content && (react_1.default.createElement("div", { className: "feature-section__additional-content", style: { marginTop: '1rem' } }, item.content)),
-            renderItemCTA(item)));
-        // For grid layout with cards
-        if (isGridLayout && cardBg) {
-            var cardClasses = [
-                'feature-section__card',
-                cardHoverEffect !== 'none' ? "feature-section__card--hover-".concat(cardHoverEffect) : '',
-                item.className || '',
-            ].filter(Boolean).join(' ');
-            var cardStyles = __assign({ padding: getSpacingValue(cardPadding, '1.5rem'), borderRadius: cardRounded, backgroundColor: cardBg ? (0, getCssVariable_1.getCssVariableValue)(cardBg) || cardBg : undefined, boxShadow: cardShadow !== 'none' ? (0, getCssVariable_1.getCssVariableValue)("shadow-".concat(cardShadow)) || undefined : undefined, border: cardBorder ? "1px solid ".concat((0, getCssVariable_1.getCssVariableValue)(cardBorderColor) || cardBorderColor) : 'none', height: '100%' }, item.style);
-            return (react_1.default.createElement("div", { key: index, className: cardClasses, style: cardStyles }, featureContent));
-        }
-        return featureContent;
-    };
-    var getResponsiveGridColumns = function () {
-        var defaultColumns = final.columns || 3;
-        if (Object.keys(responsiveColumns).length === 0) {
-            return "repeat(".concat(defaultColumns, ", 1fr)");
-        }
-        return {
-            base: "repeat(".concat(responsiveColumns.sm || defaultColumns, ", 1fr)"),
-            sm: "repeat(".concat(responsiveColumns.sm || defaultColumns, ", 1fr)"),
-            md: "repeat(".concat(responsiveColumns.md || responsiveColumns.sm || defaultColumns, ", 1fr)"),
-            lg: "repeat(".concat(responsiveColumns.lg || responsiveColumns.md || responsiveColumns.sm || defaultColumns, ", 1fr)"),
-            xl: "repeat(".concat(responsiveColumns.xl || responsiveColumns.lg || responsiveColumns.md || responsiveColumns.sm || defaultColumns, ", 1fr)"),
-        };
-    };
-    var getGridStyles = function () {
-        var gap = getSpacingValue(final.gap, '2rem');
-        var itemGap = getSpacingValue(final.itemGap, '1rem');
-        var baseStyle = {
-            display: 'grid',
-            gap: gap,
-            alignItems: final.align || 'stretch',
-            justifyContent: final.justify || 'start',
-        };
-        var columns = getResponsiveGridColumns();
-        if (typeof columns === 'string') {
-            return __assign(__assign({}, baseStyle), { gridTemplateColumns: columns });
-        }
-        return baseStyle;
-    };
-    var getPatternStyle = function () {
-        if (!final.pattern || final.pattern === 'none')
-            return {};
-        var opacity = final.patternOpacity || 0.05;
-        var color = final.patternColor || 'borderRgb';
-        var size = final.patternSize || '20px';
-        var colorValue = (0, getCssVariable_1.getCssVariableValue)(color) || 'rgba(var(--borderRgb), 0.1)';
-        var backgroundImage = '';
-        var backgroundSize = size;
-        switch (final.pattern) {
-            case 'grid':
-                backgroundImage = "linear-gradient(to right, ".concat(colorValue, " ").concat(opacity, " 1px, transparent 1px),\n                          linear-gradient(to bottom, ").concat(colorValue, " ").concat(opacity, " 1px, transparent 1px)");
-                backgroundSize = "".concat(size, " ").concat(size);
-                break;
-            case 'dots':
-                backgroundImage = "radial-gradient(".concat(colorValue, " ").concat(opacity, " 1px, transparent 1px)");
-                backgroundSize = "".concat(size, " ").concat(size);
-                break;
-            case 'diagonal':
-                backgroundImage = "repeating-linear-gradient(45deg, ".concat(colorValue, " ").concat(opacity, ", ").concat(colorValue, " ").concat(opacity, " 1px, transparent 1px, transparent 20px)");
-                backgroundSize = "".concat(size, " ").concat(size);
-                break;
-        }
-        return {
-            backgroundImage: backgroundImage,
-            backgroundSize: backgroundSize,
-        };
-    };
-    var getFadeStyle = function () {
-        if (!final.fade)
-            return {};
-        var color = final.fadeColor || 'page-bg';
-        var fadeColor = (0, getCssVariable_1.getCssVariableValue)(color) || color;
-        if (final.fadeRadial) {
-            return {
-                background: "radial-gradient(ellipse at center, transparent 30%, ".concat(fadeColor, " 70%)"),
-            };
-        }
-        var direction = final.fadeDirection || 'bottom';
-        var gradients = {
-            top: 'to top',
-            bottom: 'to bottom',
-            left: 'to left',
-            right: 'to right',
-        };
-        return {
-            background: "linear-gradient(".concat(gradients[direction], ", transparent 0%, ").concat(fadeColor, " 90%)"),
-        };
-    };
-    var getTextAlign = function (align) {
-        return {
-            textAlign: align || 'center',
-        };
-    };
-    var renderFeaturesContent = function () {
-        if (featuresArray.length === 0)
-            return null;
-        var gridStyles = getGridStyles();
-        var isCentered = final.layout === 'centered';
-        var maxWidth = final.maxWidth || (isCentered ? '48rem' : '100%');
-        if (isCentered) {
-            return (react_1.default.createElement("div", { className: "feature-section__centered-container", style: {
+        var gapValue = final.gap !== undefined ? "".concat(final.gap * 0.25, "rem") : '2rem';
+        if (final.layout === 'centered') {
+            var maxWidth = final.maxWidth || '48rem';
+            return (react_1.default.createElement("div", { className: "feature__centered-container", style: {
                     maxWidth: maxWidth,
                     margin: '0 auto',
-                } }, featuresArray.map(function (item, index) { return renderFeatureItem(item, index); })));
+                } }, itemsArray.map(function (item, index) { return renderItem(item, index); })));
         }
-        return (react_1.default.createElement("div", { className: "feature-section__grid", style: __assign(__assign({}, gridStyles), { maxWidth: final.maxWidth || '100%', margin: '0 auto' }) }, featuresArray.map(function (item, index) { return (react_1.default.createElement("div", { key: index, className: "feature-section__grid-item" }, renderFeatureItem(item, index))); })));
+        // Use Flex layout
+        return (react_1.default.createElement("div", { className: "feature__flex-container", style: {
+                display: 'flex',
+                flexWrap: final.wrap !== false ? 'wrap' : 'nowrap',
+                gap: gapValue,
+                alignItems: convertFlexValue(final.align) || 'stretch',
+                justifyContent: convertFlexValue(final.justify) || 'flex-start',
+                maxWidth: final.maxWidth || '100%',
+                margin: '0 auto',
+            } }, itemsArray.map(function (item, index) { return (react_1.default.createElement("div", { key: index, className: "feature__flex-item", style: { flex: '1 1 300px' } }, renderItem(item, index))); })));
     };
-    var getLayoutClasses = function () {
-        var classes = ['feature-section'];
-        if (final.layout) {
-            classes.push("feature-section--".concat(final.layout));
-        }
-        if (final.className) {
-            classes.push(final.className);
-        }
-        if (final.sectionClass) {
-            classes.push(final.sectionClass);
-        }
-        if (final.funcss) {
-            classes.push(final.funcss);
-        }
-        return classes.filter(Boolean).join(' ');
+    var renderCarouselItems = function () {
+        if (itemsArray.length === 0)
+            return null;
+        // Prepare carousel items
+        var carouselItems = itemsArray.map(function (item, index) { return renderItem(item, index); });
+        return (react_1.default.createElement("div", { className: "feature__carousel-container" },
+            react_1.default.createElement(Carousel_1.default, { scrollNumber: final.scrollNumber || 320, gap: final.gap || 1, funcss: final.carouselFuncss, showDashes: final.showDashes !== false }, carouselItems)));
     };
-    var getContainerStyles = function () {
-        var padding = getSpacingValue(final.padding, '3rem 0');
-        return __assign(__assign({ position: 'relative', padding: padding, backgroundColor: final.bg ? (0, getCssVariable_1.getCssVariableValue)(final.bg) || final.bg : undefined, overflow: 'hidden' }, getPatternStyle()), final.style);
+    var renderContent = function () {
+        if (itemsArray.length === 0)
+            return null;
+        // Use carousel if isCarousel is true
+        if (final.isCarousel) {
+            return renderCarouselItems();
+        }
+        // Otherwise use flex layout
+        return renderFlexItems();
     };
-    return (react_1.default.createElement("section", { id: final.id, className: getLayoutClasses(), style: getContainerStyles() },
-        final.fade && (react_1.default.createElement("div", { className: "feature-section__fade-overlay", style: __assign(__assign({ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }, getFadeStyle()), { zIndex: 0, pointerEvents: 'none' }) })),
-        react_1.default.createElement("div", { className: "feature-section__container ".concat(final.containerClassName || ''), style: __assign({ position: 'relative', zIndex: 1, maxWidth: final.maxWidth || '1280px', margin: '0 auto', padding: '0 1rem' }, final.containerStyle) },
-            (final.title || final.subtitle || final.description) && (react_1.default.createElement("div", { className: "feature-section__header", style: __assign({ marginBottom: '3rem', maxWidth: final.layout === 'centered' ? '48rem' : '100%', marginLeft: 'auto', marginRight: 'auto' }, getTextAlign(final.titleAlign)) },
-                final.subtitle && (react_1.default.createElement(Text_1.default, { variant: final.subtitleVariant, block: true, size: final.subtitleSize || 'sm', weight: final.subtitleWeight || 600, color: final.subtitleColor || 'var(--primary)', funcss: "feature-section__subtitle ".concat(final.subtitleClassName || ''), style: {
+    return (react_1.default.createElement("section", { id: final.id, className: "feature-section ".concat(final.className || '', " ").concat(final.funcss || ''), style: {
+            padding: final.padding || '3rem 0',
+        } },
+        react_1.default.createElement("div", { className: "feature__container ".concat(final.containerClassName || ''), style: {
+                maxWidth: final.maxWidth || '1280px',
+                margin: '0 auto',
+                padding: '0 1rem',
+            } },
+            (final.title || final.subtitle || final.description) && (react_1.default.createElement("div", { className: "feature__header", style: {
+                    marginBottom: '3rem',
+                    maxWidth: final.layout === 'centered' ? '48rem' : '100%',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    textAlign: final.titleAlign || 'center',
+                } },
+                final.subtitle && (react_1.default.createElement(Text_1.default, { block: true, size: final.subtitleSize || 'sm', weight: 600, color: final.subtitleColor || 'primary', style: {
                         textTransform: 'uppercase',
                         letterSpacing: '0.05em',
                         marginBottom: '0.5rem',
-                    }, text: final.subtitle })),
-                final.title && (react_1.default.createElement(Text_1.default, { variant: final.titleVariant, block: true, size: final.titleSize || 'xl', weight: final.titleWeight || 700, color: final.titleColor || 'var(--text-color)', funcss: "feature-section__main-title ".concat(final.titleClassName || ''), style: { marginBottom: '1rem' }, text: final.title })),
-                final.description && (react_1.default.createElement(Text_1.default, { variant: final.descriptionVariant, block: true, size: final.descriptionSize || 'sm', weight: final.descriptionWeight || 400, color: final.descriptionColor || 'var(--text-muted)', funcss: "feature-section__section-description ".concat(final.descriptionClassName || ''), text: final.description })))),
-            react_1.default.createElement("div", { className: "feature-section__content" },
-                renderFeaturesContent(),
+                    } }, final.subtitle)),
+                final.title && (react_1.default.createElement(Text_1.default, { block: true, size: final.titleSize || 'xl', weight: 700, color: final.titleColor || 'default', style: { marginBottom: '1rem' } }, final.title)),
+                final.description && (react_1.default.createElement(Text_1.default, { block: true, size: final.descriptionSize || 'base', weight: 400, color: final.descriptionColor || 'muted' }, final.description)))),
+            react_1.default.createElement("div", { className: "feature__content" },
+                renderContent(),
                 final.children),
-            final.ctaText && (react_1.default.createElement("div", { className: "feature-section__cta-container", style: __assign({ marginTop: '2.5rem' }, getTextAlign(final.ctaAlign)) },
-                react_1.default.createElement(Button_1.default, { variant: final.ctaVariant, onClick: final.ctaOnClick || (function () { return final.ctaUrl && (window.location.href = final.ctaUrl); }), funcss: "feature-section__cta ".concat(final.ctaClassName || '', " ").concat(final.ctaCss || ''), stringPrefix: final.ctaStringPrefix, stringSuffix: final.ctaStringSuffix, startIcon: final.ctaStartIcon, endIcon: final.ctaEndIcon, iconSize: final.ctaIconSize, isLoading: final.ctaIsLoading, status: final.ctaStatus, url: final.ctaUrl }, final.ctaText))))));
+            final.ctaText && (react_1.default.createElement("div", { className: "feature__cta-container", style: {
+                    marginTop: '2.5rem',
+                    textAlign: final.ctaAlign || 'center',
+                } },
+                react_1.default.createElement(Button_1.default, { url: final.ctaUrl, bg: final.ctaBg || 'primary', text: final.ctaText }))))));
 };
 exports.default = Feature;

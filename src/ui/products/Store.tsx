@@ -1,6 +1,17 @@
 'use client';
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { PiMagnifyingGlass, PiCaretLeft, PiCaretRight, PiSpinnerGap } from 'react-icons/pi';
+import { 
+  PiMagnifyingGlass, 
+  PiCaretLeft, 
+  PiCaretRight, 
+  PiSpinnerGap, 
+  PiWhatsappLogo, 
+  PiX,
+  PiList,
+  PiFunnel,
+  PiHandTap,
+  PiUserCircle
+} from 'react-icons/pi';
 import Button from '../button/Button';
 import RowFlex from '../specials/RowFlex';
 import Text from '../text/Text';
@@ -8,14 +19,17 @@ import Input from '../input/Input';
 import Div from '../div/Div';
 import { SlHandbag } from "react-icons/sl";
 import Flex from '../flex/Flex';
-import Select from '../select/Select';
 import ProductCard from './ProductCard';
 import CartModal from './CartModal';
 import ProductDetail from './ProductDetail';
 import { usePaginatedRecords } from '../theme/theme';
 import { useComponentConfiguration } from '../../utils/componentUtils';
 import Empty from '../empty/Empty';
-import { RiLoader4Line } from 'react-icons/ri';
+import Modal from '../modal/Modal';
+import Accordion from '../accordion/Accordion';
+import View from '../view/View';
+import { getCssVariableValue } from '../../utils/getCssVariable';
+import ProductLoader from './ProductLoader';
 
 export type WeightUnit = 'g' | 'kg' | 'oz' | 'lb';
 export type DimensionUnit = 'cm' | 'm' | 'in' | 'ft';
@@ -33,7 +47,7 @@ export interface ProductVariant {
   images?: string[];
   color?: string;
   size?: string;
-  discount?: number; // Added discount field
+  discount?: number;
 }
 
 export type Product = {
@@ -61,7 +75,7 @@ export type Product = {
   countryOfOrigin: string | '';
   warranty: string | '';
   isFeatured: string | '';
-  discount?: number; // Added discount field for main product
+  discount?: number;
 };
 
 export type CartItem = {
@@ -71,7 +85,7 @@ export type CartItem = {
   selectedColor?: string;
   selectedSize?: string;
   addedAt: number;
-  originalPrice?: number; // Store original price for discount calculation
+  originalPrice?: number;
 };
 
 export type CartStorage = {
@@ -79,19 +93,51 @@ export type CartStorage = {
   updatedAt: number;
 };
 
+export type UserInfoField = {
+  infoName: string;
+  type: 'text' | 'tel' | 'email' | 'number' | 'textarea';
+  required: boolean;
+  label?: string;
+  placeholder?: string;
+};
+
+export type OtherInfo = UserInfoField[] | string;
+
+export type CheckoutData = {
+  cartItems: CartItem[];
+  totalAmount: number;
+  userInfo: Record<string, string>;
+};
+
 type ProductsPageProps = {
   // Products source
   products?: Product[] | string;
-  bucket?: string; // New prop for bucket name
-  bucketPage?: number; // New prop for paginated records page
-  bucketSize?: number; // New prop for paginated records page size
+  bucket?: string;
+  bucketPage?: number;
+  bucketSize?: number;
   
   // Display
   title?: string;
-  showHeader?: boolean;
+  heroAlign?: 'left' | 'center' | 'right' | 'justify';
+  heroTitle?: string;
+  heroDescription?: string;
+  heroBackgroundImage?: string;
+  heroHeight?: string;
+  overlayColor?: string;
+  overlayOpacity?: number;
+  overlayGradient?: boolean;
+  gradientDirection?: 'to-bottom' | 'to-top' | 'to-left' | 'to-right' | 'to-bottom-right' | 'to-bottom-left' | 'to-top-right' | 'to-top-left';
+  invertGradient?: boolean;
   showSearch?: boolean;
   showFilters?: boolean;
-  showCart?: boolean;
+  showHero?: boolean;
+  
+  // Title & Description Styling
+  titleSize?: string;
+  titleColor?: string;
+  descriptionSize?: string;
+  descriptionColor?: string;
+  descriptionOpacity?: number;
   
   // Cart
   cartIcon?: string | React.ReactNode;
@@ -103,11 +149,15 @@ type ProductsPageProps = {
   persistCart?: boolean;
   storageKey?: string;
   
+  // WhatsApp Order
+  whatsappOrderNumber?: string;
+  otherInfo?: OtherInfo;
+  
   // Callbacks
   onAddToCart?: (item: CartItem) => void;
   onRemoveFromCart?: (itemId: string) => void;
   onUpdateQuantity?: (itemId: string, quantity: number) => void;
-  onCheckout?: (cartItems: CartItem[], totalAmount: number) => void;
+  onCheckout?: (checkoutData: CheckoutData) => void;
   onProductClick?: (product: Product) => void;
   
   // Styling
@@ -116,11 +166,7 @@ type ProductsPageProps = {
   children?: React.ReactNode;
   id?: string;
   funcss?: string;
-  bg?: string;
-  color?: string;
   fullWidth?: boolean;
-  small?: boolean;
-  big?: boolean;
   itemsPerPage?: number;
   
   // Variant
@@ -139,10 +185,24 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     bucketPage = 1,
     bucketSize = 50,
     title = 'Products',
+    heroTitle = 'Our Products',
+    heroDescription = 'Discover our amazing collection of products',
+    heroBackgroundImage = '',
+    overlayColor = 'primary',
+    overlayOpacity = 0.6,
+    overlayGradient = false,
+    gradientDirection = 'to-bottom',
+    invertGradient = false,
     showHeader = true,
     showSearch = true,
     showFilters = true,
     showCart = true,
+    showHero = true,
+    titleSize = 'big',
+    titleColor = 'white',
+    descriptionSize = 'lg',
+    descriptionColor = 'white',
+    descriptionOpacity = 0.8,
     cartBadgeColor = 'error',
     cartBadgeText,
     checkoutText = 'Checkout',
@@ -150,6 +210,8 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     currency = '$',
     persistCart = true,
     storageKey = 'funui_cart',
+    whatsappOrderNumber,
+    otherInfo,
     onAddToCart,
     onRemoveFromCart,
     onUpdateQuantity,
@@ -159,19 +221,55 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     gridClassName = '',
     children,
     id,
+    heroAlign = 'center',
     funcss = '',
+    heroHeight = '400px',
     fullWidth = false,
-    small = false,
-    big = false,
     itemsPerPage = 10,
   } = final;
+
+  // Mobile state
+  const [isMobile, setIsMobile] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Check screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Parse otherInfo
+  const parsedOtherInfo = useMemo(() => {
+    if (!otherInfo) return [];
+    
+    try {
+      if (typeof otherInfo === 'string') {
+        return JSON.parse(otherInfo) as UserInfoField[];
+      }
+      return otherInfo as UserInfoField[];
+    } catch (error) {
+      console.error('Error parsing otherInfo:', error);
+      return [];
+    }
+  }, [otherInfo]);
+
+  // Checkout state
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [userInfoData, setUserInfoData] = useState<Record<string, string>>({});
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   // Loading state - track bucket loading and initial load
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   
   // Use bucket data if bucket prop is provided
   const { records: bucketRecords, loading: bucketLoading } = usePaginatedRecords(
-    bucket || '', // Use bucket name if provided
+    bucket || '',
     bucketPage,
     bucketSize
   );
@@ -194,7 +292,6 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
   // Apply discounts to products
   const applyDiscounts = useCallback((products: Product[]): Product[] => {
     return products.map(product => {
-      // Check if product has variants
       if (product.variants && product.variants.length > 0) {
         const discountedVariants = product.variants.map(variant => {
           const { finalPrice, originalPrice } = calculateDiscountedPrice(variant.price, variant.discount);
@@ -208,12 +305,10 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
         return {
           ...product,
           variants: discountedVariants,
-          // Use the first variant's price as the main product price
           price: discountedVariants[0]?.price || product.price,
           comparePrice: discountedVariants[0]?.comparePrice || product.comparePrice
         };
       } else {
-        // Apply discount to main product
         const { finalPrice, originalPrice } = calculateDiscountedPrice(product.price, product.discount);
         return {
           ...product,
@@ -230,8 +325,6 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     
     const mappedProducts = bucketRecords.map((record: any) => {
       const values = record.values || record;
-      
-      // Extract discount from record - could be in various fields
       const discount = values.discount || values.salePercentage || values.discountPercentage;
       
       return {
@@ -258,7 +351,7 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
         isSale: values.isSale || values.onSale || false,
         variants: values.variants ? values.variants.map((variant: any) => ({
           ...variant,
-          discount: variant.discount || discount // Pass discount to variants
+          discount: variant.discount || discount
         })) : [],
         manufacturer: values.manufacturer || '',
         countryOfOrigin: values.countryOfOrigin || '',
@@ -271,11 +364,10 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     return applyDiscounts(mappedProducts);
   }, [bucketRecords, bucket, currency, applyDiscounts]);
 
-  // Parse and process products - FIXED: No setState calls inside useMemo
+  // Parse and process products
   const parsedProducts = React.useMemo(() => {
     let productList: Product[];
     
-    // Use bucket products if bucket prop is provided and we have bucket data
     if (bucket && bucketProducts) {
       console.log(`Using ${bucketProducts.length} products from bucket: ${bucket}`);
       productList = bucketProducts.map((product, index) => ({
@@ -283,7 +375,6 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
         id: product.id || `bucket_product_${index}_${Date.now()}`,
       }));
     } else {
-      // Fall back to local products prop
       if (typeof products === 'string') {
         try {
           const parsed = JSON.parse(products);
@@ -296,11 +387,9 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
         productList = products || [];
       }
       
-      // Apply discounts to locally provided products
       productList = applyDiscounts(productList);
     }
     
-    // Ensure each product has a unique ID
     return productList.map((product, index) => ({
       ...product,
       id: product.id || `product_${index}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -310,16 +399,13 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
   // Handle loading state separately
   useEffect(() => {
     if (bucket) {
-      // For bucket data, loading is based on bucketLoading state
       if (!bucketLoading && bucketProducts !== undefined) {
-        // Small delay for better UX
         const timer = setTimeout(() => {
           setIsInitialLoading(false);
         }, 300);
         return () => clearTimeout(timer);
       }
     } else {
-      // For local data, loading is immediate after parsing
       setIsInitialLoading(false);
     }
   }, [bucket, bucketLoading, bucketProducts]);
@@ -342,7 +428,6 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
               ...item.product,
               id: item.product.id || `restored_${Date.now()}`
             },
-            // Ensure original price is preserved
             originalPrice: item.originalPrice || item.product.comparePrice || item.product.price
           }));
         }
@@ -389,31 +474,50 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     return ['all', ...uniqueCategories];
   }, [parsedProducts, showLoading]);
 
-  // Get unique brands
+  // Get brands based on selected category
   const brands = useMemo(() => {
     if (showLoading) return ['all'];
     
-    const allBrands = parsedProducts
+    let filteredProducts = parsedProducts;
+    
+    // If a category is selected, filter by it
+    if (selectedCategory !== 'all') {
+      filteredProducts = parsedProducts.filter(p => p.category === selectedCategory);
+    }
+    
+    const allBrands = filteredProducts
       .map(p => p.brand)
       .filter((brand): brand is string => typeof brand === 'string' && brand.trim() !== '');
     
     return ['all', ...Array.from(new Set(allBrands))];
-  }, [parsedProducts, showLoading]);
+  }, [parsedProducts, selectedCategory, showLoading]);
 
-  // Get unique colors
+  // Get colors based on selected category and brand
   const colors = useMemo(() => {
     if (showLoading) return ['all'];
     
+    let filteredProducts = parsedProducts;
+    
+    // If a category is selected, filter by it
+    if (selectedCategory !== 'all') {
+      filteredProducts = filteredProducts.filter(p => p.category === selectedCategory);
+    }
+    
+    // If a brand is selected, filter by it
+    if (selectedBrand !== 'all') {
+      filteredProducts = filteredProducts.filter(p => p.brand === selectedBrand);
+    }
+    
     const allColors: string[] = [];
-    parsedProducts.forEach(product => {
-      product.colors?.forEach((color:any) => {
+    filteredProducts.forEach(product => {
+      product.colors?.forEach((color: any) => {
         if (!allColors.includes(color.name)) {
           allColors.push(color.name);
         }
       });
     });
     return ['all', ...allColors];
-  }, [parsedProducts, showLoading]);
+  }, [parsedProducts, selectedCategory, selectedBrand, showLoading]);
 
   // Filter products
   const filteredProducts = useMemo(() => {
@@ -449,6 +553,20 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
 
     return filtered;
   }, [parsedProducts, searchQuery, selectedCategory, selectedBrand, selectedColor, showLoading]);
+
+  // Reset dependent filters when parent filter changes
+  useEffect(() => {
+    if (selectedCategory === 'all') {
+      setSelectedBrand('all');
+      setSelectedColor('all');
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (selectedBrand === 'all') {
+      setSelectedColor('all');
+    }
+  }, [selectedBrand]);
 
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -589,15 +707,132 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     }
   }, [persistCart, storageKey]);
 
-  const handleCheckout = useCallback(() => {
-    if (onCheckout) {
-      onCheckout(cart, subtotal);
+  // Create WhatsApp message
+  const createWhatsAppMessage = useCallback((cartItems: CartItem[], userInfo: Record<string, string> = {}): string => {
+    const lines: string[] = [];
+    
+    // Order summary header
+    lines.push('🛒 *ORDER SUMMARY*');
+    lines.push('');
+    
+    // List products
+    cartItems.forEach((item, index) => {
+      const productName = item.product.name;
+      const variantInfo = item.variant ? ` (${item.variant.name})` : '';
+      const options = [];
+      if (item.selectedColor) options.push(`Color: ${item.selectedColor}`);
+      if (item.selectedSize) options.push(`Size: ${item.selectedSize}`);
+      const optionsText = options.length > 0 ? ` [${options.join(', ')}]` : '';
+      const price = item.variant?.price || item.product.price;
+      const total = price * item.quantity;
+      
+      lines.push(`${index + 1}. ${productName}${variantInfo}${optionsText}`);
+      lines.push(`   Quantity: ${item.quantity}`);
+      lines.push(`   Price: ${currency}${price.toFixed(2)} each`);
+      lines.push(`   Total: ${currency}${total.toFixed(2)}`);
+      lines.push('');
+    });
+    
+    // Cart totals
+    const subtotal = cartItems.reduce((sum, item) => {
+      const price = item.variant?.price || item.product.price;
+      return sum + (price * item.quantity);
+    }, 0);
+    
+    lines.push('---');
+    lines.push(`*Subtotal:* ${currency}${subtotal.toFixed(2)}`);
+    lines.push(`*Total Items:* ${cartItems.reduce((sum, item) => sum + item.quantity, 0)}`);
+    lines.push('');
+    
+    // User information
+    if (Object.keys(userInfo).length > 0) {
+      lines.push('👤 *CUSTOMER INFORMATION*');
+      lines.push('');
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (value.trim()) {
+          const label = key.charAt(0).toUpperCase() + key.slice(1);
+          lines.push(`*${label}:* ${value}`);
+        }
+      });
+      lines.push('');
     }
+    
+    // Footer
+    lines.push('Thank you for your order!');
+    
+    return encodeURIComponent(lines.join('\n'));
+  }, [currency]);
+
+  // Handle checkout
+  const handleCheckout = useCallback(() => {
+    if (cart.length === 0) return;
+    
+    // If there's otherInfo to collect, show modal
+    if (parsedOtherInfo.length > 0) {
+      setShowCheckoutModal(true);
+    } else {
+      // No additional info needed, proceed directly
+      proceedToWhatsAppOrCallback({});
+    }
+  }, [cart, parsedOtherInfo]);
+
+  // Proceed with checkout (either to WhatsApp or callback)
+  const proceedToWhatsAppOrCallback = useCallback((userInfo: Record<string, string>) => {
+    const checkoutData: CheckoutData = {
+      cartItems: cart,
+      totalAmount: subtotal,
+      userInfo
+    };
+    
+    // Call the onCheckout callback if provided
+    if (onCheckout) {
+      onCheckout(checkoutData);
+    }
+    
+    // If WhatsApp number is provided, create WhatsApp message
+    if (whatsappOrderNumber) {
+      const message = createWhatsAppMessage(cart, userInfo);
+      const whatsappUrl = `https://wa.me/${whatsappOrderNumber}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    }
+    
+    // Clear cart and close modals
     if (persistCart) {
       clearCart();
     }
+    setShowCheckoutModal(false);
     setIsCartOpen(false);
-  }, [onCheckout, cart, subtotal, persistCart, clearCart]);
+    setUserInfoData({});
+  }, [cart, subtotal, onCheckout, whatsappOrderNumber, createWhatsAppMessage, persistCart, clearCart]);
+
+  // Handle user info form submission
+  const handleUserInfoSubmit = useCallback(() => {
+    setCheckoutLoading(true);
+    
+    // Validate required fields
+    const missingFields = parsedOtherInfo
+      .filter(field => field.required && !userInfoData[field.infoName]?.trim())
+      .map(field => field.label || field.infoName);
+    
+    if (missingFields.length > 0) {
+      alert(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+      setCheckoutLoading(false);
+      return;
+    }
+    
+    setTimeout(() => {
+      proceedToWhatsAppOrCallback(userInfoData);
+      setCheckoutLoading(false);
+    }, 500);
+  }, [parsedOtherInfo, userInfoData, proceedToWhatsAppOrCallback]);
+
+  // Update user info
+  const handleUserInfoChange = useCallback((fieldName: string, value: string) => {
+    setUserInfoData(prev => ({
+      ...prev,
+      [fieldName]: value
+    }));
+  }, []);
 
   // Product modal
   const openProductModal = useCallback((product: Product) => {
@@ -624,213 +859,476 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
     }
   }, [totalPages]);
 
+  // Helper function to get color with opacity
+  const getColorWithOpacity = useCallback((color: string, opacity: number): string => {
+    // Try to get CSS variable value first
+    const cssVariableValue = getCssVariableValue(color);
+
+    
+    // If getCssVariableValue returns a different value than input, 
+    // it means the color was a CSS variable (like "primary", "dark", etc.)
+    const colorValue = cssVariableValue && cssVariableValue !== color ? cssVariableValue : color;
+    
+    // Check if color is already in rgba format
+    const rgbaMatch = colorValue.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+    if (rgbaMatch) {
+      const [, r, g, b] = rgbaMatch;
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+    
+    // Check if color is in rgb format
+    const rgbMatch = colorValue.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (rgbMatch) {
+      const [, r, g, b] = rgbMatch;
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+    
+    // Check if color is hex format
+    if (colorValue.startsWith('#')) {
+      const hex = colorValue.replace('#', '');
+      let r, g, b;
+      
+      if (hex.length === 3) {
+        r = parseInt(hex[0] + hex[0], 16);
+        g = parseInt(hex[1] + hex[1], 16);
+        b = parseInt(hex[2] + hex[2], 16);
+      } else if (hex.length === 6) {
+        r = parseInt(hex.substring(0, 2), 16);
+        g = parseInt(hex.substring(2, 4), 16);
+        b = parseInt(hex.substring(4, 6), 16);
+      }
+      
+      if (r !== undefined && g !== undefined && b !== undefined) {
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+      }
+    }
+    
+    // For named colors that don't match patterns above, return as-is
+    // CSS will handle the opacity via the opacity property
+    return colorValue;
+  }, []);
+
+  // Create overlay style based on gradient settings
+// Create overlay style based on gradient settings
+  const getOverlayStyle = useCallback(() => {
+    // Get the actual color value (resolve CSS variables)
+    const cssVariableValue = getCssVariableValue(overlayColor);
+    const resolvedColor = cssVariableValue && cssVariableValue !== overlayColor 
+      ? cssVariableValue 
+      : overlayColor;
+    
+    if (!overlayGradient) {
+      // Solid overlay
+      return {
+        backgroundColor: resolvedColor,
+        opacity: overlayOpacity,
+      };
+    }
+    
+    // For gradient overlay, create color with opacity
+    const colorWithOpacity = getColorWithOpacity(resolvedColor, overlayOpacity);
+    
+    // Build gradient direction
+    const direction = gradientDirection.replace('to-', 'to ');
+    
+    if (invertGradient) {
+      // From transparent to color
+      return {
+        background: `linear-gradient(${direction}, transparent 0%, ${colorWithOpacity} 100%)`,
+      };
+    } else {
+      // From color to transparent
+      return {
+        background: `linear-gradient(${direction}, ${colorWithOpacity} 0%, transparent 100%)`,
+      };
+    }
+  }, [overlayGradient, gradientDirection, invertGradient, overlayColor, overlayOpacity, getColorWithOpacity]);
+  // Create accordion items for filters
+  const filterAccordionItems = useMemo(() => [
+    {
+      icon: <PiList className='text-primary' size={20} />,
+      title: 'Categories',
+      content: (
+        <Div funcss="filter-options">
+          {categories.map(cat => (
+            <div 
+              key={cat} 
+              className={`filter-option ${selectedCategory === cat ? 'primary100 text-primary' : ''}`}
+              onClick={() => {
+                setSelectedCategory(cat);
+                if (cat === 'all') {
+                  setSelectedBrand('all');
+                  setSelectedColor('all');
+                }
+              }}
+            >
+              {cat === 'all' ? 'All Categories' : cat}
+            </div>
+          ))}
+        </Div>
+      ),
+    },
+    {
+      icon: <PiUserCircle className='text-primary' size={20} />,
+      title: 'Brands',
+      content: (
+        <Div funcss="filter-options">
+          {brands.map(brand => (
+            <div 
+              key={brand} 
+              className={`filter-option ${selectedBrand === brand ? 'primary100 text-primary' : ''}`}
+              onClick={() => {
+                setSelectedBrand(brand);
+                if (brand === 'all') {
+                  setSelectedColor('all');
+                }
+              }}
+              style={{
+                opacity: selectedCategory === 'all' && brand !== 'all' ? 0.5 : 1,
+                pointerEvents: selectedCategory === 'all' && brand !== 'all' ? 'none' : 'auto'
+              }}
+            >
+              {brand === 'all' ? 'All Brands' : brand}
+              {selectedCategory === 'all' && brand !== 'all' && (
+                <small className="text-muted" style={{fontSize: '0.7rem', display: 'block'}}>
+                  (Select category first)
+                </small>
+              )}
+            </div>
+          ))}
+        </Div>
+      ),
+    },
+    {
+      icon: <PiHandTap className='text-primary' size={20} />,
+      title: 'Colors',
+      content: (
+        <Div funcss="filter-options">
+          {colors.map(color => (
+            <div 
+              key={color} 
+              className={`filter-option ${selectedColor === color ? 'primary100 text-primary' : ''}`}
+              onClick={() => setSelectedColor(color)}
+              style={{
+                opacity: (selectedCategory === 'all' || selectedBrand === 'all') && color !== 'all' ? 0.5 : 1,
+                pointerEvents: (selectedCategory === 'all' || selectedBrand === 'all') && color !== 'all' ? 'none' : 'auto'
+              }}
+            >
+              {color === 'all' ? 'All Colors' : color}
+              {(selectedCategory === 'all' || selectedBrand === 'all') && color !== 'all' && (
+                <small className="text-muted" style={{fontSize: '0.7rem', display: 'block'}}>
+                  (Select category & brand first)
+                </small>
+              )}
+            </div>
+          ))}
+        </Div>
+      ),
+    },
+  ], [categories, brands, colors, selectedCategory, selectedBrand, selectedColor]);
+
+  // Clear all filters
+  const clearFilters = useCallback(() => {
+    setSelectedCategory('all');
+    setSelectedBrand('all');
+    setSelectedColor('all');
+    setSearchQuery('');
+  }, []);
+
   return (
     <Div 
-      funcss={`funui_products_classname ${className} ${funcss}`}
+      funcss={`${className} ${funcss}`}
       id={id}
-      customStyle={{
-        backgroundColor: final.bg,
-        color: final.color,
-      }}
     >
-      {/* Header */}
-      {showHeader && (
-        <RowFlex justify="space-between" alignItems="center" funcss="mb-5">
-          <Text 
-            text={title} 
-            size="h1" 
+      {/* Hero Section */}
+      {showHero && (
+        <Div 
+          funcss="store-hero-section"
+          customStyle={{
+            backgroundImage: heroBackgroundImage ? `url(${heroBackgroundImage})` : 'none',
+            backgroundColor: heroBackgroundImage ? undefined : 'var(--lighter)',
+            height: heroHeight,
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+          }}
+        >
+          <div 
+            className="hero-overlay fit"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              ...getOverlayStyle(),
+            }}
           />
-          
-          {showCart && (
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="cart-icon relative"
-              type="button"
-              aria-label={`Shopping cart (${totalItems} items)`}
-              disabled={showLoading}
-            >
-              <SlHandbag size={30} />
-                
-                {totalItems > 0 && (
-                  <div 
-                    className="cart-badge"
-                    style={{ backgroundColor: cartBadgeColor }}
-                  >
-                    {cartBadgeText || (totalItems > 99 ? '99+' : totalItems)}
-                  </div>
-                )}
-            </button>
-          )}
-        </RowFlex>
-      )}
-
-      {/* Search and Filters */}
-      {(showSearch || showFilters) && (
-        <RowFlex gap={1} alignItems="center" justify='space-between'>
-          {showSearch && (
-            <Input
-              label="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              bordered
-              fullWidth={fullWidth}
-              startIcon={<PiMagnifyingGlass />}
-              // disabled={showLoading}
+          <div
+            className={`hero-content text-${heroAlign || 'center'} relative z-10`}
+            style={{
+              padding: '2rem',
+              width: '100%',
+            }}
+          >
+            <Text 
+              text={heroTitle || title} 
+              size={titleSize}
+              color={titleColor}
+              block
+              bold
             />
-          )}
-
-          {/* Filters */}
-          {showFilters && (
-            <div className="col">
-              <Flex gap={0.5} width='100%' justify='flex-end'>
-                {
-                  categories && categories.length > 0 && (
-                    <div className="w-150">
-                      <Select
-                        options={categories.map(cat => ({ text: cat === 'all' ? 'All Categories' : cat, value: cat }))}
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e)}
-                        bordered
-                        funcss='text-sm'
-                        disabled={showLoading}
-                      />
-                    </div>
-                  )
-                }
-                {
-                  brands && brands.length > 0 && (
-                    <div className="w-150">
-                      <Select
-                        options={brands.map(brand => ({ text: brand === 'all' ? 'All Brands' : brand, value: brand }))}
-                        value={selectedBrand}
-                        onChange={(e) => setSelectedBrand(e)}
-                        bordered
-                        funcss='text-sm'
-                        disabled={showLoading}
-                      />
-                    </div>
-                  )
-                }
-                {
-                  colors && colors.length > 0 && (
-                    <div className="w-150">
-                      <Select
-                        options={colors.map(color => ({ text: color === 'all' ? 'All Colors' : color, value: color  }))}
-                        value={selectedColor}
-                        onChange={(e) => setSelectedColor(e)}
-                        bordered
-                        funcss='text-sm'
-                        disabled={showLoading}
-                      />
-                    </div>
-                  )
-                }
-              </Flex>
-            </div>
-          )}
-        </RowFlex>
+            <Text 
+              text={heroDescription} 
+              size={descriptionSize}
+              color={descriptionColor}
+              opacity={descriptionOpacity}
+            />
+          </div>
+        </Div>
       )}
 
-      {/* Loading State */}
-      {showLoading ? (
-        <Div funcss="funui_products_loading flex-center padding-40">
-          <Flex direction="column" alignItems="center" gap={2}>
-            <RiLoader4Line size={40} className="spin" />
-            <Text text="Loading products..." size="large" color="text-light" />
-          </Flex>
-        </Div>
-      ) : (
-        <>
-          {/* Products Grid */}
-          {currentProducts.length === 0 ? (
-            <Div funcss="funui_products_empty flex-center padding-40">
-              <Empty 
-              title='No products found'
-              ctaIcon={<PiSpinnerGap />}
-              ctaText='Reload Page!'
-              ctaOnClick={() => window.location.reload()}
+      <View 
+        funcss="pt-10  pl-5 pr-5 center" 
+        fit  
+        style={{
+          maxWidth: "1500px"
+        }}
+      >
+        <Flex width='100%' justify='center' gap={2}>
+          {/* Desktop Filters Sidebar */}
+          {showFilters && !isMobile && (
+            <View funcss="w-200">
+              <RowFlex justify="space-between" funcss='bb mb' alignItems="center">
+                <Text text="Filters" size="h5" />
+                <Button
+                  text="Clear"
+                  onClick={clearFilters}
+                  small
+                  bg="lighter"
+                  startIcon={<PiX />}
+                />
+              </RowFlex>
+              
+              <Accordion
+              border={false}
+              funcss='bg borderless'
+                items={filterAccordionItems}
+                allowMultiple={true}
+                titleClass="text-sm"
+                contentClass="text-sm"
+              />
+            </View>
+          )}
+
+          {/* Main Content Area */}
+          <div className='col fit'>
+            {/* Mobile Filters Button */}
+            {showFilters && isMobile && (
+              <Div funcss="mobile-filters-button mb-4">
+                <Button
+                  startIcon={<PiFunnel />}
+                  text="Filters"
+                  onClick={() => setShowMobileFilters(true)}
+                  bg="light"
+                  color="text"
+                  raised
+                  funcss="w-full"
+                />
+              </Div>
+            )}
+            
+            <Flex gap={1} width='100%' funcss='mb-4' justify='space-between'>
+              {/* Search */}
+              {showSearch && (
+                <div className="w-400">
+                  <Input
+                    label="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    startIcon={<PiMagnifyingGlass />}
+                    borderless 
+                  />
+                </div>
+              )}
+              
+              {showCart && (
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="cart-icon relative"
+                  type="button"
+                  aria-label={`Shopping cart (${totalItems} items)`}
+                  disabled={showLoading}
+                >
+                  <SlHandbag size={30} />
+                  
+                  {totalItems > 0 && (
+                    <div 
+                      className="cart-badge error"
+                      style={{ backgroundColor: cartBadgeColor }}
+                    >
+                      {cartBadgeText || (totalItems > 99 ? '99+' : totalItems)}
+                    </div>
+                  )}
+                </button>
+              )}
+            </Flex>
+
+            {/* Loading State */}
+            {showLoading ? (
+              <Div funcss="
+              funui_products_grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+              ">
+              {
+                [1,2,3,4,5,6,7,8,9,10,11,12].map((index) => (
+                 <div  key={index}>
+                   <ProductLoader />
+                 </div>
+                ))
+              }
+              </Div>
+            ) : (
+              <>
+          
+
+                {/* Products Grid */}
+                {currentProducts.length === 0 ? (
+                  <Div funcss="">
+                    <Empty 
+                      title='No products found'
+                      ctaIcon={<PiSpinnerGap />}
+                      ctaText='Reset Filters'
+                      ctaOnClick={clearFilters}
+                    />
+                  </Div>
+                ) : (
+                  <>
+                    <Div
+                    margin='2rem 0'
+                      funcss={`funui_products_grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ${gridClassName}`}
+                    >
+                      {currentProducts.map(product => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          currency={currency}
+                          onClick={() => openProductModal(product)}
+                          onAddToCart={() => addToCart(product)}
+                          showBadges
+                        />
+                      ))}
+                    </Div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <Flex width='100%' justify='center' gap={0.5} funcss="mt-8">
+                        <Button
+                          startIcon={<PiCaretLeft />}
+                          onClick={() => goToPage(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          text="Prev"
+                          small
+                        />
+                        
+                        <Div funcss="pagination-numbers">
+                          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                            let pageNum;
+                            if (totalPages <= 5) {
+                              pageNum = i + 1;
+                            } else if (currentPage <= 3) {
+                              pageNum = i + 1;
+                            } else if (currentPage >= totalPages - 2) {
+                              pageNum = totalPages - 4 + i;
+                            } else {
+                              pageNum = currentPage - 2 + i;
+                            }
+                            
+                            return (
+                              <Button
+                                key={pageNum}
+                                text={pageNum.toString()}
+                                onClick={() => goToPage(pageNum)}
+                                bg={currentPage === pageNum ? 'primary' : undefined}
+                                color={currentPage === pageNum ? 'white' : 'text'}
+                                small
+                              />
+                            );
+                          })}
+                          
+                          {totalPages > 5 && currentPage < totalPages - 2 && (
+                            <>
+                              <Text text="..." color="text-light" />
+                              <Button
+                                text={totalPages.toString()}
+                                onClick={() => goToPage(totalPages)}
+                                small
+                              />
+                            </>
+                          )}
+                        </Div>
+                        
+                        <Button
+                          endIcon={<PiCaretRight />}
+                          onClick={() => goToPage(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          text="Next"
+                          small
+                        />
+                      </Flex>
+                    )}
+                  </>
+                )}
+
+                {children}
+              </>
+            )}
+          </div>
+        </Flex>
+      </View>
+
+      {/* Mobile Filters Modal */}
+      {showFilters && isMobile && (
+        <Modal
+          animation="slideUp"
+          open={showMobileFilters}
+          setOpen={setShowMobileFilters}
+          title={
+            <RowFlex justify="space-between" alignItems="center">
+              <Text text="Filters" size="h5" />
+              <Button
+                text="Clear All"
+                onClick={clearFilters}
+                small
+                bg="transparent"
+                color="text-light"
+              />
+            </RowFlex>
+          }
+          body={
+            <Div funcss="p-4">
+              <Accordion
+                items={filterAccordionItems}
+                allowMultiple={true}
+                titleClass="text-sm"
+                contentClass="text-xs"
+                activeClass=""
+                funcss='card'
               />
             </Div>
-          ) : (
-            <>
-              <Div
-                funcss={`funui_products_grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  ${gridClassName}`}
-              >
-                {currentProducts.map(product => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    currency={currency}
-                    onClick={() => openProductModal(product)}
-                    onAddToCart={() => addToCart(product)}
-                    showBadges
-                  />
-                ))}
-              </Div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <Flex width='100%' justify='center' gap={0.5}>
-                  <Button
-                    startIcon={<PiCaretLeft />}
-                    onClick={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    small
-                    text="Prev"
-                  />
-                  
-                  <Div funcss="pagination-numbers">
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-                      
-                      return (
-                        <Button
-                          key={pageNum}
-                          text={pageNum.toString()}
-                          onClick={() => goToPage(pageNum)}
-                          bg={currentPage === pageNum ? 'primary' : undefined}
-                          color={currentPage === pageNum ? 'white' : 'text'}
-                          small
-                        />
-                      );
-                    })}
-                    
-                    {totalPages > 5 && currentPage < totalPages - 2 && (
-                      <>
-                        <Text text="..." color="text-light" />
-                        <Button
-                          text={totalPages.toString()}
-                          onClick={() => goToPage(totalPages)}
-                          small
-                        />
-                      </>
-                    )}
-                  </Div>
-                  
-                  <Button
-                    endIcon={<PiCaretRight />}
-                    onClick={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    small
-                    text="Next"
-                  />
-                </Flex>
-              )}
-            </>
-          )}
-
-         
-          {children}
-        </>
+          }
+          footer={
+            <Div funcss="p-4">
+              <Button
+                text="Apply Filters"
+                onClick={() => setShowMobileFilters(false)}
+                bg="primary"
+                color="white"
+                raised
+                funcss="w-full"
+              />
+            </Div>
+          }
+        />
       )}
 
       {/* Cart Modal */}
@@ -847,10 +1345,76 @@ const Store: React.FC<ProductsPageProps> = (localProps) => {
           cartBadgeColor={cartBadgeColor}
           checkoutText={checkoutText}
           checkoutIcon={checkoutIcon}
-          small={small}
-          big={big}
           persistCart={persistCart}
-          // totalSavings={totalSavings}
+        />
+      )}
+
+      {/* Checkout Modal for Additional Information */}
+      {showCheckoutModal && (
+        <Modal
+          animation="fadeIn"
+          open={showCheckoutModal}
+          setOpen={setShowCheckoutModal}
+          maxWidth='550px'
+          title={
+            <>
+              {whatsappOrderNumber ? (
+                <>
+                  <Text text="Complete Your Order" size="xl" block />
+                  <Text 
+                    text="Please provide the following information to complete your order:" 
+                    size="sm"
+                  />
+                </>
+              ) : (
+                <Text text="Order Information" size="xkl" />
+              )}
+            </>
+          }
+          body={
+            <Div funcss="p-8">
+              {parsedOtherInfo.map((field, index) => (
+                <Div key={index} funcss="section">
+                  <Input
+                    label={`${field.label || field.infoName}${field.required ? ' *' : ''}`}
+                    type={field.type === 'textarea' ? 'text' : field.type}
+                    multiline={field.type === 'textarea'}
+                    rows={field.type === 'textarea' ? 3 : undefined}
+                    value={userInfoData[field.infoName] || ''}
+                    onChange={(e) => handleUserInfoChange(field.infoName, e.target.value)}
+                    bordered
+                    fullWidth
+                  />
+                </Div>
+              ))}
+            </Div>
+          }
+          footer={
+            <Div funcss="">
+              <RowFlex justify="center" alignItems="center">
+                <Button
+                  prefix={<PiX />}
+                  text="Cancel"
+                  onClick={() => {
+                    setShowCheckoutModal(false);
+                    setUserInfoData({});
+                  }}
+                  bg="error-light"
+                  color="error"
+                />
+                <Button
+                  text={whatsappOrderNumber ? "Send via WhatsApp" : "Complete Order"}
+                  bg="primary"
+                  raised
+                  onClick={handleUserInfoSubmit}
+                  funcss="padding-x-30"
+                  startIcon={whatsappOrderNumber ? <PiWhatsappLogo /> : checkoutIcon}
+                  isLoading={checkoutLoading}
+                  disabled={checkoutLoading}
+                />
+              </RowFlex>
+            </Div>
+          }
         />
       )}
 

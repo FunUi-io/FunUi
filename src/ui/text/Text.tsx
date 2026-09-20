@@ -47,6 +47,7 @@ type TypographyProps = {
   variant?: string;
   margin?: string;
   padding?: string;
+  dangerouslySetInnerHTML?: { __html: string } | boolean;
   style?: React.CSSProperties;
   size?: 
     | "xs" 
@@ -110,9 +111,10 @@ const Text: React.FC<TypographyProps> = ({
   quote,
   opacity,
   variant = '',
-  size ,
+  size,
   margin,
-  style ,
+  style,
+  dangerouslySetInnerHTML,
   padding,
   ...rest
 }) => {
@@ -155,6 +157,8 @@ const Text: React.FC<TypographyProps> = ({
     opacity,
     size,
     margin,
+    style,
+    dangerouslySetInnerHTML,
     padding,
     ...rest
   };
@@ -201,6 +205,7 @@ const Text: React.FC<TypographyProps> = ({
     margin: margin ?? mergedProps.margin,
     text: text ?? mergedProps.text,
     padding: padding ?? mergedProps.padding,
+    dangerouslySetInnerHTML: dangerouslySetInnerHTML ?? mergedProps.dangerouslySetInnerHTML,
   };
 
   // If margin is provided, force block display
@@ -265,22 +270,44 @@ const Text: React.FC<TypographyProps> = ({
   ]
     .filter(Boolean)
     .join(' ');
+
+  // Handle dangerouslySetInnerHTML
+  const hasDangerousHTML = Boolean(final.dangerouslySetInnerHTML);
+  const dangerousHTMLContent = hasDangerousHTML 
+    ? (typeof final.dangerouslySetInnerHTML === 'boolean' 
+        ? { __html: String(final.text || '') }
+        : final.dangerouslySetInnerHTML)
+    : null;
+
+  // KEY FIX: Don't pass children when using dangerouslySetInnerHTML
+  if (hasDangerousHTML) {
+    return (
+      <Tag
+        id={id}
+        className={classNames}
+        style={mergedStyles}
+        dangerouslySetInnerHTML={dangerousHTMLContent!}
+        {...rest}
+      />
+    );
+  }
+
+  // Normal render without dangerouslySetInnerHTML
   return (
-  <Tag
-    id={id}
-    className={classNames}
-    style={mergedStyles}
-    {...rest}    
-  >
-    {final.quote && (
-      <div>
-        <PiQuotesLight />
-      </div>
-    )}
-    {children}
-    {final?.text}
-  </Tag>
-    
+    <Tag
+      id={id}
+      className={classNames}
+      style={mergedStyles}
+      {...rest}
+    >
+      {final.quote && (
+        <div>
+          <PiQuotesLight />
+        </div>
+      )}
+      {children}
+      {final?.text}
+    </Tag>
   );
 };
 

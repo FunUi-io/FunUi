@@ -1,51 +1,18 @@
-import React, { ReactNode } from 'react';
-interface VideoProps {
+import React from 'react';
+interface SimpleVideoProps {
+    /** HLS (.m3u8) or processed next-video source */
     src: string;
-    poster?: string;
-    onDuration?: (duration: number) => void;
-    onEnded?: () => void;
-    isPause?: boolean;
-    spacebarPlay?: boolean;
-    className?: string;
     autoPlay?: boolean;
-    showControls?: boolean;
-    showPlayPause?: boolean;
-    showProgress?: boolean;
-    showVolume?: boolean;
-    showTime?: boolean;
-    showFullscreen?: boolean;
-    showDownload?: boolean;
-    showSeekButtons?: boolean;
-    playIcon?: string | ReactNode;
-    pauseIcon?: string | ReactNode;
-    fullscreenIcon?: string | ReactNode;
-    downloadIcon?: string | ReactNode;
-    volumeIcon?: string | ReactNode;
-    muteIcon?: string | ReactNode;
-    rewindIcon?: string | ReactNode;
-    forwardIcon?: string | ReactNode;
-    hideControlsDelay?: number;
-    loop?: boolean;
     muted?: boolean;
-    seekAmount?: number;
-    funcss?: string;
-    containerCss?: string;
-    videoCss?: string;
-    controlsCss?: string;
-    progressCss?: string;
-    progressBarCss?: string;
-    timeCss?: string;
-    playCss?: string;
-    pauseCss?: string;
-    volumeCss?: string;
-    fullscreenCss?: string;
-    downloadCss?: string;
-    rewindCss?: string;
-    forwardCss?: string;
-    buttonCss?: string;
+    loop?: boolean;
+    controls?: boolean;
     style?: React.CSSProperties;
-    volumeStyle?: 'slider' | 'compact' | 'hover';
-    variant?: string;
+    className?: string;
+    funcss?: string;
+    /** Optional: cap max resolution (e.g. 1080) */
+    maxResolution?: 360 | 480 | 720 | 1080 | 1440 | 2160;
+    /** Optional: custom loading component */
+    loadingComponent?: React.ReactNode;
 }
-export default function Video({ src, poster, onDuration, onEnded, isPause, spacebarPlay, className, autoPlay, showControls, showPlayPause, showProgress, showVolume, showTime, showFullscreen, showDownload, showSeekButtons, playIcon, pauseIcon, fullscreenIcon, downloadIcon, volumeIcon, muteIcon, rewindIcon, forwardIcon, hideControlsDelay, loop, muted, seekAmount, funcss, containerCss, videoCss, controlsCss, progressCss, progressBarCss, timeCss, playCss, pauseCss, volumeCss, fullscreenCss, downloadCss, rewindCss, forwardCss, buttonCss, volumeStyle, style, variant, ...rest }: VideoProps): React.JSX.Element;
-export {};
+declare const SimpleVideo: React.FC<SimpleVideoProps>;
+export default SimpleVideo;

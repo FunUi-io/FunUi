@@ -295,12 +295,12 @@ const ChartPie: React.FC<PieChartProps> = (localProps) => {
   const LabelComponent = final.customLabel || (final.showLabels ? CustomLabel : undefined);
 
   const containerStyle = useMemo(() => ({
-    width: final.width,
-    height: final.height,
-    minHeight: final.minHeight,
-    maxHeight: final.maxHeight,
-    minWidth: final.minWidth,
-    maxWidth: final.maxWidth,
+    height: final.height || '300px', // Default height for pie chart
+    width: final.width || '100%',    // Default width
+    minHeight: final.minHeight || '250px', // Minimum height
+    maxHeight: final.maxHeight || '100%',
+    minWidth: final.minWidth || '100%',
+    maxWidth: final.maxWidth || '100%',
     background: final.chartBackground,
     borderRadius: final.borderRadius,
     padding: final.padding,
@@ -330,80 +330,74 @@ const ChartPie: React.FC<PieChartProps> = (localProps) => {
     );
   }
 
-  const chartContent = (
-    <RePieChart>
-      {/* Tooltip */}
-      {final.showTooltip && (
-        <Tooltip 
-          content={<TooltipComponent formatter={final.tooltipFormatter} />} 
-          formatter={final.tooltipFormatter}
-          {...final.tooltipProps}
-        />
-      )}
-
-      {/* Legend */}
-      {final.showLegend && (
-        <Legend 
-          {...legendConfig}
-          className={final.legendCss}
-        />
-      )}
-
-      {/* Pie */}
-      <Pie
-        data={parsedData}
-        dataKey="value"
-        nameKey="label"
-        cx="50%"
-        cy="50%"
-        outerRadius={final.outerRadius}
-        innerRadius={innerRadius}
-        paddingAngle={final.paddingAngle}
-        cornerRadius={final.cornerRadius}
-        startAngle={final.startAngle}
-        endAngle={final.endAngle}
-        minAngle={final.minAngle}
-        label={LabelComponent ? <LabelComponent /> : final.showLabels}
-        labelLine={final.showLabelLine}
-        isAnimationActive={final.isAnimationActive}
-        animationDuration={final.animationDuration}
-        onClick={final.onPieClick}
-        onMouseEnter={final.onPieEnter}
-        onMouseLeave={final.onPieLeave}
-        activeShape={final.activeShape}
-        inactiveShape={final.inactiveShape}
-      >
-        {parsedData.map((entry, index) => (
-          <Cell
-            key={`cell-${index}`}
-            fill={resolveColor(entry.color) || defaultColors[index % defaultColors.length]}
-            stroke={resolveColor(final.strokeColor)}
-            strokeWidth={final.strokeWidth}
-          />
-        ))}
-      </Pie>
-    </RePieChart>
-  );
-
-  // Use ResponsiveContainer for automatic sizing
   return (
-      <div 
-   style={{
-  height:final.height || "300px" ,
-  width: final.width || "300px"
-}}
-   >
-    <ResponsiveContainer 
-      width={final.width} 
-      height={final.height}
-      aspect={final.aspect}
+    <div 
       className={final.funcss}
       style={containerStyle}
+      id={final.id}
     >
-      {chartContent}
-    </ResponsiveContainer>
-   </div>
+      {/* ResponsiveContainer with proper dimensions */}
+      <ResponsiveContainer 
+        width="100%"      // Must be set for responsive behavior
+        height="100%"     // Must be set for responsive behavior
+        aspect={final.aspect}
+        minHeight={final.minHeight ? String(final.minHeight) : '250px'}
+        minWidth={final.minWidth ? String(final.minWidth) : '100%'}
+      >
+        <RePieChart>
+          {/* Tooltip */}
+          {final.showTooltip !== false && (
+            <Tooltip 
+              content={<TooltipComponent formatter={final.tooltipFormatter} />} 
+              formatter={final.tooltipFormatter}
+              {...final.tooltipProps}
+            />
+          )}
 
+          {/* Legend */}
+          {final.showLegend && (
+            <Legend 
+              {...legendConfig}
+              className={final.legendCss}
+            />
+          )}
+
+          {/* Pie */}
+          <Pie
+            data={parsedData}
+            dataKey="value"
+            nameKey="label"
+            cx="50%"
+            cy="50%"
+            outerRadius={final.outerRadius || '80%'}
+            innerRadius={innerRadius}
+            paddingAngle={final.paddingAngle}
+            cornerRadius={final.cornerRadius}
+            startAngle={final.startAngle}
+            endAngle={final.endAngle}
+            minAngle={final.minAngle || 0}
+            label={LabelComponent ? <LabelComponent /> : final.showLabels}
+            labelLine={final.showLabelLine !== false}
+            isAnimationActive={final.isAnimationActive !== false}
+            animationDuration={final.animationDuration || 400}
+            onClick={final.onPieClick}
+            onMouseEnter={final.onPieEnter}
+            onMouseLeave={final.onPieLeave}
+            activeShape={final.activeShape}
+            inactiveShape={final.inactiveShape}
+          >
+            {parsedData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={resolveColor(entry.color) || defaultColors[index % defaultColors.length]}
+                stroke={resolveColor(final.strokeColor) || '#fff'}
+                strokeWidth={final.strokeWidth || 1}
+              />
+            ))}
+          </Pie>
+        </RePieChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

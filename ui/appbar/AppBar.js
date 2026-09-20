@@ -1,5 +1,5 @@
-"use strict";
 'use client';
+"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -85,9 +85,11 @@ var DropdownArrow = function (_a) {
 };
 // Link Item Component with Dropdown Support
 var LinkItem = function (_a) {
-    var link = _a.link, renderLink = _a.renderLink, _b = _a.linkPadding, linkPadding = _b === void 0 ? '0.5rem 1rem' : _b, _c = _a.activeLinkColor, activeLinkColor = _c === void 0 ? 'primary' : _c, _d = _a.dropdownArrow, dropdownArrow = _d === void 0 ? true : _d, _e = _a.isMobile, isMobile = _e === void 0 ? false : _e;
-    var _f = (0, react_1.useState)(false), isOpen = _f[0], setIsOpen = _f[1];
-    var _g = (0, react_1.useState)(null), iconNode = _g[0], setIconNode = _g[1];
+    var link = _a.link, renderLink = _a.renderLink, _b = _a.linkPadding, linkPadding = _b === void 0 ? '' : _b, _c = _a.activeLinkColor, activeLinkColor = _c === void 0 ? 'primary' : _c, _d = _a.dropdownArrow, dropdownArrow = _d === void 0 ? true : _d, _e = _a.isMobile, isMobile = _e === void 0 ? false : _e, _f = _a.visibleLinks // Add visibleLinks prop here
+    , visibleLinks = _f === void 0 ? false : _f // Add visibleLinks prop here
+    ;
+    var _g = (0, react_1.useState)(false), isOpen = _g[0], setIsOpen = _g[1];
+    var _h = (0, react_1.useState)(null), iconNode = _h[0], setIconNode = _h[1];
     var timeoutRef = (0, react_1.useRef)();
     var dropdownRef = (0, react_1.useRef)(null);
     // Handle dynamic icon loading
@@ -117,17 +119,17 @@ var LinkItem = function (_a) {
     var handleMouseEnter = function () {
         if (timeoutRef.current)
             clearTimeout(timeoutRef.current);
-        if (!isMobile && hasChildren) {
+        if ((!isMobile || visibleLinks) && hasChildren) { // Updated condition
             setIsOpen(true);
         }
     };
     var handleMouseLeave = function () {
-        if (!isMobile) {
+        if (!isMobile || visibleLinks) { // Updated condition
             timeoutRef.current = setTimeout(function () { return setIsOpen(false); }, 150);
         }
     };
     var handleClick = function (e) {
-        if (hasChildren && isMobile) {
+        if (hasChildren && (isMobile && !visibleLinks)) { // Only toggle on mobile when visibleLinks is false
             e.preventDefault();
             setIsOpen(!isOpen);
         }
@@ -156,11 +158,15 @@ var LinkItem = function (_a) {
                 display: 'flex',
                 alignItems: 'center'
             } }, linkContent),
-        hasChildren && isOpen && (React.createElement("div", { className: "nav_dropdown-menu ".concat(isMobile ? 'nav_dropdown-mobile' : '') }, link.children.map(function (child, index) { return (React.createElement(LinkItem, { key: index, link: child, renderLink: renderLink, linkPadding: linkPadding, activeLinkColor: activeLinkColor, dropdownArrow: dropdownArrow, isMobile: isMobile })); })))));
+        hasChildren && isOpen && (React.createElement("div", { className: "nav_dropdown-menu ".concat((isMobile && !visibleLinks) ? 'nav_dropdown-mobile' : '') },
+            " ",
+            link.children.map(function (child, index) { return (React.createElement(LinkItem, { key: index, link: child, renderLink: renderLink, linkPadding: linkPadding, activeLinkColor: activeLinkColor, dropdownArrow: dropdownArrow, isMobile: isMobile, visibleLinks: visibleLinks })); })))));
 };
 // Links component to render navigation links
 var NavLinks = function (_a) {
-    var links = _a.links, renderLink = _a.renderLink, _b = _a.linkGap, linkGap = _b === void 0 ? '1rem' : _b, _c = _a.linkPadding, linkPadding = _c === void 0 ? '0.5rem 1rem' : _c, _d = _a.activeLinkColor, activeLinkColor = _d === void 0 ? 'primary' : _d, _e = _a.dropdownArrow, dropdownArrow = _e === void 0 ? true : _e, _f = _a.isMobile, isMobile = _f === void 0 ? false : _f;
+    var links = _a.links, renderLink = _a.renderLink, _b = _a.linkGap, linkGap = _b === void 0 ? '1rem' : _b, _c = _a.linkPadding, linkPadding = _c === void 0 ? '0.5rem 1rem' : _c, _d = _a.activeLinkColor, activeLinkColor = _d === void 0 ? 'primary' : _d, _e = _a.dropdownArrow, dropdownArrow = _e === void 0 ? true : _e, _f = _a.isMobile, isMobile = _f === void 0 ? false : _f, _g = _a.visibleLinks // Add visibleLinks prop here
+    , visibleLinks = _g === void 0 ? false : _g // Add visibleLinks prop here
+    ;
     if (!links || !Array.isArray(links) || links.length === 0) {
         return null;
     }
@@ -168,8 +174,8 @@ var NavLinks = function (_a) {
             display: 'flex',
             alignItems: 'center',
             gap: linkGap,
-            flexDirection: isMobile ? 'column' : 'row'
-        } }, links.map(function (link, index) { return (React.createElement(LinkItem, { key: index, link: link, renderLink: renderLink, linkPadding: linkPadding, activeLinkColor: activeLinkColor, dropdownArrow: dropdownArrow, isMobile: isMobile })); })));
+            flexDirection: (isMobile && !visibleLinks) ? 'column' : 'row' // Only column layout when mobile menu is open
+        } }, links.map(function (link, index) { return (React.createElement(LinkItem, { key: index, link: link, renderLink: renderLink, linkPadding: linkPadding, activeLinkColor: activeLinkColor, dropdownArrow: dropdownArrow, isMobile: isMobile, visibleLinks: visibleLinks })); })));
 };
 // Logo component with multiple display options
 var Logo = function (_a) {
@@ -244,44 +250,46 @@ function AppBar(localProps) {
         var hasLeftLinks = parsedLeftLinks.length > 0;
         return (React.createElement("div", { className: "left-section", style: { display: 'flex', alignItems: 'center', gap: '2rem' } },
             shouldRenderLogo && (React.createElement(Logo, { type: final.logoType, text: final.logoText, textSize: final.logoTextSize, textColor: final.logoTextColor, textWeight: final.logoTextWeight, url: final.logoUrl, alt: final.logoAlt, width: final.logoWidth, height: final.logoHeight, href: final.logoHref, onClick: final.onLogoClick })),
-            hasLeftLinks && !isMobileScreen && (React.createElement(NavLinks, { links: parsedLeftLinks, renderLink: final.renderLink, linkGap: final.linkGap, linkPadding: final.linkPadding, activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow }))));
+            hasLeftLinks && (!isMobileScreen || final.visibleLinks) && ( // Updated condition
+            React.createElement(NavLinks, { links: parsedLeftLinks, renderLink: final.renderLink, linkGap: final.linkGap, linkPadding: final.linkPadding, activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow, isMobile: isMobileScreen, visibleLinks: final.visibleLinks }))));
     };
     var renderCenterSection = function () {
         if (final.center)
             return final.center;
-        if (parsedCenterLinks.length > 0 && !isMobileScreen) {
-            return (React.createElement(NavLinks, { links: parsedCenterLinks, renderLink: final.renderLink, linkGap: final.linkGap, linkPadding: final.linkPadding, activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow }));
+        if (parsedCenterLinks.length > 0 && (!isMobileScreen || final.visibleLinks)) { // Updated condition
+            return (React.createElement(NavLinks, { links: parsedCenterLinks, renderLink: final.renderLink, linkGap: final.linkGap, linkPadding: final.linkPadding, activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow, isMobile: isMobileScreen, visibleLinks: final.visibleLinks }));
         }
         return null;
     };
     var renderRightSection = function () {
         if (final.right)
             return final.right;
-        if (parsedRightLinks.length > 0 && !isMobileScreen) {
-            return (React.createElement(NavLinks, { links: parsedRightLinks, renderLink: final.renderLink, linkGap: final.linkGap, linkPadding: final.linkPadding, activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow }));
+        if (parsedRightLinks.length > 0 && (!isMobileScreen || final.visibleLinks)) { // Updated condition
+            return (React.createElement(NavLinks, { links: parsedRightLinks, renderLink: final.renderLink, linkGap: final.linkGap, linkPadding: final.linkPadding, activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow, isMobile: isMobileScreen, visibleLinks: final.visibleLinks }));
         }
         return null;
     };
-    // Mobile menu content
+    // Mobile menu content - only show when visibleLinks is false
     var renderMobileMenu = function () {
-        if (!isMobileScreen || !isMobileMenuOpen)
-            return null;
+        if (!isMobileScreen || !isMobileMenuOpen || final.visibleLinks)
+            return null; // Don't show mobile menu when visibleLinks is true
         var allLinks = __spreadArray(__spreadArray(__spreadArray([], parsedLeftLinks, true), parsedCenterLinks, true), parsedRightLinks, true);
         return (React.createElement("div", { className: "nav_mobile-menu" },
-            React.createElement(NavLinks, { links: allLinks, renderLink: final.renderLink, linkGap: "0.5rem", linkPadding: "1rem", activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow, isMobile: true })));
+            React.createElement(NavLinks, { links: allLinks, renderLink: final.renderLink, linkGap: "0.5rem", linkPadding: "1rem", activeLinkColor: final.activeLinkColor, dropdownArrow: final.dropdownArrow, isMobile: true, visibleLinks: final.visibleLinks })));
     };
     return (React.createElement(React.Fragment, null,
-        React.createElement("nav", { id: 'appBar', className: "navigation-bar\n          ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n          ").concat(final.funcss || '', "\n          ").concat(final.fixedTop ? 'fixed_top_navbar' : '', "\n          ").concat(final.sideBar ? 'there_is_sidebar' : '', "\n          ").concat(final.transparent ? 'transparent' : '', "\n          ").concat(final.fixedBottom ? 'fixedBottom' : '', "\n        "), style: {
+        React.createElement("nav", { id: 'appBar', className: "navigation-bar\n          ".concat(isMobileMenuOpen ? 'navbar-mobile-open' : '', "\n          ").concat(final.funcss || '', "\n          ").concat(final.testing ? "" : final.fixedTop ? 'fixed_top_navbar' : '', "\n          ").concat(final.sideBar ? 'there_is_sidebar' : '', "\n          ").concat(final.transparent ? 'transparent' : '', "\n          ").concat(final.fixedBottom ? 'fixedBottom' : '', "\n          ").concat(final.visibleLinks ? 'visible-links-mode' : '', " // Add class for styling\n        "), style: {
                 padding: "".concat(final.padding || ''),
                 justifyContent: "".concat(final.justify || ''),
             } },
             React.createElement("div", { className: "logoWrapper" },
                 renderLeftSection(),
-                isMobileScreen && isMobileMenuOpen && (React.createElement("div", { className: "hover-text-error pointer _closeNav", onClick: closeMenu },
+                isMobileScreen && isMobileMenuOpen && !final.visibleLinks && ( // Only show close button when not in visibleLinks mode
+                React.createElement("div", { className: "hover-text-error pointer _closeNav", onClick: closeMenu },
                     React.createElement(Trigger, { isOpen: isMobileMenuOpen })))),
-            React.createElement("div", { className: "linkWrapper" }, renderCenterSection()),
-            React.createElement("div", { className: "linkWrapper" }, renderRightSection()),
-            isMobileScreen && !isMobileMenuOpen && (React.createElement(React.Fragment, null, final.hasSidebar ?
+            React.createElement("div", { className: "linkWrapper ".concat(final.visibleLinks ? 'navbar-links-visible' : '') }, renderCenterSection()),
+            React.createElement("div", { className: "linkWrapper ".concat(final.visibleLinks ? 'navbar-links-visible' : '') }, renderRightSection()),
+            isMobileScreen && !isMobileMenuOpen && !final.visibleLinks && (React.createElement(React.Fragment, null, final.hasSidebar ?
                 React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: final.openSidebar }, final.sidebarTrigger || React.createElement(Trigger, { isOpen: final.sidebarOpen }))
                 :
                     React.createElement("span", { className: "sidebar-trigger pointer hover-text-primary", onClick: toggleMenu }, final.sidebarTrigger || React.createElement(Trigger, { isOpen: isMobileMenuOpen }))))),

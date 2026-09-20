@@ -31,7 +31,7 @@ export default function ProgressBar({
   fontSize,
   strokeWidth = 6,
 }: ProgressBarProps) {
-  const clampedProgress = Math.min(100, Math.max(0, progress));
+  const clampedProgress = Math.min(100, Math.max(0, Number(progress)));
   const isComplete = clampedProgress >= 100;
   const effectiveBg = isComplete ? 'success' : bg;
 
@@ -39,7 +39,7 @@ export default function ProgressBar({
     if (React.isValidElement(content)) return content;
     if (typeof content === 'function') return content(clampedProgress);
     if (typeof content === 'string') return content;
-    return `${clampedProgress}%`;
+    return `${clampedProgress.toFixed()}%`;
   };
 
   if (type === 'circle') {

@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect } from 'react';
 import { useVariant } from '../theme/theme';
 import Flex from '../flex/Flex';
